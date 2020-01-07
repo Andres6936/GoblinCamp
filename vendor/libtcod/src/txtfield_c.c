@@ -362,7 +362,7 @@ static void copy(text_t *data) {
 		for (i=data->sel_start; i != data->sel_end; i++) {
 			*ptr++ = data->text[i];
 		}
-		TCOD_sys_clipboard_set(clipbuf);
+//		TCOD_sys_clipboard_set(clipbuf);
 		free(clipbuf);
 	}
 }
@@ -376,7 +376,7 @@ static void cut(text_t *data) {
 		for (i=data->sel_start; i != data->sel_end; i++) {
 			*ptr++ = data->text[i];
 		}
-		TCOD_sys_clipboard_set(clipbuf);
+//		TCOD_sys_clipboard_set(clipbuf);
 		free(clipbuf);
 		deleteSelection(data);
 	}
@@ -384,7 +384,7 @@ static void cut(text_t *data) {
 
 /* paste from clipboard */
 static void paste(text_t *data) {
-	char *clipbuf=TCOD_sys_clipboard_get();
+/*	char *clipbuf=TCOD_sys_clipboard_get();
 	if ( clipbuf ) {
 		if ( data->sel_start != MAX_INT ) {
 			deleteSelection(data);
@@ -393,6 +393,7 @@ static void paste(text_t *data) {
 			insertChar(data,*clipbuf++);
 		}
 	}
+*/
 }
 
 /* update returns false if enter has been pressed, true otherwise */
