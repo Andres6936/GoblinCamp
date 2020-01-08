@@ -1,7 +1,8 @@
 Goblin Camp is long abandoned project. It is based on libboost and libboost
 is quite sensitive to version changes (even compiler changes are seems to be important),
 so it is hard to build it in modern systems. I managed to build and run it in Debian Wheezy
-chroot. It was not easy, I even had to change building system from bjam to cmake (
+chroot. It was not easy, I even had to change building system from bjam to cmake (moving to cmake
+was more easy than finding out why bjam fails)
 
 So here goes explanation how to do it yourself.
 
