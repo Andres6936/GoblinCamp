@@ -111,7 +111,7 @@ boost::shared_ptr<const unsigned int> CreateOGLShaderProgram(std::string vertSha
 
 			int charsWritten = 0;
 			glGetInfoLogARB(*program, infologLength, &charsWritten, infoLog.get());
-			LOG("OPENGL ERROR: Program link Error. " << std::endl << infoLog << std::endl);
+			LOG("OPENGL ERROR: Program link Error. " << std::endl << infoLog.get() << std::endl);
 	    }
 		return boost::shared_ptr<const unsigned int>();
 	}
@@ -138,7 +138,7 @@ boost::shared_ptr<const unsigned int> CreateOGLShader(std::string shader, unsign
 
 			int charsWritten = 0;
 			glGetInfoLogARB(*shaderPtr, infologLength, &charsWritten, infoLog.get());
-			LOG("GLSL ERROR: " << infoLog << std::endl);
+			LOG("GLSL ERROR: " << infoLog.get() << std::endl);
 		}
 		return boost::shared_ptr<const unsigned int>();
 	}

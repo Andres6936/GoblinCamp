@@ -136,7 +136,7 @@ public:
 	explicit SpritePtr(Sprite * sprite) : ptr(sprite) {}
 
 	Sprite * get() { return ptr.get(); }
-	bool Exists() const { return ptr; }
+	bool Exists() const { return static_cast<bool>(ptr); }
 
 	void Draw(int screenX, int screenY) const {	if (ptr) ptr->Draw(screenX, screenY); }; 
 
