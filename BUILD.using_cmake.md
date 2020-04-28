@@ -1,6 +1,6 @@
 Goblin Camp is long abandoned project. It is based on libboost and libboost
 is quite sensitive to version changes (even compiler changes are seems to be important),
-so it is hard to build it in modern systems. I managed to build and run it in Debian Wheezy
+so it is hard to build it in modern systems. I managed to build and run it in Debian Jessie
 chroot. It was not easy, I even had to change building system from bjam to cmake (moving to cmake
 was more easy than finding out why bjam fails)
 
@@ -10,7 +10,7 @@ So here goes explanation how to do it yourself.
 
 1.1 Create chroot-container using `debootstrap`
 ```
-  # debootstrap wheezy ./wheezy http://archive.debian.org/debian
+  # debootstrap jessie ./jessie http://archive.debian.org/debian
 ```
 
 1.2 Create mount scrip that will mount all special filesystems to your container
@@ -18,10 +18,10 @@ So here goes explanation how to do it yourself.
 ```
   #!/bin/sh
 
-  sudo mount /tmp  ./wheezy/tmp -o bind
-  sudo mount /proc ./wheezy/proc -o bind
-  sudo mount /dev  ./wheezy/dev -o bind
-  sudo mount /sys  ./wheezy/sys -o bind
+  sudo mount /tmp  ./jessie/tmp -o bind
+  sudo mount /proc ./jessie/proc -o bind
+  sudo mount /dev  ./jessie/dev -o bind
+  sudo mount /sys  ./jessie/sys -o bind
 
   xhost +
 ```
@@ -31,13 +31,13 @@ This will allow you to run programs in chroot and see it's window on your host x
 
 1.3. Checking chroot
 ```
-    # chroot ./wheezy
+    # chroot ./jessie
 ```
 you should get another root prompt. Try
 ```
   # cat /etc/issue
 ```
-if you get `Debian GNU/Linux 7 \n \l` you are right inside the chroot
+if you get `Debian GNU/Linux 8 \n \l` you are right inside the chroot
 
 1.4. Check if you can run graphical programs from your chroot. To do this
 we will install `mesa-utils` that has `glxgears` program, that is often 
@@ -55,8 +55,8 @@ This should show you window with three rolling gears.
 
 2.1. Inside the chroot container run
 ```
-    # apt-get install git build-essential cmake libsdl1.2-dev libsdl-image1.2-dev libsdl-image1.2-dev libboost-system1.49.0 \
-    libboost-iostreams1.49-dev libboost-filesystem1.49-dev libboost-python1.49-dev libboost-thread1.49-dev locales
+    # apt-get install git build-essential cmake libsdl1.2-dev libsdl-image1.2-dev libsdl-image1.2-dev libboost-system1.55.0 \
+    libboost-iostreams1.55-dev libboost-filesystem1.55-dev libboost-python1.55-dev libboost-thread1.55-dev locales
 ```
 
 2.2. Go to the root's home dir, clone the repo and go to that dir
