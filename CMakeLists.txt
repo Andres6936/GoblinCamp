@@ -13,7 +13,26 @@ SET(CMAKE_CXX_FLAGS "-std=c++11 -DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_NO_SCOPED_
 
 # ADD_SUBDIRECTORY("Goblin Camp")
 
-find_package(Boost REQUIRED COMPONENTS thread system filesystem serialization python iostreams)
+find_package(Boost REQUIRED COMPONENTS thread system filesystem serialization iostreams)
+
+if(${Boost_VERSION} GREATER 106699) # boost >= 1.67
+    find_package(Boost COMPONENTS python27 REQUIRED)
+    set(Boost_PYTHON_LIBRARY ${Boost_PYTHON27_LIBRARY})
+else()
+    # boost python suffixes are determined by distributives
+    # try different alternatives
+    find_package(Boost OPTIONAL_COMPONENTS python27)
+    if(Boost_PYTHON27_FOUND)
+        set(Boost_PYTHON_LIBRARY ${Boost_PYTHON27_LIBRARY})
+    else()
+        find_package(Boost OPTIONAL_COMPONENTS python-py27)
+        if(Boost_PYTHON-PY27_FOUND)
+            set(Boost_PYTHON_LIBRARY ${Boost_PYTHON-PY27_LIBRARY})
+        else()
+            find_package(Boost COMPONENTS python REQUIRED)
+        endif()
+    endif()
+endif()
 
 find_package(SDL REQUIRED)
 find_package(SDL_image REQUIRED)
