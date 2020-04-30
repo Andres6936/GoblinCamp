@@ -93,21 +93,15 @@ namespace Script {
 			
 			std::string path = libDir.string();
 			path += pathsep;
-			path += (libDir / "stdlib.zip").string();
+			path += Py_GetPath(); // When need common Python modules, use ones installed in the system
 			
+			LOG("Python Library Path = " << path);
 			PySys_SetPath(const_cast<char*>(path.c_str()));
 		}
 		
 		try {
-			// This cannot possibly fail. Unless the universe has blown up.
-			py::object res = py::eval(
-				"repr(__import__('sys').path)",
-				py::import("__builtin__").attr("__dict__")
-			);
-			LOG("sys.path = " << py::extract<char*>(res));
-			
 			// Get utility functions.
-			LOG("Importing utils.");
+			LOG("Importing Python modules");
 			py::object modImp = py::import("imp");
 			py::object modTB  = py::import("traceback");
 			
