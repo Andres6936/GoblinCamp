@@ -21,14 +21,20 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 // explicit flushing.
 
 #include <fstream>
+#include <boost/iostreams/tee.hpp>
+#include <boost/iostreams/stream.hpp>
 
 namespace Logger {
-	extern std::ofstream log;
+	typedef boost::iostreams::tee_device <std::ostream, std::ofstream> TeeDevice;
+	typedef boost::iostreams::stream<TeeDevice> TeeStream;
+
+	extern TeeStream log;
+	extern std::ofstream log_file;
 	
 	void OpenLogFile(const std::string&);
 	void CloseLogFile();
 	
-	std::ofstream& Prefix(const char* = NULL, int = 0, const char* = NULL);
+	TeeStream& Prefix(const char* = NULL, int = 0, const char* = NULL);
 	const char* Suffix();
 }
 

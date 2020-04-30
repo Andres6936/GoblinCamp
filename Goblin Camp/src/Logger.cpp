@@ -18,6 +18,8 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <fstream>
 #include <cassert>
 
+#include <boost/iostreams/tee.hpp>
+#include <boost/iostreams/stream.hpp>
 #include <boost/date_time/local_time/local_time.hpp>
 #define BOOST_FILESYSTEM_VERSION 3
 #include <boost/filesystem.hpp>
@@ -27,9 +29,11 @@ namespace fs = boost::filesystem;
 #include "Logger.hpp"
 
 namespace Logger {
-	std::ofstream log;
+	std::ofstream log_file;
+	TeeDevice tee_device(std::cout, log_file);
+	TeeStream log(tee_device);
 	
-	std::ofstream& Prefix(const char *file, int line, const char *function) {
+	TeeStream& Prefix(const char *file, int line, const char *function) {
 		log <<
 			"C++ (`" << fs::path(file).filename().string() << "` @ " <<
 			line << "), `" << function << "`:\n\t"
@@ -43,9 +47,10 @@ namespace Logger {
 	
 	void OpenLogFile(const std::string& logFile) {
 		// no buffering
-		log.rdbuf()->pubsetbuf(0, 0);
-		log.open(logFile.c_str());
-		log.rdbuf()->pubsetbuf(0, 0);
+		log_file.rdbuf()->pubsetbuf(0, 0);
+		log_file.open(logFile.c_str());
+		log_file.rdbuf()->pubsetbuf(0, 0);
+
 		
 		LOG("Log opened " << boost::posix_time::second_clock::local_time());
 		// Instead of explicit closing: to ensure it's always flushed at the end, even when we bail out with exit().
