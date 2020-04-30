@@ -117,8 +117,17 @@ namespace Script {
 			PyImport_AddModule("__gcautoexec__");
 			PyImport_AddModule("__gcdevconsole__");
 			
-			LOG("Setting up console namespace.");
-			modImp.attr("load_source")("__gcdevconsole__", (Paths::Get(Paths::GlobalData) / "lib" / "__gcdevconsole__.py").string());
+			LOG("Setting up console namespace. If you get 'No module named XXXX' error message below, " <<
+				"check " << Paths::Get(Paths::GlobalData) / "lib" << " and make sure that module is really there");
+			fs::path file_name = Paths::Get(Paths::GlobalData) / "lib" / "__gcdevconsole__.py";
+			if (fs::exists(file_name))
+			{
+				modImp.attr("load_source")("__gcdevconsole__", file_name.string());
+			} else
+			{
+				LOG("ERROR. File not found: " << file_name );
+				exit(20);
+			}
 			
 			py::exec(
 				"log.info('Console ready.')", py::import("__gcdevconsole__").attr("__dict__")
