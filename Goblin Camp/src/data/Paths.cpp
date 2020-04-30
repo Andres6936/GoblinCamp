@@ -172,7 +172,7 @@ namespace Paths {
 		
 		coreTilesetsDir = dataDir / "lib" / "tilesets_core";
 		
-		fs::create_directory(personalDir);
+		fs::create_directories(personalDir);
 		Logger::OpenLogFile((personalDir / "goblin-camp.log").string());
 		
 		return portableMode;

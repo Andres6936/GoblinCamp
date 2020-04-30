@@ -27,7 +27,15 @@ namespace fs = boost::filesystem;
 
 namespace PathsImpl {
 	void FindPersonalDirectory(fs::path& dir) {
-		dir = fs::path(std::string(getenv("HOME")) + "/.goblincamp");
+		// Get config dir according to XDG Base Directory Specification
+		// https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+		if (getenv("XDG_CONFIG_HOME"))
+		{
+			dir = fs::path(std::string(getenv("XDG_CONFIG_HOME")) + "/goblin-camp");
+		} else
+		{
+			dir = fs::path(std::string(getenv("HOME")) + "/.config/goblin-camp");
+		} // FIXME: what will happen if HOME env var is not set?
 	}
 	
 	void FindExecutableDirectory(fs::path& exec, fs::path& execDir, fs::path& dataDir) {
