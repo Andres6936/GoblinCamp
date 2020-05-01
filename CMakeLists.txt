@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.9)
+cmake_minimum_required(VERSION 2.8.9) # Do not raise it without a reason. Bump only when you use some feature that is not supported by older verions
 
 # set the project name
 project(GoblinCamp C CXX)
@@ -11,7 +11,7 @@ SET(CMAKE_CXX_FLAGS "-std=c++11 -DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_NO_SCOPED_
 # add the executable
 # add_executable(Tutorial tutorial.cxx)
 
-# ADD_SUBDIRECTORY("Goblin Camp")
+ADD_SUBDIRECTORY("Goblin Camp")
 
 find_package(Boost REQUIRED COMPONENTS thread system filesystem serialization iostreams)
 
@@ -44,6 +44,11 @@ find_package(PNG REQUIRED)
 include_directories(${SDL_INCLUDE_DIR})
 include_directories(${PYTHON_INCLUDE_DIRS})
 include_directories(${PNG_INCLUDE_DIR})
+
+SET(GOBLIN_CAMP_BINDIR ${CMAKE_INSTALL_PREFIX}/games CACHE PATH "Path to Goblin Camp binary")
+SET(GOBLIN_CAMP_DATA_BASE_DIR "${CMAKE_INSTALL_PREFIX}/share" CACHE PATH "Base Data Dir Path")
+SET(GOBLIN_CAMP_SHAREDIR "${GOBLIN_CAMP_DATA_BASE_DIR}/games/goblin-camp" CACHE PATH "Path to Goblin Camp shared files")
+
 
 SET (data_SRC
 "Goblin Camp/src/data/Config.cpp"
@@ -206,14 +211,11 @@ SET (platform_SRC
 "Goblin Camp/src/platform/linux/DataImpl.cpp"
 )
 
-add_executable(GoblinCamp "Goblin Camp/src/platform/unix/main.cpp""Goblin Camp/src/GCamp.cpp" ${main_SRC} ${data_SRC} ${scripting_SRC} ${libtcod_SRC} ${UI_SRC} ${tileRenderer_SRC} ${platform_SRC})
-include_directories(GoblinCamp "Goblin Camp/include")
-include_directories(GoblinCamp vendor/libtcod/include)
+add_executable("goblin-camp" "Goblin Camp/src/platform/unix/main.cpp" "Goblin Camp/src/GCamp.cpp" ${main_SRC} ${data_SRC} ${scripting_SRC} ${libtcod_SRC} ${UI_SRC} ${tileRenderer_SRC} ${platform_SRC})
+include_directories("goblin-camp" "Goblin Camp/include")
+include_directories("goblin-camp" vendor/libtcod/include)
 
-#      MESSAGE("-- Found system ${Boost_SYSTEM_LIBRARY}")
-#      MESSAGE("-- Found sdl_image pppp ${SDLIMAGE_LIBRARY}")
-
-target_link_libraries(GoblinCamp
+target_link_libraries("goblin-camp"
   ${SDL_LIBRARY}
   ${SDLIMAGE_LIBRARY}
   ${PYTHON_LIBRARIES}
@@ -227,3 +229,5 @@ target_link_libraries(GoblinCamp
   ${OPENGL_LIBRARIES}
   ${PNG_LIBRARY}
 )
+
+INSTALL(TARGETS "goblin-camp" RUNTIME DESTINATION ${GOBLIN_CAMP_BINDIR})

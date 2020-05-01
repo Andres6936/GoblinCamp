@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Goblin Camp
+GenericName=Goblin Camp Simulation
+Comment=Build your own Goblin Camp
+Icon=goblin-camp
+
+Exec=goblin-camp
+Terminal=false
+StartupNotify=false
+
+Categories=Game;Simulation;
+Keywords=game;simulation;goblin-camp;
