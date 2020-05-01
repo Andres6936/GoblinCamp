@@ -459,7 +459,13 @@ void Game::DoNothing() {}
 
 void Game::Exit(bool confirm) {
 	//boost::function<void()> exitFunc = boost::bind(&Game::Running, Game::Inst(), false);
-	boost::function<void()> exitFunc = boost::bind(&exit, 0);
+	//boost::function<void()> exitFunc = boost::bind(exit, 0);
+	struct  my_exit
+	{
+		 void operator()(void) const { exit(0); };
+	};
+
+	boost::function<void()> exitFunc = my_exit();
 
 	if (confirm) {
 		MessageBox::ShowMessageBox("Really exit?", exitFunc, "Yes", NULL, "No");

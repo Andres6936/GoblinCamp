@@ -21,7 +21,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/multi_array.hpp>
 
 struct RawTileData {
-	unsigned int tile;
+	int tile;
 	boost::shared_ptr<TileSetTexture> texture;
 };
 

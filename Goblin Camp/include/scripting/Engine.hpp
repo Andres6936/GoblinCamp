@@ -17,10 +17,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <vector>
 #include <string>
-
-namespace boost { namespace python {
-	class object;
-}}
+#include <boost/python/object.hpp>
 
 namespace Script {
 	// Only mods with apiVersion property that equals to this will have their scripts loaded.

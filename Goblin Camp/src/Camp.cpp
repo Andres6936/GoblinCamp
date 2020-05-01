@@ -30,6 +30,13 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Faction.hpp"
 #include "SpawningPool.hpp"
 
+#if BOOST_VERSION >= 106700
+// Since boost 1.67 you need this to use ::next ot ::prior
+// TODO may be this is temproary, and later should go back to boost/utility.hpp
+#include <boost/next_prior.hpp>
+#endif
+
+
 Camp* Camp::instance = 0;
 
 Camp::Camp() :
