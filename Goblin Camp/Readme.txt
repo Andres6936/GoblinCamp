@@ -334,7 +334,6 @@ editing config.py which you'll find in your
 --
 
 Licensing information is in COPYING.txt
-The libtcod license: LIBTCOD-LICENSE.txt
 Goblin Camp crash reporter tool uses SharpZipLib, which is GPL licensed (refer to COPYING.txt).
 
 Copyright 2010-2011 Ilkka Halila
