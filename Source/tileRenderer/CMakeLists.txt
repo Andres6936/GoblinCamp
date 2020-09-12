@@ -28,3 +28,10 @@ ADD_LIBRARY (GoblinCamp.Renderer.Tile
 )
 
 ADD_LIBRARY(GoblinCamp::Renderer::Tile ALIAS GoblinCamp.Renderer.Tile)
+TARGET_INCLUDE_DIRECTORIES(GoblinCamp.Renderer.Tile
+        PUBLIC
+        $<BUILD_INTERFACE:${GOBLIN_CAMP_ROOT_DIR}/Include/>
+        $<INSTALL_INTERFACE:${GOBLIN_CAMP_ROOT_DIR}/Include/>
+        )
+
+TARGET_LINK_LIBRARIES(GoblinCamp.Renderer.Tile PUBLIC GoblinCamp::Libtcod)

@@ -14,3 +14,10 @@ ADD_LIBRARY (GoblinCamp.UI
 )
 
 ADD_LIBRARY(GoblinCamp::UI ALIAS GoblinCamp.UI)
+TARGET_INCLUDE_DIRECTORIES(GoblinCamp.UI
+        PUBLIC
+        $<BUILD_INTERFACE:${GOBLIN_CAMP_ROOT_DIR}/Include/>
+        $<INSTALL_INTERFACE:${GOBLIN_CAMP_ROOT_DIR}/Include/>
+        )
+
+TARGET_LINK_LIBRARIES(GoblinCamp.UI PUBLIC GoblinCamp::Libtcod)

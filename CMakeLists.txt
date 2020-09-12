@@ -11,6 +11,9 @@ SET(CMAKE_CXX_FLAGS "-std=c++11 -DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_NO_SCOPED_
 # add the executable
 # add_executable(Tutorial tutorial.cxx)
 
+# Used for export the headers and set the directory share/games/
+SET(GOBLIN_CAMP_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
 SET(GOBLIN_CAMP_BINDIR ${CMAKE_INSTALL_PREFIX}/games CACHE PATH "Path to Goblin Camp binary")
 SET(GOBLIN_CAMP_DATA_BASE_DIR "${CMAKE_INSTALL_PREFIX}/share" CACHE PATH "Base Data Dir Path")
 SET(GOBLIN_CAMP_SHAREDIR "${GOBLIN_CAMP_DATA_BASE_DIR}/games/goblin-camp" CACHE PATH "Path to Goblin Camp shared files")
@@ -120,16 +123,16 @@ add_executable(goblin-camp Source/platform/unix/main.cpp Source/GCamp.cpp ${plat
 include_directories("goblin-camp" Include/)
 include_directories("goblin-camp" vendor/libtcod/include/)
 
-TARGET_LINK_LIBRARIES(GoblinCamp.Data PRIVATE GoblinCamp::Renderer::Tile)
+TARGET_LINK_LIBRARIES(GoblinCamp.Data PUBLIC GoblinCamp::Renderer::Tile)
 
-TARGET_LINK_LIBRARIES(GoblinCamp.Main PRIVATE GoblinCamp::Libtcod)
+TARGET_LINK_LIBRARIES(GoblinCamp.Main PUBLIC GoblinCamp::Libtcod)
 
-TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Renderer::Tile)
-TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Scripting)
-TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Libtcod)
-TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Data)
-TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Main)
-TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::UI)
+TARGET_LINK_LIBRARIES(goblin-camp PUBLIC GoblinCamp::Renderer::Tile)
+TARGET_LINK_LIBRARIES(goblin-camp PUBLIC GoblinCamp::Scripting)
+TARGET_LINK_LIBRARIES(goblin-camp PUBLIC GoblinCamp::Libtcod)
+TARGET_LINK_LIBRARIES(goblin-camp PUBLIC GoblinCamp::Data)
+TARGET_LINK_LIBRARIES(goblin-camp PUBLIC GoblinCamp::Main)
+TARGET_LINK_LIBRARIES(goblin-camp PUBLIC GoblinCamp::UI)
 
 TARGET_LINK_LIBRARIES(goblin-camp PRIVATE
   ${SDL_LIBRARY}
