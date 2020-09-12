@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.1) # Do not raise it without a reason. Bump only when you use some feature that is not supported by older verions
 
 # set the project name
-project(GoblinCamp C CXX)
+project(GoblinCamp LANGUAGES C CXX)
 
 SET(CMAKE_CXX_FLAGS "-std=c++11 -DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_NO_SCOPED_ENUMS")  # FIXME move to add_compile_options() later
 
@@ -103,15 +103,17 @@ SET (main_SRC
 "Goblin Camp/src/Version.cpp"
 )
 
-SET (scripting_SRC
-"Goblin Camp/src/scripting/API.cpp"
-"Goblin Camp/src/scripting/Engine.cpp"
-"Goblin Camp/src/scripting/Event.cpp"
-"Goblin Camp/src/scripting/_gcampapi/Functions.cpp"
-"Goblin Camp/src/scripting/_gcampapi/LoggerStream.cpp"
-"Goblin Camp/src/scripting/_gcampapi/PyConstruction.cpp"
-"Goblin Camp/src/scripting/_gcampapi/PyItem.cpp"
+ADD_LIBRARY(GoblinCamp.Scripting
+        "Goblin Camp/src/scripting/API.cpp"
+        "Goblin Camp/src/scripting/Engine.cpp"
+        "Goblin Camp/src/scripting/Event.cpp"
+        "Goblin Camp/src/scripting/_gcampapi/Functions.cpp"
+        "Goblin Camp/src/scripting/_gcampapi/LoggerStream.cpp"
+        "Goblin Camp/src/scripting/_gcampapi/PyConstruction.cpp"
+        "Goblin Camp/src/scripting/_gcampapi/PyItem.cpp"
 )
+
+ADD_LIBRARY(GoblinCamp::Scripting ALIAS GoblinCamp.Scripting)
 
 ADD_LIBRARY(GoblinCamp.Libtcod
         vendor/libtcod/src/bresenham_c.c
@@ -214,11 +216,13 @@ SET (platform_SRC
 "Goblin Camp/src/platform/linux/DataImpl.cpp"
 )
 
-add_executable(goblin-camp "Goblin Camp/src/platform/unix/main.cpp" "Goblin Camp/src/GCamp.cpp" ${main_SRC} ${data_SRC} ${scripting_SRC} ${UI_SRC} ${tileRenderer_SRC} ${platform_SRC})
+add_executable(goblin-camp "Goblin Camp/src/platform/unix/main.cpp" "Goblin Camp/src/GCamp.cpp" ${main_SRC} ${data_SRC} ${UI_SRC} ${tileRenderer_SRC} ${platform_SRC})
 include_directories("goblin-camp" "Goblin Camp/include")
 include_directories("goblin-camp" vendor/libtcod/include)
 
+TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Scripting)
 TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Libtcod)
+
 TARGET_LINK_LIBRARIES(goblin-camp PRIVATE
   ${SDL_LIBRARY}
   ${SDLIMAGE_LIBRARY}
