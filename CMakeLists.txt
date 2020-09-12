@@ -189,47 +189,52 @@ ADD_LIBRARY (GoblinCamp.UI
 
 ADD_LIBRARY(GoblinCamp::UI ALIAS GoblinCamp.UI)
 
-SET (tileRenderer_SRC
-"Goblin Camp/src/tileRenderer/ConstructionSprite.cpp"
-"Goblin Camp/src/tileRenderer/DrawConstructionVisitor.cpp"
-"Goblin Camp/src/tileRenderer/ItemSprite.cpp"
-"Goblin Camp/src/tileRenderer/NatureObjectSpriteSet.cpp"
-"Goblin Camp/src/tileRenderer/NPCSprite.cpp"
-"Goblin Camp/src/tileRenderer/PermutationTable.cpp"
-"Goblin Camp/src/tileRenderer/SpellSpriteSet.cpp"
-"Goblin Camp/src/tileRenderer/Sprite.cpp"
-"Goblin Camp/src/tileRenderer/SpriteSetFactories.cpp"
-"Goblin Camp/src/tileRenderer/StatusEffectSprite.cpp"
-"Goblin Camp/src/tileRenderer/TerrainSprite.cpp"
-"Goblin Camp/src/tileRenderer/TileSet.cpp"
-"Goblin Camp/src/tileRenderer/TileSetLoader.cpp"
-"Goblin Camp/src/tileRenderer/TilesetParserV1.cpp"
-"Goblin Camp/src/tileRenderer/TilesetParserV2.cpp"
-"Goblin Camp/src/tileRenderer/TileSetRenderer.cpp"
-"Goblin Camp/src/tileRenderer/TileSetTexture.cpp"
+ADD_LIBRARY (GoblinCamp.Renderer.Tile
+    "Goblin Camp/src/tileRenderer/ConstructionSprite.cpp"
+    "Goblin Camp/src/tileRenderer/DrawConstructionVisitor.cpp"
+    "Goblin Camp/src/tileRenderer/ItemSprite.cpp"
+    "Goblin Camp/src/tileRenderer/NatureObjectSpriteSet.cpp"
+    "Goblin Camp/src/tileRenderer/NPCSprite.cpp"
+    "Goblin Camp/src/tileRenderer/PermutationTable.cpp"
+    "Goblin Camp/src/tileRenderer/SpellSpriteSet.cpp"
+    "Goblin Camp/src/tileRenderer/Sprite.cpp"
+    "Goblin Camp/src/tileRenderer/SpriteSetFactories.cpp"
+    "Goblin Camp/src/tileRenderer/StatusEffectSprite.cpp"
+    "Goblin Camp/src/tileRenderer/TerrainSprite.cpp"
+    "Goblin Camp/src/tileRenderer/TileSet.cpp"
+    "Goblin Camp/src/tileRenderer/TileSetLoader.cpp"
+    "Goblin Camp/src/tileRenderer/TilesetParserV1.cpp"
+    "Goblin Camp/src/tileRenderer/TilesetParserV2.cpp"
+    "Goblin Camp/src/tileRenderer/TileSetRenderer.cpp"
+    "Goblin Camp/src/tileRenderer/TileSetTexture.cpp"
 
-"Goblin Camp/src/tileRenderer/sdl/SDLSprite.cpp"
-"Goblin Camp/src/tileRenderer/sdl/SDLTilesetRenderer.cpp"
+    "Goblin Camp/src/tileRenderer/sdl/SDLSprite.cpp"
+    "Goblin Camp/src/tileRenderer/sdl/SDLTilesetRenderer.cpp"
 
-"Goblin Camp/src/tileRenderer/ogl/OGLFunctionExt.cpp"
-"Goblin Camp/src/tileRenderer/ogl/OGLResources.cpp"
-"Goblin Camp/src/tileRenderer/ogl/OGLSprite.cpp"
-"Goblin Camp/src/tileRenderer/ogl/OGLTilesetRenderer.cpp"
-"Goblin Camp/src/tileRenderer/ogl/OGLViewportLayer.cpp"
-
+    "Goblin Camp/src/tileRenderer/ogl/OGLFunctionExt.cpp"
+    "Goblin Camp/src/tileRenderer/ogl/OGLResources.cpp"
+    "Goblin Camp/src/tileRenderer/ogl/OGLSprite.cpp"
+    "Goblin Camp/src/tileRenderer/ogl/OGLTilesetRenderer.cpp"
+    "Goblin Camp/src/tileRenderer/ogl/OGLViewportLayer.cpp"
 )
+
+ADD_LIBRARY(GoblinCamp::Renderer::Tile ALIAS GoblinCamp.Renderer.Tile)
 
 SET (platform_SRC
 "Goblin Camp/src/platform/linux/DataImpl.cpp"
 )
 
-add_executable(goblin-camp "Goblin Camp/src/platform/unix/main.cpp" "Goblin Camp/src/GCamp.cpp" ${tileRenderer_SRC} ${platform_SRC})
+add_executable(goblin-camp "Goblin Camp/src/platform/unix/main.cpp" "Goblin Camp/src/GCamp.cpp" ${platform_SRC})
 include_directories("goblin-camp" "Goblin Camp/include")
 include_directories("goblin-camp" vendor/libtcod/include)
 
+TARGET_LINK_LIBRARIES(GoblinCamp.Renderer.Tile PRIVATE ${Boost_FILESYSTEM_LIBRARY})
+
+TARGET_LINK_LIBRARIES(GoblinCamp.Data PRIVATE GoblinCamp::Renderer::Tile)
 
 TARGET_LINK_LIBRARIES(GoblinCamp.Main PRIVATE GoblinCamp::Libtcod)
 
+TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Renderer::Tile)
 TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Scripting)
 TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Libtcod)
 TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Data)
