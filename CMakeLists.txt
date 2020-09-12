@@ -172,37 +172,6 @@ ADD_LIBRARY(GoblinCamp.Libtcod
 
 ADD_LIBRARY (GoblinCamp::Libtcod ALIAS GoblinCamp.Libtcod)
 
-ADD_LIBRARY (GoblinCamp.Renderer.Tile
-    Source/tileRenderer/ConstructionSprite.cpp
-    Source/tileRenderer/DrawConstructionVisitor.cpp
-    Source/tileRenderer/ItemSprite.cpp
-    Source/tileRenderer/NatureObjectSpriteSet.cpp
-    Source/tileRenderer/NPCSprite.cpp
-    Source/tileRenderer/PermutationTable.cpp
-    Source/tileRenderer/SpellSpriteSet.cpp
-    Source/tileRenderer/Sprite.cpp
-    Source/tileRenderer/SpriteSetFactories.cpp
-    Source/tileRenderer/StatusEffectSprite.cpp
-    Source/tileRenderer/TerrainSprite.cpp
-    Source/tileRenderer/TileSet.cpp
-    Source/tileRenderer/TileSetLoader.cpp
-    Source/tileRenderer/TilesetParserV1.cpp
-    Source/tileRenderer/TilesetParserV2.cpp
-    Source/tileRenderer/TileSetRenderer.cpp
-    Source/tileRenderer/TileSetTexture.cpp
-
-    Source/tileRenderer/sdl/SDLSprite.cpp
-    Source/tileRenderer/sdl/SDLTilesetRenderer.cpp
-
-    Source/tileRenderer/ogl/OGLFunctionExt.cpp
-    Source/tileRenderer/ogl/OGLResources.cpp
-    Source/tileRenderer/ogl/OGLSprite.cpp
-    Source/tileRenderer/ogl/OGLTilesetRenderer.cpp
-    Source/tileRenderer/ogl/OGLViewportLayer.cpp
-)
-
-ADD_LIBRARY(GoblinCamp::Renderer::Tile ALIAS GoblinCamp.Renderer.Tile)
-
 SET (platform_SRC
 Source/platform/linux/DataImpl.cpp
 )
@@ -211,8 +180,6 @@ add_executable(goblin-camp Source/platform/unix/main.cpp Source/GCamp.cpp ${plat
 
 include_directories("goblin-camp" "Goblin Camp/include")
 include_directories("goblin-camp" vendor/libtcod/include)
-
-TARGET_LINK_LIBRARIES(GoblinCamp.Renderer.Tile PRIVATE ${Boost_FILESYSTEM_LIBRARY})
 
 TARGET_LINK_LIBRARIES(GoblinCamp.Data PRIVATE GoblinCamp::Renderer::Tile)
 
