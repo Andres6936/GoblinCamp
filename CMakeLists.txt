@@ -172,20 +172,22 @@ ADD_LIBRARY(GoblinCamp.Libtcod
 
 ADD_LIBRARY (GoblinCamp::Libtcod ALIAS GoblinCamp.Libtcod)
 
-SET (UI_SRC
-"Goblin Camp/src/UI/AnnounceDialog.cpp"
-"Goblin Camp/src/UI/ConstructionDialog.cpp"
-"Goblin Camp/src/UI/DevConsole.cpp"
-"Goblin Camp/src/UI/JobDialog.cpp"
-"Goblin Camp/src/UI/Menu.cpp"
-"Goblin Camp/src/UI/MessageBox.cpp"
-"Goblin Camp/src/UI/NPCDialog.cpp"
-"Goblin Camp/src/UI/SideBar.cpp"
-"Goblin Camp/src/UI/SquadsDialog.cpp"
-"Goblin Camp/src/UI/StockManagerDialog.cpp"
-"Goblin Camp/src/UI/Tooltip.cpp"
-"Goblin Camp/src/UI/UIComponents.cpp"
+ADD_LIBRARY (GoblinCamp.UI
+    "Goblin Camp/src/UI/AnnounceDialog.cpp"
+    "Goblin Camp/src/UI/ConstructionDialog.cpp"
+    "Goblin Camp/src/UI/DevConsole.cpp"
+    "Goblin Camp/src/UI/JobDialog.cpp"
+    "Goblin Camp/src/UI/Menu.cpp"
+    "Goblin Camp/src/UI/MessageBox.cpp"
+    "Goblin Camp/src/UI/NPCDialog.cpp"
+    "Goblin Camp/src/UI/SideBar.cpp"
+    "Goblin Camp/src/UI/SquadsDialog.cpp"
+    "Goblin Camp/src/UI/StockManagerDialog.cpp"
+    "Goblin Camp/src/UI/Tooltip.cpp"
+    "Goblin Camp/src/UI/UIComponents.cpp"
 )
+
+ADD_LIBRARY(GoblinCamp::UI ALIAS GoblinCamp.UI)
 
 SET (tileRenderer_SRC
 "Goblin Camp/src/tileRenderer/ConstructionSprite.cpp"
@@ -221,7 +223,7 @@ SET (platform_SRC
 "Goblin Camp/src/platform/linux/DataImpl.cpp"
 )
 
-add_executable(goblin-camp "Goblin Camp/src/platform/unix/main.cpp" "Goblin Camp/src/GCamp.cpp" ${UI_SRC} ${tileRenderer_SRC} ${platform_SRC})
+add_executable(goblin-camp "Goblin Camp/src/platform/unix/main.cpp" "Goblin Camp/src/GCamp.cpp" ${tileRenderer_SRC} ${platform_SRC})
 include_directories("goblin-camp" "Goblin Camp/include")
 include_directories("goblin-camp" vendor/libtcod/include)
 
@@ -232,6 +234,7 @@ TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Scripting)
 TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Libtcod)
 TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Data)
 TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Main)
+TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::UI)
 
 TARGET_LINK_LIBRARIES(goblin-camp PRIVATE
   ${SDL_LIBRARY}
