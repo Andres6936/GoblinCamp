@@ -51,14 +51,16 @@ include_directories(${PNG_INCLUDE_DIR})
 
 
 
-SET (data_SRC
-"Goblin Camp/src/data/Config.cpp"
-"Goblin Camp/src/data/Data.cpp"
-"Goblin Camp/src/data/Mods.cpp"
-"Goblin Camp/src/data/Paths.cpp"
-"Goblin Camp/src/data/Serialization.cpp"
-"Goblin Camp/src/data/Tilesets.cpp"
+ADD_LIBRARY (GoblinCamp.Data
+    "Goblin Camp/src/data/Config.cpp"
+    "Goblin Camp/src/data/Data.cpp"
+    "Goblin Camp/src/data/Mods.cpp"
+    "Goblin Camp/src/data/Paths.cpp"
+    "Goblin Camp/src/data/Serialization.cpp"
+    "Goblin Camp/src/data/Tilesets.cpp"
 )
+
+ADD_LIBRARY(GoblinCamp::Data ALIAS GoblinCamp.Data)
 
 ADD_LIBRARY(GoblinCamp.Main
         "Goblin Camp/src/Announce.cpp"
@@ -219,7 +221,7 @@ SET (platform_SRC
 "Goblin Camp/src/platform/linux/DataImpl.cpp"
 )
 
-add_executable(goblin-camp "Goblin Camp/src/platform/unix/main.cpp" "Goblin Camp/src/GCamp.cpp" ${data_SRC} ${UI_SRC} ${tileRenderer_SRC} ${platform_SRC})
+add_executable(goblin-camp "Goblin Camp/src/platform/unix/main.cpp" "Goblin Camp/src/GCamp.cpp" ${UI_SRC} ${tileRenderer_SRC} ${platform_SRC})
 include_directories("goblin-camp" "Goblin Camp/include")
 include_directories("goblin-camp" vendor/libtcod/include)
 
@@ -228,6 +230,7 @@ TARGET_LINK_LIBRARIES(GoblinCamp.Main PRIVATE GoblinCamp::Libtcod)
 
 TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Scripting)
 TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Libtcod)
+TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Data)
 TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Main)
 
 TARGET_LINK_LIBRARIES(goblin-camp PRIVATE
