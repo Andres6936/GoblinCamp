@@ -117,8 +117,8 @@ Source/platform/linux/DataImpl.cpp
 
 add_executable(goblin-camp Source/platform/unix/main.cpp Source/GCamp.cpp ${platform_SRC})
 
-include_directories("goblin-camp" "Goblin Camp/include")
-include_directories("goblin-camp" vendor/libtcod/include)
+include_directories("goblin-camp" Include/)
+include_directories("goblin-camp" vendor/libtcod/include/)
 
 TARGET_LINK_LIBRARIES(GoblinCamp.Data PRIVATE GoblinCamp::Renderer::Tile)
 
