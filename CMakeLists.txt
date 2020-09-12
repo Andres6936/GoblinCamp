@@ -6,7 +6,7 @@ project(GoblinCamp LANGUAGES C CXX)
 SET(CMAKE_CXX_FLAGS "-std=c++11 -DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_NO_SCOPED_ENUMS")  # FIXME move to add_compile_options() later
 
 #  -DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_NO_SCOPED_ENUMS  https://stackoverflow.com/questions/18783790/boostfilesystemcopy-file-missing-symbol-in-c11 
-# and Goblin Camp/src/data/Data.cpp fs::copy_file(source, target);
+# and Goblin Camp/Source/data/Data.cpp fs::copy_file(source, target);
 
 # add the executable
 # add_executable(Tutorial tutorial.cxx)
@@ -52,70 +52,70 @@ include_directories(${PNG_INCLUDE_DIR})
 
 
 ADD_LIBRARY (GoblinCamp.Data
-    "Goblin Camp/src/data/Config.cpp"
-    "Goblin Camp/src/data/Data.cpp"
-    "Goblin Camp/src/data/Mods.cpp"
-    "Goblin Camp/src/data/Paths.cpp"
-    "Goblin Camp/src/data/Serialization.cpp"
-    "Goblin Camp/src/data/Tilesets.cpp"
+    Source/data/Config.cpp
+    Source/data/Data.cpp
+    Source/data/Mods.cpp
+    Source/data/Paths.cpp
+    Source/data/Serialization.cpp
+    Source/data/Tilesets.cpp
 )
 
 ADD_LIBRARY(GoblinCamp::Data ALIAS GoblinCamp.Data)
 
 ADD_LIBRARY(GoblinCamp.Main
-        "Goblin Camp/src/Announce.cpp"
-        "Goblin Camp/src/Attack.cpp"
-        "Goblin Camp/src/Blood.cpp"
-        "Goblin Camp/src/Camp.cpp"
-        "Goblin Camp/src/Construction.cpp"
-        "Goblin Camp/src/Container.cpp"
-        "Goblin Camp/src/Coordinate.cpp"
-        "Goblin Camp/src/Door.cpp"
-        "Goblin Camp/src/Entity.cpp"
-        "Goblin Camp/src/Events.cpp"
-        "Goblin Camp/src/Faction.cpp"
-        "Goblin Camp/src/Farmplot.cpp"
-        "Goblin Camp/src/Filth.cpp"
-        "Goblin Camp/src/Fire.cpp"
-        "Goblin Camp/src/GCamp.cpp"
-        "Goblin Camp/src/Game.cpp"
-        "Goblin Camp/src/Item.cpp"
-        "Goblin Camp/src/Job.cpp"
-        "Goblin Camp/src/JobManager.cpp"
-        "Goblin Camp/src/KuhnMunkres.cpp"
-        "Goblin Camp/src/Logger.cpp"
-        "Goblin Camp/src/Map.cpp"
-        "Goblin Camp/src/MapMarker.cpp"
-        "Goblin Camp/src/MapRenderer.cpp"
-        "Goblin Camp/src/NPC.cpp"
-        "Goblin Camp/src/NatureObject.cpp"
-        "Goblin Camp/src/Random.cpp"
-        "Goblin Camp/src/SpawningPool.cpp"
-        "Goblin Camp/src/Spell.cpp"
-        "Goblin Camp/src/Squad.cpp"
-        "Goblin Camp/src/Stats.cpp"
-        "Goblin Camp/src/StatusEffect.cpp"
-        "Goblin Camp/src/StockManager.cpp"
-        "Goblin Camp/src/Stockpile.cpp"
-        "Goblin Camp/src/TCODMapRenderer.cpp"
-        "Goblin Camp/src/Tile.cpp"
-        "Goblin Camp/src/Trap.cpp"
-        "Goblin Camp/src/UI.cpp"
-        "Goblin Camp/src/Water.cpp"
-        "Goblin Camp/src/Weather.cpp"
-        "Goblin Camp/src/Version.cpp"
+        Source/Announce.cpp
+        Source/Attack.cpp
+        Source/Blood.cpp
+        Source/Camp.cpp
+        Source/Construction.cpp
+        Source/Container.cpp
+        Source/Coordinate.cpp
+        Source/Door.cpp
+        Source/Entity.cpp
+        Source/Events.cpp
+        Source/Faction.cpp
+        Source/Farmplot.cpp
+        Source/Filth.cpp
+        Source/Fire.cpp
+        Source/GCamp.cpp
+        Source/Game.cpp
+        Source/Item.cpp
+        Source/Job.cpp
+        Source/JobManager.cpp
+        Source/KuhnMunkres.cpp
+        Source/Logger.cpp
+        Source/Map.cpp
+        Source/MapMarker.cpp
+        Source/MapRenderer.cpp
+        Source/NPC.cpp
+        Source/NatureObject.cpp
+        Source/Random.cpp
+        Source/SpawningPool.cpp
+        Source/Spell.cpp
+        Source/Squad.cpp
+        Source/Stats.cpp
+        Source/StatusEffect.cpp
+        Source/StockManager.cpp
+        Source/Stockpile.cpp
+        Source/TCODMapRenderer.cpp
+        Source/Tile.cpp
+        Source/Trap.cpp
+        Source/UI.cpp
+        Source/Water.cpp
+        Source/Weather.cpp
+        Source/Version.cpp
         )
 
 ADD_LIBRARY(GoblinCamp::Main ALIAS GoblinCamp.Main)
 
 ADD_LIBRARY(GoblinCamp.Scripting
-        "Goblin Camp/src/scripting/API.cpp"
-        "Goblin Camp/src/scripting/Engine.cpp"
-        "Goblin Camp/src/scripting/Event.cpp"
-        "Goblin Camp/src/scripting/_gcampapi/Functions.cpp"
-        "Goblin Camp/src/scripting/_gcampapi/LoggerStream.cpp"
-        "Goblin Camp/src/scripting/_gcampapi/PyConstruction.cpp"
-        "Goblin Camp/src/scripting/_gcampapi/PyItem.cpp"
+        Source/scripting/API.cpp
+        Source/scripting/Engine.cpp
+        Source/scripting/Event.cpp
+        Source/scripting/_gcampapi/Functions.cpp
+        Source/scripting/_gcampapi/LoggerStream.cpp
+        Source/scripting/_gcampapi/PyConstruction.cpp
+        Source/scripting/_gcampapi/PyItem.cpp
 )
 
 ADD_LIBRARY(GoblinCamp::Scripting ALIAS GoblinCamp.Scripting)
@@ -173,58 +173,59 @@ ADD_LIBRARY(GoblinCamp.Libtcod
 ADD_LIBRARY (GoblinCamp::Libtcod ALIAS GoblinCamp.Libtcod)
 
 ADD_LIBRARY (GoblinCamp.UI
-    "Goblin Camp/src/UI/AnnounceDialog.cpp"
-    "Goblin Camp/src/UI/ConstructionDialog.cpp"
-    "Goblin Camp/src/UI/DevConsole.cpp"
-    "Goblin Camp/src/UI/JobDialog.cpp"
-    "Goblin Camp/src/UI/Menu.cpp"
-    "Goblin Camp/src/UI/MessageBox.cpp"
-    "Goblin Camp/src/UI/NPCDialog.cpp"
-    "Goblin Camp/src/UI/SideBar.cpp"
-    "Goblin Camp/src/UI/SquadsDialog.cpp"
-    "Goblin Camp/src/UI/StockManagerDialog.cpp"
-    "Goblin Camp/src/UI/Tooltip.cpp"
-    "Goblin Camp/src/UI/UIComponents.cpp"
+    Source/UI/AnnounceDialog.cpp
+    Source/UI/ConstructionDialog.cpp
+    Source/UI/DevConsole.cpp
+    Source/UI/JobDialog.cpp
+    Source/UI/Menu.cpp
+    Source/UI/MessageBox.cpp
+    Source/UI/NPCDialog.cpp
+    Source/UI/SideBar.cpp
+    Source/UI/SquadsDialog.cpp
+    Source/UI/StockManagerDialog.cpp
+    Source/UI/Tooltip.cpp
+    Source/UI/UIComponents.cpp
 )
 
 ADD_LIBRARY(GoblinCamp::UI ALIAS GoblinCamp.UI)
 
 ADD_LIBRARY (GoblinCamp.Renderer.Tile
-    "Goblin Camp/src/tileRenderer/ConstructionSprite.cpp"
-    "Goblin Camp/src/tileRenderer/DrawConstructionVisitor.cpp"
-    "Goblin Camp/src/tileRenderer/ItemSprite.cpp"
-    "Goblin Camp/src/tileRenderer/NatureObjectSpriteSet.cpp"
-    "Goblin Camp/src/tileRenderer/NPCSprite.cpp"
-    "Goblin Camp/src/tileRenderer/PermutationTable.cpp"
-    "Goblin Camp/src/tileRenderer/SpellSpriteSet.cpp"
-    "Goblin Camp/src/tileRenderer/Sprite.cpp"
-    "Goblin Camp/src/tileRenderer/SpriteSetFactories.cpp"
-    "Goblin Camp/src/tileRenderer/StatusEffectSprite.cpp"
-    "Goblin Camp/src/tileRenderer/TerrainSprite.cpp"
-    "Goblin Camp/src/tileRenderer/TileSet.cpp"
-    "Goblin Camp/src/tileRenderer/TileSetLoader.cpp"
-    "Goblin Camp/src/tileRenderer/TilesetParserV1.cpp"
-    "Goblin Camp/src/tileRenderer/TilesetParserV2.cpp"
-    "Goblin Camp/src/tileRenderer/TileSetRenderer.cpp"
-    "Goblin Camp/src/tileRenderer/TileSetTexture.cpp"
+    Source/tileRenderer/ConstructionSprite.cpp
+    Source/tileRenderer/DrawConstructionVisitor.cpp
+    Source/tileRenderer/ItemSprite.cpp
+    Source/tileRenderer/NatureObjectSpriteSet.cpp
+    Source/tileRenderer/NPCSprite.cpp
+    Source/tileRenderer/PermutationTable.cpp
+    Source/tileRenderer/SpellSpriteSet.cpp
+    Source/tileRenderer/Sprite.cpp
+    Source/tileRenderer/SpriteSetFactories.cpp
+    Source/tileRenderer/StatusEffectSprite.cpp
+    Source/tileRenderer/TerrainSprite.cpp
+    Source/tileRenderer/TileSet.cpp
+    Source/tileRenderer/TileSetLoader.cpp
+    Source/tileRenderer/TilesetParserV1.cpp
+    Source/tileRenderer/TilesetParserV2.cpp
+    Source/tileRenderer/TileSetRenderer.cpp
+    Source/tileRenderer/TileSetTexture.cpp
 
-    "Goblin Camp/src/tileRenderer/sdl/SDLSprite.cpp"
-    "Goblin Camp/src/tileRenderer/sdl/SDLTilesetRenderer.cpp"
+    Source/tileRenderer/sdl/SDLSprite.cpp
+    Source/tileRenderer/sdl/SDLTilesetRenderer.cpp
 
-    "Goblin Camp/src/tileRenderer/ogl/OGLFunctionExt.cpp"
-    "Goblin Camp/src/tileRenderer/ogl/OGLResources.cpp"
-    "Goblin Camp/src/tileRenderer/ogl/OGLSprite.cpp"
-    "Goblin Camp/src/tileRenderer/ogl/OGLTilesetRenderer.cpp"
-    "Goblin Camp/src/tileRenderer/ogl/OGLViewportLayer.cpp"
+    Source/tileRenderer/ogl/OGLFunctionExt.cpp
+    Source/tileRenderer/ogl/OGLResources.cpp
+    Source/tileRenderer/ogl/OGLSprite.cpp
+    Source/tileRenderer/ogl/OGLTilesetRenderer.cpp
+    Source/tileRenderer/ogl/OGLViewportLayer.cpp
 )
 
 ADD_LIBRARY(GoblinCamp::Renderer::Tile ALIAS GoblinCamp.Renderer.Tile)
 
 SET (platform_SRC
-"Goblin Camp/src/platform/linux/DataImpl.cpp"
+Source/platform/linux/DataImpl.cpp
 )
 
-add_executable(goblin-camp "Goblin Camp/src/platform/unix/main.cpp" "Goblin Camp/src/GCamp.cpp" ${platform_SRC})
+add_executable(goblin-camp Source/platform/unix/main.cpp Source/GCamp.cpp ${platform_SRC})
+
 include_directories("goblin-camp" "Goblin Camp/include")
 include_directories("goblin-camp" vendor/libtcod/include)
 
