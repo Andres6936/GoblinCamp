@@ -49,6 +49,7 @@ include_directories(${SDL_INCLUDE_DIR})
 include_directories(${PYTHON_INCLUDE_DIRS})
 include_directories(${PNG_INCLUDE_DIR})
 
+ADD_SUBDIRECTORY(vendor/)
 ADD_SUBDIRECTORY(Source/)
 
 ADD_LIBRARY (GoblinCamp.Data
@@ -109,58 +110,6 @@ ADD_LIBRARY(GoblinCamp.Main
 ADD_LIBRARY(GoblinCamp::Main ALIAS GoblinCamp.Main)
 
 
-
-ADD_LIBRARY(GoblinCamp.Libtcod
-        vendor/libtcod/src/bresenham_c.c
-        vendor/libtcod/src/bresenham.cpp
-        vendor/libtcod/src/bsp_c.c
-        vendor/libtcod/src/bsp.cpp
-        vendor/libtcod/src/color_c.c
-        vendor/libtcod/src/color.cpp
-        vendor/libtcod/src/console_c.c
-        vendor/libtcod/src/console.cpp
-        vendor/libtcod/src/fov_c.c
-        vendor/libtcod/src/fov_circular_raycasting.c
-        vendor/libtcod/src/fov.cpp
-        vendor/libtcod/src/fov_diamond_raycasting.c
-        vendor/libtcod/src/fov_digital.c
-        vendor/libtcod/src/fov_permissive2.c
-        vendor/libtcod/src/fov_permissive.c
-        vendor/libtcod/src/fov_recursive_shadowcasting.c
-        vendor/libtcod/src/fov_restrictive.c
-        vendor/libtcod/src/heightmap_c.c
-        vendor/libtcod/src/heightmap.cpp
-        vendor/libtcod/src/image_c.c
-        vendor/libtcod/src/image.cpp
-        vendor/libtcod/src/lex_c.c
-        vendor/libtcod/src/lex.cpp
-        vendor/libtcod/src/list_c.c
-        vendor/libtcod/src/mersenne_c.c
-        vendor/libtcod/src/mersenne.cpp
-        vendor/libtcod/src/mouse.cpp
-        vendor/libtcod/src/namegen_c.c
-        vendor/libtcod/src/namegen.cpp
-        vendor/libtcod/src/noise_c.c
-        vendor/libtcod/src/noise.cpp
-        vendor/libtcod/src/parser_c.c
-        vendor/libtcod/src/parser.cpp
-        vendor/libtcod/src/path_c.c
-        vendor/libtcod/src/path.cpp
-        vendor/libtcod/src/sys_c.c
-        vendor/libtcod/src/sys.cpp
-        vendor/libtcod/src/sys_opengl_c.c
-        vendor/libtcod/src/sys_sdl_c.c
-        vendor/libtcod/src/sys_sdl_img_bmp.c
-        vendor/libtcod/src/sys_sdl_img_png.c
-        vendor/libtcod/src/tree_c.c
-        vendor/libtcod/src/txtfield_c.c
-        vendor/libtcod/src/txtfield.cpp
-        vendor/libtcod/src/wrappers.c
-        vendor/libtcod/src/zip_c.c
-        vendor/libtcod/src/zip.cpp
-        )
-
-ADD_LIBRARY (GoblinCamp::Libtcod ALIAS GoblinCamp.Libtcod)
 
 SET (platform_SRC
 Source/platform/linux/DataImpl.cpp
