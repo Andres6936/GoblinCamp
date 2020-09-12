@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.9) # Do not raise it without a reason. Bump only when you use some feature that is not supported by older verions
+cmake_minimum_required(VERSION 3.1) # Do not raise it without a reason. Bump only when you use some feature that is not supported by older verions
 
 # set the project name
 project(GoblinCamp C CXX)
@@ -113,55 +113,57 @@ SET (scripting_SRC
 "Goblin Camp/src/scripting/_gcampapi/PyItem.cpp"
 )
 
-SET (libtcod_SRC
-vendor/libtcod/src/bresenham_c.c
-vendor/libtcod/src/bresenham.cpp
-vendor/libtcod/src/bsp_c.c
-vendor/libtcod/src/bsp.cpp
-vendor/libtcod/src/color_c.c
-vendor/libtcod/src/color.cpp
-vendor/libtcod/src/console_c.c
-vendor/libtcod/src/console.cpp
-vendor/libtcod/src/fov_c.c
-vendor/libtcod/src/fov_circular_raycasting.c
-vendor/libtcod/src/fov.cpp
-vendor/libtcod/src/fov_diamond_raycasting.c
-vendor/libtcod/src/fov_digital.c
-vendor/libtcod/src/fov_permissive2.c
-vendor/libtcod/src/fov_permissive.c
-vendor/libtcod/src/fov_recursive_shadowcasting.c
-vendor/libtcod/src/fov_restrictive.c
-vendor/libtcod/src/heightmap_c.c
-vendor/libtcod/src/heightmap.cpp
-vendor/libtcod/src/image_c.c
-vendor/libtcod/src/image.cpp
-vendor/libtcod/src/lex_c.c
-vendor/libtcod/src/lex.cpp
-vendor/libtcod/src/list_c.c
-vendor/libtcod/src/mersenne_c.c
-vendor/libtcod/src/mersenne.cpp
-vendor/libtcod/src/mouse.cpp
-vendor/libtcod/src/namegen_c.c
-vendor/libtcod/src/namegen.cpp
-vendor/libtcod/src/noise_c.c
-vendor/libtcod/src/noise.cpp
-vendor/libtcod/src/parser_c.c
-vendor/libtcod/src/parser.cpp
-vendor/libtcod/src/path_c.c
-vendor/libtcod/src/path.cpp
-vendor/libtcod/src/sys_c.c
-vendor/libtcod/src/sys.cpp
-vendor/libtcod/src/sys_opengl_c.c
-vendor/libtcod/src/sys_sdl_c.c
-vendor/libtcod/src/sys_sdl_img_bmp.c
-vendor/libtcod/src/sys_sdl_img_png.c
-vendor/libtcod/src/tree_c.c
-vendor/libtcod/src/txtfield_c.c
-vendor/libtcod/src/txtfield.cpp
-vendor/libtcod/src/wrappers.c
-vendor/libtcod/src/zip_c.c
-vendor/libtcod/src/zip.cpp
-)
+ADD_LIBRARY(GoblinCamp.Libtcod
+        vendor/libtcod/src/bresenham_c.c
+        vendor/libtcod/src/bresenham.cpp
+        vendor/libtcod/src/bsp_c.c
+        vendor/libtcod/src/bsp.cpp
+        vendor/libtcod/src/color_c.c
+        vendor/libtcod/src/color.cpp
+        vendor/libtcod/src/console_c.c
+        vendor/libtcod/src/console.cpp
+        vendor/libtcod/src/fov_c.c
+        vendor/libtcod/src/fov_circular_raycasting.c
+        vendor/libtcod/src/fov.cpp
+        vendor/libtcod/src/fov_diamond_raycasting.c
+        vendor/libtcod/src/fov_digital.c
+        vendor/libtcod/src/fov_permissive2.c
+        vendor/libtcod/src/fov_permissive.c
+        vendor/libtcod/src/fov_recursive_shadowcasting.c
+        vendor/libtcod/src/fov_restrictive.c
+        vendor/libtcod/src/heightmap_c.c
+        vendor/libtcod/src/heightmap.cpp
+        vendor/libtcod/src/image_c.c
+        vendor/libtcod/src/image.cpp
+        vendor/libtcod/src/lex_c.c
+        vendor/libtcod/src/lex.cpp
+        vendor/libtcod/src/list_c.c
+        vendor/libtcod/src/mersenne_c.c
+        vendor/libtcod/src/mersenne.cpp
+        vendor/libtcod/src/mouse.cpp
+        vendor/libtcod/src/namegen_c.c
+        vendor/libtcod/src/namegen.cpp
+        vendor/libtcod/src/noise_c.c
+        vendor/libtcod/src/noise.cpp
+        vendor/libtcod/src/parser_c.c
+        vendor/libtcod/src/parser.cpp
+        vendor/libtcod/src/path_c.c
+        vendor/libtcod/src/path.cpp
+        vendor/libtcod/src/sys_c.c
+        vendor/libtcod/src/sys.cpp
+        vendor/libtcod/src/sys_opengl_c.c
+        vendor/libtcod/src/sys_sdl_c.c
+        vendor/libtcod/src/sys_sdl_img_bmp.c
+        vendor/libtcod/src/sys_sdl_img_png.c
+        vendor/libtcod/src/tree_c.c
+        vendor/libtcod/src/txtfield_c.c
+        vendor/libtcod/src/txtfield.cpp
+        vendor/libtcod/src/wrappers.c
+        vendor/libtcod/src/zip_c.c
+        vendor/libtcod/src/zip.cpp
+        )
+
+ADD_LIBRARY (GoblinCamp::Libtcod ALIAS GoblinCamp.Libtcod)
 
 SET (UI_SRC
 "Goblin Camp/src/UI/AnnounceDialog.cpp"
@@ -212,11 +214,12 @@ SET (platform_SRC
 "Goblin Camp/src/platform/linux/DataImpl.cpp"
 )
 
-add_executable("goblin-camp" "Goblin Camp/src/platform/unix/main.cpp" "Goblin Camp/src/GCamp.cpp" ${main_SRC} ${data_SRC} ${scripting_SRC} ${libtcod_SRC} ${UI_SRC} ${tileRenderer_SRC} ${platform_SRC})
+add_executable(goblin-camp "Goblin Camp/src/platform/unix/main.cpp" "Goblin Camp/src/GCamp.cpp" ${main_SRC} ${data_SRC} ${scripting_SRC} ${UI_SRC} ${tileRenderer_SRC} ${platform_SRC})
 include_directories("goblin-camp" "Goblin Camp/include")
 include_directories("goblin-camp" vendor/libtcod/include)
 
-target_link_libraries("goblin-camp"
+TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Libtcod)
+TARGET_LINK_LIBRARIES(goblin-camp PRIVATE
   ${SDL_LIBRARY}
   ${SDLIMAGE_LIBRARY}
   ${PYTHON_LIBRARIES}
