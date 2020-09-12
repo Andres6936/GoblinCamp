@@ -49,7 +49,7 @@ include_directories(${SDL_INCLUDE_DIR})
 include_directories(${PYTHON_INCLUDE_DIRS})
 include_directories(${PNG_INCLUDE_DIR})
 
-
+ADD_SUBDIRECTORY(Source/)
 
 ADD_LIBRARY (GoblinCamp.Data
     Source/data/Config.cpp
@@ -171,23 +171,6 @@ ADD_LIBRARY(GoblinCamp.Libtcod
         )
 
 ADD_LIBRARY (GoblinCamp::Libtcod ALIAS GoblinCamp.Libtcod)
-
-ADD_LIBRARY (GoblinCamp.UI
-    Source/UI/AnnounceDialog.cpp
-    Source/UI/ConstructionDialog.cpp
-    Source/UI/DevConsole.cpp
-    Source/UI/JobDialog.cpp
-    Source/UI/Menu.cpp
-    Source/UI/MessageBox.cpp
-    Source/UI/NPCDialog.cpp
-    Source/UI/SideBar.cpp
-    Source/UI/SquadsDialog.cpp
-    Source/UI/StockManagerDialog.cpp
-    Source/UI/Tooltip.cpp
-    Source/UI/UIComponents.cpp
-)
-
-ADD_LIBRARY(GoblinCamp::UI ALIAS GoblinCamp.UI)
 
 ADD_LIBRARY (GoblinCamp.Renderer.Tile
     Source/tileRenderer/ConstructionSprite.cpp
