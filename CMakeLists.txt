@@ -108,17 +108,7 @@ ADD_LIBRARY(GoblinCamp.Main
 
 ADD_LIBRARY(GoblinCamp::Main ALIAS GoblinCamp.Main)
 
-ADD_LIBRARY(GoblinCamp.Scripting
-        Source/scripting/API.cpp
-        Source/scripting/Engine.cpp
-        Source/scripting/Event.cpp
-        Source/scripting/_gcampapi/Functions.cpp
-        Source/scripting/_gcampapi/LoggerStream.cpp
-        Source/scripting/_gcampapi/PyConstruction.cpp
-        Source/scripting/_gcampapi/PyItem.cpp
-)
 
-ADD_LIBRARY(GoblinCamp::Scripting ALIAS GoblinCamp.Scripting)
 
 ADD_LIBRARY(GoblinCamp.Libtcod
         vendor/libtcod/src/bresenham_c.c
