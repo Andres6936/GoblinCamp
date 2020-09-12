@@ -59,49 +59,52 @@ SET (data_SRC
 "Goblin Camp/src/data/Serialization.cpp"
 "Goblin Camp/src/data/Tilesets.cpp"
 )
-SET (main_SRC
-"Goblin Camp/src/Announce.cpp"
-"Goblin Camp/src/Attack.cpp"
-"Goblin Camp/src/Blood.cpp"
-"Goblin Camp/src/Camp.cpp"
-"Goblin Camp/src/Construction.cpp"
-"Goblin Camp/src/Container.cpp"
-"Goblin Camp/src/Coordinate.cpp"
-"Goblin Camp/src/Door.cpp"
-"Goblin Camp/src/Entity.cpp"
-"Goblin Camp/src/Events.cpp"
-"Goblin Camp/src/Faction.cpp"
-"Goblin Camp/src/Farmplot.cpp"
-"Goblin Camp/src/Filth.cpp"
-"Goblin Camp/src/Fire.cpp"
-"Goblin Camp/src/GCamp.cpp"
-"Goblin Camp/src/Game.cpp"
-"Goblin Camp/src/Item.cpp"
-"Goblin Camp/src/Job.cpp"
-"Goblin Camp/src/JobManager.cpp"
-"Goblin Camp/src/KuhnMunkres.cpp"
-"Goblin Camp/src/Logger.cpp"
-"Goblin Camp/src/Map.cpp"
-"Goblin Camp/src/MapMarker.cpp"
-"Goblin Camp/src/MapRenderer.cpp"
-"Goblin Camp/src/NPC.cpp"
-"Goblin Camp/src/NatureObject.cpp"
-"Goblin Camp/src/Random.cpp"
-"Goblin Camp/src/SpawningPool.cpp"
-"Goblin Camp/src/Spell.cpp"
-"Goblin Camp/src/Squad.cpp"
-"Goblin Camp/src/Stats.cpp"
-"Goblin Camp/src/StatusEffect.cpp"
-"Goblin Camp/src/StockManager.cpp"
-"Goblin Camp/src/Stockpile.cpp"
-"Goblin Camp/src/TCODMapRenderer.cpp"
-"Goblin Camp/src/Tile.cpp"
-"Goblin Camp/src/Trap.cpp"
-"Goblin Camp/src/UI.cpp"
-"Goblin Camp/src/Water.cpp"
-"Goblin Camp/src/Weather.cpp"
-"Goblin Camp/src/Version.cpp"
-)
+
+ADD_LIBRARY(GoblinCamp.Main
+        "Goblin Camp/src/Announce.cpp"
+        "Goblin Camp/src/Attack.cpp"
+        "Goblin Camp/src/Blood.cpp"
+        "Goblin Camp/src/Camp.cpp"
+        "Goblin Camp/src/Construction.cpp"
+        "Goblin Camp/src/Container.cpp"
+        "Goblin Camp/src/Coordinate.cpp"
+        "Goblin Camp/src/Door.cpp"
+        "Goblin Camp/src/Entity.cpp"
+        "Goblin Camp/src/Events.cpp"
+        "Goblin Camp/src/Faction.cpp"
+        "Goblin Camp/src/Farmplot.cpp"
+        "Goblin Camp/src/Filth.cpp"
+        "Goblin Camp/src/Fire.cpp"
+        "Goblin Camp/src/GCamp.cpp"
+        "Goblin Camp/src/Game.cpp"
+        "Goblin Camp/src/Item.cpp"
+        "Goblin Camp/src/Job.cpp"
+        "Goblin Camp/src/JobManager.cpp"
+        "Goblin Camp/src/KuhnMunkres.cpp"
+        "Goblin Camp/src/Logger.cpp"
+        "Goblin Camp/src/Map.cpp"
+        "Goblin Camp/src/MapMarker.cpp"
+        "Goblin Camp/src/MapRenderer.cpp"
+        "Goblin Camp/src/NPC.cpp"
+        "Goblin Camp/src/NatureObject.cpp"
+        "Goblin Camp/src/Random.cpp"
+        "Goblin Camp/src/SpawningPool.cpp"
+        "Goblin Camp/src/Spell.cpp"
+        "Goblin Camp/src/Squad.cpp"
+        "Goblin Camp/src/Stats.cpp"
+        "Goblin Camp/src/StatusEffect.cpp"
+        "Goblin Camp/src/StockManager.cpp"
+        "Goblin Camp/src/Stockpile.cpp"
+        "Goblin Camp/src/TCODMapRenderer.cpp"
+        "Goblin Camp/src/Tile.cpp"
+        "Goblin Camp/src/Trap.cpp"
+        "Goblin Camp/src/UI.cpp"
+        "Goblin Camp/src/Water.cpp"
+        "Goblin Camp/src/Weather.cpp"
+        "Goblin Camp/src/Version.cpp"
+        )
+
+ADD_LIBRARY(GoblinCamp::Main ALIAS GoblinCamp.Main)
 
 ADD_LIBRARY(GoblinCamp.Scripting
         "Goblin Camp/src/scripting/API.cpp"
@@ -216,12 +219,16 @@ SET (platform_SRC
 "Goblin Camp/src/platform/linux/DataImpl.cpp"
 )
 
-add_executable(goblin-camp "Goblin Camp/src/platform/unix/main.cpp" "Goblin Camp/src/GCamp.cpp" ${main_SRC} ${data_SRC} ${UI_SRC} ${tileRenderer_SRC} ${platform_SRC})
+add_executable(goblin-camp "Goblin Camp/src/platform/unix/main.cpp" "Goblin Camp/src/GCamp.cpp" ${data_SRC} ${UI_SRC} ${tileRenderer_SRC} ${platform_SRC})
 include_directories("goblin-camp" "Goblin Camp/include")
 include_directories("goblin-camp" vendor/libtcod/include)
 
+
+TARGET_LINK_LIBRARIES(GoblinCamp.Main PRIVATE GoblinCamp::Libtcod)
+
 TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Scripting)
 TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Libtcod)
+TARGET_LINK_LIBRARIES(goblin-camp PRIVATE GoblinCamp::Main)
 
 TARGET_LINK_LIBRARIES(goblin-camp PRIVATE
   ${SDL_LIBRARY}
