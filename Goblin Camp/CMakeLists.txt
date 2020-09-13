@@ -1,5 +1,3 @@
-ADD_SUBDIRECTORY("lib")
-
 INSTALL(FILES terminal.png DESTINATION ${GOBLIN_CAMP_SHAREDIR})
 
 # https://specifications.freedesktop.org/menu-spec/menu-spec-latest.html#paths
