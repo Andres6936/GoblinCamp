@@ -78,28 +78,33 @@ int GCMain(std::vector<std::string>& args) {
 	Data::LoadFont();
 	
 	Game::LoadingScreen(&Mods::Load);
-	
-	#ifdef MACOSX
+
+#ifdef MACOSX
 	Data::LoadFont();
-	#endif
-	
+#endif
+
 	//
 	// Parse command line.
 	//
 	LOG("args.size() = " << args.size());
 
 	// Verify if is needed execute the bootstrap test
-	const bool bootTest = [&]{
-		for(const auto& arg: args) {
-			if (arg == "-boottest") {
+	const bool bootTest = std::invoke([&]
+	{
+		for (const auto& arg: args)
+		{
+			if (arg == "-boottest")
+			{
 				return true;
-			} else if (arg == "-dev") {
+			}
+			else if (arg == "-dev")
+			{
 				Game::Inst()->EnableDevMode();
 			}
 		}
 		// For default to false
 		return false;
-	}();
+	});
 	
 	if (!bootTest) {
 		exitcode = MainMenu();
