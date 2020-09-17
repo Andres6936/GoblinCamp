@@ -13,10 +13,8 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
 #include <libtcod.hpp>
-#include <boost/format.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/foreach.hpp>
@@ -45,8 +43,6 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "scripting/Engine.hpp"
 #include "scripting/Event.hpp"
 #include "Weather.hpp"
-#include "StockManager.hpp"
-#include "JobManager.hpp"
 
 #include "Version.hpp"
 
@@ -59,7 +55,6 @@ void ModsMenu();
 void TilesetsMenu();
 
 namespace Globals {
-	bool noDumpMode;
 }
 
 extern "C" void TCOD_sys_startup(void);
@@ -94,15 +89,13 @@ int GCMain(std::vector<std::string>& args) {
 	LOG("args.size() = " << args.size());
 	
 	bool bootTest = false;
-	Globals::noDumpMode = false;
-	
+
 	for(const auto& arg: args) {
 		if (arg == "-boottest") {
 			bootTest = true;
 		} else if (arg == "-dev") {
 			Game::Inst()->EnableDevMode();
 		} else if (arg == "-nodumps") {
-			Globals::noDumpMode = true;
 		}
 	}
 	
