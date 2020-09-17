@@ -52,6 +52,10 @@ include_directories(${SDL_INCLUDE_DIR})
 include_directories(${PYTHON_INCLUDE_DIRS})
 include_directories(${PNG_INCLUDE_DIR})
 
+# Support to Standard 17
+SET(CMAKE_CXX_STANDARD 17)
+SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 ADD_SUBDIRECTORY(vendor/)
 ADD_SUBDIRECTORY(Source/)
 
