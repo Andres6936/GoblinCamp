@@ -87,17 +87,19 @@ int GCMain(std::vector<std::string>& args) {
 	// Parse command line.
 	//
 	LOG("args.size() = " << args.size());
-	
-	bool bootTest = false;
 
-	for(const auto& arg: args) {
-		if (arg == "-boottest") {
-			bootTest = true;
-		} else if (arg == "-dev") {
-			Game::Inst()->EnableDevMode();
-		} else if (arg == "-nodumps") {
+	// Verify if is needed execute the bootstrap test
+	const bool bootTest = [&]{
+		for(const auto& arg: args) {
+			if (arg == "-boottest") {
+				return true;
+			} else if (arg == "-dev") {
+				Game::Inst()->EnableDevMode();
+			}
 		}
-	}
+		// For default to false
+		return false;
+	}();
 	
 	if (!bootTest) {
 		exitcode = MainMenu();
