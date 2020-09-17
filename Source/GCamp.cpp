@@ -96,7 +96,7 @@ int GCMain(std::vector<std::string>& args) {
 	bool bootTest = false;
 	Globals::noDumpMode = false;
 	
-	BOOST_FOREACH(std::string arg, args) {
+	for(const auto& arg: args) {
 		if (arg == "-boottest") {
 			bootTest = true;
 		} else if (arg == "-dev") {
@@ -778,7 +778,7 @@ void ModsMenu() {
 
 	int currentY = 0;
 	
-	BOOST_FOREACH(Mods::Metadata mod, modList) {
+	for(Mods::Metadata mod : modList) {
 		sub.setDefaultBackground(TCODColor::black);
 		
 		sub.setAlignment(TCOD_CENTER);
@@ -851,7 +851,7 @@ void TilesetsMenu() {
 
 	int currentY = 0;
 	
-	BOOST_FOREACH(TileSetMetadata tileset, tilesetsList) {
+	for(TileSetMetadata tileset : tilesetsList) {
 		sub.setDefaultBackground(TCODColor::black);
 		
 		sub.setAlignment(TCOD_LEFT);

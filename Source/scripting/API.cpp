@@ -77,7 +77,7 @@ namespace Script {
 	}
 	
 	void InvokeListeners(const char *method, PyObject *args) {
-		BOOST_FOREACH(py::object listener, Globals::listeners) {
+		for(py::object& listener : Globals::listeners) {
 			if (!PyObject_HasAttrString(listener.ptr(), method)) {
 				continue;
 			}
