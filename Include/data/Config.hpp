@@ -16,23 +16,27 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
 #include <boost/lexical_cast.hpp>
-#include <boost/unordered_map.hpp>
+#include <unordered_map>
 
 // Data refactoring: game configuration.
 
-namespace Config {
-	typedef boost::unordered_map<std::string, std::string> CVarMap;
-	typedef boost::unordered_map<std::string, char> KeyMap;
-	
+namespace Config
+{
+	typedef std::unordered_map<std::string, std::string> CVarMap;
+	typedef std::unordered_map<std::string, char> KeyMap;
+
 	void Init();
+
 	void Save();
-	
+
 	// config variables
 	void SetStringCVar(const std::string&, const std::string&);
+
 	std::string GetStringCVar(const std::string&);
-	
-	template <typename T>
-	inline T GetCVar(const std::string& name) {
+
+	template<typename T>
+	inline T GetCVar(const std::string& name)
+	{
 		return boost::lexical_cast<T>(GetStringCVar(name));
 	}
 	

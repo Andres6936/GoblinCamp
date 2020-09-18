@@ -53,17 +53,19 @@ namespace Config {
 		config << "##\n";
 		config << "## Config automatically saved on " << boost::posix_time::second_clock::local_time() << '\n';
 		config << "##\n";
-		
+
 		// dump cvars
-		BOOST_FOREACH(CVarMap::value_type pair, Globals::cvars) {
-			config << "setCVar('" << pair.first << "', '" << pair.second << "')\n";
+		for (const auto[key, value] : Globals::cvars)
+		{
+			config << "setCVar('" << key << "', '" << value << "')\n";
 		}
-		
+
 		// dump keys
-		BOOST_FOREACH(KeyMap::value_type pair, Globals::keys) {
-			config << "bindKey('" << pair.first << "', '" << pair.second << "')\n";
+		for (const auto[key, value] : Globals::keys)
+		{
+			config << "bindKey('" << key << "', '" << value << "')\n";
 		}
-		
+
 		config.close();
 	}
 	
