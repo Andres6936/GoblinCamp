@@ -176,7 +176,8 @@ TileSetParserV2::~TileSetParserV2() {
 	
 }
 
-boost::shared_ptr<TileSet> TileSetParserV2::Run(boost::filesystem::path dataFilePath) {
+boost::shared_ptr<TileSet> TileSetParserV2::Run(std::filesystem::path dataFilePath)
+{
 	tileSetName = "";
 	tileWidth = -1;
 	tileHeight = -1;
@@ -195,7 +196,8 @@ boost::shared_ptr<TileSet> TileSetParserV2::Run(boost::filesystem::path dataFile
 	return boost::shared_ptr<TileSet>();
 }
 
-void TileSetParserV2::Modify(boost::shared_ptr<TileSet> target, boost::filesystem::path dataFilePath) {
+void TileSetParserV2::Modify(boost::shared_ptr<TileSet> target, std::filesystem::path dataFilePath)
+{
 	tileWidth = target->TileWidth();
 	tileHeight = target->TileHeight();
 	currentTexture = boost::shared_ptr<TileSetTexture>();
@@ -721,7 +723,8 @@ TileSetMetadataParserV2::TileSetMetadataParserV2()
 	
 }
 
-TileSetMetadata TileSetMetadataParserV2::Run(boost::filesystem::path dataFilePath) {
+TileSetMetadata TileSetMetadataParserV2::Run(std::filesystem::path dataFilePath)
+{
 	metadata = TileSetMetadata(dataFilePath.parent_path());
 	metadata.valid = true;
 
@@ -768,7 +771,8 @@ TileSetModMetadataParserV2::TileSetModMetadataParserV2()
 		  SetupTilesetParser(parser);
 }
 
-std::list<TilesetModMetadata> TileSetModMetadataParserV2::Run(boost::filesystem::path path) {
+std::list<TilesetModMetadata> TileSetModMetadataParserV2::Run(std::filesystem::path path)
+{
 	metadata.clear();
 	location = path.parent_path();
 	parser.run(path.string().c_str(), this);

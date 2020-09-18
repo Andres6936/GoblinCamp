@@ -18,12 +18,13 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <fstream>
 #include <vector>
 #include <string>
+#include <chrono>
 #include <cstdlib>
 #include <cstring>
 #include <algorithm>
+#include <filesystem>
 #include <boost/format.hpp>
 #include <libtcod.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/bind.hpp>
 #include <boost/algorithm/string.hpp>
@@ -31,7 +32,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/python.hpp>
 
 namespace py = boost::python;
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 #include "data/Config.hpp"
 #include "data/Data.hpp"
@@ -49,16 +50,28 @@ namespace {
 		\param[in]  timestamp A source UNIX timestamp.
 		\param[out] dest      A string buffer to receive formatted date.
 	*/
-	void FormatTimestamp(const time_t& timestamp, std::string& dest) {
-		char buffer[21] = { "0000-00-00, 00:00:00" }; 
-		
+	void FormatTimestamp(const fs::file_time_type& timestamp, std::string& dest)
+	{
+		char buffer[21] = { "0000-00-00, 00:00:00" };
+
 		size_t size = 0;
-		struct tm *date;
-		
-		date = localtime(&timestamp);
+		struct tm* date;
+
+		// The function std::invoke call to function lambda
+		const std::time_t time = std::invoke([&]
+		{
+			// Convert the fs::file_time_type to std::time_t
+			// Reference: https://stackoverflow.com/a/61067330
+			namespace Chrono = std::chrono;
+			return Chrono::system_clock::to_time_t(Chrono::time_point_cast<Chrono::system_clock::duration>(
+					timestamp - fs::file_time_type::clock::now() + Chrono::system_clock::now()
+			));
+		});
+
+		date = localtime(&time);
 		size = strftime(buffer, 21, "%Y-%m-%d, %H:%M:%S", date);
 		buffer[size] = '\0';
-		
+
 		dest = buffer;
 	}
 	
@@ -187,18 +200,22 @@ namespace {
 	}
 }
 
-namespace Data {
-	Save::Save(const std::string& filename, boost::uintmax_t size, time_t timestamp) : filename(filename), timestamp(timestamp) {
+namespace Data
+{
+	Save::Save(const std::string& filename, boost::uintmax_t size, fs::file_time_type timestamp) : filename(filename),
+																								   timestamp(timestamp)
+	{
 		FormatFileSize(size, this->size);
 		FormatTimestamp(timestamp, this->date);
 	}
-	
+
 	/**
 		Retrieves a list of saved games.
 		
 		\param[out] list Storage for the list.
 	*/
-	void GetSavedGames(std::vector<Save>& list) {
+	void GetSavedGames(std::vector<Save>& list)
+	{
 		for (fs::directory_iterator it(Paths::Get(Paths::Saves)), end; it != end; ++it) {
 			fs::path save = it->path();
 			if (!boost::iequals(save.extension().string(), ".sav")) continue;

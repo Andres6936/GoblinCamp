@@ -23,12 +23,12 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #define BOOST_FILESYSTEM_VERSION 3
 #include <boost/foreach.hpp>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <boost/python/detail/wrap_python.hpp>
 #include <boost/python.hpp>
 
 namespace py = boost::python;
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 #include "data/Paths.hpp"
 #include "scripting/Engine.hpp"

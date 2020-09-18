@@ -156,7 +156,8 @@ TileSetParserV1::~TileSetParserV1() {
 	
 }
 
-boost::shared_ptr<TileSet> TileSetParserV1::Run(boost::filesystem::path dataFilePath) {
+boost::shared_ptr<TileSet> TileSetParserV1::Run(std::filesystem::path dataFilePath)
+{
 	tileSetName = "";
 	tileWidth = -1;
 	tileHeight = -1;
@@ -595,7 +596,8 @@ TileSetMetadataParserV1::TileSetMetadataParserV1()
 	
 }
 
-TileSetMetadata TileSetMetadataParserV1::Run(boost::filesystem::path dataFilePath) {
+TileSetMetadata TileSetMetadataParserV1::Run(std::filesystem::path dataFilePath)
+{
 	metadata = TileSetMetadata(dataFilePath.parent_path());
 	metadata.valid = true;
 

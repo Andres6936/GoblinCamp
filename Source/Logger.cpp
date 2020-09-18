@@ -22,9 +22,9 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/iostreams/stream.hpp>
 #include <boost/date_time/local_time/local_time.hpp>
 #define BOOST_FILESYSTEM_VERSION 3
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 #include "Logger.hpp"
 

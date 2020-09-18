@@ -18,7 +18,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <boost/noncopyable.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <libtcod.hpp>
 #include "tileRenderer/TileSetLoader.hpp"
 #include "tileRenderer/TileSet.hpp"
@@ -34,16 +34,22 @@ class TileSetParserV2 : public ITCODParserListener, private boost::noncopyable
 {
 public:
 	explicit TileSetParserV2(boost::shared_ptr<TilesetRenderer> spriteFactory);
+
 	~TileSetParserV2();
 
-	boost::shared_ptr<TileSet> Run(boost::filesystem::path tileSetPath);
-	void Modify(boost::shared_ptr<TileSet> tileset, boost::filesystem::path modPath);
+	boost::shared_ptr<TileSet> Run(std::filesystem::path tileSetPath);
 
-	bool parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name);
-	bool parserFlag(TCODParser *parser,const char *name);
-	bool parserProperty(TCODParser *pakrser,const char *name, TCOD_value_type_t type, TCOD_value_t value);
-	bool parserEndStruct(TCODParser *parser,const TCODParserStruct *str, const char *name);
-	void error(const char *msg);
+	void Modify(boost::shared_ptr<TileSet> tileset, std::filesystem::path modPath);
+
+	bool parserNewStruct(TCODParser* parser, const TCODParserStruct* str, const char* name);
+
+	bool parserFlag(TCODParser* parser, const char* name);
+
+	bool parserProperty(TCODParser* pakrser, const char* name, TCOD_value_type_t type, TCOD_value_t value);
+
+	bool parserEndStruct(TCODParser* parser, const TCODParserStruct* str, const char* name);
+
+	void error(const char* msg);
 
 private:
 	TCODParser parser;
@@ -66,9 +72,9 @@ private:
 		PS_STATUS_EFFECT
 	};
 	TileSetParserV2::ParserState currentParsingState;
-	
+
 	// Path where textures are found
-	boost::filesystem::path tileSetPath;
+	std::filesystem::path tileSetPath;
 	boost::shared_ptr<TileSetTexture> currentTexture;
 
 	std::string tileSetName;
@@ -106,17 +112,22 @@ private:
 	void ApplyCorruptionOverrides();
 };
 
-class TileSetMetadataParserV2 : public ITCODParserListener {
+class TileSetMetadataParserV2 : public ITCODParserListener
+{
 public:
 	TileSetMetadataParserV2();
 
-	TileSetMetadata Run(boost::filesystem::path path);
+	TileSetMetadata Run(std::filesystem::path path);
 
-	bool parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name);
-	bool parserFlag(TCODParser *parser,const char *name);
-	bool parserProperty(TCODParser *parser,const char *name, TCOD_value_type_t type, TCOD_value_t value);
-	bool parserEndStruct(TCODParser *parser,const TCODParserStruct *str, const char *name);
-	void error(const char *msg);
+	bool parserNewStruct(TCODParser* parser, const TCODParserStruct* str, const char* name);
+
+	bool parserFlag(TCODParser* parser, const char* name);
+
+	bool parserProperty(TCODParser* parser, const char* name, TCOD_value_type_t type, TCOD_value_t value);
+
+	bool parserEndStruct(TCODParser* parser, const TCODParserStruct* str, const char* name);
+
+	void error(const char* msg);
 
 private:
 	TCODParser parser;
@@ -124,21 +135,26 @@ private:
 
 };
 
-class TileSetModMetadataParserV2 : public ITCODParserListener {
+class TileSetModMetadataParserV2 : public ITCODParserListener
+{
 public:
 	TileSetModMetadataParserV2();
 
-	std::list<TilesetModMetadata> Run(boost::filesystem::path path);
+	std::list<TilesetModMetadata> Run(std::filesystem::path path);
 
-	bool parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name);
-	bool parserFlag(TCODParser *parser,const char *name);
-	bool parserProperty(TCODParser *parser,const char *name, TCOD_value_type_t type, TCOD_value_t value);
-	bool parserEndStruct(TCODParser *parser,const TCODParserStruct *str, const char *name);
-	void error(const char *msg);
+	bool parserNewStruct(TCODParser* parser, const TCODParserStruct* str, const char* name);
+
+	bool parserFlag(TCODParser* parser, const char* name);
+
+	bool parserProperty(TCODParser* parser, const char* name, TCOD_value_type_t type, TCOD_value_t value);
+
+	bool parserEndStruct(TCODParser* parser, const TCODParserStruct* str, const char* name);
+
+	void error(const char* msg);
 
 private:
 	TCODParser parser;
 	std::list<TilesetModMetadata> metadata;
-	boost::filesystem::path location;
+	std::filesystem::path location;
 
 };

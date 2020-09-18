@@ -18,8 +18,9 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <boost/noncopyable.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <libtcod.hpp>
+
 #include "tileRenderer/TileSetRenderer.hpp"
 #include "tileRenderer/TileSetLoader.hpp"
 #include "tileRenderer/TileSet.hpp"
@@ -33,15 +34,20 @@ class TileSetParserV1 : public ITCODParserListener, private boost::noncopyable
 {
 public:
 	explicit TileSetParserV1(boost::shared_ptr<TilesetRenderer> spriteFactory);
+
 	~TileSetParserV1();
 
-	boost::shared_ptr<TileSet> Run(boost::filesystem::path tileSetPath);
+	boost::shared_ptr<TileSet> Run(std::filesystem::path tileSetPath);
 
-	bool parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name);
-	bool parserFlag(TCODParser *parser,const char *name);
-	bool parserProperty(TCODParser *parser,const char *name, TCOD_value_type_t type, TCOD_value_t value);
-	bool parserEndStruct(TCODParser *parser,const TCODParserStruct *str, const char *name);
-	void error(const char *msg);
+	bool parserNewStruct(TCODParser* parser, const TCODParserStruct* str, const char* name);
+
+	bool parserFlag(TCODParser* parser, const char* name);
+
+	bool parserProperty(TCODParser* parser, const char* name, TCOD_value_type_t type, TCOD_value_t value);
+
+	bool parserEndStruct(TCODParser* parser, const TCODParserStruct* str, const char* name);
+
+	void error(const char* msg);
 
 private:
 	TCODParser parser;
@@ -60,7 +66,7 @@ private:
 	boost::shared_ptr<TileSet> tileSet;
 	bool success;
 
-	boost::filesystem::path tileSetPath;
+	std::filesystem::path tileSetPath;
 
 	std::string tileSetName;
 	int tileWidth;
@@ -70,7 +76,8 @@ private:
 	std::vector<int> fireSprites;
 	int fireFPS;
 
-	struct TempConstruction {
+	struct TempConstruction
+	{
 		boost::shared_ptr<TilesetRenderer> spriteFactory;
 		std::vector<int> mainSprites;
 		std::vector<int> underConstructionSprites;
@@ -107,17 +114,22 @@ private:
 	Sprite_ptr ReadConnectionMap(TCOD_list_t indices);
 };
 
-class TileSetMetadataParserV1 : public ITCODParserListener {
+class TileSetMetadataParserV1 : public ITCODParserListener
+{
 public:
 	TileSetMetadataParserV1();
 
-	TileSetMetadata Run(boost::filesystem::path path);
+	TileSetMetadata Run(std::filesystem::path path);
 
-	bool parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name);
-	bool parserFlag(TCODParser *parser,const char *name);
-	bool parserProperty(TCODParser *parser,const char *name, TCOD_value_type_t type, TCOD_value_t value);
-	bool parserEndStruct(TCODParser *parser,const TCODParserStruct *str, const char *name);
-	void error(const char *msg);
+	bool parserNewStruct(TCODParser* parser, const TCODParserStruct* str, const char* name);
+
+	bool parserFlag(TCODParser* parser, const char* name);
+
+	bool parserProperty(TCODParser* parser, const char* name, TCOD_value_type_t type, TCOD_value_t value);
+
+	bool parserEndStruct(TCODParser* parser, const TCODParserStruct* str, const char* name);
+
+	void error(const char* msg);
 
 private:
 	TCODParser parser;

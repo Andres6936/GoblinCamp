@@ -16,7 +16,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
 #include <boost/shared_ptr.hpp>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <SDL.h>
 #include "tileRenderer/Corner.hpp"
 
@@ -31,7 +31,8 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 class TileSetTexture
 {
 public:
-	explicit TileSetTexture(boost::filesystem::path path, int tileWidth, int tileHeight);
+	explicit TileSetTexture(std::filesystem::path path, int tileWidth, int tileHeight);
+
 	~TileSetTexture();
 
 	int Count() const;
