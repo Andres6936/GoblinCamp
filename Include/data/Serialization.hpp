@@ -23,7 +23,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 /**
 	This macro exists to enfoce consistent signatures across all serialisable
 	classes. I removed templateness to speed up the build (since we only use binary
-	archives anyway) — save/load can now be implemented in separate translation units.
+	archives anyway) save/load can now be implemented in separate translation units.
 	
 	A complete definition of a serialisable class/struct looks like this:
 	
