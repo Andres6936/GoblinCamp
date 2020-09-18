@@ -13,14 +13,11 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
-#include <cstdlib>
 #include <fstream>
 #include <string>
 #include <boost/assign/list_inserter.hpp>
 #include <boost/date_time/local_time/local_time.hpp>
-#include <boost/foreach.hpp>
 
 #include "data/Config.hpp"
 #include "data/Paths.hpp"
