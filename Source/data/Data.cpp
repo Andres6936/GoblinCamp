@@ -13,12 +13,9 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
-#include <fstream>
-#include <vector>
-#include <string>
 #include <chrono>
+#include <fstream>
 #include <cstdlib>
 #include <cstring>
 #include <algorithm>
@@ -28,7 +25,6 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/lexical_cast.hpp>
 #include <boost/bind.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/python/detail/wrap_python.hpp>
 #include <boost/python.hpp>
 
 namespace py = boost::python;
@@ -74,7 +70,7 @@ namespace {
 
 		dest = buffer;
 	}
-	
+
 	/**
 		Converts a file size in bytes into more human-readable larger units
 		(NB: uses kB/MB/GB as 1024-based units).
@@ -82,14 +78,16 @@ namespace {
 		\param[in]  filesize File size (in bytes).
 		\param[out] dest     A string buffer to receive formatted file size.
 	*/
-	void FormatFileSize(const boost::uintmax_t& filesize, std::string& dest) {
+	void FormatFileSize(const std::uint64_t filesize, std::string& dest)
+	{
 		static const char* sizes[] = { "%10.0f b", "%10.2f kB", "%10.2f MB", "%10.2f GB" };
 		static unsigned maxSize = sizeof(sizes) / sizeof(sizes[0]);
-		
+
 		long double size = static_cast<long double>(filesize);
-		
+
 		unsigned idx = 0;
-		while (size > 1024.L && idx < maxSize) {
+		while (size > 1024.L && idx < maxSize)
+		{
 			size /= 1024.L;
 			++idx;
 		}
