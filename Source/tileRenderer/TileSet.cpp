@@ -174,7 +174,7 @@ void TileSet::DrawNPC(int screenX, int screenY, std::shared_ptr<NPC> npc) const
 	{
 		if (npc->HasEffect(CARRYING))
 		{
-			if (std::shared_ptr<Item> carriedItem = npc->Carrying().lock())
+			if (std::shared_ptr<Item> carriedItem = npc->Carrying())
 			{
 				DrawItem(screenX, screenY, carriedItem);
 			}
@@ -309,7 +309,7 @@ void TileSet::DrawStockpileContents(int screenX, int screenY, Stockpile * stockp
 	std::shared_ptr<Container> storage = stockpile->Storage(worldPos).lock();
 	if (storage && !storage->empty())
 	{
-		if (std::shared_ptr<Item> item = storage->GetFirstItem().lock())
+		if (std::shared_ptr<Item> item = storage->GetFirstItem())
 		{
 			DrawItem(screenX, screenY, item);
 		}
