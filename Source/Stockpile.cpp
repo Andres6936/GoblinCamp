@@ -649,11 +649,11 @@ void Stockpile::ItemRemoved(std::shared_ptr<Item> witem)
 		//"Remove" each item inside a container
 		if (item->IsCategory(Item::StringToItemCategory("Container")))
 		{
-			std::shared_ptr<Container> container = std::static_pointer_cast<Container>(item);
+			std::shared_ptr <Container> container = std::static_pointer_cast<Container>(item);
 			container->RemoveListener(this);
-			for (std::set<std::shared_ptr<Item> >::iterator i = container->begin(); i != container->end(); i++)
+			for (auto& _item : *container)
 			{
-				ItemRemoved(*i);
+				ItemRemoved(_item);
 			}
 
 			//Increase demand for the container by how much it can hold
