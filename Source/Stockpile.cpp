@@ -617,10 +617,10 @@ void Stockpile::ItemAdded(std::shared_ptr<Item> witem)
 		{
 
 			//"Add" each item inside a container as well
-			std::shared_ptr<Container> container = std::static_pointer_cast<Container>(item);
-			for (std::set<std::shared_ptr<Item> >::iterator i = container->begin(); i != container->end(); i++)
+			std::shared_ptr <Container> container = std::static_pointer_cast<Container>(item);
+			for (auto& _item : *container)
 			{
-				ItemAdded(*i);
+				ItemAdded(_item);
 			}
 			container->AddListener(this);
 
