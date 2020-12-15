@@ -533,16 +533,18 @@ void Stockpile::ReserveSpot(Coordinate pos, bool val, ItemType type) {
 	Also update demand so that too many items aren't brought here instead of
 	elsewhere that might demand them as well*/
 	if (type >= 0) {
-		for (std::set<ItemCategory>::iterator cati = Item::Presets[type].categories.begin();
-			cati != Item::Presets[type].categories.end(); ++cati) {
-				if (GetLimit(*cati) >= 0) {
-					amount[*cati] += val ? 1 : -1;
-				}
+		for (auto& cati : Item::Presets[type].categories)
+		{
+			if (GetLimit(cati) >= 0)
+			{
+				amount[cati] += val ? 1 : -1;
+			}
 		}
 
 		//We only care about container demand, and they all have _1_ specific category (TODO: They might not)
 		ItemCategory category = *Item::Presets[type].specificCategories.begin();
-		if (demand.find(category) != demand.end()) {
+		if (demand.find(category) != demand.end())
+		{
 			demand[category] -= (Item::Presets[type].container * (val ? 1 : -1));
 		}
 	}
