@@ -25,20 +25,26 @@ namespace py = boost::python;
 #include "Coordinate.hpp"
 #include "Logger.hpp"
 
-namespace Script { namespace API {
-	#define CONSTRUCTION_ALIVE(var) boost::shared_ptr<Construction> var = construction.lock()
-	
-	PyConstruction::PyConstruction(boost::weak_ptr<Construction> construction) : construction(construction) {
-	}
-	
-	py::tuple PyConstruction::GetPosition() {
-		if (CONSTRUCTION_ALIVE(ptr)) {
-			Coordinate coords = ptr->Position();
-			return py::make_tuple(coords.X(), coords.Y());
-		} else {
-			LOG("WARNING: CONSTRUCTION POINTER LOST");
-			return py::make_tuple(py::object(), py::object());
+namespace Script { namespace API
+	{
+#define CONSTRUCTION_ALIVE(var) std::shared_ptr<Construction> var = construction.lock()
+
+		PyConstruction::PyConstruction(std::weak_ptr<Construction> construction) : construction(construction)
+		{
 		}
+
+		py::tuple PyConstruction::GetPosition()
+		{
+			if (CONSTRUCTION_ALIVE(ptr))
+			{
+				Coordinate coords = ptr->Position();
+				return py::make_tuple(coords.X(), coords.Y());
+			}
+			else
+			{
+				LOG("WARNING: CONSTRUCTION POINTER LOST");
+				return py::make_tuple(py::object(), py::object());
+			}
 	}
 	
 	std::string PyConstruction::GetTypeString() {

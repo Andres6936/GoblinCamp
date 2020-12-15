@@ -46,14 +46,15 @@ public:
 	   Client code should be careful to do a value copy of the
 	   SDL_Rect if they don't want modifications to be propagated.
 	 */
-	void DrawTile(int tile, SDL_Surface * dst, SDL_Rect * dstRect) const;
-	void DrawTileCorner(int tile, Corner corner, SDL_Surface * dst, SDL_Rect * dstRect) const;
+	void DrawTile(int tile, SDL_Surface* dst, SDL_Rect* dstRect) const;
 
-	boost::shared_ptr<SDL_Surface> GetInternalSurface();
+	void DrawTileCorner(int tile, Corner corner, SDL_Surface* dst, SDL_Rect* dstRect) const;
+
+	std::shared_ptr<SDL_Surface> GetInternalSurface();
 
 private:
 	int tileWidth, tileHeight;
 	int tileXDim, tileYDim;
 	int tileCount;
-	boost::shared_ptr<SDL_Surface> tiles;
+	std::shared_ptr<SDL_Surface> tiles;
 };

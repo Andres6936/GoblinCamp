@@ -36,30 +36,30 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Trap.hpp"
 
 Tile::Tile(TileType newType, int newCost) :
-	vis(true),
-	walkable(true),
-	buildable(true),
-	moveCost(newCost),
-	construction(-1),
-	low(false),
-	blocksWater(false),
-	water(boost::shared_ptr<WaterNode>()),
-	graphic('.'),
-	foreColor(TCODColor::white),
-	originalForeColor(TCODColor::white),
-	backColor(TCODColor::black),
-	natureObject(-1),
-	npcList(std::set<int>()),
-	itemList(std::set<int>()),
-	filth(boost::shared_ptr<FilthNode>()),
-	blood(boost::shared_ptr<BloodNode>()),
-	fire(boost::shared_ptr<FireNode>()),
-	marked(false),
-	walkedOver(0),
-	corruption(0),
-	territory(false),
-	burnt(0),
-	flow(NODIRECTION)
+		vis(true),
+		walkable(true),
+		buildable(true),
+		moveCost(newCost),
+		construction(-1),
+		low(false),
+		blocksWater(false),
+		water(std::shared_ptr<WaterNode>()),
+		graphic('.'),
+		foreColor(TCODColor::white),
+		originalForeColor(TCODColor::white),
+		backColor(TCODColor::black),
+		natureObject(-1),
+		npcList(std::set<int>()),
+		itemList(std::set<int>()),
+		filth(std::shared_ptr<FilthNode>()),
+		blood(std::shared_ptr<BloodNode>()),
+		fire(std::shared_ptr<FireNode>()),
+		marked(false),
+		walkedOver(0),
+		corruption(0),
+		territory(false),
+		burnt(0),
+		flow(NODIRECTION)
 {
 	ResetType(newType);
 }
@@ -211,53 +211,120 @@ void Tile::MoveFrom(int uid) {
 	npcList.erase(npcList.find(uid));
 }
 
-void Tile::MoveTo(int uid) {
-	npcList.insert(uid);		
+void Tile::MoveTo(int uid)
+{
+	npcList.insert(uid);
 }
 
-void Tile::SetConstruction(int uid) { construction = uid; }
-int Tile::GetConstruction() const { return construction; }
+void Tile::SetConstruction(int uid)
+{
+	construction = uid;
+}
 
-boost::weak_ptr<WaterNode> Tile::GetWater() const {return boost::weak_ptr<WaterNode>(water);}
-void Tile::SetWater(boost::shared_ptr<WaterNode> value) {water = value;}
+int Tile::GetConstruction() const
+{
+	return construction;
+}
 
-bool Tile::IsLow() const {return low;}
-void Tile::SetLow(bool value) {low = value;}
+std::weak_ptr<WaterNode> Tile::GetWater() const
+{
+	return std::weak_ptr<WaterNode>(water);
+}
 
-int Tile::GetGraphic() const { return graphic; }
-TCODColor Tile::GetForeColor() const { 
+void Tile::SetWater(std::shared_ptr<WaterNode> value)
+{
+	water = value;
+}
+
+bool Tile::IsLow() const
+{
+	return low;
+}
+
+void Tile::SetLow(bool value)
+{
+	low = value;
+}
+
+int Tile::GetGraphic() const
+{
+	return graphic;
+}
+
+TCODColor Tile::GetForeColor() const
+{
 	return foreColor;
 }
-TCODColor Tile::GetBackColor() const {
+
+TCODColor Tile::GetBackColor() const
+{
 	if (!blood && !marked) return backColor;
 	TCODColor result = backColor;
 	if (blood)
 		result.r = std::min(255, backColor.r + blood->Depth());
 	if (marked)
 		result = result + TCODColor::darkGrey;
-	return result; 
+	return result;
 }
 
-void Tile::SetNatureObject(int val) { natureObject = val; }
-int Tile::GetNatureObject() const { return natureObject; }
+void Tile::SetNatureObject(int val)
+{
+	natureObject = val;
+}
 
-boost::weak_ptr<FilthNode> Tile::GetFilth() const {return boost::weak_ptr<FilthNode>(filth);}
-void Tile::SetFilth(boost::shared_ptr<FilthNode> value) {filth = value;}
+int Tile::GetNatureObject() const
+{
+	return natureObject;
+}
 
-boost::weak_ptr<BloodNode> Tile::GetBlood() const {return boost::weak_ptr<BloodNode>(blood);}
-void Tile::SetBlood(boost::shared_ptr<BloodNode> value) {blood = value;}
+std::weak_ptr<FilthNode> Tile::GetFilth() const
+{
+	return std::weak_ptr<FilthNode>(filth);
+}
 
-boost::weak_ptr<FireNode> Tile::GetFire() const {return boost::weak_ptr<FireNode>(fire);}
-void Tile::SetFire(boost::shared_ptr<FireNode> value) { fire = value; }
+void Tile::SetFilth(std::shared_ptr<FilthNode> value)
+{
+	filth = value;
+}
 
-void Tile::Mark() { marked = true; }
-void Tile::Unmark() { marked = false; }
+std::weak_ptr<BloodNode> Tile::GetBlood() const
+{
+	return std::weak_ptr<BloodNode>(blood);
+}
 
-void Tile::WalkOver() {
+void Tile::SetBlood(std::shared_ptr<BloodNode> value)
+{
+	blood = value;
+}
+
+std::weak_ptr<FireNode> Tile::GetFire() const
+{
+	return std::weak_ptr<FireNode>(fire);
+}
+
+void Tile::SetFire(std::shared_ptr<FireNode> value)
+{
+	fire = value;
+}
+
+void Tile::Mark()
+{
+	marked = true;
+}
+
+void Tile::Unmark()
+{
+	marked = false;
+}
+
+void Tile::WalkOver()
+{
 	//Ground under a construction wont turn to mud
 	if (walkedOver < 120 || construction < 0) ++walkedOver;
-	if (type == TILEGRASS) {
-		foreColor = originalForeColor + TCODColor(std::min(255, walkedOver), 0, 0) - TCODColor(0, std::min(255,corruption), 0);
+	if (type == TILEGRASS)
+	{
+		foreColor = originalForeColor + TCODColor(std::min(255, walkedOver), 0, 0) -
+					TCODColor(0, std::min(255, corruption), 0);
 		if (burnt > 0) Burn(0); //Just to re-do the color
 		if (walkedOver > 100 && graphic != '.' && graphic != ',') graphic = Random::GenerateBool() ? '.' : ',';
 		if (walkedOver > 300 && Random::Generate(99) == 0) ChangeType(TILEMUD);
@@ -386,17 +453,21 @@ CacheTile::CacheTile() : walkable(true), moveCost(1), construction(false),
 	door(false), trap(false), bridge(false), moveSpeedModifier(0),
 	waterDepth(0), npcCount(0), fire(false), x(0), y(0) {}
 
-CacheTile& CacheTile::operator=(const Tile& tile) {
+CacheTile& CacheTile::operator=(const Tile& tile)
+{
 	walkable = tile.walkable;
 	moveCost = tile.moveCost;
-	boost::shared_ptr<Construction> construct = Game::Inst()->GetConstruction(tile.construction).lock();
-	if (construct) {
+	std::shared_ptr<Construction> construct = Game::Inst()->GetConstruction(tile.construction).lock();
+	if (construct)
+	{
 		construction = true;
 		door = construct->HasTag(DOOR);
 		trap = construct->HasTag(TRAP);
 		bridge = construct->HasTag(BRIDGE);
 		moveSpeedModifier = construct->GetMoveSpeedModifier();
-	} else {
+	}
+	else
+	{
 		construction = false;
 		door = false;
 		trap = false;

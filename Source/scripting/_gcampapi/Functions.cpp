@@ -75,18 +75,19 @@ namespace Script { namespace API {
 	// XXX:  it doesn't 'spawn' constructions, it builds them (as in will fail and return -1 when there are no resources)
 	// TODO: make it spawn, and reserve building for something else
 	int SpawnEntity(EntityType type, const std::string& name, int x, int y) {
-		boost::function<int(Coordinate, int)> spawn;
-		boost::function<int(std::string)> getID;
+		std::function<int(Coordinate, int)> spawn;
+		std::function<int(std::string)> getID;
 		Coordinate coords(x, y);
-		
-		switch (type) {
-			case EConstr:
-				spawn = &Game::PlaceConstruction;
-				getID = &Construction::StringToConstructionType;
+
+		switch (type)
+		{
+		case EConstr:
+			spawn = &Game::PlaceConstruction;
+			getID = &Construction::StringToConstructionType;
 			break;
-			case EItem:
-				//spawn = boost::bind(&Game::CreateItem, Game::Inst(), _1, _2); // this makes the compiler cry for some reason
-				spawn = &_SpawnItem;
+		case EItem:
+			//spawn = boost::bind(&Game::CreateItem, Game::Inst(), _1, _2); // this makes the compiler cry for some reason
+			spawn = &_SpawnItem;
 				getID = &Item::StringToItemType;
 			break;
 			case ENPC:

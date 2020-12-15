@@ -27,15 +27,15 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Game.hpp"
 
 Squad::Squad(std::string nameValue, int memberValue, int pri) :
-	name(nameValue),
-	memberReq(memberValue),
-	generalOrder(NOORDER),
-	orders(std::vector<Order>()),
-	targetCoordinates(std::vector<Coordinate>()),
-	targetEntities(std::vector<boost::weak_ptr<Entity> >()),
-	priority(pri),
-	weapon(-1),
-	armor(-1)
+		name(nameValue),
+		memberReq(memberValue),
+		generalOrder(NOORDER),
+		orders(std::vector<Order>()),
+		targetCoordinates(std::vector<Coordinate>()),
+		targetEntities(std::vector<std::weak_ptr<Entity> >()),
+		priority(pri),
+		weapon(-1),
+		armor(-1)
 {}
 
 Squad::~Squad() {
@@ -47,16 +47,19 @@ Squad::~Squad() {
 bool Squad::UpdateMembers() {
 	if ((signed int)members.size() < memberReq) {
 		int newMember = Game::Inst()->FindMilitaryRecruit();
-		if (newMember >= 0) { 
-			boost::shared_ptr<NPC> npc = Game::Inst()->GetNPC(newMember);
-			if (npc) {
+		if (newMember >= 0)
+		{
+			std::shared_ptr<NPC> npc = Game::Inst()->GetNPC(newMember);
+			if (npc)
+			{
 				members.push_back(newMember);
 				npc->MemberOf(shared_from_this());
 			}
 		}
-	} else if ((signed int)members.size() > memberReq) {
-		boost::shared_ptr<NPC> npc = Game::Inst()->GetNPC(members.back());
-		if (npc) npc->MemberOf(boost::weak_ptr<Squad>());
+	} else if ((signed int)members.size() > memberReq)
+	{
+		std::shared_ptr<NPC> npc = Game::Inst()->GetNPC(members.back());
+		if (npc) npc->MemberOf(std::weak_ptr<Squad>());
 		members.pop_back();
 	}
 
@@ -72,10 +75,11 @@ Order Squad::GetOrder(int &orderIndex) {
 }
 
 //Setting an order resets the target of the order
-void Squad::AddOrder(Order newOrder) {
+void Squad::AddOrder(Order newOrder)
+{
 	orders.push_back(newOrder);
-	targetCoordinates.push_back(Coordinate(-1,-1));
-	targetEntities.push_back(boost::weak_ptr<Entity>());
+	targetCoordinates.push_back(Coordinate(-1, -1));
+	targetEntities.push_back(std::weak_ptr<Entity>());
 }
 
 void Squad::ClearOrders() {
@@ -92,13 +96,19 @@ Coordinate Squad::TargetCoordinate(int index) {
 }
 void Squad::AddTargetCoordinate(Coordinate newTarget) {targetCoordinates.back() = newTarget;}
 
-boost::weak_ptr<Entity> Squad::TargetEntity(int index) {
-	if (index >= 0 && index < static_cast<int>(targetEntities.size())) {
+std::weak_ptr<Entity> Squad::TargetEntity(int index)
+{
+	if (index >= 0 && index < static_cast<int>(targetEntities.size()))
+	{
 		return targetEntities[index];
-	} else return boost::weak_ptr<Entity>();
+	}
+	else return std::weak_ptr<Entity>();
 }
 
-void Squad::AddTargetEntity(boost::weak_ptr<Entity> newEntity) {targetEntities.back() = newEntity;}
+void Squad::AddTargetEntity(std::weak_ptr<Entity> newEntity)
+{
+	targetEntities.back() = newEntity;
+}
 
 int Squad::MemberCount() { return members.size(); }
 int Squad::MemberLimit() { return memberReq; }
@@ -119,9 +129,10 @@ void Squad::Priority(int value) { priority = value; }
 int Squad::Priority() { return priority; }
 
 void Squad::RemoveAllMembers() {
-	for (std::list<int>::iterator membi = members.begin(); membi != members.end(); ++membi) {
-		boost::shared_ptr<NPC> npc = Game::Inst()->GetNPC(*membi);
-		if (npc) npc->MemberOf(boost::weak_ptr<Squad>());
+	for (std::list<int>::iterator membi = members.begin(); membi != members.end(); ++membi)
+	{
+		std::shared_ptr<NPC> npc = Game::Inst()->GetNPC(*membi);
+		if (npc) npc->MemberOf(std::weak_ptr<Squad>());
 	}
 	members.clear();
 }
@@ -130,8 +141,9 @@ ItemCategory Squad::Weapon() { return weapon; }
 void Squad::Weapon(ItemCategory value) { weapon = value; }
 
 void Squad::Rearm() {
-	for (std::list<int>::iterator memberi = members.begin(); memberi != members.end(); ++memberi) {
-		boost::shared_ptr<NPC> npc = Game::Inst()->GetNPC(*memberi);
+	for (std::list<int>::iterator memberi = members.begin(); memberi != members.end(); ++memberi)
+	{
+		std::shared_ptr<NPC> npc = Game::Inst()->GetNPC(*memberi);
 		if (npc) npc->FindNewWeapon();
 	}
 }
@@ -140,8 +152,9 @@ ItemCategory Squad::Armor() { return armor; }
 void Squad::Armor(ItemCategory value) { armor = value; }
 
 void Squad::Reequip() {
-	for (std::list<int>::iterator memberi = members.begin(); memberi != members.end(); ++memberi) {
-		boost::shared_ptr<NPC> npc = Game::Inst()->GetNPC(*memberi);
+	for (std::list<int>::iterator memberi = members.begin(); memberi != members.end(); ++memberi)
+	{
+		std::shared_ptr<NPC> npc = Game::Inst()->GetNPC(*memberi);
 		if (npc) npc->FindNewArmor();
 	}
 }

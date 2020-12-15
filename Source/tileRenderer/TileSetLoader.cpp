@@ -51,7 +51,8 @@ TilesetModMetadata::TilesetModMetadata(std::filesystem::path loc)
 {
 }
 
-boost::shared_ptr<TileSet> TileSetLoader::LoadTileSet(boost::shared_ptr<TilesetRenderer> spriteFactory, std::string tilesetName)
+std::shared_ptr<TileSet>
+TileSetLoader::LoadTileSet(std::shared_ptr<TilesetRenderer> spriteFactory, std::string tilesetName)
 {
 	// Resolve path
 	std::filesystem::path tilesetPath(Paths::Get(Paths::CoreTilesets) / tilesetName);
@@ -62,14 +63,14 @@ boost::shared_ptr<TileSet> TileSetLoader::LoadTileSet(boost::shared_ptr<TilesetR
 	return LoadTileSet(spriteFactory, tilesetPath);
 }
 
-boost::shared_ptr<TileSet>
-TileSetLoader::LoadTileSet(boost::shared_ptr<TilesetRenderer> spriteFactory, std::filesystem::path path)
+std::shared_ptr<TileSet>
+TileSetLoader::LoadTileSet(std::shared_ptr<TilesetRenderer> spriteFactory, std::filesystem::path path)
 {
 	namespace fs = std::filesystem;
 	fs::path tileSetV1Path(path / "tileset.dat");
 	fs::path tileSetV2Path(path / "tilesetV2.dat");
 
-	boost::shared_ptr<TileSet> tileset;
+	std::shared_ptr<TileSet> tileset;
 
 	if (fs::exists(tileSetV2Path))
 	{
@@ -80,8 +81,9 @@ TileSetLoader::LoadTileSet(boost::shared_ptr<TilesetRenderer> spriteFactory, std
 	{
 		TileSetParserV1 parser(spriteFactory);
 		tileset = parser.Run(tileSetV1Path);
-	} else {
-		return boost::shared_ptr<TileSet>();
+	} else
+	{
+		return std::shared_ptr<TileSet>();
 	}
 
 	if (tileset)

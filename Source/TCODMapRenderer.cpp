@@ -85,19 +85,24 @@ void TCODMapRenderer::DrawMap(Map* map, float focusX, float focusY, int viewport
 				minimap.putCharEx(x-screenDeltaX,y-(screenDeltaY), map->GetGraphic(xy), map->GetForeColor(xy), map->GetBackColor(xy));
 
 				if (!(map->GetOverlayFlags() & TERRAIN_OVERLAY)) {
-					boost::weak_ptr<WaterNode> wwater = map->GetWater(xy);
-					if (boost::shared_ptr<WaterNode> water = wwater.lock()) {
+					std::weak_ptr<WaterNode> wwater = map->GetWater(xy);
+					if (std::shared_ptr<WaterNode> water = wwater.lock())
+					{
 						if (water->Depth() > 0)
-							minimap.putCharEx(x-screenDeltaX, y-screenDeltaY, water->GetGraphic(), water->GetColor(), TCODColor::black);
+							minimap.putCharEx(x - screenDeltaX, y - screenDeltaY, water->GetGraphic(),
+									water->GetColor(), TCODColor::black);
 					}
-					boost::weak_ptr<FilthNode> wfilth = map->GetFilth(xy);
-					if (boost::shared_ptr<FilthNode> filth = wfilth.lock()) {
+					std::weak_ptr<FilthNode> wfilth = map->GetFilth(xy);
+					if (std::shared_ptr<FilthNode> filth = wfilth.lock())
+					{
 						if (filth->Depth() > 0)
-							minimap.putCharEx(x-screenDeltaX, y-screenDeltaY, filth->GetGraphic(), filth->GetColor(), TCODColor::black);
+							minimap.putCharEx(x - screenDeltaX, y - screenDeltaY, filth->GetGraphic(),
+									filth->GetColor(), TCODColor::black);
 					}
 					int natNum = map->GetNatureObject(xy);
-					if (natNum >= 0) {
-						Game::Inst()->natureList[natNum]->Draw(upleft,&minimap);
+					if (natNum >= 0)
+					{
+						Game::Inst()->natureList[natNum]->Draw(upleft, &minimap);
 					}
 				}
 				if (map->GetOverlayFlags() & TERRITORY_OVERLAY) {
@@ -110,17 +115,23 @@ void TCODMapRenderer::DrawMap(Map* map, float focusX, float focusY, int viewport
 		}
 	}
 
-	if (!(map->GetOverlayFlags() & TERRAIN_OVERLAY)) {
-		InternalDrawMapItems("static constructions",  Game::Inst()->staticConstructionList, upleft, &minimap);
+	if (!(map->GetOverlayFlags() & TERRAIN_OVERLAY))
+	{
+		InternalDrawMapItems("static constructions", Game::Inst()->staticConstructionList, upleft, &minimap);
 		InternalDrawMapItems("dynamic constructions", Game::Inst()->dynamicConstructionList, upleft, &minimap);
 		//TODO: Make this consistent
-		for (std::map<int,boost::shared_ptr<Item> >::iterator itemi = Game::Inst()->itemList.begin(); itemi != Game::Inst()->itemList.end();) {
-			if (!itemi->second) {
-				std::map<int,boost::shared_ptr<Item> >::iterator tmp = itemi;
+		for (std::map<int, std::shared_ptr<Item> >::iterator itemi = Game::Inst()->itemList.begin();
+			 itemi != Game::Inst()->itemList.end();)
+		{
+			if (!itemi->second)
+			{
+				std::map<int, std::shared_ptr<Item> >::iterator tmp = itemi;
 				++itemi;
 				Game::Inst()->itemList.erase(tmp);
 				continue;
-			} else if (!itemi->second->ContainedIn().lock()) {
+			}
+			else if (!itemi->second->ContainedIn().lock())
+			{
 				itemi->second->Draw(upleft, &minimap);
 			}
 			++itemi;
@@ -131,17 +142,23 @@ void TCODMapRenderer::DrawMap(Map* map, float focusX, float focusY, int viewport
 		int markerX = markeri->second.X();
 		int markerY = markeri->second.Y();
 		if (markerX >= upleft.X() && markerX < upleft.X() + viewportW
-			&& markerY >= upleft.Y() && markerY < upleft.Y() + viewportH) {
-				minimap.putCharEx(markerX - upleft.X(), markerY - upleft.Y(), markeri->second.Graphic(), markeri->second.Color(), TCODColor::black);
+			&& markerY >= upleft.Y() && markerY < upleft.Y() + viewportH)
+		{
+			minimap.putCharEx(markerX - upleft.X(), markerY - upleft.Y(), markeri->second.Graphic(),
+					markeri->second.Color(), TCODColor::black);
 		}
 	}
 
 
-	InternalDrawMapItems("NPCs",                  Game::Inst()->npcList, upleft, &minimap);
-	for (std::list<boost::weak_ptr<FireNode> >::iterator firei = Game::Inst()->fireList.begin(); firei != Game::Inst()->fireList.end(); ++firei) {
+	InternalDrawMapItems("NPCs", Game::Inst()->npcList, upleft, &minimap);
+	for (std::list<std::weak_ptr<FireNode> >::iterator firei = Game::Inst()->fireList.begin();
+		 firei != Game::Inst()->fireList.end(); ++firei)
+	{
 		if (firei->lock()) firei->lock()->Draw(upleft, &minimap);
 	}
-	for (std::list<boost::shared_ptr<Spell> >::iterator spelli = Game::Inst()->spellList.begin(); spelli != Game::Inst()->spellList.end(); ++spelli) {
+	for (std::list<std::shared_ptr<Spell> >::iterator spelli = Game::Inst()->spellList.begin();
+		 spelli != Game::Inst()->spellList.end(); ++spelli)
+	{
 		(*spelli)->Draw(upleft, &minimap);
 	}
 

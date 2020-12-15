@@ -26,19 +26,31 @@ class ConstructionSpriteFactory
 {
 public:
 	explicit ConstructionSpriteFactory();
+
 	~ConstructionSpriteFactory();
 
 	void Reset();
-	ConstructionSprite Build(boost::shared_ptr<TilesetRenderer> spriteFactory, boost::shared_ptr<TileSetTexture> currentTexture);
 
-	template <typename IterT> void SetSpriteIndices(IterT start, IterT end);
-	template <typename IterT> void SetUnderConstructionSpriteIndices(IterT start, IterT end);
-	template <typename IterT> void SetUnreadyTrapSpriteIndices(IterT start, IterT end);
+	ConstructionSprite
+	Build(std::shared_ptr<TilesetRenderer> spriteFactory, std::shared_ptr<TileSetTexture> currentTexture);
+
+	template<typename IterT>
+	void SetSpriteIndices(IterT start, IterT end);
+
+	template<typename IterT>
+	void SetUnderConstructionSpriteIndices(IterT start, IterT end);
+
+	template<typename IterT>
+	void SetUnreadyTrapSpriteIndices(IterT start, IterT end);
 
 	void SetOpenDoorSprite(Sprite_ptr sprite);
+
 	void SetWidth(int width);
+
 	void SetFPS(int fps);
+
 	void SetFrameCount(int frameCount);
+
 	void SetConnectionMap(bool isConnectionMap);
 
 private:
@@ -56,19 +68,27 @@ class NPCSpriteFactory
 {
 public:
 	explicit NPCSpriteFactory();
+
 	~NPCSpriteFactory();
 
 	void Reset();
-	NPCSprite Build(boost::shared_ptr<TilesetRenderer> spriteFactory, boost::shared_ptr<TileSetTexture> currentTexture);
+
+	NPCSprite Build(std::shared_ptr<TilesetRenderer> spriteFactory, std::shared_ptr<TileSetTexture> currentTexture);
 
 	void AddSpriteFrame(int frame);
+
 	void SetFPS(int fps);
+
 	void SetEquipmentMap(bool equipmentMap);
+
 	void SetPaperdoll(bool paperDoll);
+
 	void AddWeaponOverlay(int index);
+
 	void AddArmourType(std::string armourType);
+
 	void AddWeaponType(std::string weaponType);
-	
+
 private:
 	std::vector<int> frames;
 	std::vector<int> weaponOverlayIndices;
@@ -83,16 +103,22 @@ class StatusEffectSpriteFactory
 {
 public:
 	explicit StatusEffectSpriteFactory();
+
 	~StatusEffectSpriteFactory();
 
 	void Reset();
-	StatusEffectSprite Build(boost::shared_ptr<TilesetRenderer> spriteFactory, boost::shared_ptr<TileSetTexture> currentTexture);
+
+	StatusEffectSprite
+	Build(std::shared_ptr<TilesetRenderer> spriteFactory, std::shared_ptr<TileSetTexture> currentTexture);
 
 	void AddSpriteFrame(int frame);
+
 	void SetFPS(int fps);
+
 	void SetAlwaysOn(bool alwaysOn);
+
 	void SetFlashRate(int flashRate);
-	
+
 private:
 	std::vector<int> frames;
 	int fps;
@@ -105,19 +131,34 @@ class TerrainSpriteFactory
 {
 public:
 	explicit TerrainSpriteFactory();
-	~TerrainSpriteFactory();
-	
-	void Reset();
-	TerrainSprite Build(boost::shared_ptr<TilesetRenderer> spriteFactory, boost::shared_ptr<TileSetTexture> currentTexture);
 
-	template <typename IterT> void SetSpriteIndices(IterT start, IterT end);
-	template <typename IterT> void SetSnowSpriteIndices(IterT start, IterT end);
-	template <typename IterT> void SetHeightSplits(IterT start, IterT end);
-	template <typename IterT> void SetEdgeSpriteIndices(IterT start, IterT end);
-	template <typename IterT> void SetSnowEdgeSpriteIndices(IterT start, IterT end);
+	~TerrainSpriteFactory();
+
+	void Reset();
+
+	TerrainSprite Build(std::shared_ptr<TilesetRenderer> spriteFactory, std::shared_ptr<TileSetTexture> currentTexture);
+
+	template<typename IterT>
+	void SetSpriteIndices(IterT start, IterT end);
+
+	template<typename IterT>
+	void SetSnowSpriteIndices(IterT start, IterT end);
+
+	template<typename IterT>
+	void SetHeightSplits(IterT start, IterT end);
+
+	template<typename IterT>
+	void SetEdgeSpriteIndices(IterT start, IterT end);
+
+	template<typename IterT>
+	void SetSnowEdgeSpriteIndices(IterT start, IterT end);
+
 	void AddDetailSprite(Sprite_ptr sprite);
+
 	void AddBurntDetailSprite(Sprite_ptr sprite);
+
 	void AddSnowedDetailSprite(Sprite_ptr sprite);
+
 	void AddCorruptedDetailSprite(Sprite_ptr sprite);
 	void SetDetailsChance(float chance);
 	void SetCorruptionSprite(Sprite_ptr sprite);

@@ -43,32 +43,51 @@ class Camp {
 	Coordinate upperCorner, lowerCorner;
 	bool autoTerritory;
 	std::set<Coordinate> waterZones;
-	std::list<boost::weak_ptr<Job> > menialWaterJobs;
-	std::list<boost::weak_ptr<Job> > expertWaterJobs;
+	std::list<std::weak_ptr<Job> > menialWaterJobs;
+	std::list<std::weak_ptr<Job> > expertWaterJobs;
 	int diseaseModifier;
 public:
 	static Camp* Inst();
+
 	Coordinate Center();
+
 	void UpdateCenter(Coordinate, bool);
+
 	void SetCenter(Coordinate);
+
 	void LockCenter(Coordinate);
+
 	void UnlockCenter();
+
 	int GetTier();
+
 	void UpdateTier();
 	std::string GetName();
 	void ConstructionBuilt(int type);
 	void DisableAutoTerritory();
+
 	void ToggleAutoTerritory();
+
 	bool IsAutoTerritoryEnabled();
+
 	static void Reset();
+
 	void Update();
+
 	void AddWaterZone(Coordinate from, Coordinate to);
+
 	void RemoveWaterZone(Coordinate from, Coordinate to);
+
 	void UpdateWaterJobs();
+
 	Coordinate GetUprTerritoryCorner() const;
+
 	Coordinate GetLowTerritoryCorner() const;
+
 	Coordinate GetRandomSpot() const;
-	boost::weak_ptr<SpawningPool> spawningPool;
+
+	std::weak_ptr<SpawningPool> spawningPool;
+
 	int GetDiseaseModifier();
 };
 

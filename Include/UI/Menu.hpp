@@ -30,12 +30,14 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "UIList.hpp"
 #include "Frame.hpp"
 
-class MenuChoice {
+class MenuChoice
+{
 public:
-	MenuChoice(std::string label = "", boost::function<void()> = boost::bind(Game::DoNothing), bool = true,
-		std::string tooltip = "");
+	MenuChoice(std::string label = "", std::function<void()> = boost::bind(Game::DoNothing), bool = true,
+			std::string tooltip = "");
+
 	std::string label;
-	boost::function<void()> callback;
+	std::function<void()> callback;
 	bool enabled;
 	std::string tooltip;
 };

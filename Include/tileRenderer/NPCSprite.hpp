@@ -23,16 +23,24 @@ class NPCSprite
 {
 public:
 	explicit NPCSprite();
+
 	explicit NPCSprite(Sprite_ptr sprite);
-	explicit NPCSprite(const std::vector<Sprite_ptr>& sprites, const std::vector<std::string>& weaponTypes, const std::vector<std::string>& armourTypes);
-	explicit NPCSprite(const std::vector<Sprite_ptr>& sprites, const std::vector<Sprite_ptr>& weaponOverlays, const std::vector<std::string>& weaponTypes, const std::vector<std::string>& armourTypes);
+
+	explicit NPCSprite(const std::vector<Sprite_ptr>& sprites, const std::vector<std::string>& weaponTypes,
+			const std::vector<std::string>& armourTypes);
+
+	explicit NPCSprite(const std::vector<Sprite_ptr>& sprites, const std::vector<Sprite_ptr>& weaponOverlays,
+			const std::vector<std::string>& weaponTypes, const std::vector<std::string>& armourTypes);
+
 	~NPCSprite();
 
 	bool IsEquipmentAware() const;
+
 	bool Exists() const;
 
 	void Draw(int screenX, int screenY) const;
-	void Draw(int screenX, int screenY, boost::shared_ptr<NPC> npc) const;
+
+	void Draw(int screenX, int screenY, std::shared_ptr<NPC> npc) const;
 
 private:
 	std::vector<Sprite_ptr> sprites;

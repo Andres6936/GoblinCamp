@@ -36,9 +36,10 @@ struct FlightPath {
 	int height;
 };
 
-class Entity: public boost::enable_shared_from_this<Entity> {
+class Entity : public std::enable_shared_from_this<Entity>
+{
 	GC_SERIALIZABLE_CLASS
-	
+
 protected:
 	Coordinate pos;
 	int uid;

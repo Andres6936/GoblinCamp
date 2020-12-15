@@ -42,16 +42,16 @@ boost::unordered_map<std::string, ItemType> Item::itemCategoryNames = boost::uno
 std::multimap<StatusEffectType, ItemType> Item::EffectRemovers = std::multimap<StatusEffectType, ItemType>();
 std::multimap<StatusEffectType, ItemType> Item::GoodEffectAdders = std::multimap<StatusEffectType, ItemType>();
 
-Item::Item(const Coordinate& startPos, ItemType typeval, int owner, std::vector<boost::weak_ptr<Item> > components) :
-	Entity(),
+Item::Item(const Coordinate& startPos, ItemType typeval, int owner, std::vector<std::weak_ptr<Item> > components) :
+		Entity(),
 
-	type(typeval),
-	flammable(false),
-	decayCounter(-1),
+		type(typeval),
+		flammable(false),
+		decayCounter(-1),
 
-	attemptedStore(false),
-	container(boost::weak_ptr<Item>()),
-	internal(false)
+		attemptedStore(false),
+		container(std::weak_ptr<Item>()),
+		internal(false)
 {
 	SetFaction(owner);
 	pos = startPos;
@@ -154,24 +154,31 @@ Coordinate Item::Position() {
 
 void Item::Reserve(bool value) {
 	reserved = value;
-	if (!reserved && !container.lock() && !attemptedStore) {
+	if (!reserved && !container.lock() && !attemptedStore)
+	{
 		attemptedStore = true;
-		Game::Inst()->StockpileItem(boost::static_pointer_cast<Item>(shared_from_this()));
+		Game::Inst()->StockpileItem(std::static_pointer_cast<Item>(shared_from_this()));
 	}
 }
 
-void Item::PutInContainer(boost::weak_ptr<Item> con) {
+void Item::PutInContainer(std::weak_ptr<Item> con)
+{
 	container = con;
 	attemptedStore = false;
 
-	Game::Inst()->ItemContained(boost::static_pointer_cast<Item>(shared_from_this()), !!container.lock());
+	Game::Inst()->ItemContained(std::static_pointer_cast<Item>(shared_from_this()), !!container.lock());
 
-	if (!container.lock() && !reserved) {
-		Game::Inst()->StockpileItem(boost::static_pointer_cast<Item>(shared_from_this()));
+	if (!container.lock() && !reserved)
+	{
+		Game::Inst()->StockpileItem(std::static_pointer_cast<Item>(shared_from_this()));
 		attemptedStore = true;
 	}
 }
-boost::weak_ptr<Item> Item::ContainedIn() {return container;}
+
+std::weak_ptr<Item> Item::ContainedIn()
+{
+	return container;
+}
 
 int Item::GetGraphic() {return graphic;}
 
@@ -549,18 +556,25 @@ int Item::Resistance(int i) const { return resistances[i]; }
 
 void Item::SetVelocity(int speed) {
 	velocity = speed;
-	if (speed > 0) {
-		Game::Inst()->flyingItems.insert(boost::static_pointer_cast<Item>(shared_from_this()));
-	} else {
+	if (speed > 0)
+	{
+		Game::Inst()->flyingItems.insert(std::static_pointer_cast<Item>(shared_from_this()));
+	} else
+	{
 		//The item has moved before but has now stopped
-		Game::Inst()->stoppedItems.push_back(boost::static_pointer_cast<Item>(shared_from_this()));
-		if (!map->IsWalkable(pos)) {
-			for (int radius = 1; radius < 10; ++radius) {
+		Game::Inst()->stoppedItems.push_back(std::static_pointer_cast<Item>(shared_from_this()));
+		if (!map->IsWalkable(pos))
+		{
+			for (int radius = 1; radius < 10; ++radius)
+			{
 				//TODO consider using something more believable here; the item would jump over 9 walls?
-				for (int ix = pos.X() - radius; ix <= pos.X() + radius; ++ix) {
-					for (int iy = pos.Y() - radius; iy <= pos.Y() + radius; ++iy) {
-						Coordinate p(ix,iy);
-						if (map->IsWalkable(p)) {
+				for (int ix = pos.X() - radius; ix <= pos.X() + radius; ++ix)
+				{
+					for (int iy = pos.Y() - radius; iy <= pos.Y() + radius; ++iy)
+					{
+						Coordinate p(ix, iy);
+						if (map->IsWalkable(p))
+						{
 							Position(p);
 							return;
 						}
@@ -583,8 +597,11 @@ void Item::UpdateVelocity() {
 
 					if (map->BlocksWater(t) || !map->IsWalkable(t)) { //We've hit an obstacle
 						Attack attack = GetAttack();
-						if (map->GetConstruction(t) > -1) {
-							if (boost::shared_ptr<Construction> construct = Game::Inst()->GetConstruction(map->GetConstruction(t)).lock()) {
+						if (map->GetConstruction(t) > -1)
+						{
+							if (std::shared_ptr<Construction> construct = Game::Inst()->GetConstruction(
+									map->GetConstruction(t)).lock())
+							{
 								construct->Damage(&attack);
 							}
 						}
@@ -592,9 +609,10 @@ void Item::UpdateVelocity() {
 						return;
 					}
 					if (map->NPCList(t)->size() > 0) { //Hit a creature
-						if (Random::Generate(std::max(1, flightPath.back().height) - 1) < (signed int)(2 + map->NPCList(t)->size())) {
+						if (Random::Generate(std::max(1, flightPath.back().height) - 1) < (signed int)(2 + map->NPCList(t)->size()))
+						{
 							Attack attack = GetAttack();
-							boost::shared_ptr<NPC> npc = Game::Inst()->GetNPC(*map->NPCList(t)->begin());
+							std::shared_ptr<NPC> npc = Game::Inst()->GetNPC(*map->NPCList(t)->begin());
 							npc->Damage(&attack);
 
 							Position(flightPath.back().coord);
@@ -626,9 +644,10 @@ void Item::Impact(int speedChange) {
 	flightPath.clear();
 
 	if (speedChange >= 10 && Random::Generate(9) < 7) DecreaseCondition(); //A sudden impact will damage the item
-	if (condition == 0) { //Note that condition < 0 means that it is not damaged by impacts
+	if (condition == 0)
+	{ //Note that condition < 0 means that it is not damaged by impacts
 		//The item has impacted and broken. Create debris owned by no one
-		std::vector<boost::weak_ptr<Item> > component(1, boost::static_pointer_cast<Item>(shared_from_this()));
+		std::vector<std::weak_ptr<Item> > component(1, std::static_pointer_cast<Item>(shared_from_this()));
 		Game::Inst()->CreateItem(Position(), Item::StringToItemType("debris"), false, -1, component);
 		//Game::Update removes all condition==0 items in the stopped items list, which is where this item will be
 	}
@@ -781,16 +800,18 @@ void OrganicItem::load(InputArchive& ar, const unsigned int version) {
 
 WaterItem::WaterItem(Coordinate pos, ItemType typeVal) : OrganicItem(pos, typeVal) {}
 
-void WaterItem::PutInContainer(boost::weak_ptr<Item> con) {
+void WaterItem::PutInContainer(std::weak_ptr<Item> con)
+{
 	container = con;
 	attemptedStore = false;
 
-	Game::Inst()->ItemContained(boost::static_pointer_cast<Item>(shared_from_this()), !!container.lock());
+	Game::Inst()->ItemContained(std::static_pointer_cast<Item>(shared_from_this()), !!container.lock());
 
-	if (!container.lock() && !reserved) {
+	if (!container.lock() && !reserved)
+	{
 		//WaterItems transform into an actual waternode if not contained
 		Game::Inst()->CreateWater(Position(), 1);
-		Game::Inst()->RemoveItem(boost::static_pointer_cast<Item>(shared_from_this()));
+		Game::Inst()->RemoveItem(std::static_pointer_cast<Item>(shared_from_this()));
 	}
 }
 

@@ -22,20 +22,30 @@
 
 #include "Entity.hpp"
 
-class SideBar {
-	boost::weak_ptr<Entity> entity;
-	boost::shared_ptr<Drawable> contents;
+class SideBar
+{
+	std::weak_ptr<Entity> entity;
+	std::shared_ptr<Drawable> contents;
 	int width, height, topY, leftX;
 	bool npc, construction, stockpile, farmplot;
 public:
 	SideBar();
-	void SetEntity(boost::weak_ptr<Entity>);
+
+	void SetEntity(std::weak_ptr<Entity>);
+
 	MenuResult Update(int, int, bool);
+
 	void Draw(TCODConsole*);
-	void GetTooltip(int, int, Tooltip *, TCODConsole *);
-	static void DrawStatusEffect(StatusEffect, int, int, int, int, bool, TCODConsole *);
-	static void DrawSeed(std::pair<ItemType, bool>, int, int, int, int, bool, TCODConsole *);
-	static std::string NPCSquadLabel(NPC *);
-	static std::string NPCWeaponLabel(NPC *);
-	static std::string NPCArmorLabel(NPC *);
+
+	void GetTooltip(int, int, Tooltip*, TCODConsole*);
+
+	static void DrawStatusEffect(StatusEffect, int, int, int, int, bool, TCODConsole*);
+
+	static void DrawSeed(std::pair<ItemType, bool>, int, int, int, int, bool, TCODConsole*);
+
+	static std::string NPCSquadLabel(NPC*);
+
+	static std::string NPCWeaponLabel(NPC*);
+
+	static std::string NPCArmorLabel(NPC*);
 };

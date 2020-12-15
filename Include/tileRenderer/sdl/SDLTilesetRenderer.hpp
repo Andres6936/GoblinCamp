@@ -21,31 +21,42 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 class SDLTilesetRenderer : public TilesetRenderer, public ITCODSDLRenderer
 {
 public:
-	explicit SDLTilesetRenderer(int screenWidth, int screenHeight, TCODConsole * mapConsole = 0);
+	explicit SDLTilesetRenderer(int screenWidth, int screenHeight, TCODConsole* mapConsole = 0);
+
 	~SDLTilesetRenderer();
 
-	Sprite_ptr CreateSprite(boost::shared_ptr<TileSetTexture> tilesetTexture, int tile);
-	Sprite_ptr CreateSprite(boost::shared_ptr<TileSetTexture> tilesetTexture, const std::vector<int>& tiles, bool connectionMap, int frameRate = 15, int frameCount = 1);
-	
-	void DrawSprite(int screenX, int screenY, boost::shared_ptr<TileSetTexture> texture, int tile) const;
-	void DrawSpriteCorner(int screenX, int screenY, boost::shared_ptr<TileSetTexture> texture, int tile, Corner corner) const;
+	Sprite_ptr CreateSprite(std::shared_ptr<TileSetTexture> tilesetTexture, int tile);
 
-	void render(void *sdlSurface, void*sdlScreen);
+	Sprite_ptr
+	CreateSprite(std::shared_ptr<TileSetTexture> tilesetTexture, const std::vector<int>& tiles, bool connectionMap,
+			int frameRate = 15, int frameCount = 1);
+
+	void DrawSprite(int screenX, int screenY, std::shared_ptr<TileSetTexture> texture, int tile) const;
+
+	void
+	DrawSpriteCorner(int screenX, int screenY, std::shared_ptr<TileSetTexture> texture, int tile, Corner corner) const;
+
+	void render(void* sdlSurface, void* sdlScreen);
 
 	void SetTranslucentUI(bool translucent);
+
 protected:
 	void PreDrawMap(int viewportX, int viewportY, int viewportW, int viewportH);
-	void PostDrawMap();
-	void DrawNullTile(int screenX, int screenY);
-private:
-	boost::shared_ptr<SDL_Surface> mapSurface;
 
-	SDL_Rect CalcDest(int screenX, int screenY) const {
+	void PostDrawMap();
+
+	void DrawNullTile(int screenX, int screenY);
+
+private:
+	std::shared_ptr<SDL_Surface> mapSurface;
+
+	SDL_Rect CalcDest(int screenX, int screenY) const
+	{
 		SDL_Rect dstRect = {
-			static_cast<Sint16>(tileSet->TileWidth() * (screenX) + mapOffsetX + startPixelX),
-			static_cast<Sint16>(tileSet->TileHeight() * (screenY) + mapOffsetY + startPixelY),
-			static_cast<Uint16>(tileSet->TileWidth()),
-			static_cast<Uint16>(tileSet->TileHeight())
+				static_cast<Sint16>(tileSet->TileWidth() * (screenX) + mapOffsetX + startPixelX),
+				static_cast<Sint16>(tileSet->TileHeight() * (screenY) + mapOffsetY + startPixelY),
+				static_cast<Uint16>(tileSet->TileWidth()),
+				static_cast<Uint16>(tileSet->TileHeight())
 		};
 		return dstRect;
 	}

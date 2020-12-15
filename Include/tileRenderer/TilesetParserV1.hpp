@@ -33,11 +33,11 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 class TileSetParserV1 : public ITCODParserListener, private boost::noncopyable
 {
 public:
-	explicit TileSetParserV1(boost::shared_ptr<TilesetRenderer> spriteFactory);
+	explicit TileSetParserV1(std::shared_ptr<TilesetRenderer> spriteFactory);
 
 	~TileSetParserV1();
 
-	boost::shared_ptr<TileSet> Run(std::filesystem::path tileSetPath);
+	std::shared_ptr<TileSet> Run(std::filesystem::path tileSetPath);
 
 	bool parserNewStruct(TCODParser* parser, const TCODParserStruct* str, const char* name);
 
@@ -51,7 +51,7 @@ public:
 
 private:
 	TCODParser parser;
-	boost::shared_ptr<TilesetRenderer> spriteFactory;
+	std::shared_ptr<TilesetRenderer> spriteFactory;
 
 	enum SpriteSet
 	{
@@ -63,7 +63,7 @@ private:
 		SS_SPELL
 	};
 
-	boost::shared_ptr<TileSet> tileSet;
+	std::shared_ptr<TileSet> tileSet;
 	bool success;
 
 	std::filesystem::path tileSetPath;
@@ -71,34 +71,41 @@ private:
 	std::string tileSetName;
 	int tileWidth;
 	int tileHeight;
-	boost::shared_ptr<TileSetTexture> currentTexture;
+	std::shared_ptr<TileSetTexture> currentTexture;
 
 	std::vector<int> fireSprites;
 	int fireFPS;
 
 	struct TempConstruction
 	{
-		boost::shared_ptr<TilesetRenderer> spriteFactory;
+		std::shared_ptr<TilesetRenderer> spriteFactory;
 		std::vector<int> mainSprites;
 		std::vector<int> underConstructionSprites;
 		bool connectionMapped;
 		int width;
 		Sprite_ptr openDoor;
 
-		TempConstruction(boost::shared_ptr<TilesetRenderer> spriteFactory) : spriteFactory(spriteFactory), mainSprites(), underConstructionSprites(), connectionMapped(false), width(1), openDoor() {}
+		TempConstruction(std::shared_ptr<TilesetRenderer> spriteFactory) : spriteFactory(spriteFactory), mainSprites(),
+																		   underConstructionSprites(),
+																		   connectionMapped(false), width(1), openDoor()
+		{
+		}
 
-		ConstructionSprite Build(boost::shared_ptr<TileSetTexture> currentTexture);
+		ConstructionSprite Build(std::shared_ptr<TileSetTexture> currentTexture);
 	};
 	TempConstruction tempConstruction;
 
-	struct TempSpell {
-		boost::shared_ptr<TilesetRenderer> spriteFactory;
+	struct TempSpell
+	{
+		std::shared_ptr<TilesetRenderer> spriteFactory;
 		std::vector<int> sprites;
 		int fps;
 
-		TempSpell(boost::shared_ptr<TilesetRenderer> spriteFactory) : spriteFactory(spriteFactory), sprites(), fps(15) {}
+		TempSpell(std::shared_ptr<TilesetRenderer> spriteFactory) : spriteFactory(spriteFactory), sprites(), fps(15)
+		{
+		}
 
-		SpellSpriteSet Build(boost::shared_ptr<TileSetTexture> currentTexture);
+		SpellSpriteSet Build(std::shared_ptr<TileSetTexture> currentTexture);
 	};
 	TempSpell tempSpell;
 

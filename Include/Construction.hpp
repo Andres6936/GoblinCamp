@@ -117,26 +117,35 @@ protected:
 	std::vector<ItemType> products;
 	std::deque<ItemType> jobList;
 	int progress;
+
 	bool SpawnProductionJob();
-	boost::shared_ptr<Container> container;
-	boost::shared_ptr<Container> materialsUsed;
+
+	std::shared_ptr<Container> container;
+	std::shared_ptr<Container> materialsUsed;
 	bool stockpile, farmplot;
 	bool dismantle;
 	int time;
 	bool built;
+
 	void UpdateWallGraphic(bool recurse = true, bool self = true);
+
 	bool flammable;
 	int smoke;
-	boost::weak_ptr<Job> repairJob;
+	std::weak_ptr<Job> repairJob;
 	Map* map;
 public:
 	virtual ~Construction();
 
 	static Coordinate Blueprint(ConstructionType);
+
 	static Coordinate ProductionSpot(ConstructionType);
+
 	static std::vector<int> AllowedAmount;
+
 	void Condition(int);
+
 	int Condition() const;
+
 	int GetMaxCondition() const;
 	virtual void Draw(Coordinate, TCODConsole*);
 	int GetGraphicsHint() const;
@@ -145,26 +154,46 @@ public:
 	std::list<ItemCategory>* MaterialList();
 	bool Producer() const;
 	std::vector<ItemType>* Products();
+
 	ItemType Products(int) const;
+
 	void AddJob(ItemType);
-	virtual void CancelJob(int=0);
+
+	virtual void CancelJob(int= 0);
+
 	std::deque<ItemType>* JobList();
+
 	ItemType JobList(int) const;
+
 	virtual int Use();
+
 	static std::vector<ConstructionPreset> Presets;
 	static std::set<std::string> Categories;
+
 	static void LoadPresets(std::string);
+
 	static void ResolveProducts();
-	virtual boost::weak_ptr<Container> Storage() const;
+
+	virtual std::weak_ptr<Container> Storage() const;
+
 	bool HasTag(ConstructionTag) const;
+
 	virtual void Update();
+
 	virtual void Dismantle(const Coordinate& p);
+
 	bool DismantlingOrdered();
+
 	bool CheckMaterialsPresent();
+
 	void ReserveComponents(bool);
-	virtual Panel *GetContextMenu();
+
+	virtual Panel* GetContextMenu();
+
 	Coordinate Center() const;
+
 	void Damage(Attack*);
+
 	void Explode();
 	void BurnToTheGround();
 	bool Built();

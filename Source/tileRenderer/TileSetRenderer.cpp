@@ -98,10 +98,12 @@ namespace {
 		int natNum = -1;
 		if (!map->IsInside(coord))
 			return 2;
-		else if (boost::shared_ptr<WaterNode> water = map->GetWater(coord).lock()) {
+		else if (std::shared_ptr<WaterNode> water = map->GetWater(coord).lock())
+		{
 			return (water->Depth() > 0) ? 1 : 0;
 		}
-		else if ((natNum = map->GetNatureObject(coord)) >= 0) {
+		else if ((natNum = map->GetNatureObject(coord)) >= 0)
+		{
 			return (Game::Inst()->natureList[natNum]->IsIce()) ? 2 : 0;
 		}
 		return 0;
@@ -111,31 +113,38 @@ namespace {
 		Coordinate coord = origin + Coordinate::DirectionToCoordinate(dir);
 		if (!map->IsInside(coord))
 			return true;
-		else if (boost::shared_ptr<WaterNode> water = map->GetWater(coord).lock()) {
+		else if (std::shared_ptr<WaterNode> water = map->GetWater(coord).lock())
+		{
 			return (water->Depth() > 0);
 		}
 		return false;
 	}
 
-	int FilthConnectionTest(Map* map, Coordinate origin, Direction dir) {
+	int FilthConnectionTest(Map* map, Coordinate origin, Direction dir)
+	{
 		Coordinate coord = origin + Coordinate::DirectionToCoordinate(dir);
-		if (boost::shared_ptr<FilthNode> filth = map->GetFilth(coord).lock()) {
+		if (std::shared_ptr<FilthNode> filth = map->GetFilth(coord).lock())
+		{
 			return (filth->Depth() > 4) ? 2 : 1;
 		}
 		return 0;
 	}
 
-	bool MajorFilthConnectionTest(Map* map, Coordinate origin, Direction dir) {
+	bool MajorFilthConnectionTest(Map* map, Coordinate origin, Direction dir)
+	{
 		Coordinate coord = origin + Coordinate::DirectionToCoordinate(dir);
-		if (boost::shared_ptr<FilthNode> filth = map->GetFilth(coord).lock()) {
+		if (std::shared_ptr<FilthNode> filth = map->GetFilth(coord).lock())
+		{
 			return filth->Depth() > 4;
 		}
 		return false;
 	}
 
-	bool BloodConnectionTest(Map* map, Coordinate origin, Direction dir) {
+	bool BloodConnectionTest(Map* map, Coordinate origin, Direction dir)
+	{
 		Coordinate coord = origin + Coordinate::DirectionToCoordinate(dir);
-		if (boost::shared_ptr<BloodNode> blood = map->GetBlood(coord).lock()) {
+		if (std::shared_ptr<BloodNode> blood = map->GetBlood(coord).lock())
+		{
 			return blood->Depth() > 0;
 		}
 		return false;
@@ -232,21 +241,29 @@ void TilesetRenderer::DrawMap(Map* mapToDraw, float focusX, float focusY, int vi
 			if (map->IsInside(pos)) {
 				DrawTerrain(x, y, pos);			
 				
-				if (!(map->GetOverlayFlags() & TERRAIN_OVERLAY)) {
-					if (boost::shared_ptr<Construction> construction = (Game::Inst()->GetConstruction(map->GetConstruction(pos))).lock()) {
+				if (!(map->GetOverlayFlags() & TERRAIN_OVERLAY))
+				{
+					if (std::shared_ptr<Construction> construction = (Game::Inst()->GetConstruction(
+							map->GetConstruction(pos))).lock())
+					{
 						DrawConstructionVisitor visitor(this, tileSet.get(), x, y, pos);
 						construction->AcceptVisitor(visitor);
-					} else  {
+					}
+					else
+					{
 						DrawFilth(x, y, pos);
 					}
 
 					int natNum = map->GetNatureObject(pos);
-					if (natNum >= 0) {
-						boost::shared_ptr<NatureObject> natureObj = Game::Inst()->natureList[natNum];
-						if (natureObj->Marked()) {
+					if (natNum >= 0)
+					{
+						std::shared_ptr<NatureObject> natureObj = Game::Inst()->natureList[natNum];
+						if (natureObj->Marked())
+						{
 							tileSet->DrawMarkedOverlay(x, y);
 						}
-						if (!natureObj->IsIce()) {
+						if (!natureObj->IsIce())
+						{
 							tileSet->DrawNatureObject(x, y, natureObj);
 						}
 					}
@@ -326,49 +343,63 @@ void TilesetRenderer::DrawCursor(const Coordinate& start, const Coordinate& end,
 }
 
 //TODO factorize all those DrawFoo
-void TilesetRenderer::DrawItems() const {
-	for (std::map<int,boost::shared_ptr<Item> >::iterator itemi = Game::Inst()->itemList.begin(); itemi != Game::Inst()->itemList.end(); ++itemi) {
-      if (itemi->second == 0) { // should not be here. but it happens. null pointer
-          itemi = Game::Inst()->itemList.erase(itemi); // delete this shit
-          if ( itemi == Game::Inst()->itemList.end() )break;
-          continue;
-      }
+void TilesetRenderer::DrawItems() const
+{
+	for (std::map<int, std::shared_ptr<Item> >::iterator itemi = Game::Inst()->itemList.begin();
+		 itemi != Game::Inst()->itemList.end(); ++itemi)
+	{
+		if (itemi->second == 0)
+		{ // should not be here. but it happens. null pointer
+			itemi = Game::Inst()->itemList.erase(itemi); // delete this shit
+			if (itemi == Game::Inst()->itemList.end())break;
+			continue;
+		}
 
-		if (!itemi->second->ContainedIn().lock()) {
+		if (!itemi->second->ContainedIn().lock())
+		{
 			Coordinate itemPos = itemi->second->Position();
-			Coordinate start(startTileX,startTileY), extent(tilesX,tilesY);
+			Coordinate start(startTileX, startTileY), extent(tilesX, tilesY);
 			if (itemPos.insideExtent(start, extent))
 				tileSet->DrawItem((itemPos-start).X(), (itemPos-start).Y(), itemi->second);
 		}
 	}
 }
 
-void TilesetRenderer::DrawNPCs() const {
-	for (std::map<int,boost::shared_ptr<NPC> >::iterator npci = Game::Inst()->npcList.begin(); npci != Game::Inst()->npcList.end(); ++npci) {
+void TilesetRenderer::DrawNPCs() const
+{
+	for (std::map<int, std::shared_ptr<NPC> >::iterator npci = Game::Inst()->npcList.begin();
+		 npci != Game::Inst()->npcList.end(); ++npci)
+	{
 		Coordinate npcPos = npci->second->Position();
-		Coordinate start(startTileX,startTileY), extent(tilesX,tilesY);
+		Coordinate start(startTileX, startTileY), extent(tilesX, tilesY);
 		if (npcPos.insideExtent(start, extent))
-			tileSet->DrawNPC((npcPos-start).X(), (npcPos-start).Y(), npci->second);
+			tileSet->DrawNPC((npcPos - start).X(), (npcPos - start).Y(), npci->second);
 	}
 }
 
-void TilesetRenderer::DrawSpells() const {
-	for (std::list<boost::shared_ptr<Spell> >::iterator spelli = Game::Inst()->spellList.begin(); spelli != Game::Inst()->spellList.end(); ++spelli) {
+void TilesetRenderer::DrawSpells() const
+{
+	for (std::list<std::shared_ptr<Spell> >::iterator spelli = Game::Inst()->spellList.begin();
+		 spelli != Game::Inst()->spellList.end(); ++spelli)
+	{
 		Coordinate spellPos = (*spelli)->Position();
-		Coordinate start(startTileX,startTileY), extent(tilesX,tilesY);
+		Coordinate start(startTileX, startTileY), extent(tilesX, tilesY);
 		if (spellPos.insideExtent(start, extent))
-			tileSet->DrawSpell((spellPos-start).X(), (spellPos-start).Y(), *spelli);
+			tileSet->DrawSpell((spellPos - start).X(), (spellPos - start).Y(), *spelli);
 	}
 }
 
-void TilesetRenderer::DrawFires() const {
-	for (std::list<boost::weak_ptr<FireNode> >::iterator firei = Game::Inst()->fireList.begin(); firei != Game::Inst()->fireList.end(); ++firei) {
-		if (boost::shared_ptr<FireNode> fire = firei->lock())
+void TilesetRenderer::DrawFires() const
+{
+	for (std::list<std::weak_ptr<FireNode> >::iterator firei = Game::Inst()->fireList.begin();
+		 firei != Game::Inst()->fireList.end(); ++firei)
+	{
+		if (std::shared_ptr<FireNode> fire = firei->lock())
 		{
 			Coordinate firePos = fire->Position();
-			Coordinate start(startTileX,startTileY), extent(tilesX,tilesY);
+			Coordinate start(startTileX, startTileY), extent(tilesX, tilesY);
 			if (firePos.insideExtent(start, extent))
-				tileSet->DrawFire((firePos-start).X(), (firePos-start).Y(), fire);
+				tileSet->DrawFire((firePos - start).X(), (firePos - start).Y(), fire);
 		}
 	}
 }
@@ -410,43 +441,60 @@ void TilesetRenderer::DrawTerrain(int screenX, int screenY, Coordinate pos) cons
 	}
 	
 	// Water
-	if (tileSet->IsIceSupported()) {
-		boost::weak_ptr<WaterNode> waterPtr = map->GetWater(pos);
-		if (boost::shared_ptr<WaterNode> water = waterPtr.lock()) {
-			if (water->Depth() > 0) {
+	if (tileSet->IsIceSupported())
+	{
+		std::weak_ptr<WaterNode> waterPtr = map->GetWater(pos);
+		if (std::shared_ptr<WaterNode> water = waterPtr.lock())
+		{
+			if (water->Depth() > 0)
+			{
 				tileSet->DrawWater(screenX, screenY, boost::bind(&WaterConnectionTest, map, pos, _1));
 			}
 		}
 		int natNum = -1;
-		if ((natNum = map->GetNatureObject(pos)) >= 0) {
-			if (Game::Inst()->natureList[natNum]->IsIce()) {
+		if ((natNum = map->GetNatureObject(pos)) >= 0)
+		{
+			if (Game::Inst()->natureList[natNum]->IsIce())
+			{
 				tileSet->DrawIce(screenX, screenY, boost::bind(&WaterConnectionTest, map, pos, _1));
 			}
 		}
-	} else {
-		boost::weak_ptr<WaterNode> waterPtr = map->GetWater(pos);
-		if (boost::shared_ptr<WaterNode> water = waterPtr.lock()) {
-			if (water->Depth() > 0) {
+	}
+	else
+	{
+		std::weak_ptr<WaterNode> waterPtr = map->GetWater(pos);
+		if (std::shared_ptr<WaterNode> water = waterPtr.lock())
+		{
+			if (water->Depth() > 0)
+			{
 				tileSet->DrawWater(screenX, screenY, boost::bind(&WaterNoIceConnectionTest, map, pos, _1));
 			}
 		}
 	}
-	if (boost::shared_ptr<BloodNode> blood = map->GetBlood(pos).lock()) {
-		if (blood->Depth() > 0) {
+	if (std::shared_ptr<BloodNode> blood = map->GetBlood(pos).lock())
+	{
+		if (blood->Depth() > 0)
+		{
 			tileSet->DrawBlood(screenX, screenY, boost::bind(&BloodConnectionTest, map, pos, _1));
 		}
 	}
-	if (map->GroundMarked(pos)) {
+	if (map->GroundMarked(pos))
+	{
 		tileSet->DrawMarkedOverlay(screenX, screenY, boost::bind(&GroundMarkedConnectionTest, map, pos, _1));
 	}
-	
+
 }
 
-void TilesetRenderer::DrawFilth(int screenX, int screenY, Coordinate pos) const {
-	if (boost::shared_ptr<FilthNode> filth = map->GetFilth(pos).lock()) {
-		if (filth->Depth() > 4) {
+void TilesetRenderer::DrawFilth(int screenX, int screenY, Coordinate pos) const
+{
+	if (std::shared_ptr<FilthNode> filth = map->GetFilth(pos).lock())
+	{
+		if (filth->Depth() > 4)
+		{
 			tileSet->DrawFilthMajor(screenX, screenY, boost::bind(&FilthConnectionTest, map, pos, _1));
-		} else if (filth->Depth() > 0) {
+		}
+		else if (filth->Depth() > 0)
+		{
 			tileSet->DrawFilthMinor(screenX, screenY, boost::bind(&FilthConnectionTest, map, pos, _1));
 		}
 	}
@@ -457,7 +505,8 @@ void TilesetRenderer::DrawTerritoryOverlay(int screenX, int screenY, Coordinate 
 	tileSet->DrawTerritoryOverlay(screenX, screenY, isOwned, boost::bind(&TerritoryConnectionTest, map, pos, isOwned, _1));
 }
 
-bool TilesetRenderer::SetTileset(boost::shared_ptr<TileSet> newTileset) {
+bool TilesetRenderer::SetTileset(std::shared_ptr<TileSet> newTileset)
+{
 	tileSet = newTileset;
 	return TilesetChanged();
 }
@@ -474,22 +523,32 @@ TCODColor TilesetRenderer::GetKeyColor() const {
 	return keyColor;
 }
 
-bool TilesetRenderer::TilesetChanged() {
+bool TilesetRenderer::TilesetChanged()
+{
 	return true;
 }
 
-void TilesetRenderer::SetTranslucentUI(bool translucent) {
+void TilesetRenderer::SetTranslucentUI(bool translucent)
+{
 	translucentUI = translucent;
 }
 
 // Define these in their relevant cpps.
-boost::shared_ptr<TilesetRenderer> CreateOGLTilesetRenderer(int width, int height, TCODConsole * console, std::string tilesetName);
-boost::shared_ptr<TilesetRenderer> CreateSDLTilesetRenderer(int width, int height, TCODConsole * console, std::string tilesetName);
+std::shared_ptr<TilesetRenderer>
+CreateOGLTilesetRenderer(int width, int height, TCODConsole* console, std::string tilesetName);
 
-boost::shared_ptr<TilesetRenderer> CreateTilesetRenderer(int width, int height, TCODConsole * console, std::string tilesetName) {
-	if (TCODSystem::getRenderer() == TCOD_RENDERER_SDL) {
+std::shared_ptr<TilesetRenderer>
+CreateSDLTilesetRenderer(int width, int height, TCODConsole* console, std::string tilesetName);
+
+std::shared_ptr<TilesetRenderer>
+CreateTilesetRenderer(int width, int height, TCODConsole* console, std::string tilesetName)
+{
+	if (TCODSystem::getRenderer() == TCOD_RENDERER_SDL)
+	{
 		return CreateSDLTilesetRenderer(width, height, console, tilesetName);
-	} else {
+	}
+	else
+	{
 		return CreateOGLTilesetRenderer(width, height, console, tilesetName);
 	}
 }

@@ -34,7 +34,7 @@ class Stockpile : public Construction, public ContainerListener {
 	
 	friend class Game;
 protected:
-	Stockpile(ConstructionType=0, int symbol=0, Coordinate=Coordinate(0,0));
+	Stockpile(ConstructionType= 0, int symbol = 0, Coordinate= Coordinate(0, 0));
 
 	int symbol;
 	Coordinate a, b; /*Opposite corners so we know which tiles the stockpile
@@ -43,40 +43,68 @@ protected:
 	std::map<ItemCategory, int> amount;
 	std::map<ItemCategory, bool> allowed;
 	std::map<Coordinate, bool> reserved;
-	std::map<Coordinate, boost::shared_ptr<Container> > containers;
+	std::map<Coordinate, std::shared_ptr<Container> > containers;
 	std::map<Coordinate, TCODColor> colors;
 	std::map<ItemCategory, int> limits;
 	std::map<ItemCategory, int> demand;
 	std::map<ItemCategory, int> lastDemandBalance; //At what amount did we last check container demand?
 public:
 	virtual ~Stockpile();
+
 	int Build();
+
 	virtual void Draw(Coordinate, TCODConsole*);
-	boost::weak_ptr<Item> FindItemByCategory(ItemCategory, int flags=0, int value=0);
-	boost::weak_ptr<Item> FindItemByType(ItemType, int flags=0, int value=0);
+
+	std::weak_ptr<Item> FindItemByCategory(ItemCategory, int flags = 0, int value = 0);
+
+	std::weak_ptr<Item> FindItemByType(ItemType, int flags = 0, int value = 0);
+
 	int Symbol();
+
 	void Symbol(int);
-	int Expand(Coordinate,Coordinate);
+
+	int Expand(Coordinate, Coordinate);
+
 	bool Allowed(ItemCategory);
+
 	bool Allowed(std::set<ItemCategory>);
+
 	virtual bool Full(ItemType = -1);
+
 	virtual Coordinate FreePosition();
+
 	void ReserveSpot(Coordinate, bool, ItemType);
-	boost::weak_ptr<Container> Storage(Coordinate);
+
+	std::weak_ptr<Container> Storage(Coordinate);
+
 	void SwitchAllowed(ItemCategory, bool childrenAlso = true, bool countParentsOnly = false);
+
 	void SetAllAllowed(bool);
-	virtual void GetTooltip(int x, int y, Tooltip *tooltip);
-	void ItemAdded(boost::weak_ptr<Item>);
-	void ItemRemoved(boost::weak_ptr<Item>);
+
+	virtual void GetTooltip(int x, int y, Tooltip* tooltip);
+
+	void ItemAdded(std::weak_ptr<Item>);
+
+	void ItemRemoved(std::weak_ptr<Item>);
+
 	Coordinate Center();
+
 	void TranslateInternalContainerListeners();
+
 	void AdjustLimit(ItemCategory, int);
+
 	int GetLimit(ItemCategory);
+
 	virtual void AcceptVisitor(ConstructionVisitor& visitor);
+
 	virtual void Dismantle(const Coordinate& pos = undefined);
+
 	int GetDemand(ItemCategory);
+
 	int GetAmount(ItemCategory);
+
 	void Reorganize();
+
 	virtual void SetMap(Map* map);
 private:
 	void Erase(const Coordinate&);

@@ -96,8 +96,12 @@ void Spell::UpdateVelocity() {
 					if (!immaterial) {
 						if (Map::Inst()->BlocksWater(t) || !Map::Inst()->IsWalkable(t)) { //We've hit an obstacle
 							if (Map::Inst()->GetConstruction(t) > -1) {
-								if (boost::shared_ptr<Construction> construct = Game::Inst()->GetConstruction(Map::Inst()->GetConstruction(t)).lock()) {
-									for (std::list<Attack>::iterator attacki = attacks.begin(); attacki != attacks.end(); ++attacki) {
+								if (std::shared_ptr<Construction> construct = Game::Inst()->GetConstruction(
+										Map::Inst()->GetConstruction(t)).lock())
+								{
+									for (std::list<Attack>::iterator attacki = attacks.begin();
+										 attacki != attacks.end(); ++attacki)
+									{
 										construct->Damage(&*attacki);
 									}
 								}
@@ -114,10 +118,13 @@ void Spell::UpdateVelocity() {
 							return;
 						}
 						if (Map::Inst()->NPCList(t)->size() > 0) { //Hit a creature
-							if (Random::Generate(std::max(1, flightPath.back().height) - 1) < (signed int)(2 + Map::Inst()->NPCList(t)->size())) {
+							if (Random::Generate(std::max(1, flightPath.back().height) - 1) < (signed int)(2 + Map::Inst()->NPCList(t)->size()))
+							{
 
-								boost::shared_ptr<NPC> npc = Game::Inst()->GetNPC(*Map::Inst()->NPCList(t)->begin());
-								for (std::list<Attack>::iterator attacki = attacks.begin(); attacki != attacks.end(); ++attacki) {
+								std::shared_ptr<NPC> npc = Game::Inst()->GetNPC(*Map::Inst()->NPCList(t)->begin());
+								for (std::list<Attack>::iterator attacki = attacks.begin();
+									 attacki != attacks.end(); ++attacki)
+								{
 									npc->Damage(&*attacki);
 								}
 

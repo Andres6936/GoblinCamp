@@ -40,17 +40,19 @@ Map::Map() :
 overlayFlags(0), markerids(0) {
 	tileMap.resize(boost::extents[HARDCODED_WIDTH][HARDCODED_HEIGHT]);
 	cachedTileMap.resize(boost::extents[HARDCODED_WIDTH][HARDCODED_HEIGHT]);
-	heightMap = new TCODHeightMap(HARDCODED_WIDTH,HARDCODED_HEIGHT);
+	heightMap = new TCODHeightMap(HARDCODED_WIDTH, HARDCODED_HEIGHT);
 	extent = Coordinate(HARDCODED_WIDTH, HARDCODED_HEIGHT);
-	for (int i = 0; i < HARDCODED_WIDTH; ++i) {
-		for (int e = 0; e < HARDCODED_HEIGHT; ++e) {
+	for (int i = 0; i < HARDCODED_WIDTH; ++i)
+	{
+		for (int e = 0; e < HARDCODED_HEIGHT; ++e)
+		{
 			tileMap[i][e].ResetType(TILEGRASS);
 			cachedTileMap[i][e].x = i;
 			cachedTileMap[i][e].y = e;
 		}
 	}
 	waterlevel = -0.8f;
-	weather = boost::shared_ptr<Weather>(new Weather(this));
+	weather = std::shared_ptr<Weather>(new Weather(this));
 }
 
 Map::~Map() {
@@ -94,9 +96,12 @@ bool Map::IsWalkable(const Coordinate& p, void* ptr) const {
 	if (static_cast<NPC*>(ptr)->HasEffect(FLYING)) return true;
 	if (!static_cast<NPC*>(ptr)->HasHands()) {
 		int constructionId = GetConstruction(p);
-		if (constructionId >= 0) {
-			if (boost::shared_ptr<Construction> cons = Game::Inst()->GetConstruction(constructionId).lock()) {
-				if (cons->HasTag(DOOR) && !boost::static_pointer_cast<Door>(cons)->Open()) {
+		if (constructionId >= 0)
+		{
+			if (std::shared_ptr<Construction> cons = Game::Inst()->GetConstruction(constructionId).lock())
+			{
+				if (cons->HasTag(DOOR) && !std::static_pointer_cast<Door>(cons)->Open())
+				{
 					return false;
 				}
 			}
@@ -160,12 +165,16 @@ int Map::GetConstruction(const Coordinate& p) const {
 	return -1;
 }
 
-boost::weak_ptr<WaterNode> Map::GetWater(const Coordinate& p) { 
+std::weak_ptr<WaterNode> Map::GetWater(const Coordinate& p)
+{
 	if (Map::IsInside(p)) return tile(p).GetWater();
-	return boost::weak_ptr<WaterNode>();
+	return std::weak_ptr<WaterNode>();
 }
-void Map::SetWater(const Coordinate& p, boost::shared_ptr<WaterNode> value) { 
-	if (Map::IsInside(p)) {
+
+void Map::SetWater(const Coordinate& p, std::shared_ptr<WaterNode> value)
+{
+	if (Map::IsInside(p))
+	{
 		tile(p).SetWater(value);
 		changedTiles.insert(p);
 	}
@@ -227,31 +236,42 @@ int Map::GetNatureObject(const Coordinate& p) const {
 	return -1;
 }
 
-boost::weak_ptr<FilthNode> Map::GetFilth(const Coordinate& p) { 
-	if (Map::IsInside(p)) return tile(p).GetFilth(); 
-	return boost::weak_ptr<FilthNode>();
+std::weak_ptr<FilthNode> Map::GetFilth(const Coordinate& p)
+{
+	if (Map::IsInside(p)) return tile(p).GetFilth();
+	return std::weak_ptr<FilthNode>();
 }
-void Map::SetFilth(const Coordinate& p, boost::shared_ptr<FilthNode> value) { 
-	if (Map::IsInside(p)) {
+
+void Map::SetFilth(const Coordinate& p, std::shared_ptr<FilthNode> value)
+{
+	if (Map::IsInside(p))
+	{
 		tile(p).SetFilth(value);
 		changedTiles.insert(p);
 	}
 }
 
-boost::weak_ptr<BloodNode> Map::GetBlood(const Coordinate& p) { 
-	if (Map::IsInside(p)) return tile(p).GetBlood(); 
-	return boost::weak_ptr<BloodNode>();
-}
-void Map::SetBlood(const Coordinate& p, boost::shared_ptr<BloodNode> value) { 
-	if (Map::IsInside(p)) tile(p).SetBlood(value); 
+std::weak_ptr<BloodNode> Map::GetBlood(const Coordinate& p)
+{
+	if (Map::IsInside(p)) return tile(p).GetBlood();
+	return std::weak_ptr<BloodNode>();
 }
 
-boost::weak_ptr<FireNode> Map::GetFire(const Coordinate& p) { 
-	if (Map::IsInside(p)) return tile(p).GetFire(); 
-	return boost::weak_ptr<FireNode>();
+void Map::SetBlood(const Coordinate& p, std::shared_ptr<BloodNode> value)
+{
+	if (Map::IsInside(p)) tile(p).SetBlood(value);
 }
-void Map::SetFire(const Coordinate& p, boost::shared_ptr<FireNode> value) { 
-	if (Map::IsInside(p)) {
+
+std::weak_ptr<FireNode> Map::GetFire(const Coordinate& p)
+{
+	if (Map::IsInside(p)) return tile(p).GetFire();
+	return std::weak_ptr<FireNode>();
+}
+
+void Map::SetFire(const Coordinate& p, std::shared_ptr<FireNode> value)
+{
+	if (Map::IsInside(p))
+	{
 		tile(p).SetFire(value);
 		changedTiles.insert(p);
 	}
@@ -282,20 +302,23 @@ void Map::Reset() {
 void Map::Mark(const Coordinate& p) { tile(p).Mark(); }
 void Map::Unmark(const Coordinate& p) { tile(p).Unmark(); }
 
-int Map::GetMoveModifier(const Coordinate& p) {
+int Map::GetMoveModifier(const Coordinate& p)
+{
 	int modifier = 0;
 
-	boost::shared_ptr<Construction> construction;
+	std::shared_ptr<Construction> construction;
 	if (tile(p).construction >= 0) construction = Game::Inst()->GetConstruction(tile(p).construction).lock();
 	bool bridge = false;
 	if (construction) bridge = (construction->Built() && construction->HasTag(BRIDGE));
 
 	if (tile(p).GetType() == TILEBOG && !bridge) modifier += 10;
 	else if (tile(p).GetType() == TILEDITCH && !bridge) modifier += 4;
-	else if (tile(p).GetType() == TILEMUD && !bridge) { //Mud adds 6 if there's no bridge
+	else if (tile(p).GetType() == TILEMUD && !bridge)
+	{ //Mud adds 6 if there's no bridge
 		modifier += 6;
 	}
-	if (boost::shared_ptr<WaterNode> water = tile(p).GetWater().lock()) { //Water adds 'depth' without a bridge
+	if (std::shared_ptr<WaterNode> water = tile(p).GetWater().lock())
+	{ //Water adds 'depth' without a bridge
 		if (!bridge) modifier += water->Depth();
 	}
 
@@ -414,10 +437,13 @@ void Map::FindEquivalentMoveTarget(const Coordinate& current, Coordinate& move, 
 }
 
 bool Map::IsUnbridgedWater(const Coordinate& p) {
-	if (Map::IsInside(p)) {
-		if (boost::shared_ptr<WaterNode> water = tile(p).water) {
-			boost::shared_ptr<Construction> construction = Game::Inst()->GetConstruction(tile(p).construction).lock();
-			if (water->Depth() > 0 && (!construction || !construction->Built() || !construction->HasTag(BRIDGE))) return true;
+	if (Map::IsInside(p))
+	{
+		if (std::shared_ptr<WaterNode> water = tile(p).water)
+		{
+			std::shared_ptr<Construction> construction = Game::Inst()->GetConstruction(tile(p).construction).lock();
+			if (water->Depth() > 0 && (!construction || !construction->Built() || !construction->HasTag(BRIDGE)))
+				return true;
 		}
 	}
 	return false;
@@ -618,17 +644,23 @@ void Map::CalculateFlow(int px[4], int py[4]) {
 	   map creation -- one minute or more -- while it is O(1) on
 	   water arrays.
 	 */
-	std::vector<boost::weak_ptr<WaterNode> > waterArray(Game::Inst()->waterList.begin(), Game::Inst()->waterList.end());
+	std::vector<std::weak_ptr<WaterNode> > waterArray(Game::Inst()->waterList.begin(), Game::Inst()->waterList.end());
 
-	for (int y = 0; y < Height(); ++y) {
-		for (int x = 0; x < Width(); ++x) {
-			Coordinate pos(x,y);
-			if (tile(pos).flow == NODIRECTION) {
-				Coordinate lowest(x,y);
-				for (int iy = y-1; iy <= y+1; ++iy) {
-					for (int ix = x-1; ix <= x+1; ++ix) {
-						Coordinate candidate(ix,iy);
-						if (IsInside(candidate)) {
+	for (int y = 0; y < Height(); ++y)
+	{
+		for (int x = 0; x < Width(); ++x)
+		{
+			Coordinate pos(x, y);
+			if (tile(pos).flow == NODIRECTION)
+			{
+				Coordinate lowest(x, y);
+				for (int iy = y - 1; iy <= y + 1; ++iy)
+				{
+					for (int ix = x - 1; ix <= x + 1; ++ix)
+					{
+						Coordinate candidate(ix, iy);
+						if (IsInside(candidate))
+						{
 							if (heightMap->getValue(ix, iy) < heightMap->getValue(lowest.X(), lowest.Y())) {
 								lowest = candidate;
 							}
@@ -657,18 +689,22 @@ void Map::CalculateFlow(int px[4], int py[4]) {
 						tile(pos).flow = SOUTHEAST;
 				}
 
-				if (tile(pos).flow == NODIRECTION && !waterArray.empty()) {
+				if (tile(pos).flow == NODIRECTION && !waterArray.empty())
+				{
 					// No slope here, so approximate towards river
-					boost::weak_ptr<WaterNode> randomWater = Random::ChooseElement(waterArray);
+					std::weak_ptr<WaterNode> randomWater = Random::ChooseElement(waterArray);
 					Coordinate coord = randomWater.lock()->Position();
-					if (coord.X() < x) {
+					if (coord.X() < x)
+					{
 						if (coord.Y() < y)
 							tile(pos).flow = NORTHWEST;
 						else if (coord.Y() == y)
 							tile(pos).flow = WEST;
-						else 
+						else
 							tile(pos).flow = SOUTHWEST;
-					} else if (coord.X() == x) {
+					}
+					else if (coord.X() == x)
+					{
 						if (coord.Y() < y)
 							tile(pos).flow = NORTH;
 						else if (coord.Y() > y)

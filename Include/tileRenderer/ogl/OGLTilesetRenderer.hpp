@@ -20,26 +20,33 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "tileRenderer/ogl/OGLViewportLayer.hpp"
 #include <boost/multi_array.hpp>
 
-struct RawTileData {
+struct RawTileData
+{
 	int tile;
-	boost::shared_ptr<TileSetTexture> texture;
+	std::shared_ptr<TileSetTexture> texture;
 };
 
 class OGLTilesetRenderer : public TilesetRenderer, public ITCODOGLRenderer
 {
 public:
-	explicit OGLTilesetRenderer(int screenWidth, int screenHeight, TCODConsole * mapConsole = 0);
+	explicit OGLTilesetRenderer(int screenWidth, int screenHeight, TCODConsole* mapConsole = 0);
+
 	~OGLTilesetRenderer();
 
-	Sprite_ptr CreateSprite(boost::shared_ptr<TileSetTexture> tilesetTexture, int tile);
-	Sprite_ptr CreateSprite(boost::shared_ptr<TileSetTexture> tilesetTexture, const std::vector<int>& tiles, bool connectionMap, int frameRate = 15, int frameCount = 1);
-	
-	inline void DrawSprite(int screenX, int screenY, int tile) {
+	Sprite_ptr CreateSprite(std::shared_ptr<TileSetTexture> tilesetTexture, int tile);
+
+	Sprite_ptr
+	CreateSprite(std::shared_ptr<TileSetTexture> tilesetTexture, const std::vector<int>& tiles, bool connectionMap,
+			int frameRate = 15, int frameCount = 1);
+
+	inline void DrawSprite(int screenX, int screenY, int tile)
+	{
 		DrawSpriteCorner(screenX, screenY, tile, TopLeft);
 		DrawSpriteCorner(screenX, screenY, tile, TopRight);
 		DrawSpriteCorner(screenX, screenY, tile, BottomLeft);
 		DrawSpriteCorner(screenX, screenY, tile, BottomRight);
 	};
+
 	void DrawSpriteCorner(int screenX, int screenY, int tile, Corner corner);
 
 	void render();
@@ -55,53 +62,64 @@ private:
 	typedef std::vector<RawTileData>::iterator rawTileIterator;
 
 	// Tiles texture
-	boost::shared_ptr<const unsigned int> tilesTexture; 
+	std::shared_ptr<const unsigned int> tilesTexture;
 	unsigned int tilesTextureW;
 	unsigned int tilesTextureH;
 
 	// UI Font
-	boost::shared_ptr<const unsigned int> fontTexture;
+	std::shared_ptr<const unsigned int> fontTexture;
 	unsigned int fontCharW, fontCharH;
 	unsigned int fontTexW, fontTexH;
 
 	// Console Rendering
-	boost::shared_ptr<const unsigned int> consoleProgram;
+	std::shared_ptr<const unsigned int> consoleProgram;
 
-	enum ConsoleTexureTypes {
+	enum ConsoleTexureTypes
+	{
 		Character,
 		ForeCol,
 		BackCol,
 		ConsoleTextureTypesCount
 	};
-	boost::array<boost::shared_ptr<const unsigned int>, ConsoleTextureTypesCount> consoleTextures;
+	boost::array<std::shared_ptr<const unsigned int>, ConsoleTextureTypesCount> consoleTextures;
 	unsigned int consoleTexW, consoleTexH;
 	boost::array<std::vector<unsigned char>, ConsoleTextureTypesCount> consoleData;
 	static boost::array<unsigned char, ConsoleTextureTypesCount> consoleDataAlignment;
-	
+
 	// Viewports
 	bool renderInProgress;
 	static const int VIEWPORT_LAYERS = 5;
 	boost::array<ViewportLayer, VIEWPORT_LAYERS> viewportLayers;
-	boost::array<boost::shared_ptr<const unsigned int>, VIEWPORT_LAYERS> viewportTextures;
-	struct RenderTile {
+	boost::array<std::shared_ptr<const unsigned int>, VIEWPORT_LAYERS> viewportTextures;
+
+	struct RenderTile
+	{
 		int x;
 		int y;
 		unsigned int tile;
 
-		explicit RenderTile(int x, int y, unsigned int tile) : x(x), y(y), tile(tile) {}
+		explicit RenderTile(int x, int y, unsigned int tile) : x(x), y(y), tile(tile)
+		{
+		}
 	};
+
 	std::vector<RenderTile> renderQueue;
 	int viewportW, viewportH;
 	int viewportTexW, viewportTexH;
-	boost::shared_ptr<const unsigned int> viewportProgram;
-	
+	std::shared_ptr<const unsigned int> viewportProgram;
+
 	bool InitialiseConsoleTextures();
+
 	bool InitialiseConsoleShaders();
-	
+
 	void RenderViewport();
+
 	void RenderOGLViewport();
+
 	void RenderGLSLViewport();
+
 	void RenderGLSLTile(int tile, int x, int y);
+
 	void RenderOGLTile(int tile, int x, int y);
 
 	void RenderConsole();

@@ -24,20 +24,26 @@ a bit slower, and it might make a crucial difference on low-end machines. */
 class Map;
 class NPC;
 
-class Events {
+class Events
+{
 private:
-	Map *map;
+	Map* map;
 	std::vector<int> hostileSpawningMonsters;
 	int timeSinceHostileSpawn;
 	std::vector<int> peacefulAnimals;
 	std::vector<int> migratingAnimals;
 	std::vector<int> immigrants;
-	std::vector<boost::weak_ptr<NPC> > existingImmigrants;
+	std::vector<std::weak_ptr<NPC> > existingImmigrants;
 public:
 	Events(Map*);
+
 	void Update(bool safe = false);
+
 	void SpawnHostileMonsters();
+
 	void SpawnBenignFauna();
+
 	void SpawnImmigrants();
-        void SpawnMigratingAnimals();
+
+	void SpawnMigratingAnimals();
 };

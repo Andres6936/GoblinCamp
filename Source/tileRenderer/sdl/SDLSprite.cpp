@@ -17,10 +17,10 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include "tileRenderer/sdl/SDLSprite.hpp"
 
-SDLSprite::SDLSprite(SDLTilesetRenderer * const renderer, boost::shared_ptr<TileSetTexture> tilesetTexture, int tile)
-	: Sprite(tile),
-	  renderer(renderer),
-	  texture(tilesetTexture)
+SDLSprite::SDLSprite(SDLTilesetRenderer* const renderer, std::shared_ptr<TileSetTexture> tilesetTexture, int tile)
+		: Sprite(tile),
+		  renderer(renderer),
+		  texture(tilesetTexture)
 {
 }
 

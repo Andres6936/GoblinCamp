@@ -33,13 +33,13 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 class TileSetParserV2 : public ITCODParserListener, private boost::noncopyable
 {
 public:
-	explicit TileSetParserV2(boost::shared_ptr<TilesetRenderer> spriteFactory);
+	explicit TileSetParserV2(std::shared_ptr<TilesetRenderer> spriteFactory);
 
 	~TileSetParserV2();
 
-	boost::shared_ptr<TileSet> Run(std::filesystem::path tileSetPath);
+	std::shared_ptr<TileSet> Run(std::filesystem::path tileSetPath);
 
-	void Modify(boost::shared_ptr<TileSet> tileset, std::filesystem::path modPath);
+	void Modify(std::shared_ptr<TileSet> tileset, std::filesystem::path modPath);
 
 	bool parserNewStruct(TCODParser* parser, const TCODParserStruct* str, const char* name);
 
@@ -53,9 +53,9 @@ public:
 
 private:
 	TCODParser parser;
-	boost::shared_ptr<TilesetRenderer> spriteFactory;
+	std::shared_ptr<TilesetRenderer> spriteFactory;
 
-	boost::shared_ptr<TileSet> tileSet;
+	std::shared_ptr<TileSet> tileSet;
 	bool success;
 	bool readTexture;
 	bool extendingExisting;
@@ -75,11 +75,11 @@ private:
 
 	// Path where textures are found
 	std::filesystem::path tileSetPath;
-	boost::shared_ptr<TileSetTexture> currentTexture;
+	std::shared_ptr<TileSetTexture> currentTexture;
 
 	std::string tileSetName;
 	int tileWidth;
-	int tileHeight;	
+	int tileHeight;
 
 	std::vector<int> markerFrames;
 	int markerFPS;
@@ -87,13 +87,17 @@ private:
 	std::vector<int> fireFrames;
 	int fireFPS;
 
-	struct AnimatedSpriteFactory {
+	struct AnimatedSpriteFactory
+	{
 		std::vector<int> sprites;
 		int fps;
 
-		AnimatedSpriteFactory() : sprites(), fps(15) {}
+		AnimatedSpriteFactory() : sprites(), fps(15)
+		{
+		}
 
-		Sprite_ptr Build(boost::shared_ptr<TilesetRenderer> spriteFactory, boost::shared_ptr<TileSetTexture> currentTexture);
+		Sprite_ptr
+		Build(std::shared_ptr<TilesetRenderer> spriteFactory, std::shared_ptr<TileSetTexture> currentTexture);
 	};
 	AnimatedSpriteFactory animSpriteFactory;
 	ConstructionSpriteFactory constructionFactory;

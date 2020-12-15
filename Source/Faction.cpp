@@ -32,43 +32,50 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/serialization/vector.hpp>
 
 std::map<std::string, int> Faction::factionNames = std::map<std::string, int>();
-std::vector<boost::shared_ptr<Faction> > Faction::factions = std::vector<boost::shared_ptr<Faction> >();
+std::vector<std::shared_ptr<Faction> > Faction::factions = std::vector<std::shared_ptr<Faction> >();
 
-Faction::Faction(std::string vname, int vindex) : 
-members(std::list<boost::weak_ptr<NPC> >()), 
-	trapVisible(std::map<Coordinate,bool>()),
-	name(vname),
-	index(vindex),
-	currentGoal(0),
-	activeTime(0),
-	maxActiveTime(MONTH_LENGTH/2),
-	active(false),
-	aggressive(false),
-	coward(false)
+Faction::Faction(std::string vname, int vindex) :
+		members(std::list<std::weak_ptr<NPC> >()),
+		trapVisible(std::map<Coordinate, bool>()),
+		name(vname),
+		index(vindex),
+		currentGoal(0),
+		activeTime(0),
+		maxActiveTime(MONTH_LENGTH / 2),
+		active(false),
+		aggressive(false),
+		coward(false)
 {
 }
 
-void Faction::AddMember(boost::weak_ptr<NPC> newMember) {
+void Faction::AddMember(std::weak_ptr<NPC> newMember)
+{
 	members.push_back(newMember);
-	if (!active) {
+	if (!active)
+	{
 		active = true;
 		activeTime = 0;
 	}
 }
 
-void Faction::RemoveMember(boost::weak_ptr<NPC> member) {
+void Faction::RemoveMember(std::weak_ptr<NPC> member)
+{
 	bool memberFound = false;
-	for (std::list<boost::weak_ptr<NPC> >::iterator membi = members.begin(); membi != members.end()
-		&& !memberFound;) {
-		if (membi->lock()) {
-			if (member.lock() && member.lock() == membi->lock()) {
+	for (std::list<std::weak_ptr<NPC> >::iterator membi = members.begin(); membi != members.end()
+																		   && !memberFound;)
+	{
+		if (membi->lock())
+		{
+			if (member.lock() && member.lock() == membi->lock())
+			{
 				// Saving the iterator from doom
 				membi = members.erase(membi);
 				memberFound = true;
 			}
 			// Careful with iterator
-			if ( !members.empty() && membi != members.end() ) ++membi;
-		} else membi = members.erase(membi);
+			if (!members.empty() && membi != members.end()) ++membi;
+		}
+		else membi = members.erase(membi);
 	}
 	if (active && members.empty()) active = false;
 }
@@ -98,11 +105,12 @@ void Faction::TrapSet(Coordinate trapLocation, bool visible) {
 
 FactionType Faction::StringToFactionType(std::string name) {
 	if (!boost::iequals(name, "Faction name not found")) {
-		if (factionNames.find(name) == factionNames.end()) {
+		if (factionNames.find(name) == factionNames.end())
+		{
 			int index = static_cast<int>(factions.size());
-			factions.push_back(boost::shared_ptr<Faction>(new Faction(name, index)));
+			factions.push_back(std::shared_ptr<Faction>(new Faction(name, index)));
 			factionNames[name] = factions.size() - 1;
-			factions.back()->MakeFriendsWith(factions.size()-1); //A faction is always friendly with itself
+			factions.back()->MakeFriendsWith(factions.size() - 1); //A faction is always friendly with itself
 		}
 		return factionNames[name];
 	}
@@ -141,21 +149,26 @@ FactionGoal Faction::GetCurrentGoal() const {
 	return FACTIONIDLE;
 }
 
-namespace {
-	inline bool GenerateDestroyJob(Map* map, boost::shared_ptr<Job> job, boost::shared_ptr<NPC> npc) {
-		boost::shared_ptr<Construction> construction;
+namespace
+{
+	inline bool GenerateDestroyJob(Map* map, std::shared_ptr<Job> job, std::shared_ptr<NPC> npc)
+	{
+		std::shared_ptr<Construction> construction;
 		Coordinate p = npc->Position();
 		TCODLine::init(p.X(), p.Y(), Camp::Inst()->Center().X(), Camp::Inst()->Center().Y());
-		do {
+		do
+		{
 			int constructionID = map->GetConstruction(p);
-			if (constructionID >= 0) {
+			if (constructionID >= 0)
+			{
 				construction = Game::Inst()->GetConstruction(constructionID).lock();
-				if (construction && (construction->HasTag(PERMANENT) || 
-					(!construction->HasTag(WORKSHOP) && !construction->HasTag(WALL))))
+				if (construction && (construction->HasTag(PERMANENT) ||
+									 (!construction->HasTag(WORKSHOP) && !construction->HasTag(WALL))))
 					construction.reset();
 			}
 		} while (!TCODLine::step(p.Xptr(), p.Yptr()) && !construction);
-		if (construction) {
+		if (construction)
+		{
 			job->tasks.push_back(Task(MOVEADJACENT, construction->Position(), construction));
 			job->tasks.push_back(Task(KILL, construction->Position(), construction));
 			job->internal = true;
@@ -164,16 +177,19 @@ namespace {
 		return false;
 	}
 
-	inline bool GenerateKillJob(boost::shared_ptr<Job> job) {
+	inline bool GenerateKillJob(std::shared_ptr<Job> job)
+	{
 		job->internal = true;
 		job->tasks.push_back(Task(GETANGRY));
 		job->tasks.push_back(Task(MOVENEAR, Camp::Inst()->Center()));
 		return true;
 	}
 
-	inline bool GenerateStealJob(boost::shared_ptr<Job> job, boost::shared_ptr<Item> item) {
+	inline bool GenerateStealJob(std::shared_ptr<Job> job, std::shared_ptr<Item> item)
+	{
 		job->internal = true;
-		if (item) {
+		if (item)
+		{
 			job->tasks.push_back(Task(MOVE, item->Position()));
 			job->tasks.push_back(Task(TAKE, item->Position(), item));
 		}
@@ -182,10 +198,12 @@ namespace {
 	}
 }
 
-bool Faction::FindJob(boost::shared_ptr<NPC> npc) {
-	
-	if (maxActiveTime >= 0 && activeTime >= maxActiveTime) {
-		boost::shared_ptr<Job> fleeJob(new Job("Leave"));
+bool Faction::FindJob(std::shared_ptr<NPC> npc)
+{
+
+	if (maxActiveTime >= 0 && activeTime >= maxActiveTime)
+	{
+		std::shared_ptr<Job> fleeJob(new Job("Leave"));
 		fleeJob->internal = true;
 		fleeJob->tasks.push_back(Task(CALMDOWN));
 		fleeJob->tasks.push_back(Task(FLEEMAP));
@@ -197,54 +215,67 @@ bool Faction::FindJob(boost::shared_ptr<NPC> npc) {
 		if (currentGoal < 0 || currentGoal >= static_cast<int>(goals.size()))
 			currentGoal = 0;
 		switch (goals[currentGoal]) {
-		case FACTIONDESTROY: 
+		case FACTIONDESTROY:
+		{
+			std::shared_ptr<Job> destroyJob(new Job("Destroy building"));
+			if (GenerateDestroyJob(npc->map, destroyJob, npc) || GenerateKillJob(destroyJob))
 			{
-				boost::shared_ptr<Job> destroyJob(new Job("Destroy building"));
-				if (GenerateDestroyJob(npc->map, destroyJob, npc) || GenerateKillJob(destroyJob)) {
-					npc->StartJob(destroyJob);
-					return true;
-				}
+				npc->StartJob(destroyJob);
+				return true;
 			}
+		}
 			break;
 
 		case FACTIONKILL:
+		{
+			std::shared_ptr<Job> attackJob(new Job("Attack settlement"));
+			if (GenerateKillJob(attackJob))
 			{
-				boost::shared_ptr<Job> attackJob(new Job("Attack settlement"));
-				if (GenerateKillJob(attackJob)) {
-					npc->StartJob(attackJob);
-					return true;
-				}
+				npc->StartJob(attackJob);
+				return true;
 			}
+		}
 			break;
 
 		case FACTIONSTEAL:
-			if (currentGoal < static_cast<int>(goalSpecifiers.size()) && goalSpecifiers[currentGoal] >= 0) {
-				boost::shared_ptr<Job> stealJob(new Job("Steal "+Item::ItemCategoryToString(goalSpecifiers[currentGoal])));
-				boost::weak_ptr<Item> item = Game::Inst()->FindItemByCategoryFromStockpiles(goalSpecifiers[currentGoal], npc->Position());
-				if (item.lock()) {
-					if (GenerateStealJob(stealJob, item.lock())) {
+			if (currentGoal < static_cast<int>(goalSpecifiers.size()) && goalSpecifiers[currentGoal] >= 0)
+			{
+				std::shared_ptr<Job> stealJob(
+						new Job("Steal " + Item::ItemCategoryToString(goalSpecifiers[currentGoal])));
+				std::weak_ptr<Item> item = Game::Inst()->FindItemByCategoryFromStockpiles(goalSpecifiers[currentGoal],
+						npc->Position());
+				if (item.lock())
+				{
+					if (GenerateStealJob(stealJob, item.lock()))
+					{
 						npc->StartJob(stealJob);
 						return true;
 					}
-				} else {
+				}
+				else
+				{
 					++currentGoal;
 				}
 			}
 			break;
 
 		case FACTIONPATROL:
+		{
+			std::shared_ptr<Job> patrolJob(new Job("Patrol"));
+			patrolJob->internal = true;
+			Coordinate location = undefined;
+			if (IsFriendsWith(PLAYERFACTION))
 			{
-				boost::shared_ptr<Job> patrolJob(new Job("Patrol"));
-				patrolJob->internal = true;
-				Coordinate location = undefined;
-				if (IsFriendsWith(PLAYERFACTION)) {
-					location = Camp::Inst()->GetRandomSpot();
-				} else {
-					for (int limit = 0; limit < 100 && location == undefined; ++limit) {
-						Coordinate candidate = Random::ChooseInExtent(npc->map->Extent());
-						if (!npc->map->IsTerritory(candidate))
-							location = candidate;
-					}
+				location = Camp::Inst()->GetRandomSpot();
+			}
+			else
+			{
+				for (int limit = 0; limit < 100 && location == undefined; ++limit)
+				{
+					Coordinate candidate = Random::ChooseInExtent(npc->map->Extent());
+					if (!npc->map->IsTerritory(candidate))
+						location = candidate;
+				}
 				}
 				if (location != undefined) {
 					patrolJob->tasks.push_back(Task(MOVENEAR, location));
@@ -267,7 +298,9 @@ bool Faction::FindJob(boost::shared_ptr<NPC> npc) {
 	return false;
 }
 
-void Faction::CancelJob(boost::weak_ptr<Job> oldJob, std::string msg, TaskResult result) {}
+void Faction::CancelJob(std::weak_ptr<Job> oldJob, std::string msg, TaskResult result)
+{
+}
 
 void Faction::MakeFriendsWith(FactionType otherFaction) {
 	friends.insert(otherFaction);
@@ -298,14 +331,16 @@ void Faction::TranslateFriends() {
 void Faction::TranslateMembers() {
 	for (size_t i = 0; i < factions.size(); ++i) {
 		for (std::list<int>::iterator uidi = factions[i]->membersAsUids.begin(); 
-			uidi != factions[i]->membersAsUids.end(); ++uidi) {
-				boost::weak_ptr<NPC> npc = Game::Inst()->GetNPC(*uidi);
-				if (npc.lock()) factions[i]->AddMember(npc);
+			uidi != factions[i]->membersAsUids.end(); ++uidi)
+		{
+			std::weak_ptr<NPC> npc = Game::Inst()->GetNPC(*uidi);
+			if (npc.lock()) factions[i]->AddMember(npc);
 		}
 	}
 }
 
-void Faction::TransferTrapInfo(boost::shared_ptr<Faction> otherFaction) {
+void Faction::TransferTrapInfo(std::shared_ptr<Faction> otherFaction)
+{
 	otherFaction->trapVisible = this->trapVisible;
 }
 
@@ -422,19 +457,22 @@ void Faction::save(OutputArchive& ar, const unsigned int version) const {
 	ar & activeTime;
 	ar & maxActiveTime;
 	ar & active;
-	
+
 	std::size_t friendCount = friends.size();
 	ar & friendCount;
-	for (std::set<FactionType>::iterator factionIter = friends.begin(); factionIter != friends.end(); ++factionIter) {
+	for (std::set<FactionType>::iterator factionIter = friends.begin(); factionIter != friends.end(); ++factionIter)
+	{
 		std::string factionName = Faction::FactionTypeToString(*factionIter);
 		ar & factionName;
 	}
 
 	std::size_t memberCount = members.size();
 	ar & memberCount;
-	for (std::list<boost::weak_ptr<NPC> >::const_iterator membi = members.begin(); membi != members.end(); ++membi) {
+	for (std::list<std::weak_ptr<NPC> >::const_iterator membi = members.begin(); membi != members.end(); ++membi)
+	{
 		int uid = -1;
-		if (membi->lock()) {
+		if (membi->lock())
+		{
 			uid = membi->lock()->Uid();
 		}
 		ar & uid;
@@ -445,8 +483,9 @@ void Faction::save(OutputArchive& ar, const unsigned int version) const {
 }
 
 void Faction::load(InputArchive& ar, const unsigned int version) {
-	if (version == 0) {
-		std::list< boost::weak_ptr<NPC> > unusedList;
+	if (version == 0)
+	{
+		std::list<std::weak_ptr<NPC> > unusedList;
 		ar & unusedList;
 	}
 	ar & trapVisible;

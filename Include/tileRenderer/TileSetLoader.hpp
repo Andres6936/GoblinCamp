@@ -44,10 +44,10 @@ struct TilesetModMetadata
 
 namespace TileSetLoader
 {
-	boost::shared_ptr<TileSet> LoadTileSet(boost::shared_ptr<TilesetRenderer> spriteFactory, std::string name);
+	std::shared_ptr<TileSet> LoadTileSet(std::shared_ptr<TilesetRenderer> spriteFactory, std::string name);
 
-	boost::shared_ptr<TileSet>
-	LoadTileSet(boost::shared_ptr<TilesetRenderer> spriteFactory, std::filesystem::path path);
+	std::shared_ptr<TileSet>
+	LoadTileSet(std::shared_ptr<TilesetRenderer> spriteFactory, std::filesystem::path path);
 
 	TileSetMetadata LoadTileSetMetadata(std::filesystem::path path);
 

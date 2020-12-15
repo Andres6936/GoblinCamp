@@ -46,21 +46,21 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 UI* UI::instance = 0;
 
 UI::UI() :
-menuOpen(false),
-	_state(UINORMAL),
-	_blueprint(1,1),
-	placeable(false),
-	underCursor(std::list<boost::weak_ptr<Entity> >()),
-	drawCursor(false),
-	lbuttonPressed(false),
-	mbuttonPressed(false),
-	rbuttonPressed(false),
-	keyHelpTextColor(0),
-	draggingViewport(false),
-	draggingPlacement(false),
-	textMode(false),
-	inputString(std::string("")),
-	currentStrobeTarget(boost::weak_ptr<Entity>())
+		menuOpen(false),
+		_state(UINORMAL),
+		_blueprint(1, 1),
+		placeable(false),
+		underCursor(std::list<std::weak_ptr<Entity> >()),
+		drawCursor(false),
+		lbuttonPressed(false),
+		mbuttonPressed(false),
+		rbuttonPressed(false),
+		keyHelpTextColor(0),
+		draggingViewport(false),
+		draggingPlacement(false),
+		textMode(false),
+		inputString(std::string("")),
+		currentStrobeTarget(std::weak_ptr<Entity>())
 {
 	currentMenu = Menu::MainMenu();
 	menuHistory.reserve(10);
@@ -366,7 +366,7 @@ void UI::HandleMouse() {
 					}
 				} else { //Current state is not any kind of placement, so open construction/npc context menu if over one
 					if (!underCursor.empty()) sideBar.SetEntity(*underCursor.begin());
-					else sideBar.SetEntity(boost::weak_ptr<Entity>());
+					else sideBar.SetEntity(std::weak_ptr<Entity>());
 				}
 			}
 		}
@@ -403,11 +403,15 @@ void UI::HandleMouse() {
 		}
 		currentMenu = 0;
 		if(!underCursor.empty()) {
-			if (underCursor.begin()->lock()) {
-				if (boost::dynamic_pointer_cast<Construction>(underCursor.begin()->lock())) {
-					if (!boost::static_pointer_cast<Construction>(underCursor.begin()->lock())->DismantlingOrdered())
+			if (underCursor.begin()->lock())
+			{
+				if (std::dynamic_pointer_cast<Construction>(underCursor.begin()->lock()))
+				{
+					if (!std::static_pointer_cast<Construction>(underCursor.begin()->lock())->DismantlingOrdered())
 						currentMenu = underCursor.begin()->lock()->GetContextMenu();
-				} else {
+				}
+				else
+				{
 					currentMenu = underCursor.begin()->lock()->GetContextMenu();
 				}
 			}
@@ -446,18 +450,23 @@ void UI::Draw(TCODConsole* console) {
 
 	DrawTopBar(console);
 
-	if (menuOpen) {
+	if (menuOpen)
+	{
 		currentMenu->Draw(menuX, menuY, console);
 	}
-	
-	Coordinate mouseTile(Game::Inst()->TileAt(mouseInput.x, mouseInput.y));
-	boost::shared_ptr<MapRenderer> renderer = Game::Inst()->Renderer();
 
-	if (_state == UIPLACEMENT || ((_state == UIABPLACEMENT || _state == UIRECTPLACEMENT) && a.X() == 0)) {
-		renderer->DrawCursor(mouseTile, Coordinate(mouseTile.X() + _blueprint.X() - 1, mouseTile.Y() + _blueprint.Y() - 1), placeable);
+	Coordinate mouseTile(Game::Inst()->TileAt(mouseInput.x, mouseInput.y));
+	std::shared_ptr<MapRenderer> renderer = Game::Inst()->Renderer();
+
+	if (_state == UIPLACEMENT || ((_state == UIABPLACEMENT || _state == UIRECTPLACEMENT) && a.X() == 0))
+	{
+		renderer->DrawCursor(mouseTile,
+				Coordinate(mouseTile.X() + _blueprint.X() - 1, mouseTile.Y() + _blueprint.Y() - 1), placeable);
 	}
-	else if (_state == UIABPLACEMENT && a.X() > 0) {
-		if (a.X() > b.X()) {
+	else if (_state == UIABPLACEMENT && a.X() > 0)
+	{
+		if (a.X() > b.X())
+		{
 			tmp = a.X();
 			a.X(b.X());
 			b.X(tmp);
@@ -539,26 +548,35 @@ void UI::Draw(TCODConsole* console) {
 	if (_state == UINORMAL && (!menuOpen || (currentMenu->Update(mouseInput.cx, mouseInput.cy, false, NO_KEY) & NOMENUHIT)) 
 		&& (sideBar.Update(mouseInput.cx, mouseInput.cy, false) & NOMENUHIT)
 		&& (Announce::Inst()->Update(mouseInput.cx, mouseInput.cy, false) & NOMENUHIT)
-		&& !underCursor.empty()) {
+		&& !underCursor.empty())
+	{
 
-			if (boost::shared_ptr<Entity> strobeEntity = currentStrobeTarget.lock()) { strobeEntity->Strobe(); }
-			for (std::list<boost::weak_ptr<Entity> >::iterator ucit = underCursor.begin(); ucit != underCursor.end(); ++ucit) {
-				if (boost::shared_ptr<Entity> entity = ucit->lock()) {
-					Coordinate mouseLoc = Game::Inst()->TileAt(mouseInput.x, mouseInput.y);
-					entity->GetTooltip(mouseLoc.X(), mouseLoc.Y(), tooltip);
+		if (std::shared_ptr<Entity> strobeEntity = currentStrobeTarget.lock())
+		{ strobeEntity->Strobe(); }
+		for (std::list<std::weak_ptr<Entity> >::iterator ucit = underCursor.begin(); ucit != underCursor.end(); ++ucit)
+		{
+			if (std::shared_ptr<Entity> entity = ucit->lock())
+			{
+				Coordinate mouseLoc = Game::Inst()->TileAt(mouseInput.x, mouseInput.y);
+				entity->GetTooltip(mouseLoc.X(), mouseLoc.Y(), tooltip);
 
-					if (entity->CanStrobe()) {
-						if (boost::shared_ptr<Entity> strobeTarget = currentStrobeTarget.lock()) {
-							if (entity != strobeTarget) {
-								strobeTarget->ResetStrobe();
-							}
+				if (entity->CanStrobe())
+				{
+					if (std::shared_ptr<Entity> strobeTarget = currentStrobeTarget.lock())
+					{
+						if (entity != strobeTarget)
+						{
+							strobeTarget->ResetStrobe();
 						}
-						currentStrobeTarget = entity;
 					}
-							
+					currentStrobeTarget = entity;
 				}
+
 			}
-	} else if (boost::shared_ptr<Entity> strobeEntity = currentStrobeTarget.lock()) {
+		}
+	}
+	else if (std::shared_ptr<Entity> strobeEntity = currentStrobeTarget.lock())
+	{
 		strobeEntity->ResetStrobe();
 		currentStrobeTarget.reset();
 	}
@@ -652,17 +670,41 @@ void UI::ChangeMenu(Panel* menu) {
 	menu->Open();
 }
 
-void UI::AddToHistory(Panel* menu) {menuHistory.push_back(menu);}
-Panel* UI::CurrentMenu() {return currentMenu;}
-void UI::CurrentMenu(Panel* menu) {currentMenu = menu;}
+void UI::AddToHistory(Panel* menu)
+{
+	menuHistory.push_back(menu);
+}
 
-void UI::SetCallback(boost::function<void(Coordinate)> newCallback) {callback = newCallback;}
-void UI::SetRectCallback(boost::function<void(Coordinate,Coordinate)> newCallback) {rectCallback = newCallback;}
-void UI::SetPlacementCallback(boost::function<bool(Coordinate,Coordinate)> newCallback) {placementCallback = newCallback;}
+Panel* UI::CurrentMenu()
+{
+	return currentMenu;
+}
 
-void UI::ChooseConstruct(ConstructionType construct, UIState state) {
+void UI::CurrentMenu(Panel* menu)
+{
+	currentMenu = menu;
+}
+
+void UI::SetCallback(std::function<void(Coordinate)> newCallback)
+{
+	callback = newCallback;
+}
+
+void UI::SetRectCallback(std::function<void(Coordinate, Coordinate)> newCallback)
+{
+	rectCallback = newCallback;
+}
+
+void UI::SetPlacementCallback(std::function<bool(Coordinate, Coordinate)> newCallback)
+{
+	placementCallback = newCallback;
+}
+
+void UI::ChooseConstruct(ConstructionType construct, UIState state)
+{
 	UI::Inst()->SetCallback(boost::bind(Game::PlaceConstruction, _1, construct));
-	UI::Inst()->SetPlacementCallback(boost::bind(Game::CheckPlacement, _1, _2, Construction::Presets[construct].tileReqs));
+	UI::Inst()->SetPlacementCallback(
+			boost::bind(Game::CheckPlacement, _1, _2, Construction::Presets[construct].tileReqs));
 	UI::Inst()->blueprint(Construction::Blueprint(construct));
 	UI::Inst()->state(state);
 	Game::Inst()->Renderer()->SetCursorMode(Cursor_Construct);
@@ -706,24 +748,27 @@ void UI::ChoosePlantHarvest() {
 	UI::Inst()->SetExtraTooltip("Harvest plants");
 }
 
-void UI::ChooseOrderTargetCoordinate(boost::shared_ptr<Squad> squad, Order order) {
+void UI::ChooseOrderTargetCoordinate(std::shared_ptr<Squad> squad, Order order)
+{
 	UI::Inst()->state(UIPLACEMENT);
 	bool autoClose = true;
-	if (order == PATROL) {
+	if (order == PATROL)
+	{
 		autoClose = false;
 		order = GUARD;
 	}
 	UI::Inst()->SetCallback(boost::bind(Game::SetSquadTargetCoordinate, order, _1, squad, autoClose));
-	UI::Inst()->SetPlacementCallback(boost::bind(Game::CheckTree, _1, Coordinate(1,1)));
-	UI::Inst()->blueprint(Coordinate(1,1));
+	UI::Inst()->SetPlacementCallback(boost::bind(Game::CheckTree, _1, Coordinate(1, 1)));
+	UI::Inst()->blueprint(Coordinate(1, 1));
 	Game::Inst()->Renderer()->SetCursorMode(Cursor_Order);
 }
 
-void UI::ChooseOrderTargetEntity(boost::shared_ptr<Squad> squad, Order order) {
+void UI::ChooseOrderTargetEntity(std::shared_ptr<Squad> squad, Order order)
+{
 	UI::Inst()->state(UIPLACEMENT);
 	UI::Inst()->SetCallback(boost::bind(Game::SetSquadTargetEntity, order, _1, squad));
-	UI::Inst()->SetPlacementCallback(boost::bind(Game::CheckTree, _1, Coordinate(1,1)));
-	UI::Inst()->blueprint(Coordinate(1,1));
+	UI::Inst()->SetPlacementCallback(boost::bind(Game::CheckTree, _1, Coordinate(1, 1)));
+	UI::Inst()->blueprint(Coordinate(1, 1));
 	Game::Inst()->Renderer()->SetCursorMode(Cursor_Order);
 }
 
@@ -768,15 +813,20 @@ void UI::ChooseDesignateBog() {
 }
 
 
-boost::weak_ptr<Entity> UI::GetEntity(const Coordinate& pos) {
-	if (pos.X() >= 0 && pos.X() < Map::Inst()->Width() && pos.Y() >= 0 && pos.Y() < Map::Inst()->Height()) {
-		std::set<int> *npcList = Map::Inst()->NPCList(pos);
+std::weak_ptr<Entity> UI::GetEntity(const Coordinate& pos)
+{
+	if (pos.X() >= 0 && pos.X() < Map::Inst()->Width() && pos.Y() >= 0 && pos.Y() < Map::Inst()->Height())
+	{
+		std::set<int>* npcList = Map::Inst()->NPCList(pos);
 		if (!npcList->empty()) return Game::Inst()->GetNPC((*npcList->begin()));
 
-		std::set<int> *itemList = Map::Inst()->ItemList(pos);
-		if (!itemList->empty()) {
-			std::set<boost::weak_ptr<Item> >::iterator itemi = Game::Inst()->freeItems.find(Game::Inst()->itemList[*itemList->begin()]);
-			if (itemi != Game::Inst()->freeItems.end()) {
+		std::set<int>* itemList = Map::Inst()->ItemList(pos);
+		if (!itemList->empty())
+		{
+			std::set<std::weak_ptr<Item> >::iterator itemi = Game::Inst()->freeItems.find(
+					Game::Inst()->itemList[*itemList->begin()]);
+			if (itemi != Game::Inst()->freeItems.end())
+			{
 				return *itemi;
 			}
 		}
@@ -787,16 +837,20 @@ boost::weak_ptr<Entity> UI::GetEntity(const Coordinate& pos) {
 		entity = Map::Inst()->GetConstruction(pos);
 		if (entity > -1) return Game::Inst()->GetConstruction(entity);
 	}
-	return boost::weak_ptr<Entity>();
+	return std::weak_ptr<Entity>();
 }
 
-void UI::HandleUnderCursor(const Coordinate& pos, std::list<boost::weak_ptr<Entity> >* result) {
+void UI::HandleUnderCursor(const Coordinate& pos, std::list<std::weak_ptr<Entity> >* result)
+{
 	result->clear();
 
-	if (Map::Inst()->IsInside(pos)) {
-		std::set<int> *npcList = Map::Inst()->NPCList(pos);
-		if (!npcList->empty()) {
-			for (std::set<int>::iterator npci = npcList->begin(); npci != npcList->end(); ++npci) {
+	if (Map::Inst()->IsInside(pos))
+	{
+		std::set<int>* npcList = Map::Inst()->NPCList(pos);
+		if (!npcList->empty())
+		{
+			for (std::set<int>::iterator npci = npcList->begin(); npci != npcList->end(); ++npci)
+			{
 				result->push_back(Game::Inst()->GetNPC(*npci));
 			}
 		}
@@ -887,8 +941,8 @@ void UI::ChooseCreateItem() {
 	if (item >= 0) {
 		UI::Inst()->state(UIPLACEMENT);
 		UI::Inst()->SetCallback(boost::bind(&Game::CreateItem, Game::Inst(), _1, ItemType(item), false,
-			0, std::vector<boost::weak_ptr<Item> >(), boost::shared_ptr<Container>()));
-		UI::Inst()->SetPlacementCallback(boost::bind(Game::CheckTree, _1, Coordinate(1,1)));
+				0, std::vector<std::weak_ptr<Item> >(), std::shared_ptr<Container>()));
+		UI::Inst()->SetPlacementCallback(boost::bind(Game::CheckTree, _1, Coordinate(1, 1)));
 		UI::Inst()->blueprint(Coordinate(1,1));
 		Game::Inst()->Renderer()->SetCursorMode(Item::Presets[item]);
 	}
@@ -935,45 +989,57 @@ void UI::ChooseGatherItems() {
 	UI::Inst()->SetExtraTooltip("Gather items");
 }
 
-void UI::ChooseNormalPlacement(boost::function<void(Coordinate)> callback, boost::function<bool(Coordinate, Coordinate)> placement, int cursor, std::string optionalTooltip) {
+void UI::ChooseNormalPlacement(std::function<void(Coordinate)> callback,
+		std::function<bool(Coordinate, Coordinate)> placement, int cursor, std::string optionalTooltip)
+{
 	UI::Inst()->state(UIPLACEMENT);
 	UI::Inst()->SetCallback(callback);
 	UI::Inst()->SetPlacementCallback(placement);
-	UI::Inst()->blueprint(Coordinate(1,1));
+	UI::Inst()->blueprint(Coordinate(1, 1));
 	Game::Inst()->Renderer()->SetCursorMode(cursor);
-	if (optionalTooltip.length() > 0) {
+	if (optionalTooltip.length() > 0)
+	{
 		UI::Inst()->HideMenu();
 		UI::Inst()->SetExtraTooltip(optionalTooltip);
 	}
 }
 
-void UI::ChooseRectPlacement(boost::function<void(Coordinate, Coordinate)> rectCallback, boost::function<bool(Coordinate, Coordinate)> placement, int cursor, std::string optionalTooltip) {
+void UI::ChooseRectPlacement(std::function<void(Coordinate, Coordinate)> rectCallback,
+		std::function<bool(Coordinate, Coordinate)> placement, int cursor, std::string optionalTooltip)
+{
 	UI::Inst()->state(UIRECTPLACEMENT);
 	UI::Inst()->SetRectCallback(rectCallback);
 	UI::Inst()->SetPlacementCallback(placement);
-	UI::Inst()->blueprint(Coordinate(1,1));
+	UI::Inst()->blueprint(Coordinate(1, 1));
 	Game::Inst()->Renderer()->SetCursorMode(cursor);
-	if (optionalTooltip.length() > 0) {
+	if (optionalTooltip.length() > 0)
+	{
 		UI::Inst()->HideMenu();
 		UI::Inst()->SetExtraTooltip(optionalTooltip);
 	}
 }
 
-void UI::ChooseRectPlacementCursor(boost::function<void(Coordinate, Coordinate)> rectCallback, boost::function<bool(Coordinate, Coordinate)> placement, CursorType cursor) {
+void UI::ChooseRectPlacementCursor(std::function<void(Coordinate, Coordinate)> rectCallback,
+		std::function<bool(Coordinate, Coordinate)> placement, CursorType cursor)
+{
 	UI::Inst()->state(UIRECTPLACEMENT);
 	UI::Inst()->SetRectCallback(rectCallback);
 	UI::Inst()->SetPlacementCallback(placement);
-	UI::Inst()->blueprint(Coordinate(1,1));
+	UI::Inst()->blueprint(Coordinate(1, 1));
 	Game::Inst()->Renderer()->SetCursorMode(cursor);
 }
 
-void UI::ChooseABPlacement(boost::function<void(Coordinate)> callback, boost::function<bool(Coordinate, Coordinate)> placement, int cursor, std::string optionalTooltip) {
+void
+UI::ChooseABPlacement(std::function<void(Coordinate)> callback, std::function<bool(Coordinate, Coordinate)> placement,
+		int cursor, std::string optionalTooltip)
+{
 	UI::Inst()->state(UIABPLACEMENT);
 	UI::Inst()->SetCallback(callback);
 	UI::Inst()->SetPlacementCallback(placement);
-	UI::Inst()->blueprint(Coordinate(1,1));
+	UI::Inst()->blueprint(Coordinate(1, 1));
 	Game::Inst()->Renderer()->SetCursorMode(cursor);
-	if (optionalTooltip.length() > 0) {
+	if (optionalTooltip.length() > 0)
+	{
 		UI::Inst()->HideMenu();
 		UI::Inst()->SetExtraTooltip(optionalTooltip);
 	}

@@ -85,17 +85,21 @@ bool WaterNode::Update() {
 			if (timeFromRiverBed == 0 && Random::Generate(100) == 0) depth -= 1; //Evaporation
 			if (timeFromRiverBed > 0 && depth < RIVERDEPTH) depth += 10; //Water rushing from the river
 
-			std::vector<boost::weak_ptr<WaterNode> > waterList;
+			std::vector<std::weak_ptr<WaterNode> > waterList;
 			std::vector<Coordinate> coordList;
 			int depthSum = 0;
 
 			//Check if any of the surrounding tiles are low, this only matters if this tile is not low
 			bool onlyLowTiles = false;
-			if (!Map::Inst()->IsLow(pos)) {
-				for (int ix = pos.X()-1; ix <= pos.X()+1; ++ix) {
-					for (int iy = pos.Y()-1; iy <= pos.Y()+1; ++iy) {
-						Coordinate p(ix,iy);
-						if (Map::Inst()->IsInside(p)) {
+			if (!Map::Inst()->IsLow(pos))
+			{
+				for (int ix = pos.X() - 1; ix <= pos.X() + 1; ++ix)
+				{
+					for (int iy = pos.Y() - 1; iy <= pos.Y() + 1; ++iy)
+					{
+						Coordinate p(ix, iy);
+						if (Map::Inst()->IsInside(p))
+						{
 							if (p != pos && Map::Inst()->IsLow(p)) { 
 								onlyLowTiles = true;
 								break;
@@ -136,19 +140,21 @@ bool WaterNode::Update() {
 			}
 
 			if (timeFromRiverBed > 0) --timeFromRiverBed;
-			divided = ((double)depthSum/waterList.size());
+			divided = ((double)depthSum / waterList.size());
 
-			boost::shared_ptr<Item> item;
+			std::shared_ptr<Item> item;
 			if (!Map::Inst()->ItemList(pos)->empty())
 				item = Game::Inst()->GetItem(*Map::Inst()->ItemList(pos)->begin()).lock();
 
 			//Filth and items flow off the map
 			Direction flow = Map::Inst()->GetFlow(pos);
 			Coordinate flowTarget = Coordinate::DirectionToCoordinate(flow) + pos;
-			if (!(Map::Inst()->IsInside(flowTarget))) {
-					if (filth > 0) {
-						Stats::Inst()->FilthFlowsOffEdge(std::min(filth, 10));
-						filth -= std::min(filth, 10);
+			if (!(Map::Inst()->IsInside(flowTarget)))
+			{
+				if (filth > 0)
+				{
+					Stats::Inst()->FilthFlowsOffEdge(std::min(filth, 10));
+					filth -= std::min(filth, 10);
 					}
 					if (item) {
 						Game::Inst()->RemoveItem(item);
@@ -157,18 +163,25 @@ bool WaterNode::Update() {
 			}
 
 			//Loop through neighbouring waternodes
-			for (unsigned int i = 0; i < waterList.size(); ++i) {
-				if (boost::shared_ptr<WaterNode> water = waterList[i].lock()) {
+			for (unsigned int i = 0; i < waterList.size(); ++i)
+			{
+				if (std::shared_ptr<WaterNode> water = waterList[i].lock())
+				{
 					water->depth = (int)divided;
 					water->timeFromRiverBed = timeFromRiverBed;
 					water->UpdateGraphic();
 
 					//So much filth it'll go anywhere
-					if (filth > 10 && Random::Generate(3) == 0) { filth -= 5; water->filth += 5; }
+					if (filth > 10 && Random::Generate(3) == 0)
+					{
+						filth -= 5;
+						water->filth += 5;
+					}
 					//Filth and items go with the flow
 					//TODO factorize
 					int x = pos.X(), y = pos.Y();
-					switch (flow) {
+					switch (flow)
+					{
 					case NORTH:
 						if (coordList[i].Y() < y) {
 							if (filth > 0) {

@@ -20,18 +20,24 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 class Job;
 
-class Trap : public Construction {
+class Trap : public Construction
+{
 	GC_SERIALIZABLE_CLASS
-	
+
 	bool ready;
-	boost::weak_ptr<Job> reloadJob;
+	std::weak_ptr<Job> reloadJob;
 	int readyGraphic;
 public:
-	Trap(ConstructionType = 0, Coordinate = Coordinate(0,0));
+	Trap(ConstructionType = 0, Coordinate = Coordinate(0, 0));
+
 	virtual void Update();
+
 	int GetMoveCostModifier(bool visible);
+
 	virtual int Use();
+
 	virtual void SpawnRepairJob();
+
 	virtual void AcceptVisitor(ConstructionVisitor& visitor);
 
 	bool IsReady() const;

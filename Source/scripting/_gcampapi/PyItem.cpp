@@ -25,20 +25,26 @@ namespace py = boost::python;
 #include "Coordinate.hpp"
 #include "Logger.hpp"
 
-namespace Script { namespace API {
-	#define ITEM_ALIVE(var) boost::shared_ptr<Item> var = item.lock()
-	
-	PyItem::PyItem(boost::weak_ptr<Item> item) : item(item) {
-	}
-	
-	py::tuple PyItem::GetPosition() {
-		if (ITEM_ALIVE(ptr)) {
-			Coordinate coords = ptr->Position();
-			return py::make_tuple(coords.X(), coords.Y());
-		} else {
-			LOG("WARNING: ITEM POINTER LOST");
-			return py::make_tuple(py::object(), py::object());
+namespace Script { namespace API
+	{
+#define ITEM_ALIVE(var) std::shared_ptr<Item> var = item.lock()
+
+		PyItem::PyItem(std::weak_ptr<Item> item) : item(item)
+		{
 		}
+
+		py::tuple PyItem::GetPosition()
+		{
+			if (ITEM_ALIVE(ptr))
+			{
+				Coordinate coords = ptr->Position();
+				return py::make_tuple(coords.X(), coords.Y());
+			}
+			else
+			{
+				LOG("WARNING: ITEM POINTER LOST");
+				return py::make_tuple(py::object(), py::object());
+			}
 	}
 	
 	bool PyItem::SetPosition(int x, int y) {

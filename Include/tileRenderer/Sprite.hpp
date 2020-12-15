@@ -41,22 +41,29 @@ public:
 	virtual ~Sprite() = 0;
 
 	bool IsConnectionMap() const;
+
 	bool IsTwoLayeredConnectionMap() const;
+
 	bool IsAnimated() const;
 
 	// Connection Map Drawing
-	typedef boost::function<bool (Direction)> ConnectedFunction;
-	typedef boost::function<int (Direction)> LayeredConnectedFunction;
+	typedef std::function<bool(Direction)> ConnectedFunction;
+	typedef std::function<int(Direction)> LayeredConnectedFunction;
 
 	// Standard Tile Drawing
-	void Draw(int screenX, int screenY) const; 
+	void Draw(int screenX, int screenY) const;
+
 	void Draw(int screenX, int screenY, ConnectedFunction) const;
+
 	void Draw(int screenX, int screenY, int connectionLayer, LayeredConnectedFunction) const;
 
 protected:
 	explicit Sprite();
+
 	explicit Sprite(int tile);
-	template <typename IterT> explicit Sprite(IterT start, IterT end, bool connectionMap, int frameRate = 15, int frameCount = 1);
+
+	template<typename IterT>
+	explicit Sprite(IterT start, IterT end, bool connectionMap, int frameRate = 15, int frameCount = 1);
 
 	std::vector<int> tiles;
 	SpriteType type;
@@ -144,16 +151,28 @@ public:
 		if (ptr) ptr->Draw(screenX, screenY, connectedFunction); 
 	}
 
-	void Draw(int screenX, int screenY, int connectionLayer, Sprite::LayeredConnectedFunction connectedFunction) const {
+	void Draw(int screenX, int screenY, int connectionLayer, Sprite::LayeredConnectedFunction connectedFunction) const
+	{
 		if (ptr) ptr->Draw(screenX, screenY, connectionLayer, connectedFunction);
 	}
 
-	bool IsConnectionMap() const { return ptr && ptr->IsConnectionMap(); }
-	bool IsTwoLayeredConnectionMap() const { return ptr && ptr->IsTwoLayeredConnectionMap(); }
-	bool IsAnimated() const { return ptr && ptr->IsAnimated(); }
+	bool IsConnectionMap() const
+	{
+		return ptr && ptr->IsConnectionMap();
+	}
+
+	bool IsTwoLayeredConnectionMap() const
+	{
+		return ptr && ptr->IsTwoLayeredConnectionMap();
+	}
+
+	bool IsAnimated() const
+	{
+		return ptr && ptr->IsAnimated();
+	}
 
 private:
-	boost::shared_ptr<Sprite> ptr;
+	std::shared_ptr<Sprite> ptr;
 };
 
 typedef SpritePtr Sprite_ptr;

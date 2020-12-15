@@ -23,23 +23,29 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 class Job;
 
-class FireNode : public boost::enable_shared_from_this<FireNode> {
+class FireNode : public std::enable_shared_from_this<FireNode>
+{
 	GC_SERIALIZABLE_CLASS
-	
+
 	Coordinate pos;
 	int graphic;
 	TCODColor color;
 	int temperature;
-	boost::weak_ptr<Job> waterJob;
+	std::weak_ptr<Job> waterJob;
 
 public:
 	FireNode(const Coordinate& = zero, int temperature = 0);
+
 	~FireNode();
 
 	void Update();
+
 	void Draw(Coordinate, TCODConsole*);
+
 	Coordinate Position();
+
 	void AddHeat(int);
+
 	int GetHeat();
 	void SetHeat(int);
 };

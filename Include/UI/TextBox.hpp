@@ -25,16 +25,24 @@
 
 #include "UIComponents.hpp"
 
-class TextBox: public Drawable {
+class TextBox : public Drawable
+{
 private:
-	std::string *value;
-	boost::function<std::string()> getter;
-	boost::function<void(std::string)> setter;
+	std::string* value;
+	std::function<std::string()> getter;
+	std::function<void(std::string)> setter;
 public:
-	TextBox(int x, int y, int nwidth, std::string *nvalue):
-		Drawable(x, y, nwidth, 1), value(nvalue) {}
-	TextBox(int x, int y, int nwidth, boost::function<std::string()> ngetter, boost::function<void(std::string)> nsetter):
-		Drawable(x, y, nwidth, 1), value(0), getter(ngetter), setter(nsetter) {}
-	void Draw(int, int, TCODConsole *);
+	TextBox(int x, int y, int nwidth, std::string* nvalue) :
+			Drawable(x, y, nwidth, 1), value(nvalue)
+	{
+	}
+
+	TextBox(int x, int y, int nwidth, std::function<std::string()> ngetter, std::function<void(std::string)> nsetter) :
+			Drawable(x, y, nwidth, 1), value(0), getter(ngetter), setter(nsetter)
+	{
+	}
+
+	void Draw(int, int, TCODConsole*);
+
 	MenuResult Update(int, int, bool, TCOD_key_t);
 };

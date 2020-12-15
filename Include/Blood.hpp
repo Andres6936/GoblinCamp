@@ -21,15 +21,17 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Coordinate.hpp"
 #include "data/Serialization.hpp"
 
-class BloodNode : public boost::enable_shared_from_this<BloodNode> {
+class BloodNode : public std::enable_shared_from_this<BloodNode>
+{
 	GC_SERIALIZABLE_CLASS
-	
+
 	Coordinate pos;
 	int depth;
 	int graphic;
 	TCODColor color;
 public:
 	BloodNode(const Coordinate& pos = zero, int depth = 0);
+
 	~BloodNode();
 
 	void Update();

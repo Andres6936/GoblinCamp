@@ -19,8 +19,10 @@
 
 #include <boost/function.hpp>
 
-class MessageBox {
+class MessageBox
+{
 public:
-	static void ShowMessageBox(std::string text, boost::function<void()> firstAction = NULL, std::string firstButton = "Ok", 
-		boost::function<void()> secondAction = NULL, std::string secondButton = "");
+	static void
+	ShowMessageBox(std::string text, std::function<void()> firstAction = NULL, std::string firstButton = "Ok",
+			std::function<void()> secondAction = NULL, std::string secondButton = "");
 };
