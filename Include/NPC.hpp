@@ -145,7 +145,7 @@ class NPC : public Entity {
 	std::shared_ptr<Item> mainHand;
 	std::shared_ptr<Item> offHand;
 	std::shared_ptr<Item> armor;
-	std::weak_ptr<Container> quiver;
+	std::shared_ptr<Container> quiver;
 
 	int thirst, hunger, weariness;
 	int thinkSpeed;

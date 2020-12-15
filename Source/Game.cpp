@@ -457,19 +457,21 @@ int Game::CreateNPC(Coordinate target, NPCType type) {
 				npc->armor = item;
 			}
 			else if (categories.find(Item::StringToItemCategory("quiver")) != categories.end()
-					 && !npc->quiver.lock())
+					 && !npc->quiver)
 			{
 				int itemUid = CreateItem(npc->Position(), itemType, false, npc->GetFaction(),
 						std::vector<std::shared_ptr<Item> >(), npc->inventory);
 				std::shared_ptr<Item> item = itemList[itemUid];
 				npc->quiver = std::static_pointer_cast<Container>(item); //Quivers = containers
-			} else if (categories.find(Item::StringToItemCategory("ammunition")) != categories.end()
-				&& npc->quiver.lock() && npc->quiver.lock()->empty()) {
-				for (int i = 0; i < 20 && !npc->quiver.lock()->Full(); ++i)
+			}
+			else if (categories.find(Item::StringToItemCategory("ammunition")) != categories.end()
+					 && npc->quiver && npc->quiver->empty())
+			{
+				for (int i = 0; i < 20 && !npc->quiver->Full(); ++i)
 				{
 					CreateItem(npc->Position(), itemType, false, npc->GetFaction(),
 							std::vector<std::shared_ptr<Item> >(),
-							npc->quiver.lock());
+							npc->quiver);
 				}
 			}
 			else

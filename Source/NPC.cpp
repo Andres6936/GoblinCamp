@@ -576,7 +576,7 @@ void NPC::UpdateStatusEffects() {
 					 fixi != Item::EffectRemovers.equal_range((StatusEffectType)statusEffectI->type).second &&
 					 !fixItem; ++fixi)
 				{
-					fixItem = Game::Inst()->FindItemByTypeFromStockpiles(fixi->second, Position()).lock();
+					fixItem = Game::Inst()->FindItemByTypeFromStockpiles(fixi->second, Position());
 				}
 				if (fixItem)
 				{
@@ -801,10 +801,10 @@ MOVENEARend:
 				if (!currentEntity().lock()) { TaskFinished(TASKFAILFATAL, "(TAKE)No target entity"); break; }
 				if (Position() == currentEntity().lock()->Position())
 				{
-					if (std::static_pointer_cast<Item>(currentEntity().lock())->ContainedIn().lock())
+					if (std::static_pointer_cast<Item>(currentEntity().lock())->ContainedIn())
 					{
 						std::weak_ptr<Container> cont(std::static_pointer_cast<Container>(
-								std::static_pointer_cast<Item>(currentEntity().lock())->ContainedIn().lock()));
+								std::static_pointer_cast<Item>(currentEntity().lock())->ContainedIn()));
 						cont.lock()->RemoveItem(
 								std::static_pointer_cast<Item>(currentEntity().lock()));
 					}
@@ -879,7 +879,7 @@ MOVENEARend:
 								//Create a temporary water item to give us the right effects
 								std::shared_ptr<Item> waterItem = Game::Inst()->GetItem(
 										Game::Inst()->CreateItem(Position(), Item::StringToItemType("water"), false,
-												-1)).lock();
+												-1));
 								ApplyEffects(waterItem);
 								Game::Inst()->RemoveItem(waterItem);
 
@@ -932,7 +932,7 @@ MOVENEARend:
 								for (std::set<int>::iterator itemi = map->ItemList(p)->begin();
 									itemi != map->ItemList(p)->end(); ++itemi)
 								{
-									std::shared_ptr<Item> item = Game::Inst()->GetItem(*itemi).lock();
+									std::shared_ptr<Item> item = Game::Inst()->GetItem(*itemi);
 									if (item && (item->IsCategory(Item::StringToItemCategory("food")) ||
 												 item->IsCategory(Item::StringToItemCategory("corpse"))))
 									{
@@ -1116,14 +1116,19 @@ MOVENEARend:
 					break;
 				}
 
-				if (Game::Adjacent(Position(), currentEntity())) {
+				if (Game::Adjacent(Position(), currentEntity()))
+				{
 					Hit(currentEntity(), currentTask()->flags != 0);
 					break;
-				} else if (currentTask()->flags == 0 && WieldingRangedWeapon() && quiver.lock() && 
-					!quiver.lock()->empty()) {
+				}
+				else if (currentTask()->flags == 0 && WieldingRangedWeapon() && quiver &&
+						 !quiver->empty())
+				{
 					FireProjectile(currentEntity());
 					break;
-				} else if (hasMagicRangedAttacks) {
+				}
+				else if (hasMagicRangedAttacks)
+				{
 					CastOffensiveSpell(currentEntity());
 					break;
 				}
@@ -1247,14 +1252,14 @@ MOVENEARend:
 					}
 					else if (carried->IsCategory(Item::StringToItemCategory("Quiver")))
 					{
-						if (quiver.lock())
+						if (quiver)
 						{ //Remove quiver and drop if already wearing
 							DropItem(quiver);
 							quiver.reset();
 						}
 						quiver = std::static_pointer_cast<Container>(carried);
 #ifdef DEBUG
-						std::cout<<name<<" wearing "<<quiver.lock()->Name()<<"\n";
+						std::cout<<name<<" wearing "<<quiver->Name()<<"\n";
 #endif
 					}
 					carried.reset();
@@ -1316,7 +1321,7 @@ MOVENEARend:
 			case QUIVER:
 				if (carried)
 				{
-					if (!quiver.lock())
+					if (!quiver)
 					{
 						DropItem(carried);
 						carried.reset();
@@ -1324,7 +1329,7 @@ MOVENEARend:
 						break;
 					}
 					inventory->RemoveItem(carried);
-					if (!quiver.lock()->AddItem(carried))
+					if (!quiver->AddItem(carried))
 					{
 						DropItem(carried);
 						carried.reset();
@@ -1779,7 +1784,7 @@ void NPC::Kill(std::string deathMessage) {
 		if (NPC::Presets[type].deathItem >= 0)
 		{
 			int corpsenum = Game::Inst()->CreateItem(Position(), NPC::Presets[type].deathItem, false);
-			std::shared_ptr<Item> corpse = Game::Inst()->GetItem(corpsenum).lock();
+			std::shared_ptr<Item> corpse = Game::Inst()->GetItem(corpsenum);
 			corpse->Color(_color);
 			corpse->Name(corpse->Name() + "(" + name + ")");
 			if (velocity > 0)
@@ -1893,7 +1898,7 @@ bool NPC::GetSquadJob(std::shared_ptr<NPC> npc)
 				if (attacki->Type() == DAMAGE_WIELDED)
 				{
 					if (Game::Inst()->FindItemByCategoryFromStockpiles(
-							squad->Weapon(), npc->Position()).lock())
+							squad->Weapon(), npc->Position()))
 					{
 						newJob->tasks.push_back(Task(FIND, npc->Position(), std::shared_ptr<Entity>(),
 								squad->Weapon()));
@@ -1908,9 +1913,12 @@ bool NPC::GetSquadJob(std::shared_ptr<NPC> npc)
 			}
 		}
 
-		if (npc->WieldingRangedWeapon()) {
-			if (!npc->quiver.lock()) {
-				if (Game::Inst()->FindItemByCategoryFromStockpiles(Item::StringToItemCategory("Quiver"), npc->Position()).lock())
+		if (npc->WieldingRangedWeapon())
+		{
+			if (!npc->quiver)
+			{
+				if (Game::Inst()->FindItemByCategoryFromStockpiles(Item::StringToItemCategory("Quiver"),
+						npc->Position()))
 				{
 					newJob->tasks.push_back(Task(FIND, npc->Position(), std::shared_ptr<Entity>(),
 							Item::StringToItemCategory("Quiver")));
@@ -1920,9 +1928,11 @@ bool NPC::GetSquadJob(std::shared_ptr<NPC> npc)
 					npc->jobs.push_back(newJob);
 					return true;
 				}
-			} else if (npc->quiver.lock()->empty()) {
+			}
+			else if (npc->quiver->empty())
+			{
 				if (Game::Inst()->FindItemByCategoryFromStockpiles(
-						npc->mainHand->GetAttack().Projectile(), npc->Position()).lock())
+						npc->mainHand->GetAttack().Projectile(), npc->Position()))
 				{
 					for (int i = 0; i < 20; ++i)
 					{
@@ -2003,7 +2013,7 @@ void NPC::PlayerNPCReact(std::shared_ptr<NPC> npc)
 	bool surroundingsScanned = false;
 
 	//If carrying a container and adjacent to fire, dump it on it immediately
-	if (std::shared_ptr<Item> carriedItem = npc->Carrying().lock())
+	if (std::shared_ptr<Item> carriedItem = npc->Carrying())
 	{
 		if (carriedItem->IsCategory(Item::StringToItemCategory("bucket")) ||
 			carriedItem->IsCategory(Item::StringToItemCategory("container")))
@@ -2295,10 +2305,10 @@ void NPC::FireProjectile(std::weak_ptr<Entity> target)
 				{
 					attacki->ResetCooldown();
 
-					if (!quiver.lock()->empty())
+					if (!quiver->empty())
 					{
-						std::shared_ptr<Item> projectile = quiver.lock()->GetFirstItem().lock();
-						quiver.lock()->RemoveItem(projectile);
+						std::shared_ptr<Item> projectile = quiver->GetFirstItem();
+						quiver->RemoveItem(projectile);
 						projectile->PutInContainer();
 						projectile->Position(Position());
 						projectile->CalculateFlightPath(targetEntity->Position(), 100, GetHeight());
@@ -2385,7 +2395,7 @@ void NPC::Damage(Attack* attack, std::weak_ptr<NPC> aggr)
 			if (Random::Generate(10) == 0 && attack->Type() == DAMAGE_SLASH || attack->Type() == DAMAGE_PIERCE)
 			{
 				int gibId = Game::Inst()->CreateItem(Position(), Item::StringToItemType("Gib"), false, -1);
-				std::shared_ptr<Item> gib = Game::Inst()->GetItem(gibId).lock();
+				std::shared_ptr<Item> gib = Game::Inst()->GetItem(gibId);
 				if (gib)
 				{
 					Coordinate target = Random::ChooseInRadius(Position(), 3);
@@ -2423,9 +2433,9 @@ void NPC::MemberOf(std::weak_ptr<Squad> newSquad)
 			equipment.push_back(armor);
 			armor.reset();
 		}
-		if (quiver.lock())
+		if (quiver)
 		{
-			equipment.push_back(quiver.lock());
+			equipment.push_back(quiver);
 			quiver.reset();
 		}
 
@@ -2714,7 +2724,7 @@ void NPC::FindNewWeapon()
 	ItemCategory weaponCategory = squad.lock() ? squad.lock()->Weapon() : Item::StringToItemCategory("Weapon");
 	std::shared_ptr<Item> newWeapon = Game::Inst()->FindItemByCategoryFromStockpiles(weaponCategory, Position(),
 			BETTERTHAN, weaponValue);
-	if (std::shared_ptr<Item> weapon = newWeapon.lock())
+	if (std::shared_ptr<Item> weapon = newWeapon)
 	{
 		std::shared_ptr<Job> weaponJob(new Job("Grab weapon"));
 		weaponJob->internal = true;
@@ -2729,15 +2739,15 @@ void NPC::FindNewWeapon()
 void NPC::FindNewArmor()
 {
 	int armorValue = 0;
-	if (armor.lock() && armor.lock()->IsCategory(squad.lock()->Armor()))
+	if (armor && armor->IsCategory(squad.lock()->Armor()))
 	{
-		armorValue = armor.lock()->RelativeValue();
+		armorValue = armor->RelativeValue();
 	}
 	ItemCategory armorCategory = squad.lock() ? squad.lock()->Armor() : Item::StringToItemCategory("Armor");
 	std::shared_ptr<Item> newArmor = Game::Inst()->FindItemByCategoryFromStockpiles(armorCategory, Position(),
 			BETTERTHAN,
 			armorValue);
-	if (std::shared_ptr<Item> arm = newArmor.lock())
+	if (std::shared_ptr<Item> arm = newArmor)
 	{
 		std::shared_ptr<Job> armorJob(new Job("Grab armor"));
 		armorJob->internal = true;
@@ -3092,7 +3102,7 @@ void NPC::UpdateHealth() {
 					HEALING).first;
 				 fixi != Item::GoodEffectAdders.equal_range(HEALING).second && !healItem; ++fixi)
 			{
-				healItem = Game::Inst()->FindItemByTypeFromStockpiles(fixi->second, Position()).lock();
+				healItem = Game::Inst()->FindItemByTypeFromStockpiles(fixi->second, Position());
 			}
 			if (healItem)
 			{
@@ -3132,8 +3142,8 @@ void NPC::DecreaseItemCondition(std::shared_ptr<Item> witem)
 				}
 			}
 			if (offHand == item) offHand.reset();
-			if (armor.lock() == item) armor.reset();
-			if (quiver.lock() == item) quiver.reset();
+			if (armor == item) armor.reset();
+			if (quiver == item) quiver.reset();
 			std::vector<std::shared_ptr<Item> > component(1, item);
 			Game::Inst()->CreateItem(Position(), Item::StringToItemType("debris"), false, -1, component);
 			Game::Inst()->RemoveItem(item);
