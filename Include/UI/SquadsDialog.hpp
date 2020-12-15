@@ -29,33 +29,54 @@
 #include "UIList.hpp"
 #include "Frame.hpp"
 
-class SquadsDialog : public Dialog {
+class SquadsDialog : public Dialog
+{
 private:
 	std::string squadName;
 	int squadMembers;
 	int squadPriority;
-	boost::shared_ptr<Squad> GetSquad(int);
-	UIList<std::pair<std::string, boost::shared_ptr<Squad> >, std::map<std::string, boost::shared_ptr<Squad> > > *squadList;
-	Frame *rightFrame;
-	Frame *orders;
+
+	std::shared_ptr<Squad> GetSquad(int);
+
+	UIList<std::pair<std::string, std::shared_ptr<Squad> >, std::map<std::string, std::shared_ptr<Squad> > >* squadList;
+	Frame* rightFrame;
+	Frame* orders;
 	std::list<int> markers;
+
 	void RefreshMarkers();
+
 public:
-	SquadsDialog(Drawable *ncontents, std::string ntitle, int nwidth, int nheight):
-		Dialog(ncontents, ntitle, nwidth, nheight), squadName(""), squadMembers(1), squadPriority(0) {}
+	SquadsDialog(Drawable* ncontents, std::string ntitle, int nwidth, int nheight) :
+			Dialog(ncontents, ntitle, nwidth, nheight), squadName(""), squadMembers(1), squadPriority(0)
+	{
+	}
+
 	static SquadsDialog* squadDialog;
+
 	static SquadsDialog* SquadDialog();
-	static void DrawSquad(std::pair<std::string, boost::shared_ptr<Squad> >, int, int, int, int, bool, TCODConsole *);
-	static void GetSquadTooltip(std::pair<std::string, boost::shared_ptr<Squad> >, Tooltip *);
+
+	static void DrawSquad(std::pair<std::string, std::shared_ptr<Squad> >, int, int, int, int, bool, TCODConsole*);
+
+	static void GetSquadTooltip(std::pair<std::string, std::shared_ptr<Squad> >, Tooltip*);
+
 	void SelectSquad(int i);
+
 	bool SquadSelected(bool selected);
+
 	void CreateSquad();
+
 	void ModifySquad();
+
 	void DeleteSquad();
+
 	void SelectOrder(Order order);
+
 	bool OrderSelected(Order order);
+
 	std::string SelectedSquadWeapon();
+
 	void SelectWeapon();
+
 	void Rearm();
 	std::string SelectedSquadArmor();
 	void SelectArmor();

@@ -237,9 +237,10 @@ void NatureObject::load(InputArchive& ar, const unsigned int version) {
 
 Ice::Ice(Coordinate pos, NatureObjectType typeVal) : NatureObject(pos, typeVal) {
 	ice = true;
-	Map::Inst()->SetBlocksWater(pos,true);
-	boost::shared_ptr<WaterNode> water = Map::Inst()->GetWater(pos).lock();
-	if (water) {
+	Map::Inst()->SetBlocksWater(pos, true);
+	std::shared_ptr<WaterNode> water = Map::Inst()->GetWater(pos).lock();
+	if (water)
+	{
 		frozenWater = water;
 		Game::Inst()->RemoveWater(pos);
 	}

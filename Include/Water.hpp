@@ -22,9 +22,10 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #define RIVERDEPTH 5000
 
-class WaterNode : public boost::enable_shared_from_this<WaterNode> {
+class WaterNode : public std::enable_shared_from_this<WaterNode>
+{
 	GC_SERIALIZABLE_CLASS
-	
+
 	Coordinate pos;
 	int depth;
 	int graphic;

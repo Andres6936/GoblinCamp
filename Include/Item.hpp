@@ -103,18 +103,24 @@ protected:
 	int condition;
 	TCODColor color;
 	int graphic;
+
 	Item(const Coordinate& = zero, ItemType = -1, int owner = -1,
-		std::vector<boost::weak_ptr<Item> > = std::vector<boost::weak_ptr<Item> >());
-	boost::weak_ptr<Item> container;
+			std::vector<std::weak_ptr<Item> > = std::vector<std::weak_ptr<Item> >());
+
+	std::weak_ptr<Item> container;
 	bool internal;
 
 public:
 	static std::string ItemTypeToString(ItemType);
+
 	static ItemType StringToItemType(std::string);
+
 	static std::string ItemCategoryToString(ItemCategory);
+
 	static ItemCategory StringToItemCategory(std::string);
 
 	static std::vector<ItemCategory> Components(ItemType);
+
 	static ItemCategory Components(ItemType, int);
 
 	static void LoadPresets(std::string);
@@ -130,21 +136,35 @@ public:
 	virtual ~Item();
 
 	virtual void Position(const Coordinate&);
+
 	virtual Coordinate Position();
 
 	int GetGraphicsHint() const;
+
 	virtual void Draw(Coordinate, TCODConsole*);
-	virtual void PutInContainer(boost::weak_ptr<Item> = boost::weak_ptr<Item>());
-	boost::weak_ptr<Item> ContainedIn();
+
+	virtual void PutInContainer(std::weak_ptr<Item> = std::weak_ptr<Item>());
+
+	std::weak_ptr<Item> ContainedIn();
+
 	ItemType Type();
+
 	int GetGraphic();
+
 	TCODColor Color();
+
 	void Color(TCODColor);
+
 	bool IsCategory(ItemCategory);
+
 	virtual void Reserve(bool);
+
 	virtual void SetFaction(int);
+
 	virtual int GetFaction() const;
+
 	Attack GetAttack() const;
+
 	int RelativeValue();
 	int Resistance(int) const;
 	virtual void SetVelocity(int);
@@ -175,14 +195,16 @@ public:
 
 BOOST_CLASS_VERSION(OrganicItem, 0)
 
-class WaterItem : public OrganicItem {
+class WaterItem : public OrganicItem
+{
 	GC_SERIALIZABLE_CLASS
 
 	friend class Game;
 
 public:
-	WaterItem(Coordinate=Coordinate(0,0), ItemType=0);
-	virtual void PutInContainer(boost::weak_ptr<Item> = boost::weak_ptr<Item>());
+	WaterItem(Coordinate= Coordinate(0, 0), ItemType= 0);
+
+	virtual void PutInContainer(std::weak_ptr<Item> = std::weak_ptr<Item>());
 };
 
 BOOST_CLASS_VERSION(WaterItem, 0)

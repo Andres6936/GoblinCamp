@@ -35,9 +35,10 @@ enum Order {
 	FOLLOW
 };
 
-class Squad : public boost::enable_shared_from_this<Squad> {
+class Squad : public std::enable_shared_from_this<Squad>
+{
 	GC_SERIALIZABLE_CLASS
-	
+
 	std::string name;
 	int memberReq;
 	//List of NPC uid's
@@ -45,32 +46,51 @@ class Squad : public boost::enable_shared_from_this<Squad> {
 	Order generalOrder;
 	std::vector<Order> orders;
 	std::vector<Coordinate> targetCoordinates;
-	std::vector<boost::weak_ptr<Entity> > targetEntities;
+	std::vector<std::weak_ptr<Entity> > targetEntities;
 	int priority;
 	ItemCategory weapon;
 	ItemCategory armor;
 public:
-	Squad(std::string name="Noname nancyboys", int members=0, int priority=0);
+	Squad(std::string name = "Noname nancyboys", int members = 0, int priority = 0);
+
 	~Squad();
+
 	//Recruits one member if needed and returns true if the squad still requires more members
 	bool UpdateMembers();
-	Order GetOrder(int &orderIndex);
+
+	Order GetOrder(int& orderIndex);
+
 	Order GetGeneralOrder(); //Used to highlight correct SquadsDialog button
 	void AddOrder(Order);
+
 	void ClearOrders();
+
 	Coordinate TargetCoordinate(int orderIndex);
+
 	void AddTargetCoordinate(Coordinate);
-	boost::weak_ptr<Entity> TargetEntity(int orderIndex);
-	void AddTargetEntity(boost::weak_ptr<Entity>);
+
+	std::weak_ptr<Entity> TargetEntity(int orderIndex);
+
+	void AddTargetEntity(std::weak_ptr<Entity>);
+
 	int MemberCount();
+
 	int MemberLimit();
+
 	void MemberLimit(int);
+
 	std::string Name();
+
 	void Name(std::string);
+
 	void Leave(int);
+
 	void Priority(int);
+
 	int Priority();
+
 	void RemoveAllMembers();
+
 	ItemCategory Weapon();
 	void Weapon(ItemCategory);
 	void Rearm();

@@ -31,18 +31,24 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Stockpile.hpp"
 
 Dialog* ConstructionDialog::constructionInfoDialog = 0;
-boost::weak_ptr<Construction> ConstructionDialog::cachedConstruct = boost::weak_ptr<Construction>();
-Dialog* ConstructionDialog::ConstructionInfoDialog(boost::weak_ptr<Construction> wcons) {
-	if (boost::shared_ptr<Construction> cons = wcons.lock()) {
-		if (constructionInfoDialog && (!cachedConstruct.lock() || cons != cachedConstruct.lock())) {
+std::weak_ptr<Construction> ConstructionDialog::cachedConstruct = std::weak_ptr<Construction>();
+
+Dialog* ConstructionDialog::ConstructionInfoDialog(std::weak_ptr<Construction> wcons)
+{
+	if (std::shared_ptr<Construction> cons = wcons.lock())
+	{
+		if (constructionInfoDialog && (!cachedConstruct.lock() || cons != cachedConstruct.lock()))
+		{
 			delete constructionInfoDialog;
 			constructionInfoDialog = 0;
 		}
-		if (!constructionInfoDialog) {
+		if (!constructionInfoDialog)
+		{
 			cachedConstruct = cons;
-			ConstructionDialog *dialog = new ConstructionDialog(50, 5);
+			ConstructionDialog* dialog = new ConstructionDialog(50, 5);
 			constructionInfoDialog = new Dialog(dialog, "", 50, 5);
-			if (!cons->HasTag(FARMPLOT)) {
+			if (!cons->HasTag(FARMPLOT))
+			{
 				dialog->AddComponent(new Button("Rename", boost::bind(&ConstructionDialog::Rename, dialog), 12, 1, 10));
 				dialog->AddComponent(new Button("Dismantle", boost::bind(&ConstructionDialog::Dismantle, dialog), 28, 1, 13));
 			} else {
@@ -79,14 +85,19 @@ Dialog* ConstructionDialog::ConstructionInfoDialog(boost::weak_ptr<Construction>
 	return constructionInfoDialog;
 }
 
-void ConstructionDialog::Construct(boost::weak_ptr<Construction> cons) { construct = cons; }
+void ConstructionDialog::Construct(std::weak_ptr<Construction> cons)
+{
+	construct = cons;
+}
 
 void ConstructionDialog::Rename() {
-	if (construct.lock()) {
-		UIContainer *contents = new UIContainer(std::vector<Drawable *>(), 1, 1, 28, 7);
-		contents->AddComponent(new TextBox(0, 1, 28, boost::bind(&Entity::Name, construct.lock()), boost::bind(&Entity::Name, construct.lock(), _1)));
-		contents->AddComponent(new Button("OK", boost::function<void()>(), 11, 3, 6, TCODK_ENTER, true));
-		Dialog *renameDialog = new Dialog(contents, "Rename", 30, 8);
+	if (construct.lock())
+	{
+		UIContainer* contents = new UIContainer(std::vector<Drawable*>(), 1, 1, 28, 7);
+		contents->AddComponent(new TextBox(0, 1, 28, boost::bind(&Entity::Name, construct.lock()),
+				boost::bind(&Entity::Name, construct.lock(), _1)));
+		contents->AddComponent(new Button("OK", std::function<void()>(), 11, 3, 6, TCODK_ENTER, true));
+		Dialog* renameDialog = new Dialog(contents, "Rename", 30, 8);
 		renameDialog->ShowModal();
 	}
 }
@@ -99,17 +110,21 @@ void ConstructionDialog::Dismantle() {
 }
 
 void ConstructionDialog::Expand() {
-	if (construct.lock()) {
-		boost::function<void(Coordinate, Coordinate)> rectCall = boost::bind(&Stockpile::Expand, boost::static_pointer_cast<Stockpile>(construct.lock()), _1, _2);
-		boost::function<bool(Coordinate, Coordinate)> placement = boost::bind(Game::CheckPlacement, _1, Coordinate(1,1), 
-			Construction::Presets[construct.lock()->Type()].tileReqs);
+	if (construct.lock())
+	{
+		std::function<void(Coordinate, Coordinate)> rectCall = boost::bind(&Stockpile::Expand,
+				std::static_pointer_cast<Stockpile>(construct.lock()), _1, _2);
+		std::function<bool(Coordinate, Coordinate)> placement = boost::bind(Game::CheckPlacement, _1, Coordinate(1, 1),
+				Construction::Presets[construct.lock()->Type()].tileReqs);
 		UI::Inst()->CloseMenu();
 		UI::ChooseRectPlacementCursor(rectCall, placement, Cursor_Stockpile);
 	}
 }
 
-void ConstructionDialog::CancelJob(int job) {
-	if (boost::shared_ptr<Construction> cons = construct.lock()) {
+void ConstructionDialog::CancelJob(int job)
+{
+	if (std::shared_ptr<Construction> cons = construct.lock())
+	{
 		cons->CancelJob(job);
 	}
 }
@@ -120,17 +135,25 @@ void ConstructionDialog::DrawJob(ItemType category, int i, int x, int y, int wid
 	console->setDefaultForeground(TCODColor::white);
 }
 
-void ConstructionDialog::ProductList::Draw(int x, int _y, int scroll, int width, int _height, TCODConsole *console) {
-	if (boost::shared_ptr<Construction> cons = construct.lock()) {
+void ConstructionDialog::ProductList::Draw(int x, int _y, int scroll, int width, int _height, TCODConsole *console)
+{
+	if (std::shared_ptr<Construction> cons = construct.lock())
+	{
 		int y = 0;
-		for (int prodi = 0; prodi < (signed int)cons->Products()->size() && y < scroll + _height; ++prodi) {
-			if (y >= scroll) {
+		for (int prodi = 0; prodi < (signed int)cons->Products()->size() && y < scroll + _height; ++prodi)
+		{
+			if (y >= scroll)
+			{
 				console->setDefaultForeground(TCODColor::white);
-				console->print(x, _y + y - scroll, "%s x%d", Item::ItemTypeToString(cons->Products(prodi)).c_str(), Item::Presets[cons->Products(prodi)].multiplier);
+				console->print(x, _y + y - scroll, "%s x%d", Item::ItemTypeToString(cons->Products(prodi)).c_str(),
+						Item::Presets[cons->Products(prodi)].multiplier);
 			}
 			++y;
-			for (int compi = 0; compi < (signed int)Item::Components(cons->Products(prodi)).size() && y < scroll + _height; ++compi) {
-				if (y >= scroll) {
+			for (int compi = 0;
+				 compi < (signed int)Item::Components(cons->Products(prodi)).size() && y < scroll + _height; ++compi)
+			{
+				if (y >= scroll)
+				{
 					console->setDefaultForeground(TCODColor::white);
 					console->putChar(x + 1, _y + y - scroll, compi+1 < (signed int)Item::Components(cons->Products(prodi)).size() ? TCOD_CHAR_TEEE : TCOD_CHAR_SW, TCOD_BKGND_SET);
 					console->setDefaultForeground(TCODColor::grey);

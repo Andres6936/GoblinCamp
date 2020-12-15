@@ -53,27 +53,47 @@ public:
 	bool IsIceSupported() const;
 
 	void DrawCursor(int screenX, int screenY, CursorType type, int cursorHint, bool placeable) const;
+
 	void DrawMarkedOverlay(int screenX, int screenY) const;
+
 	void DrawMarkedOverlay(int screenX, int screenY, Sprite::ConnectedFunction) const;
+
 	void DrawMarker(int screenX, int screenY) const;
+
 	void DrawBlood(int screenX, int screenY, Sprite::ConnectedFunction) const;
+
 	void DrawWater(int screenX, int screenY, Sprite::LayeredConnectedFunction) const;
+
 	void DrawIce(int screenX, int screenY, Sprite::LayeredConnectedFunction) const;
+
 	void DrawFilthMinor(int screenX, int screenY, Sprite::LayeredConnectedFunction) const;
+
 	void DrawFilthMajor(int screenX, int screenY, Sprite::LayeredConnectedFunction) const;
+
 	void DrawTerritoryOverlay(int screenX, int screenY, bool owned, Sprite::ConnectedFunction) const;
-	void DrawNPC(int screenX, int screenY, boost::shared_ptr<NPC> npc) const;
-	void DrawNatureObject(int screenX, int screenY, boost::shared_ptr<NatureObject> plant) const;
-	void DrawItem(int screenX, int screenY, boost::shared_ptr<Item> item) const;
-	void DrawSpell(int screenX, int screenY, boost::shared_ptr<Spell> spell) const;
-	void DrawFire(int screenX, int screenY, boost::shared_ptr<FireNode> fire) const;
-	void DrawBaseConstruction(int screenX, int screenY, Construction * construction, const Coordinate& worldPos) const;
-	void DrawUnderConstruction(int screenX, int screenY, Construction * construction, const Coordinate& worldPos) const;
-	void DrawUnreadyTrap(int screenX, int screenY, Construction * trap, const Coordinate& worldPos) const;
-	void DrawStockpileContents(int screenX, int screenY, Stockpile * construction, const Coordinate& worldPos) const;
-	void DrawOpenDoor(int screenX, int screenY, Door * door, const Coordinate& worldPos) const;
+
+	void DrawNPC(int screenX, int screenY, std::shared_ptr<NPC> npc) const;
+
+	void DrawNatureObject(int screenX, int screenY, std::shared_ptr<NatureObject> plant) const;
+
+	void DrawItem(int screenX, int screenY, std::shared_ptr<Item> item) const;
+
+	void DrawSpell(int screenX, int screenY, std::shared_ptr<Spell> spell) const;
+
+	void DrawFire(int screenX, int screenY, std::shared_ptr<FireNode> fire) const;
+
+	void DrawBaseConstruction(int screenX, int screenY, Construction* construction, const Coordinate& worldPos) const;
+
+	void DrawUnderConstruction(int screenX, int screenY, Construction* construction, const Coordinate& worldPos) const;
+
+	void DrawUnreadyTrap(int screenX, int screenY, Construction* trap, const Coordinate& worldPos) const;
+
+	void DrawStockpileContents(int screenX, int screenY, Stockpile* construction, const Coordinate& worldPos) const;
+
+	void DrawOpenDoor(int screenX, int screenY, Door* door, const Coordinate& worldPos) const;
 
 	const TerrainSprite& GetTerrainSprite(TileType type) const;
+
 	TerrainSprite& GetTerrainSprite(TileType type);
 
 	int GetGraphicsHintFor(const NPCPreset& npcPreset) const;

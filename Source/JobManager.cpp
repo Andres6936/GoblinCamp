@@ -27,7 +27,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 JobManager::JobManager() {
 	for (std::vector<ItemCat>::iterator i = Item::Categories.begin(); i != Item::Categories.end(); ++i) {
-		toolJobs.push_back(std::vector<boost::weak_ptr<Job> >());
+		toolJobs.push_back(std::vector<std::weak_ptr<Job> >());
 	}
 }
 JobManager *JobManager::instance = 0;
@@ -37,23 +37,30 @@ JobManager *JobManager::Inst() {
 	return instance;
 }
 
-void JobManager::AddJob(boost::shared_ptr<Job> newJob) {
-	if (!newJob->Attempt() || newJob->OutsideTerritory() || newJob->InvalidFireAllowance()) {
+void JobManager::AddJob(std::shared_ptr<Job> newJob)
+{
+	if (!newJob->Attempt() || newJob->OutsideTerritory() || newJob->InvalidFireAllowance())
+	{
 		failList.push_back(newJob);
 		return;
 	}
 
-	if (newJob->PreReqsCompleted()) {
+	if (newJob->PreReqsCompleted())
+	{
 		availableList[newJob->priority()].push_back(newJob);
 		return;
-	} else {
+	}
+	else
+	{
 		newJob->Paused(true);
 		waitingList.push_back(newJob);
 	}
 }
 
-void JobManager::CancelJob(boost::weak_ptr<Job> oldJob, std::string msg, TaskResult result) {
-	if (boost::shared_ptr<Job> job = oldJob.lock()) {
+void JobManager::CancelJob(std::weak_ptr<Job> oldJob, std::string msg, TaskResult result)
+{
+	if (std::shared_ptr<Job> job = oldJob.lock())
+	{
 		job->Assign(-1);
 		job->Paused(true);
 
@@ -61,19 +68,24 @@ void JobManager::CancelJob(boost::weak_ptr<Job> oldJob, std::string msg, TaskRes
 		waitingList.push_back(job);
 
 		//Remove job from availabe list
-		for(std::list<boost::shared_ptr<Job> >::iterator jobi = availableList[job->priority()].begin(); 
-			jobi != availableList[job->priority()].end(); ++jobi) {
-				if ((*jobi) == job) {
-					availableList[job->priority()].erase(jobi);
-					break;
-				}
+		for (std::list<std::shared_ptr<Job> >::iterator jobi = availableList[job->priority()].begin();
+			 jobi != availableList[job->priority()].end(); ++jobi)
+		{
+			if ((*jobi) == job)
+			{
+				availableList[job->priority()].erase(jobi);
+				break;
+			}
 		}
 
 		//If the job requires a tool, remove it from the toolJobs list
-		if (job->RequiresTool()) {
-			for (std::vector<boost::weak_ptr<Job> >::iterator jobi = toolJobs[job->GetRequiredTool()].begin(); 
-				jobi != toolJobs[job->GetRequiredTool()].end(); ++jobi) {
-				if (jobi->lock() == job) {
+		if (job->RequiresTool())
+		{
+			for (std::vector<std::weak_ptr<Job> >::iterator jobi = toolJobs[job->GetRequiredTool()].begin();
+				 jobi != toolJobs[job->GetRequiredTool()].end(); ++jobi)
+			{
+				if (jobi->lock() == job)
+				{
 					toolJobs[job->GetRequiredTool()].erase(jobi);
 					break;
 				}
@@ -82,20 +94,27 @@ void JobManager::CancelJob(boost::weak_ptr<Job> oldJob, std::string msg, TaskRes
 	}
 }
 
-void JobManager::Draw(Coordinate pos, int from, int width, int height, TCODConsole* console) {
+void JobManager::Draw(Coordinate pos, int from, int width, int height, TCODConsole* console)
+{
 	int skip = 0;
 	int y = pos.Y();
-	boost::shared_ptr<NPC> npc;
-	TCODColor color_mappings[] = { TCODColor::green, TCODColor(0,160,60), TCODColor(175,150,50), TCODColor(165,95,0), TCODColor::grey };
+	std::shared_ptr<NPC> npc;
+	TCODColor color_mappings[] = { TCODColor::green, TCODColor(0, 160, 60), TCODColor(175, 150, 50),
+								   TCODColor(165, 95, 0), TCODColor::grey };
 
-	for (int i=0; i<=PRIORITY_COUNT; i++) {
+	for (int i = 0; i <= PRIORITY_COUNT; i++)
+	{
 		console->setDefaultForeground(color_mappings[i]);
-		for (std::list<boost::shared_ptr<Job> >::iterator jobi = (i < PRIORITY_COUNT ? availableList[i].begin() : waitingList.begin()); 
-			jobi != (i < PRIORITY_COUNT ? availableList[i].end() : waitingList.end()); ++jobi) {
+		for (std::list<std::shared_ptr<Job> >::iterator jobi = (i < PRIORITY_COUNT ? availableList[i].begin()
+																				   : waitingList.begin());
+			 jobi != (i < PRIORITY_COUNT ? availableList[i].end() : waitingList.end()); ++jobi)
+		{
 			if (skip < from) ++skip;
-			else {
+			else
+			{
 				npc = Game::Inst()->GetNPC((*jobi)->Assigned());
-				if (npc) { 
+				if (npc)
+				{
 					console->print(pos.X(), y, "%c", npc->GetNPCSymbol());
 				}
 				console->print(pos.X() + 2, y, "%s", (*jobi)->name.c_str());
@@ -118,19 +137,24 @@ void JobManager::Draw(Coordinate pos, int from, int width, int height, TCODConso
 	console->setDefaultForeground(TCODColor::white);
 }
 
-boost::weak_ptr<Job> JobManager::GetJob(int uid) {
-	boost::weak_ptr<Job> job;
+std::weak_ptr<Job> JobManager::GetJob(int uid)
+{
+	std::weak_ptr<Job> job;
 
-	for (int i = 0; i < PRIORITY_COUNT; ++i) {
-		for (std::list<boost::shared_ptr<Job> >::iterator jobi = availableList[i].begin();
-			jobi != availableList[i].end(); ++jobi) {
-				boost::shared_ptr<NPC> npc = Game::Inst()->GetNPC(uid);
-				if (npc && (*jobi)->Menial() != npc->Expert()) {
-					if ((*jobi)->Assigned() == -1 && !(*jobi)->Removable()) {
-						job = (*jobi);
-						goto FoundJob;
-					}
+	for (int i = 0; i < PRIORITY_COUNT; ++i)
+	{
+		for (std::list<std::shared_ptr<Job> >::iterator jobi = availableList[i].begin();
+			 jobi != availableList[i].end(); ++jobi)
+		{
+			std::shared_ptr<NPC> npc = Game::Inst()->GetNPC(uid);
+			if (npc && (*jobi)->Menial() != npc->Expert())
+			{
+				if ((*jobi)->Assigned() == -1 && !(*jobi)->Removable())
+				{
+					job = (*jobi);
+					goto FoundJob;
 				}
+			}
 		}
 	}
 FoundJob:
@@ -139,28 +163,39 @@ FoundJob:
 	return job;
 }
 
-void JobManager::Update() {
+void JobManager::Update()
+{
 
 	//Check the waiting list for jobs that have completed prerequisites, and move them to the
 	//job queue if so, remove removables, and retry retryables, remove unpauseds
-	for (std::list<boost::shared_ptr<Job> >::iterator jobIter = waitingList.begin(); jobIter != waitingList.end(); ) {
+	for (std::list<std::shared_ptr<Job> >::iterator jobIter = waitingList.begin(); jobIter != waitingList.end();)
+	{
 
-		if ((*jobIter)->Removable()) {
+		if ((*jobIter)->Removable())
+		{
 			jobIter = waitingList.erase(jobIter);
-		} else {
+		}
+		else
+		{
 
-			if (!(*jobIter)->PreReqs()->empty() && (*jobIter)->PreReqsCompleted()) {
+			if (!(*jobIter)->PreReqs()->empty() && (*jobIter)->PreReqsCompleted())
+			{
 				(*jobIter)->Paused(false);
 			}
 
-			if (!(*jobIter)->Paused()) {
+			if (!(*jobIter)->Paused())
+			{
 				AddJob(*jobIter);
 				jobIter = waitingList.erase(jobIter);
 			} else {
-				if (!(*jobIter)->Parent().lock() && !(*jobIter)->PreReqs()->empty()) {
+				if (!(*jobIter)->Parent().lock() && !(*jobIter)->PreReqs()->empty())
+				{
 					//Job has unfinished prereqs, itsn't removable and is NOT a prereq itself
-					for (std::list<boost::weak_ptr<Job> >::iterator pri = (*jobIter)->PreReqs()->begin(); pri != (*jobIter)->PreReqs()->end(); ++pri) {
-						if (pri->lock()) {
+					for (std::list<std::weak_ptr<Job> >::iterator pri = (*jobIter)->PreReqs()->begin();
+						 pri != (*jobIter)->PreReqs()->end(); ++pri)
+					{
+						if (pri->lock())
+						{
 							pri->lock()->Paused(false);
 						}
 					}
@@ -174,23 +209,30 @@ void JobManager::Update() {
 
 	//Check the normal queues for jobs that have all prerequisites and parents completed and
 	//remove them
-	for (int i = 0; i < PRIORITY_COUNT; ++i) {
-		for (std::list<boost::shared_ptr<Job> >::iterator jobi = availableList[i].begin();
-			jobi != availableList[i].end(); ) {
-				if ((*jobi)->Completed() && (*jobi)->PreReqsCompleted()) {
-					jobi = availableList[i].erase(jobi);
-				} else {
-					++jobi;
-				}
+	for (int i = 0; i < PRIORITY_COUNT; ++i)
+	{
+		for (std::list<std::shared_ptr<Job> >::iterator jobi = availableList[i].begin();
+			 jobi != availableList[i].end();)
+		{
+			if ((*jobi)->Completed() && (*jobi)->PreReqsCompleted())
+			{
+				jobi = availableList[i].erase(jobi);
+			}
+			else
+			{
+				++jobi;
+			}
 		}
 	}
 
 	//Check tool jobs, remove them if they no longer point to existing jobs
-	for (unsigned int i = 0; i < Item::Categories.size(); ++i) {
-		for (std::vector<boost::weak_ptr<Job> >::iterator jobi = toolJobs[i].begin();
-			jobi != toolJobs[i].end();) {
-				if (!jobi->lock()) jobi = toolJobs[i].erase(jobi);
-				else ++jobi;
+	for (unsigned int i = 0; i < Item::Categories.size(); ++i)
+	{
+		for (std::vector<std::weak_ptr<Job> >::iterator jobi = toolJobs[i].begin();
+			 jobi != toolJobs[i].end();)
+		{
+			if (!jobi->lock()) jobi = toolJobs[i].erase(jobi);
+			else ++jobi;
 		}
 	}
 
@@ -209,35 +251,48 @@ int JobManager::JobAmount() {
 	return count;
 }
 
-boost::weak_ptr<Job> JobManager::GetJobByListIndex(int index) {
+std::weak_ptr<Job> JobManager::GetJobByListIndex(int index)
+{
 	int count = 0;
 
-	for (int i = 0; i < PRIORITY_COUNT; ++i) {
-		for (std::list<boost::shared_ptr<Job> >::iterator jobi = availableList[i].begin();
-			jobi != availableList[i].end(); ++jobi) {
-				if (count++ == index) return (*jobi);
+	for (int i = 0; i < PRIORITY_COUNT; ++i)
+	{
+		for (std::list<std::shared_ptr<Job> >::iterator jobi = availableList[i].begin();
+			 jobi != availableList[i].end(); ++jobi)
+		{
+			if (count++ == index) return (*jobi);
 		}
 	}
 
-	for (std::list<boost::shared_ptr<Job> >::iterator waitingIter = waitingList.begin(); waitingIter != waitingList.end(); ++waitingIter) {
+	for (std::list<std::shared_ptr<Job> >::iterator waitingIter = waitingList.begin();
+		 waitingIter != waitingList.end(); ++waitingIter)
+	{
 		if (count++ == index) return (*waitingIter);
 	}
 
-	return boost::weak_ptr<Job>();
+	return std::weak_ptr<Job>();
 }
 
-void JobManager::RemoveJob(boost::weak_ptr<Job> wjob) {
-	if (boost::shared_ptr<Job> job = wjob.lock()) {
-		for (int i = 0; i < PRIORITY_COUNT; ++i) {
-			for (std::list<boost::shared_ptr<Job> >::iterator jobi = availableList[i].begin(); jobi != availableList[i].end(); ++jobi) {
-				if (*jobi == job) {
+void JobManager::RemoveJob(std::weak_ptr<Job> wjob)
+{
+	if (std::shared_ptr<Job> job = wjob.lock())
+	{
+		for (int i = 0; i < PRIORITY_COUNT; ++i)
+		{
+			for (std::list<std::shared_ptr<Job> >::iterator jobi = availableList[i].begin();
+				 jobi != availableList[i].end(); ++jobi)
+			{
+				if (*jobi == job)
+				{
 					jobi = availableList[i].erase(jobi);
 					return;
 				}
 			}
 		}
-		for (std::list<boost::shared_ptr<Job> >::iterator jobi = waitingList.begin(); jobi != waitingList.end(); ++jobi) {
-			if (*jobi == job) {
+		for (std::list<std::shared_ptr<Job> >::iterator jobi = waitingList.begin(); jobi != waitingList.end(); ++jobi)
+		{
+			if (*jobi == job)
+			{
 				jobi = waitingList.erase(jobi);
 				return;
 			}
@@ -250,18 +305,26 @@ void JobManager::Reset() {
 	instance = 0;
 }
 
-void JobManager::NPCWaiting(int uid) {
-	boost::shared_ptr<NPC> npc = Game::Inst()->GetNPC(uid);
-	if (npc) {
-		if (npc->Expert()) {
-			for(std::vector<int>::iterator it = expertNPCsWaiting.begin(); it != expertNPCsWaiting.end(); it++) {
-				if(*it == uid) {
+void JobManager::NPCWaiting(int uid)
+{
+	std::shared_ptr<NPC> npc = Game::Inst()->GetNPC(uid);
+	if (npc)
+	{
+		if (npc->Expert())
+		{
+			for (std::vector<int>::iterator it = expertNPCsWaiting.begin(); it != expertNPCsWaiting.end(); it++)
+			{
+				if (*it == uid)
+				{
 					return;
 				}
 			}
 			expertNPCsWaiting.push_back(uid);
-		} else {
-			for(std::vector<int>::iterator it = menialNPCsWaiting.begin(); it != menialNPCsWaiting.end(); it++) {
+		}
+		else
+		{
+			for (std::vector<int>::iterator it = menialNPCsWaiting.begin(); it != menialNPCsWaiting.end(); it++)
+			{
 				if(*it == uid) {
 					return;
 				}
@@ -271,18 +334,26 @@ void JobManager::NPCWaiting(int uid) {
 	}
 }
 
-void JobManager::NPCNotWaiting(int uid) {
-	boost::shared_ptr<NPC> npc = Game::Inst()->GetNPC(uid);
-	if (npc) {
-		if (npc->Expert()) {
-			for(std::vector<int>::iterator it = expertNPCsWaiting.begin(); it != expertNPCsWaiting.end(); it++) {
-				if(*it == uid) {
+void JobManager::NPCNotWaiting(int uid)
+{
+	std::shared_ptr<NPC> npc = Game::Inst()->GetNPC(uid);
+	if (npc)
+	{
+		if (npc->Expert())
+		{
+			for (std::vector<int>::iterator it = expertNPCsWaiting.begin(); it != expertNPCsWaiting.end(); it++)
+			{
+				if (*it == uid)
+				{
 					expertNPCsWaiting.erase(it);
 					return;
 				}
 			}
-		} else {
-			for(std::vector<int>::iterator it = menialNPCsWaiting.begin(); it != menialNPCsWaiting.end(); it++) {
+		}
+		else
+		{
+			for (std::vector<int>::iterator it = menialNPCsWaiting.begin(); it != menialNPCsWaiting.end(); it++)
+			{
 				if(*it == uid) {
 					menialNPCsWaiting.erase(it);
 					return;
@@ -305,20 +376,25 @@ void JobManager::AssignJobs() {
 	}
 
 	for (int i = 0; i < PRIORITY_COUNT && (!expertNPCsWaiting.empty() || !menialNPCsWaiting.empty()); i++) {
-		if(!availableList[i].empty()) {
-			std::vector<boost::shared_ptr<Job> > menialJobsToAssign;
-			std::vector<boost::shared_ptr<Job> > expertJobsToAssign;
-			for (std::list<boost::shared_ptr<Job> >::iterator jobi = availableList[i].begin();
-				 jobi != availableList[i].end(); ++jobi) {
-				if ((*jobi)->Assigned() == -1 && !(*jobi)->Removable()) {
+		if(!availableList[i].empty())
+		{
+			std::vector<std::shared_ptr<Job> > menialJobsToAssign;
+			std::vector<std::shared_ptr<Job> > expertJobsToAssign;
+			for (std::list<std::shared_ptr<Job> >::iterator jobi = availableList[i].begin();
+				 jobi != availableList[i].end(); ++jobi)
+			{
+				if ((*jobi)->Assigned() == -1 && !(*jobi)->Removable())
+				{
 					/*Limit assigning jobs to 20 at a time, large matrix sizes cause considerable slowdowns.
 					Also, if the job requires a tool only add it to assignables if there are potentially enough
 					tools for each job*/
-					if (!(*jobi)->RequiresTool() || 
-						((*jobi)->RequiresTool() && maxToolJobs[(*jobi)->GetRequiredTool()] > 0)) {
+					if (!(*jobi)->RequiresTool() ||
+						((*jobi)->RequiresTool() && maxToolJobs[(*jobi)->GetRequiredTool()] > 0))
+					{
 						if ((*jobi)->RequiresTool()) --maxToolJobs[(*jobi)->GetRequiredTool()];
 						if ((*jobi)->Menial() && menialJobsToAssign.size() < 20) menialJobsToAssign.push_back(*jobi);
-						else if (!(*jobi)->Menial() && expertJobsToAssign.size() < 20) expertJobsToAssign.push_back(*jobi);
+						else if (!(*jobi)->Menial() && expertJobsToAssign.size() < 20)
+							expertJobsToAssign.push_back(*jobi);
 					}
 				}
 			}
@@ -333,17 +409,24 @@ void JobManager::AssignJobs() {
 					for(unsigned int y = 0; y < menialMatrixSize; y++) {
 						if(x >= menialNPCsWaiting.size() || y >= menialJobsToAssign.size()) {
 							menialMatrix(x, y) = 1;
-						} else {
-							boost::shared_ptr<Job> job = menialJobsToAssign[y];
-							boost::shared_ptr<NPC> npc = Game::Inst()->GetNPC(menialNPCsWaiting[x]);
-							if(!npc || job->tasks.empty() ||
-								(job->tasks[0].target.X() == 0 && job->tasks[0].target.Y() == 0)) {
+						} else
+						{
+							std::shared_ptr<Job> job = menialJobsToAssign[y];
+							std::shared_ptr<NPC> npc = Game::Inst()->GetNPC(menialNPCsWaiting[x]);
+							if (!npc || job->tasks.empty() ||
+								(job->tasks[0].target.X() == 0 && job->tasks[0].target.Y() == 0))
+							{
 								menialMatrix(x, y) = 1;
-							} else if (npc) {
+							}
+							else if (npc)
+							{
 								menialMatrix(x, y) = 10000 - Distance(job->tasks[0].target, npc->Position());
 							}
-							if (npc && job->RequiresTool()) {
-								if (!npc->Wielding().lock() || !npc->Wielding().lock()->IsCategory(job->GetRequiredTool())) {
+							if (npc && job->RequiresTool())
+							{
+								if (!npc->Wielding().lock() ||
+									!npc->Wielding().lock()->IsCategory(job->GetRequiredTool()))
+								{
 									menialMatrix(x, y) -= 2000;
 								}
 							}
@@ -355,17 +438,24 @@ void JobManager::AssignJobs() {
 					for(unsigned int y = 0; y < expertMatrixSize; y++) {
 						if(x >= expertNPCsWaiting.size() || y >= expertJobsToAssign.size()) {
 							expertMatrix(x, y) = 1;
-						} else {
-							boost::shared_ptr<Job> job = expertJobsToAssign[y];
-							boost::shared_ptr<NPC> npc = Game::Inst()->GetNPC(expertNPCsWaiting[x]);
-							if(!npc || job->tasks.empty() ||
-							   (job->tasks[0].target.X() == 0 && job->tasks[0].target.Y() == 0)) {
+						} else
+						{
+							std::shared_ptr<Job> job = expertJobsToAssign[y];
+							std::shared_ptr<NPC> npc = Game::Inst()->GetNPC(expertNPCsWaiting[x]);
+							if (!npc || job->tasks.empty() ||
+								(job->tasks[0].target.X() == 0 && job->tasks[0].target.Y() == 0))
+							{
 								expertMatrix(x, y) = 1;
-							} else {
+							}
+							else
+							{
 								expertMatrix(x, y) = 10000 - Distance(job->tasks[0].target, npc->Position());
 							}
-							if (npc && job->RequiresTool()) {
-								if (!npc->Wielding().lock() || !npc->Wielding().lock()->IsCategory(job->GetRequiredTool())) {
+							if (npc && job->RequiresTool())
+							{
+								if (!npc->Wielding().lock() ||
+									!npc->Wielding().lock()->IsCategory(job->GetRequiredTool()))
+								{
 									expertMatrix(x, y) -= 2000;
 								}
 							}
@@ -377,11 +467,13 @@ void JobManager::AssignJobs() {
 				
 				for(unsigned int i = 0, n = 0; n < menialNPCsWaiting.size(); i++, n++) {
 					unsigned int jobNum = menialAssignments[i];
-					if(jobNum < menialJobsToAssign.size()) {
+					if(jobNum < menialJobsToAssign.size())
+					{
 						int npcNum = menialNPCsWaiting[n];
-						boost::shared_ptr<Job> job = menialJobsToAssign[jobNum];
-						boost::shared_ptr<NPC> npc = Game::Inst()->GetNPC(npcNum);
-						if (job && npc) {
+						std::shared_ptr<Job> job = menialJobsToAssign[jobNum];
+						std::shared_ptr<NPC> npc = Game::Inst()->GetNPC(npcNum);
+						if (job && npc)
+						{
 							job->Assign(npcNum);
 							menialNPCsWaiting.erase(menialNPCsWaiting.begin() + n);
 							n--;
@@ -394,11 +486,13 @@ void JobManager::AssignJobs() {
 
 				for(unsigned int i = 0, n = 0; n < expertNPCsWaiting.size(); i++, n++) {
 					unsigned int jobNum = expertAssignments[i];
-					if(jobNum < expertJobsToAssign.size()) {
+					if(jobNum < expertJobsToAssign.size())
+					{
 						int npcNum = expertNPCsWaiting[n];
-						boost::shared_ptr<Job> job = expertJobsToAssign[jobNum];
-						boost::shared_ptr<NPC> npc = Game::Inst()->GetNPC(npcNum);
-						if (job && npc) {
+						std::shared_ptr<Job> job = expertJobsToAssign[jobNum];
+						std::shared_ptr<NPC> npc = Game::Inst()->GetNPC(npcNum);
+						if (job && npc)
+						{
 							job->Assign(npcNum);
 							expertNPCsWaiting.erase(expertNPCsWaiting.begin() + n);
 							n--;
@@ -415,21 +509,28 @@ void JobManager::AssignJobs() {
 }
 
 void JobManager::RemoveJob(Action action, Coordinate location) {
-	for (int i = 0; i <= PRIORITY_COUNT; ++i) {
-		for (std::list<boost::shared_ptr<Job> >::iterator jobi = (i < PRIORITY_COUNT ? availableList[i].begin() : waitingList.begin()); 
-			jobi != (i < PRIORITY_COUNT ? availableList[i].end() : waitingList.end());) {
-				bool remove = false;
-				for (std::vector<Task>::iterator taski = (*jobi)->tasks.begin(); taski != (*jobi)->tasks.end(); ++taski) {
-					if (taski->action == action && taski->target == location) {
-						remove = true;
-						break;
-					}
+	for (int i = 0; i <= PRIORITY_COUNT; ++i)
+	{
+		for (std::list<std::shared_ptr<Job> >::iterator jobi = (i < PRIORITY_COUNT ? availableList[i].begin()
+																				   : waitingList.begin());
+			 jobi != (i < PRIORITY_COUNT ? availableList[i].end() : waitingList.end());)
+		{
+			bool remove = false;
+			for (std::vector<Task>::iterator taski = (*jobi)->tasks.begin(); taski != (*jobi)->tasks.end(); ++taski)
+			{
+				if (taski->action == action && taski->target == location)
+				{
+					remove = true;
+					break;
 				}
-				if (remove) {
-					(*jobi)->Attempts(0);
-					if ((*jobi)->Assigned() >= 0) {
-						boost::shared_ptr<NPC> npc = Game::Inst()->GetNPC((*jobi)->Assigned());
-						boost::weak_ptr<Job> jobToRemove = *jobi;
+			}
+			if (remove)
+			{
+				(*jobi)->Attempts(0);
+					if ((*jobi)->Assigned() >= 0)
+					{
+						std::shared_ptr<NPC> npc = Game::Inst()->GetNPC((*jobi)->Assigned());
+						std::weak_ptr<Job> jobToRemove = *jobi;
 						++jobi; //AbortJob will cancel the job and the invalidate the old iterator
 						if (npc) npc->AbortJob(jobToRemove);
 					} else {
@@ -456,10 +557,12 @@ void JobManager::save(OutputArchive& ar, const unsigned int version) const {
 }
 
 void JobManager::load(InputArchive& ar, const unsigned int version) {
-	if (version == 0) {
-		std::list<boost::shared_ptr<Job> > oldList[3];
+	if (version == 0)
+	{
+		std::list<std::shared_ptr<Job> > oldList[3];
 		ar & oldList;
-		for (int i = 0; i < 3 && i < PRIORITY_COUNT; ++i) {
+		for (int i = 0; i < 3 && i < PRIORITY_COUNT; ++i)
+		{
 			availableList[i] = oldList[i];
 		}
 	} else {

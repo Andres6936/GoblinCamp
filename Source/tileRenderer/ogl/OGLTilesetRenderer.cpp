@@ -33,13 +33,16 @@ using namespace OGLFunctionExtension;
 
 // Note: Libtcod swaps the vertical axis depending on whether the renderer is GLSL or OpenGL.
 
-boost::shared_ptr<TilesetRenderer> CreateOGLTilesetRenderer(int width, int height, TCODConsole * console, std::string tilesetName) {
-	boost::shared_ptr<OGLTilesetRenderer> oglRenderer(new OGLTilesetRenderer(width, height, console));
-	boost::shared_ptr<TileSet> tileset = TileSetLoader::LoadTileSet(oglRenderer, tilesetName);
-	if (tileset.get() != 0 && oglRenderer->SetTileset(tileset)) {
+std::shared_ptr<TilesetRenderer>
+CreateOGLTilesetRenderer(int width, int height, TCODConsole* console, std::string tilesetName)
+{
+	std::shared_ptr<OGLTilesetRenderer> oglRenderer(new OGLTilesetRenderer(width, height, console));
+	std::shared_ptr<TileSet> tileset = TileSetLoader::LoadTileSet(oglRenderer, tilesetName);
+	if (tileset.get() != 0 && oglRenderer->SetTileset(tileset))
+	{
 		return oglRenderer;
 	}
-	return boost::shared_ptr<TilesetRenderer>();
+	return std::shared_ptr<TilesetRenderer>();
 }
 
 namespace {
@@ -179,32 +182,35 @@ OGLTilesetRenderer::OGLTilesetRenderer(int screenWidth, int screenHeight, TCODCo
 		gmask = 0x00ff0000;
 		bmask = 0x0000ff00;
 		amask = 0x000000ff;
-	} else {
+	}
+	else
+	{
 		rmask = 0x000000ff;
 		gmask = 0x0000ff00;
 		bmask = 0x00ff0000;
 		amask = 0xff000000;
 	}
 
-	boost::shared_ptr<SDL_Surface> fontSurface(IMG_Load(Paths::Get(Paths::Font).string().c_str()), SDL_FreeSurface);
+	std::shared_ptr<SDL_Surface> fontSurface(IMG_Load(Paths::Get(Paths::Font).string().c_str()), SDL_FreeSurface);
 	fontCharW = fontSurface->w / 16;
 	fontCharH = fontSurface->h / 16;
 	fontTexW = MathEx::NextPowerOfTwo(fontCharW * 16);
 	fontTexH = MathEx::NextPowerOfTwo(fontCharH * 16);
 
 	SDL_SetColorKey(fontSurface.get(), SDL_SRCCOLORKEY, SDL_MapRGB(fontSurface->format, 0, 0, 0));
-	boost::shared_ptr<SDL_Surface> tempAlpha(SDL_DisplayFormatAlpha(fontSurface.get()), SDL_FreeSurface);
+	std::shared_ptr<SDL_Surface> tempAlpha(SDL_DisplayFormatAlpha(fontSurface.get()), SDL_FreeSurface);
 	SDL_SetAlpha(tempAlpha.get(), 0, SDL_ALPHA_TRANSPARENT);
 
-	boost::shared_ptr<SDL_Surface> temp(SDL_CreateRGBSurface(SDL_SWSURFACE, fontTexW, fontTexH, 32, bmask, gmask, rmask, amask), SDL_FreeSurface);
+	std::shared_ptr<SDL_Surface> temp(
+			SDL_CreateRGBSurface(SDL_SWSURFACE, fontTexW, fontTexH, 32, bmask, gmask, rmask, amask), SDL_FreeSurface);
 	SDL_BlitSurface(tempAlpha.get(), NULL, temp.get(), NULL);
 
 	fontTexture = CreateOGLTexture();
 	glBindTexture(GL_TEXTURE_2D, *fontTexture);
 	SDL_LockSurface(temp.get());
-	
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, temp->w, temp->h, 0, GL_BGRA, GL_UNSIGNED_BYTE, temp->pixels);
 	SDL_UnlockSurface(temp.get());
@@ -217,31 +223,42 @@ OGLTilesetRenderer::~OGLTilesetRenderer() {
 	TCODSystem::registerOGLRenderer(0);
 }
 
-Sprite_ptr OGLTilesetRenderer::CreateSprite(boost::shared_ptr<TileSetTexture> tilesetTexture, int tile) {
-	if (tilesetTexture->Count() <= tile) {
+Sprite_ptr OGLTilesetRenderer::CreateSprite(std::shared_ptr<TileSetTexture> tilesetTexture, int tile)
+{
+	if (tilesetTexture->Count() <= tile)
+	{
 		return Sprite_ptr();
 	}
-	RawTileData rawTile = {tile, tilesetTexture};
+	RawTileData rawTile = { tile, tilesetTexture };
 	rawTileIterator existing = std::find(rawTiles.begin(), rawTiles.end(), rawTile);
-	if (existing != rawTiles.end()) {
+	if (existing != rawTiles.end())
+	{
 		return Sprite_ptr(new OGLSprite(this, existing - rawTiles.begin()));
-	} else {
+	}
+	else
+	{
 		int id = static_cast<int>(rawTiles.size());
 		rawTiles.push_back(rawTile);
 		return Sprite_ptr(new OGLSprite(this, id));
 	}
 }
 
-Sprite_ptr OGLTilesetRenderer::CreateSprite(boost::shared_ptr<TileSetTexture> tilesetTexture, const std::vector<int>& tiles, bool connectionMap, int frameRate, int frameCount) {
+Sprite_ptr
+OGLTilesetRenderer::CreateSprite(std::shared_ptr<TileSetTexture> tilesetTexture, const std::vector<int>& tiles,
+		bool connectionMap, int frameRate, int frameCount)
+{
 	if (tiles.empty())
 		return Sprite_ptr();
 
 	std::vector<int> tileIds;
-	for (std::vector<int>::const_iterator tileIter = tiles.begin(); tileIter != tiles.end(); ++tileIter) {
-		if (*tileIter < tilesetTexture->Count()) {
-			RawTileData rawTile = {*tileIter, tilesetTexture};
+	for (std::vector<int>::const_iterator tileIter = tiles.begin(); tileIter != tiles.end(); ++tileIter)
+	{
+		if (*tileIter < tilesetTexture->Count())
+		{
+			RawTileData rawTile = { *tileIter, tilesetTexture };
 			rawTileIterator existing = std::find(rawTiles.begin(), rawTiles.end(), rawTile);
-			if (existing != rawTiles.end()) {
+			if (existing != rawTiles.end())
+			{
 				tileIds.push_back(existing - rawTiles.begin());
 			} else {
 				tileIds.push_back(rawTiles.size());
@@ -305,15 +322,17 @@ bool OGLTilesetRenderer::TilesetChanged() {
 	return true;
 }
 
-bool OGLTilesetRenderer::AssembleTextures() {
-	boost::shared_ptr<const unsigned int> tempTex(CreateOGLTexture());
-	GLint texSize; 
+bool OGLTilesetRenderer::AssembleTextures()
+{
+	std::shared_ptr<const unsigned int> tempTex(CreateOGLTexture());
+	GLint texSize;
 	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &texSize);
-	
-	GLint width(0); 
-	while (width == 0 && texSize > tileSet->TileWidth()) {
-		glTexImage2D(GL_PROXY_TEXTURE_2D, 0, GL_RGBA, texSize, texSize, 0, GL_BGRA, GL_UNSIGNED_BYTE, NULL); 
-		glGetTexLevelParameteriv(GL_PROXY_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &width); 
+
+	GLint width(0);
+	while (width == 0 && texSize > tileSet->TileWidth())
+	{
+		glTexImage2D(GL_PROXY_TEXTURE_2D, 0, GL_RGBA, texSize, texSize, 0, GL_BGRA, GL_UNSIGNED_BYTE, NULL);
+		glGetTexLevelParameteriv(GL_PROXY_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &width);
 		if (width == 0)
 			texSize /= 2;
 	}
@@ -340,18 +359,23 @@ bool OGLTilesetRenderer::AssembleTextures() {
 		gmask = 0x00ff0000;
 		bmask = 0x0000ff00;
 		amask = 0x000000ff;
-	} else {
+	}
+	else
+	{
 		rmask = 0x000000ff;
 		gmask = 0x0000ff00;
 		bmask = 0x00ff0000;
 		amask = 0xff000000;
 	}
-	boost::shared_ptr<SDL_Surface> tempSurface(SDL_CreateRGBSurface(SDL_SWSURFACE, tileSet->TileWidth(), tileSet->TileHeight(), 32, bmask, gmask, rmask, amask), SDL_FreeSurface);
-	if(tempSurface.get() == NULL) {
-        LOG("CreateRGBSurface failed: " << SDL_GetError());
+	std::shared_ptr<SDL_Surface> tempSurface(
+			SDL_CreateRGBSurface(SDL_SWSURFACE, tileSet->TileWidth(), tileSet->TileHeight(), 32, bmask, gmask, rmask,
+					amask), SDL_FreeSurface);
+	if (tempSurface.get() == NULL)
+	{
+		LOG("CreateRGBSurface failed: " << SDL_GetError());
 		return false;
-    }
-		
+	}
+
 	tilesTexture = CreateOGLTexture();
 	boost::scoped_array<unsigned char> rawData(new unsigned char[4 * widthPixels * heightPixels]);
 

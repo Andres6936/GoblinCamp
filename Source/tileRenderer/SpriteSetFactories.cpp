@@ -43,16 +43,24 @@ void ConstructionSpriteFactory::Reset() {
 	connectionMapped = false;
 }
 
-ConstructionSprite ConstructionSpriteFactory::Build(boost::shared_ptr<TilesetRenderer> spriteFactory, boost::shared_ptr<TileSetTexture> currentTexture) {
+ConstructionSprite ConstructionSpriteFactory::Build(std::shared_ptr<TilesetRenderer> spriteFactory,
+		std::shared_ptr<TileSetTexture> currentTexture)
+{
 	ConstructionSprite spriteSet = ConstructionSprite();
-	if (connectionMapped) {
-		if (spriteIndices.size() > 0) {
-			spriteSet.AddSprite(spriteFactory->CreateSprite(currentTexture, spriteIndices, true, frameRate, frameCount));
+	if (connectionMapped)
+	{
+		if (spriteIndices.size() > 0)
+		{
+			spriteSet.AddSprite(
+					spriteFactory->CreateSprite(currentTexture, spriteIndices, true, frameRate, frameCount));
 		}
-		if (underConstructionSpriteIndices.size() > 0) {
-			spriteSet.AddUnderConstructionSprite(spriteFactory->CreateSprite(currentTexture, underConstructionSpriteIndices, true));
+		if (underConstructionSpriteIndices.size() > 0)
+		{
+			spriteSet.AddUnderConstructionSprite(
+					spriteFactory->CreateSprite(currentTexture, underConstructionSpriteIndices, true));
 		}
-		if (unreadyTrapSpriteIndices.size() > 0) {
+		if (unreadyTrapSpriteIndices.size() > 0)
+		{
 			spriteSet.AddUnreadyTrapSprite(spriteFactory->CreateSprite(currentTexture, unreadyTrapSpriteIndices, true));
 		}
 	} else {
@@ -122,17 +130,25 @@ void NPCSpriteFactory::Reset() {
 	paperdoll = false;
 }
 
-NPCSprite NPCSpriteFactory::Build(boost::shared_ptr<TilesetRenderer> spriteFactory, boost::shared_ptr<TileSetTexture> currentTexture) {
-	if (equipmentMap) {
-		if (frames.size() == (weaponTypes.size() + 1) * (armourTypes.size() + 1)) {
+NPCSprite
+NPCSpriteFactory::Build(std::shared_ptr<TilesetRenderer> spriteFactory, std::shared_ptr<TileSetTexture> currentTexture)
+{
+	if (equipmentMap)
+	{
+		if (frames.size() == (weaponTypes.size() + 1) * (armourTypes.size() + 1))
+		{
 			std::vector<Sprite_ptr> sprites;
 			for (std::vector<int>::iterator iter = frames.begin(); iter != frames.end(); ++iter)
 				sprites.push_back(spriteFactory->CreateSprite(currentTexture, *iter));
 
 			return NPCSprite(sprites, weaponTypes, armourTypes);
-		} else if (frames.size() > 0) {
+		}
+		else if (frames.size() > 0)
+		{
 			return NPCSprite(spriteFactory->CreateSprite(currentTexture, frames[0]));
-		} else {
+		}
+		else
+		{
 			return NPCSprite();
 		}
 	} else if (paperdoll) {
@@ -200,7 +216,9 @@ void StatusEffectSpriteFactory::Reset() {
 	flashRate = 1;
 }
 
-StatusEffectSprite StatusEffectSpriteFactory::Build(boost::shared_ptr<TilesetRenderer> spriteFactory, boost::shared_ptr<TileSetTexture> currentTexture) {
+StatusEffectSprite StatusEffectSpriteFactory::Build(std::shared_ptr<TilesetRenderer> spriteFactory,
+		std::shared_ptr<TileSetTexture> currentTexture)
+{
 	StatusEffectSprite result(spriteFactory->CreateSprite(currentTexture, frames, false, fps), flashRate, alwaysOn);
 	Reset();
 	return result;
@@ -244,17 +262,26 @@ TerrainSpriteFactory::TerrainSpriteFactory()
 
 
 TerrainSpriteFactory::~TerrainSpriteFactory() {
-} 
+}
 
-TerrainSprite TerrainSpriteFactory::Build(boost::shared_ptr<TilesetRenderer> spriteFactory, boost::shared_ptr<TileSetTexture> currentTexture) {
+TerrainSprite TerrainSpriteFactory::Build(std::shared_ptr<TilesetRenderer> spriteFactory,
+		std::shared_ptr<TileSetTexture> currentTexture)
+{
 	std::vector<Sprite_ptr> sprites;
-	if (wang) {
+	if (wang)
+	{
 		int indicesPerSprite = spriteIndices.size() / (heightSplits.size() + 1);
-		for (int i = 0; i < static_cast<int>(heightSplits.size()) + 1; ++i) {
-			sprites.push_back(TilesetRenderer::CreateSprite(spriteFactory, currentTexture, spriteIndices.begin() + i * indicesPerSprite, spriteIndices.begin() + (i + 1) * indicesPerSprite, true));
+		for (int i = 0; i < static_cast<int>(heightSplits.size()) + 1; ++i)
+		{
+			sprites.push_back(TilesetRenderer::CreateSprite(spriteFactory, currentTexture,
+					spriteIndices.begin() + i * indicesPerSprite, spriteIndices.begin() + (i + 1) * indicesPerSprite,
+					true));
 		}
-	} else {
-		for (std::vector<int>::iterator iter = spriteIndices.begin(); iter != spriteIndices.end(); ++iter) {
+	}
+	else
+	{
+		for (std::vector<int>::iterator iter = spriteIndices.begin(); iter != spriteIndices.end(); ++iter)
+		{
 			sprites.push_back(spriteFactory->CreateSprite(currentTexture, *iter));
 		}
 	}

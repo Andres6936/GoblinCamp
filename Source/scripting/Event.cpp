@@ -39,37 +39,43 @@ namespace Script { namespace Event {
 	void GameEnd() {
 		Script::InvokeListeners("onGameEnd");
 	}
-	
-	void GameSaved(const std::string& filename) {
-		Script::InvokeListeners("onGameSaved", "(s)", filename.c_str());
-	}
-	
-	void GameLoaded(const std::string& filename) {
-		Script::InvokeListeners("onGameLoaded", "(s)", filename.c_str());
-	}
-	
-	void BuildingCreated(boost::weak_ptr<Construction> cons, int x, int y) {
-		Script::API::PyConstruction pyconstruction(cons);
-		py::object obj(boost::ref(pyconstruction));
-		Script::InvokeListeners("onBuildingCreated", "(Oii)", obj.ptr(), x, y);
-	}
-	
-	void BuildingDestroyed(boost::weak_ptr<Construction> cons, int x, int y) {
-		Script::API::PyConstruction pyconstruction(cons);
-		py::object obj(boost::ref(pyconstruction));
-		Script::InvokeListeners("onBuildingDestroyed", "(Oii)", obj.ptr(), x, y);
-	}
-	
-	void ItemCreated(boost::weak_ptr<Item> item, int x, int y) {
-		Script::API::PyItem pyitem(item);
-		
-		py::object obj(boost::ref(pyitem));
-		Script::InvokeListeners("onItemCreated", "(Oii)", obj.ptr(), x, y);
-	}
-	
-	void TierChanged(int tier, const std::string& campName) {
-		Script::InvokeListeners("onTierChanged", "(is)", tier, campName.c_str());
-	}
+
+		void GameSaved(const std::string& filename)
+		{
+			Script::InvokeListeners("onGameSaved", "(s)", filename.c_str());
+		}
+
+		void GameLoaded(const std::string& filename)
+		{
+			Script::InvokeListeners("onGameLoaded", "(s)", filename.c_str());
+		}
+
+		void BuildingCreated(std::weak_ptr<Construction> cons, int x, int y)
+		{
+			Script::API::PyConstruction pyconstruction(cons);
+			py::object obj(boost::ref(pyconstruction));
+			Script::InvokeListeners("onBuildingCreated", "(Oii)", obj.ptr(), x, y);
+		}
+
+		void BuildingDestroyed(std::weak_ptr<Construction> cons, int x, int y)
+		{
+			Script::API::PyConstruction pyconstruction(cons);
+			py::object obj(boost::ref(pyconstruction));
+			Script::InvokeListeners("onBuildingDestroyed", "(Oii)", obj.ptr(), x, y);
+		}
+
+		void ItemCreated(std::weak_ptr<Item> item, int x, int y)
+		{
+			Script::API::PyItem pyitem(item);
+
+			py::object obj(boost::ref(pyitem));
+			Script::InvokeListeners("onItemCreated", "(Oii)", obj.ptr(), x, y);
+		}
+
+		void TierChanged(int tier, const std::string& campName)
+		{
+			Script::InvokeListeners("onTierChanged", "(is)", tier, campName.c_str());
+		}
 	
 	/*void ItemDestroyed(Item*, int, int) {
 	

@@ -53,26 +53,32 @@ Events::Events(Map* vmap) :
 void Events::Update(bool safe) {
 	if (!safe) {
 		++timeSinceHostileSpawn;
-		if (Random::Generate(UPDATES_PER_SECOND * 60 * 15 - 1) == 0 || timeSinceHostileSpawn > (UPDATES_PER_SECOND * 60 * 25)) {
+		if (Random::Generate(UPDATES_PER_SECOND * 60 * 15 - 1) == 0 ||
+			timeSinceHostileSpawn > (UPDATES_PER_SECOND * 60 * 25))
+		{
 			SpawnHostileMonsters();
 		}
 	}
 
-	if (Random::Generate(UPDATES_PER_SECOND * 60 * 2 - 1) == 0) {
+	if (Random::Generate(UPDATES_PER_SECOND * 60 * 2 - 1) == 0)
+	{
 		SpawnBenignFauna();
 	}
 
 	//Remove immigrants that have left/died
-	for (std::vector<boost::weak_ptr<NPC> >::iterator immi = existingImmigrants.begin(); immi != existingImmigrants.end();) {
+	for (std::vector<std::weak_ptr<NPC> >::iterator immi = existingImmigrants.begin();
+		 immi != existingImmigrants.end();)
+	{
 		if (!immi->lock()) immi = existingImmigrants.erase(immi);
 		else ++immi;
 	}
 
-	if (static_cast<int>(existingImmigrants.size()) < Game::Inst()->OrcCount() / 7 && 
-		Random::Generate(UPDATES_PER_SECOND * 60 * 30) == 0) {
-			SpawnImmigrants();
+	if (static_cast<int>(existingImmigrants.size()) < Game::Inst()->OrcCount() / 7 &&
+		Random::Generate(UPDATES_PER_SECOND * 60 * 30) == 0)
+	{
+		SpawnImmigrants();
 	}
-	
+
 	Season cSeason = Game::Inst()->CurrentSeason();
 	if ((cSeason == EarlySpring ||
 		cSeason == Spring ||
@@ -359,8 +365,9 @@ void Events::SpawnMigratingAnimals() {
 		std::vector<NPC*> migrants;
 		std::vector<int> uids = Game::Inst()->CreateNPCs(migrationSpawnCount, monsterType, a, b);
 		
-		for(std::vector<int>::iterator uidi = uids.begin(); uidi != uids.end(); uidi++) {
-			boost::shared_ptr<NPC> ptr = Game::Inst()->GetNPC(*uidi);
+		for(std::vector<int>::iterator uidi = uids.begin(); uidi != uids.end(); uidi++)
+		{
+			std::shared_ptr<NPC> ptr = Game::Inst()->GetNPC(*uidi);
 			if (!ptr) continue;
 			migrants.push_back(ptr.get());
 		}
@@ -371,15 +378,19 @@ void Events::SpawnMigratingAnimals() {
 		
 		// Create jobs for the migration
 		for(std::vector<NPC*>::iterator mgrnt = migrants.begin();
-			mgrnt != migrants.end(); mgrnt++) {
-			boost::shared_ptr<Job> migrateJob(new Job("Migrate"));
-			
+			mgrnt != migrants.end(); mgrnt++)
+		{
+			std::shared_ptr<Job> migrateJob(new Job("Migrate"));
+
 			// This is so they don't all disapear into one spot.
 			int fx, fy;
-			if (x < 5 || x > Map::Inst()->Width() - 5) {
+			if (x < 5 || x > Map::Inst()->Width() - 5)
+			{
 				fx = 0;
 				fy = y + Random::Generate(-5, 5);
-			} else {
+			}
+			else
+			{
 				fy = 0;
 				fx = x + Random::Generate(-5, 5);
 			}

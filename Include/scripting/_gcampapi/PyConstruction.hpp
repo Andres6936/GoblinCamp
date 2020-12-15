@@ -20,14 +20,19 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 class Construction;
 
 namespace Script { namespace API {
-	struct PyConstruction {
-		PyConstruction(boost::weak_ptr<Construction>);
+	struct PyConstruction
+	{
+		PyConstruction(std::weak_ptr<Construction>);
+
 		py::tuple GetPosition();
+
 		std::string GetTypeString();
+
 		int GetType();
-		
+
 		static void Expose();
+
 	private:
-		boost::weak_ptr<Construction> construction;
+		std::weak_ptr<Construction> construction;
 	};
 }}

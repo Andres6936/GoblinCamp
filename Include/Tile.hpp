@@ -42,10 +42,11 @@ enum TileType {
 
 class Tile {
 	GC_SERIALIZABLE_CLASS
-	
+
 	friend class Map;
+
 	friend class CacheTile;
-	
+
 	TileType type;
 	bool vis; //Does light pass through this tile? Tile type, but also constructions/objects affect this
 	bool walkable;
@@ -53,16 +54,16 @@ class Tile {
 	int moveCost;
 	int construction;
 	bool low, blocksWater;
-	boost::shared_ptr<WaterNode> water;
+	std::shared_ptr<WaterNode> water;
 	int graphic;
 	TCODColor foreColor, originalForeColor;
 	TCODColor backColor;
 	int natureObject;
 	std::set<int> npcList; //Set of NPC uid's
 	std::set<int> itemList; //Set of Item uid's
-	boost::shared_ptr<FilthNode> filth;
-	boost::shared_ptr<BloodNode> blood;
-	boost::shared_ptr<FireNode> fire;
+	std::shared_ptr<FilthNode> filth;
+	std::shared_ptr<BloodNode> blood;
+	std::shared_ptr<FireNode> fire;
 	bool marked;
 	int walkedOver, corruption;
 	bool territory;
@@ -71,43 +72,79 @@ class Tile {
 
 public:
 	Tile(TileType = TILEGRASS, int = 1);
+
 	TileType GetType();
-	void ResetType(TileType,float height = 0.0);
+
+	void ResetType(TileType, float height = 0.0);
 	void ChangeType(TileType,float height = 0.0);
 	bool BlocksLight() const;
+
 	void SetBlocksLight(bool);
+
 	bool IsWalkable() const;
+
 	void SetWalkable(bool);
+
 	bool IsBuildable() const;
+
 	void SetBuildable(bool);
+
 	void SetMoveCost(int);
+
 	void MoveFrom(int);
+
 	void MoveTo(int);
+
 	void SetConstruction(int);
+
 	int GetConstruction() const;
-	boost::weak_ptr<WaterNode> GetWater() const;
-	void SetWater(boost::shared_ptr<WaterNode>);
+
+	std::weak_ptr<WaterNode> GetWater() const;
+
+	void SetWater(std::shared_ptr<WaterNode>);
+
 	bool IsLow() const;
+
 	void SetLow(bool);
+
 	bool BlocksWater() const;
+
 	void SetBlocksWater(bool);
+
 	int GetGraphic() const;
+
 	TCODColor GetForeColor() const;
+
 	TCODColor GetBackColor() const;
+
 	void SetNatureObject(int);
+
 	int GetNatureObject() const;
-	boost::weak_ptr<FilthNode> GetFilth() const;
-	void SetFilth(boost::shared_ptr<FilthNode>);
-	boost::weak_ptr<BloodNode> GetBlood() const;
-	void SetBlood(boost::shared_ptr<BloodNode>);
-	boost::weak_ptr<FireNode> GetFire() const;
-	void SetFire(boost::shared_ptr<FireNode>);
+
+	std::weak_ptr<FilthNode> GetFilth() const;
+
+	void SetFilth(std::shared_ptr<FilthNode>);
+
+	std::weak_ptr<BloodNode> GetBlood() const;
+
+	void SetBlood(std::shared_ptr<BloodNode>);
+
+	std::weak_ptr<FireNode> GetFire() const;
+
+	void SetFire(std::shared_ptr<FireNode>);
+
 	void Mark();
+
 	void Unmark();
+
 	void WalkOver();
+
 	void Corrupt(int magnitude);
+
 	static TileType StringToTileType(std::string);
+
 	void Burn(int magnitude);
+
 	int GetTerrainMoveCost() const;
 };
 

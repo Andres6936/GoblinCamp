@@ -23,13 +23,16 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "data/Config.hpp"
 #include "MathEx.hpp"
 
-boost::shared_ptr<TilesetRenderer> CreateSDLTilesetRenderer(int width, int height, TCODConsole * console, std::string tilesetName) {
-	boost::shared_ptr<SDLTilesetRenderer> sdlRenderer(new SDLTilesetRenderer(width, height, console));
-	boost::shared_ptr<TileSet> tileset = TileSetLoader::LoadTileSet(sdlRenderer, tilesetName);
-	if (tileset.get() != 0 && sdlRenderer->SetTileset(tileset)) {
+std::shared_ptr<TilesetRenderer>
+CreateSDLTilesetRenderer(int width, int height, TCODConsole* console, std::string tilesetName)
+{
+	std::shared_ptr<SDLTilesetRenderer> sdlRenderer(new SDLTilesetRenderer(width, height, console));
+	std::shared_ptr<TileSet> tileset = TileSetLoader::LoadTileSet(sdlRenderer, tilesetName);
+	if (tileset.get() != 0 && sdlRenderer->SetTileset(tileset))
+	{
 		return sdlRenderer;
 	}
-	return boost::shared_ptr<TilesetRenderer>();
+	return std::shared_ptr<TilesetRenderer>();
 
 }
 
@@ -51,9 +54,10 @@ SDLTilesetRenderer::SDLTilesetRenderer(int screenWidth, int screenHeight, TCODCo
 	bmask = 0x00ff0000;
 	amask = 0xff000000;
 #endif
-	SDL_Surface * temp = SDL_CreateRGBSurface(0, MathEx::NextPowerOfTwo(screenWidth), MathEx::NextPowerOfTwo(screenHeight), 32, rmask, gmask, bmask, amask);
+	SDL_Surface* temp = SDL_CreateRGBSurface(0, MathEx::NextPowerOfTwo(screenWidth),
+			MathEx::NextPowerOfTwo(screenHeight), 32, rmask, gmask, bmask, amask);
 	SDL_SetAlpha(temp, 0, SDL_ALPHA_OPAQUE);
-	mapSurface = boost::shared_ptr<SDL_Surface>(SDL_DisplayFormat(temp), SDL_FreeSurface);
+	mapSurface = std::shared_ptr<SDL_Surface>(SDL_DisplayFormat(temp), SDL_FreeSurface);
 	SDL_FreeSurface(temp);
 
 	if (!mapSurface)
@@ -66,12 +70,17 @@ SDLTilesetRenderer::~SDLTilesetRenderer() {
 	TCODSystem::registerSDLRenderer(0);
 }
 
-Sprite_ptr SDLTilesetRenderer::CreateSprite(boost::shared_ptr<TileSetTexture> tilesetTexture, int tile) {
+Sprite_ptr SDLTilesetRenderer::CreateSprite(std::shared_ptr<TileSetTexture> tilesetTexture, int tile)
+{
 	return Sprite_ptr(new SDLSprite(this, tilesetTexture, tile));
 }
 
-Sprite_ptr SDLTilesetRenderer::CreateSprite(boost::shared_ptr<TileSetTexture> tilesetTexture, const std::vector<int>& tiles, bool connectionMap, int frameRate, int frameCount) {
-	return Sprite_ptr(new SDLSprite(this, tilesetTexture, tiles.begin(), tiles.end(), connectionMap, frameRate, frameCount));
+Sprite_ptr
+SDLTilesetRenderer::CreateSprite(std::shared_ptr<TileSetTexture> tilesetTexture, const std::vector<int>& tiles,
+		bool connectionMap, int frameRate, int frameCount)
+{
+	return Sprite_ptr(
+			new SDLSprite(this, tilesetTexture, tiles.begin(), tiles.end(), connectionMap, frameRate, frameCount));
 }
 
 void SDLTilesetRenderer::PreDrawMap(int viewportX, int viewportY, int viewportW, int viewportH) {
@@ -86,13 +95,16 @@ void SDLTilesetRenderer::PreDrawMap(int viewportX, int viewportY, int viewportW,
 void SDLTilesetRenderer::PostDrawMap() {
 	SDL_SetClipRect(mapSurface.get(), 0);
 }
-	
-void SDLTilesetRenderer::DrawSprite(int screenX, int screenY, boost::shared_ptr<TileSetTexture> texture, int tile) const {
+
+void SDLTilesetRenderer::DrawSprite(int screenX, int screenY, std::shared_ptr<TileSetTexture> texture, int tile) const
+{
 	SDL_Rect dstRect = CalcDest(screenX, screenY);
 	texture->DrawTile(tile, mapSurface.get(), &dstRect);
 }
 
-void SDLTilesetRenderer::DrawSpriteCorner(int screenX, int screenY, boost::shared_ptr<TileSetTexture> texture, int tile, Corner corner) const {
+void SDLTilesetRenderer::DrawSpriteCorner(int screenX, int screenY, std::shared_ptr<TileSetTexture> texture, int tile,
+		Corner corner) const
+{
 	SDL_Rect dstRect = CalcDest(screenX, screenY);
 	texture->DrawTileCorner(tile, corner, mapSurface.get(), &dstRect);
 }

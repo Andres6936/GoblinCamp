@@ -21,34 +21,50 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include "data/Serialization.hpp"
 
-class SpawningPool : public Construction {
+class SpawningPool : public Construction
+{
 	GC_SERIALIZABLE_CLASS
-	
+
 	Dialog* dialog;
 	UIContainer* container;
 	bool dumpFilth, dumpCorpses;
 	Coordinate a, b;
 	unsigned int expansion, filth, corpses, spawns;
 	unsigned int expansionLeft, corruptionLeft, spawnsLeft;
-	boost::shared_ptr<Container> corpseContainer;
+	std::shared_ptr<Container> corpseContainer;
 	int jobCount;
 	int burn;
 public:
 	SpawningPool(ConstructionType = 0, const Coordinate& = zero);
+
 	Panel* GetContextMenu();
+
 	static bool DumpFilth(SpawningPool*);
+
 	static void ToggleDumpFilth(SpawningPool*);
+
 	static bool DumpCorpses(SpawningPool*);
+
 	static void ToggleDumpCorpses(SpawningPool*);
+
 	void Update();
+
 	void Draw(Coordinate, TCODConsole*);
-	void Expand(bool message=true);
-	virtual void CancelJob(int=0);
+
+	void Expand(bool message = true);
+
+	virtual void CancelJob(int= 0);
+
 	virtual void AcceptVisitor(ConstructionVisitor& visitor);
+
 	void Burn();
+
 	virtual int Build();
-	boost::shared_ptr<Container>& GetContainer();
+
+	std::shared_ptr<Container>& GetContainer();
+
 	void Spawn();
+
 private:
 	Coordinate SpawnLocation();
 };

@@ -24,24 +24,38 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 class TilesetRenderer : public MapRenderer
 {
 	friend class DrawConstructionVisitor;
+
 public:
-	explicit TilesetRenderer(int screenWidth, int screenHeight, TCODConsole * mapConsole = 0);
+	explicit TilesetRenderer(int screenWidth, int screenHeight, TCODConsole* mapConsole = 0);
+
 	virtual ~TilesetRenderer() = 0;
 
-	virtual Sprite_ptr CreateSprite(boost::shared_ptr<TileSetTexture> tilesetTexture, int tile) = 0;
-	virtual Sprite_ptr CreateSprite(boost::shared_ptr<TileSetTexture> tilesetTexture, const std::vector<int>& tiles, bool connectionMap, int frameRate = 15, int frameCount = 1) = 0;
-	template <typename IterT> static Sprite_ptr CreateSprite(boost::shared_ptr<TilesetRenderer> spriteFactory, boost::shared_ptr<TileSetTexture> tilesetTexture, IterT start, IterT end, bool connectionMap, int frameRate = 15, int frameCount = 1);
+	virtual Sprite_ptr CreateSprite(std::shared_ptr<TileSetTexture> tilesetTexture, int tile) = 0;
 
-	bool SetTileset(boost::shared_ptr<TileSet> tileSet);
+	virtual Sprite_ptr
+	CreateSprite(std::shared_ptr<TileSetTexture> tilesetTexture, const std::vector<int>& tiles, bool connectionMap,
+			int frameRate = 15, int frameCount = 1) = 0;
 
-	Coordinate TileAt(int screenX, int screenY, float focusX, float focusY, int viewportX, int viewportY, int viewportW, int viewportH) const;
+	template<typename IterT>
+	static Sprite_ptr
+	CreateSprite(std::shared_ptr<TilesetRenderer> spriteFactory, std::shared_ptr<TileSetTexture> tilesetTexture,
+			IterT start, IterT end, bool connectionMap, int frameRate = 15, int frameCount = 1);
 
-	void DrawMap(Map* map, float focusX, float focusY, int viewportX, int viewportY, int viewportW, int viewportH) ;
+	bool SetTileset(std::shared_ptr<TileSet> tileSet);
+
+	Coordinate TileAt(int screenX, int screenY, float focusX, float focusY, int viewportX, int viewportY, int viewportW,
+			int viewportH) const;
+
+	void DrawMap(Map* map, float focusX, float focusY, int viewportX, int viewportY, int viewportW, int viewportH);
+
 	void PreparePrefabs();
+
 	float ScrollRate() const;
 
 	int GetScreenWidth() const;
+
 	int GetScreenHeight() const;
+
 	TCODColor GetKeyColor() const;
 
 	void SetCursorMode(CursorType mode);
@@ -55,18 +69,20 @@ public:
 
 protected:
 	virtual void PreDrawMap(int viewportX, int viewportY, int viewportW, int viewportH) = 0;
+
 	virtual void PostDrawMap() = 0;
+
 	virtual void DrawNullTile(int screenX, int screenY) = 0;
 
 	virtual bool TilesetChanged();
 
-	TCODConsole * tcodConsole;
+	TCODConsole* tcodConsole;
 	PermutationTable permutationTable;
-	boost::shared_ptr<TileSet> tileSet;
+	std::shared_ptr<TileSet> tileSet;
 	bool translucentUI;
 
 	// Current render state
-	Map * map;
+	Map* map;
 	int startPixelX, startPixelY;
 	int pixelW, pixelH;
 	int mapOffsetX, mapOffsetY; // This is the pixel offset when drawing to the viewport
@@ -91,9 +107,14 @@ private:
 	TCODColor keyColor;
 };
 
-template <typename IterT> Sprite_ptr TilesetRenderer::CreateSprite(boost::shared_ptr<TilesetRenderer> spriteFactory, boost::shared_ptr<TileSetTexture> tilesetTexture, IterT start, IterT end, bool connectionMap, int frameRate, int frameCount) {
+template<typename IterT>
+Sprite_ptr TilesetRenderer::CreateSprite(std::shared_ptr<TilesetRenderer> spriteFactory,
+		std::shared_ptr<TileSetTexture> tilesetTexture, IterT start, IterT end, bool connectionMap, int frameRate,
+		int frameCount)
+{
 	std::vector<int> tiles(start, end);
 	return spriteFactory->CreateSprite(tilesetTexture, tiles, connectionMap, frameRate, frameCount);
 }
 
-boost::shared_ptr<TilesetRenderer> CreateTilesetRenderer(int width, int height, TCODConsole * console, std::string tilesetName);
+std::shared_ptr<TilesetRenderer>
+CreateTilesetRenderer(int width, int height, TCODConsole* console, std::string tilesetName);

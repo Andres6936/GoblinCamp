@@ -23,49 +23,75 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Item.hpp"
 #include "data/Serialization.hpp"
 
-class ContainerListener {
+class ContainerListener
+{
 public:
-	virtual void ItemAdded(boost::weak_ptr<Item>) = 0;
-	virtual void ItemRemoved(boost::weak_ptr<Item>) = 0;
+	virtual void ItemAdded(std::weak_ptr<Item>) = 0;
+
+	virtual void ItemRemoved(std::weak_ptr<Item>) = 0;
 };
 
-class Container : public Item {
+class Container : public Item
+{
 	GC_SERIALIZABLE_CLASS
-	
-	std::set<boost::weak_ptr<Item> > items;
+
+	std::set<std::weak_ptr<Item> > items;
 	int capacity;
 	int reservedSpace;
-	
+
 	std::vector<ContainerListener*> listeners;
 	std::vector<int> listenersAsUids;
 
 	int water, filth; //Special cases for real liquids
 public:
-	Container(Coordinate = Coordinate(0,0), ItemType type=0, int cap=1000, int faction = 0,
-		std::vector<boost::weak_ptr<Item> > = std::vector<boost::weak_ptr<Item> >(),
-		std::vector<ContainerListener*> = std::vector<ContainerListener*>());
+	Container(Coordinate = Coordinate(0, 0), ItemType type = 0, int cap = 1000, int faction = 0,
+			std::vector<std::weak_ptr<Item> > = std::vector<std::weak_ptr<Item> >(),
+			std::vector<ContainerListener*> = std::vector<ContainerListener*>());
+
 	virtual ~Container();
-	virtual bool AddItem(boost::weak_ptr<Item>);
-	virtual void RemoveItem(boost::weak_ptr<Item>);
+
+	virtual bool AddItem(std::weak_ptr<Item>);
+
+	virtual void RemoveItem(std::weak_ptr<Item>);
+
 	void ReserveSpace(bool, int bulk = 1);
-	boost::weak_ptr<Item> GetItem(boost::weak_ptr<Item>);
-	std::set<boost::weak_ptr<Item> >* GetItems();
-	boost::weak_ptr<Item> GetFirstItem();
+
+	std::weak_ptr<Item> GetItem(std::weak_ptr<Item>);
+
+	std::set<std::weak_ptr<Item> >* GetItems();
+
+	std::weak_ptr<Item> GetFirstItem();
+
 	bool empty();
+
 	int size();
+
 	int Capacity();
+
 	bool Full();
-	std::set<boost::weak_ptr<Item> >::iterator begin();
-	std::set<boost::weak_ptr<Item> >::iterator end();
+
+	std::set<std::weak_ptr<Item> >::iterator begin();
+
+	std::set<std::weak_ptr<Item> >::iterator end();
+
 	void AddListener(ContainerListener* listener);
-	void RemoveListener(ContainerListener *listener);
-	void GetTooltip(int x, int y, Tooltip *tooltip);
+
+	void RemoveListener(ContainerListener* listener);
+
+	void GetTooltip(int x, int y, Tooltip* tooltip);
+
 	void TranslateContainerListeners();
+
 	void AddWater(int);
+
 	void RemoveWater(int);
+
 	int ContainsWater();
+
 	void AddFilth(int);
+
 	void RemoveFilth(int);
+
 	int ContainsFilth();
 	void Draw(Coordinate, TCODConsole*);
 	int GetReservedSpace();

@@ -38,9 +38,11 @@ static const TCOD_key_t NO_KEY = {
 	TCODK_NONE, 0, false, false, false, false, false, false
 };
 
-class UI {
+class UI
+{
 private:
 	UI();
+
 	static UI* instance;
 	bool menuOpen;
 	int menuX, menuY;
@@ -48,14 +50,14 @@ private:
 	TCOD_key_t key;
 	Panel* currentMenu;
 	UIState _state;
-	boost::function<void(Coordinate)> callback;
-	boost::function<void(Coordinate,Coordinate)> rectCallback;
-	boost::function<bool(Coordinate,Coordinate)> placementCallback;
+	std::function<void(Coordinate)> callback;
+	std::function<void(Coordinate, Coordinate)> rectCallback;
+	std::function<bool(Coordinate, Coordinate)> placementCallback;
 	Coordinate _blueprint;
 	bool placeable;
-	Coordinate a,b;
+	Coordinate a, b;
 	std::vector<Panel*> menuHistory;
-	std::list<boost::weak_ptr<Entity> > underCursor;
+	std::list<std::weak_ptr<Entity> > underCursor;
 	bool drawCursor;
 	bool lbuttonPressed, mbuttonPressed, rbuttonPressed;
 	TCOD_mouse_t oldMouseInput;
@@ -68,58 +70,105 @@ private:
 	int inputStringLimit;
 	std::string extraTooltip;
 
-	boost::weak_ptr<Entity> GetEntity(const Coordinate&);
-	int DrawShortcutHelp(TCODConsole *console, int x, int y, std::string shortcut);
+	std::weak_ptr<Entity> GetEntity(const Coordinate&);
+
+	int DrawShortcutHelp(TCODConsole* console, int x, int y, std::string shortcut);
+
 	void DrawTopBar(TCODConsole*);
+
 	void HandleKeyboard();
+
 	void HandleMouse();
-	boost::weak_ptr<Entity> currentStrobeTarget;
+
+	std::weak_ptr<Entity> currentStrobeTarget;
 public:
 	static UI* Inst();
+
 	static void Reset();
+
 	void Update();
+
 	void Draw(TCODConsole*);
+
 	void blueprint(const Coordinate&);
+
 	void state(UIState);
+
 	static void ChangeMenu(Panel*);
+
 	static void ChooseConstruct(ConstructionType, UIState);
+
 	static void ChooseStockpile(ConstructionType);
+
 	static void ChooseTreeFelling();
+
 	static void ChoosePlantHarvest();
-	static void ChooseOrderTargetCoordinate(boost::shared_ptr<Squad>, Order);
-	static void ChooseOrderTargetEntity(boost::shared_ptr<Squad>, Order);
+
+	static void ChooseOrderTargetCoordinate(std::shared_ptr<Squad>, Order);
+
+	static void ChooseOrderTargetEntity(std::shared_ptr<Squad>, Order);
+
 	static void ChooseDesignateTree();
+
 	static void ChooseDismantle();
+
 	static void ChooseUndesignate();
+
 	static void ChooseDesignateBog();
+
 	static void ChooseCreateNPC();
+
 	static void ChooseCreateItem();
+
 	static void ChooseDig();
+
 	static void ChooseNaturify();
+
 	static void ChooseChangeTerritory(bool add);
+
 	static void ChooseGatherItems();
-	static void ChooseNormalPlacement(boost::function<void(Coordinate)> callback,
-		boost::function<bool(Coordinate, Coordinate)> placement, int cursor, std::string optionalTooltip = "");
-	static void ChooseRectPlacement(boost::function<void(Coordinate, Coordinate)> rectCallback,
-		boost::function<bool(Coordinate, Coordinate)> placement, int cursor, std::string optionalTooltip = "");
-	static void ChooseRectPlacementCursor(boost::function<void(Coordinate, Coordinate)> rectCallback,
-		boost::function<bool(Coordinate, Coordinate)> placement, CursorType cursor);
-	static void ChooseABPlacement(boost::function<void(Coordinate)> callback,
-		boost::function<bool(Coordinate, Coordinate)> placement, int cursor, std::string optionalTooltip = "");
-	void SetCallback(boost::function<void(Coordinate)>);
-	void SetRectCallback(boost::function<void(Coordinate,Coordinate)>);
-	void SetPlacementCallback(boost::function<bool(Coordinate,Coordinate)>);
+
+	static void ChooseNormalPlacement(std::function<void(Coordinate)> callback,
+			std::function<bool(Coordinate, Coordinate)> placement, int cursor, std::string optionalTooltip = "");
+
+	static void ChooseRectPlacement(std::function<void(Coordinate, Coordinate)> rectCallback,
+			std::function<bool(Coordinate, Coordinate)> placement, int cursor, std::string optionalTooltip = "");
+
+	static void ChooseRectPlacementCursor(std::function<void(Coordinate, Coordinate)> rectCallback,
+			std::function<bool(Coordinate, Coordinate)> placement, CursorType cursor);
+
+	static void ChooseABPlacement(std::function<void(Coordinate)> callback,
+			std::function<bool(Coordinate, Coordinate)> placement, int cursor, std::string optionalTooltip = "");
+
+	void SetCallback(std::function<void(Coordinate)>);
+
+	void SetRectCallback(std::function<void(Coordinate, Coordinate)>);
+
+	void SetPlacementCallback(std::function<bool(Coordinate, Coordinate)>);
+
 	Panel* CurrentMenu();
+
 	void CurrentMenu(Panel*);
+
 	void AddToHistory(Panel*);
+
 	int KeyHelpTextColor() const;
-	void SetTextMode(bool, int=50);
+
+	void SetTextMode(bool, int= 50);
+
 	std::string InputString();
+
 	void InputString(std::string);
+
 	void HideMenu();
+
 	void CloseMenu();
+
 	bool ShiftPressed();
-	void HandleUnderCursor(const Coordinate&, std::list<boost::weak_ptr<Entity> >*);
+
+	void HandleUnderCursor(const Coordinate&, std::list<std::weak_ptr<Entity> >*);
+
 	TCOD_key_t getKey();
+
 	void SetExtraTooltip(std::string);
 };

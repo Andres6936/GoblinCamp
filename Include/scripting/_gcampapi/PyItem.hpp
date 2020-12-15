@@ -20,18 +20,27 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 class Item;
 
 namespace Script { namespace API {
-	struct PyItem {
-		PyItem(boost::weak_ptr<Item>);
+	struct PyItem
+	{
+		PyItem(std::weak_ptr<Item>);
+
 		py::tuple GetPosition();
+
 		bool SetPosition(int x, int y);
+
 		py::tuple GetColor();
+
 		bool SetColor(float h, float s, float v);
+
 		std::string GetTypeString();
+
 		int GetGraphic();
+
 		int GetType();
-		
+
 		static void Expose();
+
 	private:
-		boost::weak_ptr<Item> item;
+		std::weak_ptr<Item> item;
 	};
 }}

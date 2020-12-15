@@ -17,6 +17,8 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <boost/shared_ptr.hpp>
 
-boost::shared_ptr<const unsigned int> CreateOGLTexture();
-boost::shared_ptr<const unsigned int> CreateOGLShaderProgram(std::string vertShaderCode, std::string fragShaderCode);
-boost::shared_ptr<const unsigned int> CreateOGLShader(std::string shader, unsigned int type);
+std::shared_ptr<const unsigned int> CreateOGLTexture();
+
+std::shared_ptr<const unsigned int> CreateOGLShaderProgram(std::string vertShaderCode, std::string fragShaderCode);
+
+std::shared_ptr<const unsigned int> CreateOGLShader(std::string shader, unsigned int type);
