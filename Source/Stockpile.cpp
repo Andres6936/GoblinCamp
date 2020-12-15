@@ -73,11 +73,11 @@ Stockpile::~Stockpile()
 			 itemi != conti->second->end(); ++itemi)
 		{
 			//If the item is also a container, remove 'this' as a listener
-			if (itemi && (*itemi)->IsCategory(Item::StringToItemCategory("Container")))
+			if (*itemi && (*itemi)->IsCategory(Item::StringToItemCategory("Container")))
 			{
-				if (std::dynamic_pointer_cast<Container>(itemi))
+				if (std::dynamic_pointer_cast<Container>(*itemi))
 				{
-					std::shared_ptr<Container> container = std::static_pointer_cast<Container>(itemi);
+					std::shared_ptr<Container> container = std::static_pointer_cast<Container>(*itemi);
 					container->RemoveListener(this);
 				}
 			}
@@ -182,7 +182,7 @@ std::shared_ptr<Item> Stockpile::FindItemByCategory(ItemCategory cat, int flags,
 					for (std::set<std::shared_ptr<Item> >::iterator itemi = cont.lock()->begin();
 						 itemi != cont.lock()->end(); ++itemi)
 					{
-						std::shared_ptr<Item> innerItem(itemi);
+						std::shared_ptr<Item> innerItem(*itemi);
 						if (innerItem && innerItem->IsCategory(cat) && !innerItem->Reserved())
 						{
 
@@ -299,7 +299,7 @@ std::shared_ptr<Item> Stockpile::FindItemByType(ItemType typeValue, int flags, i
 					for (std::set<std::shared_ptr<Item> >::iterator itemi = cont.lock()->begin();
 						 itemi != cont.lock()->end(); ++itemi)
 					{
-						std::shared_ptr<Item> innerItem(itemi);
+						std::shared_ptr<Item> innerItem(*itemi);
 						if (innerItem && innerItem->Type() == typeValue && !innerItem->Reserved())
 						{
 							++itemsFound;
@@ -803,12 +803,12 @@ void Stockpile::Reorganize()
 	{
 		if (!space->second->empty())
 		{
-			if (std::shared_ptr<Item> item = space->second->GetFirstItem().lock())
+			if (std::shared_ptr<Item> item = space->second->GetFirstItem())
 			{
 				if (Item::Presets[item->Type()].fitsin >= 0)
 				{
 					if (std::shared_ptr<Item> container =
-							FindItemByCategory(Item::Presets[item->Type()].fitsin, NOTFULL).lock())
+							FindItemByCategory(Item::Presets[item->Type()].fitsin, NOTFULL))
 					{
 						std::shared_ptr<Job> reorgJob(new Job("Reorganize stockpile", LOW));
 						reorgJob->Attempts(1);
