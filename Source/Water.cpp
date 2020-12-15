@@ -144,7 +144,7 @@ bool WaterNode::Update() {
 
 			std::shared_ptr<Item> item;
 			if (!Map::Inst()->ItemList(pos)->empty())
-				item = Game::Inst()->GetItem(*Map::Inst()->ItemList(pos)->begin()).lock();
+				item = Game::Inst()->GetItem(*Map::Inst()->ItemList(pos)->begin());
 
 			//Filth and items flow off the map
 			Direction flow = Map::Inst()->GetFlow(pos);
