@@ -594,10 +594,10 @@ void Stockpile::ItemAdded(std::shared_ptr<Item> witem)
 {
 	if (std::shared_ptr<Item> item = witem)
 	{
-		std::set<ItemCategory> categories = Item::Presets[item->Type()].categories;
-		for (std::set<ItemCategory>::iterator it = categories.begin(); it != categories.end(); it++)
+		std::set <ItemCategory> categories = Item::Presets[item->Type()].categories;
+		for (auto& it : categories)
 		{
-			amount[*it] = amount[*it] + 1;
+			amount[it] = amount[it] + 1;
 		}
 
 		//Increase container demand for each containable item
