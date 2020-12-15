@@ -253,7 +253,7 @@ void StockManager::Update() {
 				{
 					std::shared_ptr<Job> dumpJob(new Job("Dump " + Item::ItemTypeToString(type), LOW));
 					std::shared_ptr<Item> item = Game::Inst()->FindItemByTypeFromStockpiles(type,
-							spawningPool->Position()).lock();
+							spawningPool->Position());
 					if (item)
 					{
 						dumpJob->Attempts(1);
