@@ -147,7 +147,7 @@ void FireNode::Update() {
 			//Burn items
 			for (std::set<int>::iterator itemi = Map::Inst()->ItemList(pos)->begin(); itemi != Map::Inst()->ItemList(pos)->end(); ++itemi)
 			{
-				std::shared_ptr<Item> item = Game::Inst()->GetItem(*itemi).lock();
+				std::shared_ptr<Item> item = Game::Inst()->GetItem(*itemi);
 				if (item && item->IsFlammable())
 				{
 					Game::Inst()->CreateItem(item->Position(), Item::StringToItemType("ash"));
@@ -188,7 +188,7 @@ void FireNode::Update() {
 								pos).lock();
 						if (container)
 						{
-							std::shared_ptr<Item> item = container->GetFirstItem().lock();
+							std::shared_ptr<Item> item = container->GetFirstItem();
 							if (item && item->IsFlammable())
 							{
 								container->RemoveItem(item);
