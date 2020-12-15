@@ -144,19 +144,21 @@ void Item::Color(TCODColor col) {color = col;}
 
 void Item::Position(const Coordinate& p) {
 	if (map->IsInside(p)) {
-		if (!internal && !container.lock()) map->ItemList(pos)->erase(uid);
+		if (!internal && !container) map->ItemList(pos)->erase(uid);
 		pos = p;
-		if (!internal && !container.lock()) map->ItemList(pos)->insert(uid);
+		if (!internal && !container) map->ItemList(pos)->insert(uid);
 	}
 }
-Coordinate Item::Position() {
-	if (container.lock()) return container.lock()->Position();
+Coordinate Item::Position()
+{
+	if (container) return container->Position();
 	return this->Entity::Position();
 }
 
-void Item::Reserve(bool value) {
+void Item::Reserve(bool value)
+{
 	reserved = value;
-	if (!reserved && !container.lock() && !attemptedStore)
+	if (!reserved && !container && !attemptedStore)
 	{
 		attemptedStore = true;
 		Game::Inst()->StockpileItem(std::static_pointer_cast<Item>(shared_from_this()));
@@ -168,9 +170,9 @@ void Item::PutInContainer(std::shared_ptr<Item> con)
 	container = con;
 	attemptedStore = false;
 
-	Game::Inst()->ItemContained(std::static_pointer_cast<Item>(shared_from_this()), !!container.lock());
+	Game::Inst()->ItemContained(std::static_pointer_cast<Item>(shared_from_this()), !!container);
 
-	if (!container.lock() && !reserved)
+	if (!container && !reserved)
 	{
 		Game::Inst()->StockpileItem(std::static_pointer_cast<Item>(shared_from_this()));
 		attemptedStore = true;
@@ -268,10 +270,10 @@ public:
 		for (std::map<int, std::vector<std::string> >::iterator itemi = presetFruits.begin();
 			itemi != presetFruits.end(); ++itemi)
 		{
-			for (std::vector<std::string>::iterator fruiti = (*itemi)->second.begin();
-				 fruiti != (*itemi)->second.end(); ++fruiti)
+			for (std::vector<std::string>::iterator fruiti = (itemi)->second.begin();
+				 fruiti != itemi->second.end(); ++fruiti)
 			{
-				Item::Presets[(*itemi)->first].fruits.push_back(Item::StringToItemType(*fruiti));
+				Item::Presets[itemi->first].fruits.push_back(Item::StringToItemType(*fruiti));
 			}
 		}
 
@@ -279,13 +281,13 @@ public:
 		for (std::map<int, std::vector<std::string> >::iterator itemi = presetDecay.begin();
 			itemi != presetDecay.end(); ++itemi)
 		{
-			for (std::vector<std::string>::iterator decayi = (*itemi)->second.begin();
-				 decayi != (*itemi)->second.end(); ++decayi)
+			for (std::vector<std::string>::iterator decayi = (itemi)->second.begin();
+				 decayi != (itemi)->second.end(); ++decayi)
 			{
 				if (boost::iequals(*decayi, "Filth"))
-					Item::Presets[(*itemi)->first].decayList.push_back(-1);
+					Item::Presets[(itemi)->first].decayList.push_back(-1);
 				else
-					Item::Presets[(*itemi)->first].decayList.push_back(Item::StringToItemType(*decayi));
+					Item::Presets[(itemi)->first].decayList.push_back(Item::StringToItemType(*decayi));
 			}
 		}
 
@@ -666,13 +668,13 @@ void Item::UpdateEffectItems() {
 	for (std::vector<ItemPreset>::iterator itemi = Presets.begin(); itemi != Presets.end(); ++itemi)
 	{
 		++index;
-		for (std::vector<std::pair<StatusEffectType, int> >::iterator remEffi = (*itemi)->removesEffects.begin();
-			 remEffi != (*itemi)->removesEffects.end(); ++remEffi)
+		for (std::vector<std::pair<StatusEffectType, int> >::iterator remEffi = (itemi)->removesEffects.begin();
+			 remEffi != (itemi)->removesEffects.end(); ++remEffi)
 		{
 			EffectRemovers.insert(std::make_pair(remEffi->first, (ItemType)index));
 		}
-		for (std::vector<std::pair<StatusEffectType, int> >::iterator addEffi = (*itemi)->addsEffects.begin();
-			 addEffi != (*itemi)->addsEffects.end(); ++addEffi)
+		for (std::vector<std::pair<StatusEffectType, int> >::iterator addEffi = (itemi)->addsEffects.begin();
+			 addEffi != (itemi)->addsEffects.end(); ++addEffi)
 		{
 			StatusEffect effect(addEffi->first);
 			if (!effect.negative)
@@ -815,9 +817,9 @@ void WaterItem::PutInContainer(std::shared_ptr<Item> con)
 	container = con;
 	attemptedStore = false;
 
-	Game::Inst()->ItemContained(std::static_pointer_cast<Item>(shared_from_this()), !!container.lock());
+	Game::Inst()->ItemContained(std::static_pointer_cast<Item>(shared_from_this()), !!container);
 
-	if (!container.lock() && !reserved)
+	if (!container && !reserved)
 	{
 		//WaterItems transform into an actual waternode if not contained
 		Game::Inst()->CreateWater(Position(), 1);

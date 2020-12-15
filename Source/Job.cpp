@@ -366,7 +366,7 @@ void Job::CreatePourWaterJob(std::shared_ptr<Job> job, Coordinate location)
 
 	//First search for a container containing water
 	std::shared_ptr<Item> waterItem = Game::Inst()->FindItemByTypeFromStockpiles(Item::StringToItemType("Water"),
-			location).lock();
+			location);
 	Coordinate waterLocation = Game::Inst()->FindWater(location);
 
 	//If a water item exists, is closer and contained then use that
@@ -377,10 +377,10 @@ void Job::CreatePourWaterJob(std::shared_ptr<Job> job, Coordinate location)
 		if (waterLocation != undefined) distanceToWater = Distance(location, waterLocation);
 		int distanceToItem = Distance(location, waterItem->Position());
 
-		if (distanceToItem < distanceToWater && waterItem->ContainedIn().lock() && 
-			waterItem->ContainedIn().lock()->IsCategory(Item::StringToItemCategory("Container")))
+		if (distanceToItem < distanceToWater && waterItem->ContainedIn() &&
+			waterItem->ContainedIn()->IsCategory(Item::StringToItemCategory("Container")))
 		{
-			std::shared_ptr<Container> container = std::static_pointer_cast<Container>(waterItem->ContainedIn().lock());
+			std::shared_ptr<Container> container = std::static_pointer_cast<Container>(waterItem->ContainedIn());
 			//Reserve everything inside the container
 			for (std::set<std::shared_ptr<Item> >::iterator itemi = container->begin();
 				 itemi != container->end(); ++itemi)
