@@ -65,19 +65,17 @@ Stockpile::Stockpile(ConstructionType type, int newSymbol, Coordinate target) :
 Stockpile::~Stockpile()
 {
 	//Loop through all the containers
-	for (std::map<Coordinate, std::shared_ptr<Container> >::iterator conti = containers.begin();
-		 conti != containers.end(); ++conti)
+	for (auto&[coordinate, container] : containers)
 	{
 		//Loop through all the items in the containers
-		for (std::set<std::shared_ptr<Item> >::iterator itemi = conti->second->begin();
-			 itemi != conti->second->end(); ++itemi)
+		for (auto& itemi : *container)
 		{
 			//If the item is also a container, remove 'this' as a listener
-			if (*itemi && (*itemi)->IsCategory(Item::StringToItemCategory("Container")))
+			if (itemi && itemi->IsCategory(Item::StringToItemCategory("Container")))
 			{
-				if (std::dynamic_pointer_cast<Container>(*itemi))
+				if (std::dynamic_pointer_cast<Container>(itemi))
 				{
-					std::shared_ptr<Container> container = std::static_pointer_cast<Container>(*itemi);
+					std::shared_ptr<Container> container = std::static_pointer_cast<Container>(itemi);
 					container->RemoveListener(this);
 				}
 			}
