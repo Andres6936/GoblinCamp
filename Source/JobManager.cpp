@@ -424,8 +424,8 @@ void JobManager::AssignJobs() {
 							}
 							if (npc && job->RequiresTool())
 							{
-								if (!npc->Wielding().lock() ||
-									!npc->Wielding().lock()->IsCategory(job->GetRequiredTool()))
+								if (!npc->Wielding() ||
+									!npc->Wielding()->IsCategory(job->GetRequiredTool()))
 								{
 									menialMatrix(x, y) -= 2000;
 								}
@@ -453,8 +453,8 @@ void JobManager::AssignJobs() {
 							}
 							if (npc && job->RequiresTool())
 							{
-								if (!npc->Wielding().lock() ||
-									!npc->Wielding().lock()->IsCategory(job->GetRequiredTool()))
+								if (!npc->Wielding() ||
+									!npc->Wielding()->IsCategory(job->GetRequiredTool()))
 								{
 									expertMatrix(x, y) -= 2000;
 								}

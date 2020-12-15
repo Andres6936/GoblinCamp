@@ -131,11 +131,11 @@ bool Game::CheckPlacement(Coordinate target, Coordinate size, std::set<TileType>
 int Game::PlaceConstruction(Coordinate target, ConstructionType construct)
 {
 	//Check if the required materials exist before creating the build job
-	std::list<std::weak_ptr<Item> > componentList;
+	std::list<std::shared_ptr<Item> > componentList;
 	for (std::list<ItemCategory>::iterator mati = Construction::Presets[construct].materials.begin();
 		 mati != Construction::Presets[construct].materials.end(); ++mati)
 	{
-		std::weak_ptr<Item> material = Game::Inst()->FindItemByCategoryFromStockpiles(*mati, target, EMPTY);
+		std::shared_ptr<Item> material = Game::Inst()->FindItemByCategoryFromStockpiles(*mati, target, EMPTY);
 		if (std::shared_ptr<Item> item = material.lock())
 		{
 			item->Reserve(true);
@@ -143,7 +143,7 @@ int Game::PlaceConstruction(Coordinate target, ConstructionType construct)
 		}
 		else
 		{
-			for (std::list<std::weak_ptr<Item> >::iterator compi = componentList.begin();
+			for (std::list<std::shared_ptr<Item> >::iterator compi = componentList.begin();
 				 compi != componentList.end(); ++compi)
 			{
 				compi->lock()->Reserve(false);
@@ -167,7 +167,7 @@ int Game::PlaceConstruction(Coordinate target, ConstructionType construct)
 		--Construction::AllowedAmount[construct];
 	}
 
-	for (std::list<std::weak_ptr<Item> >::iterator compi = componentList.begin();
+	for (std::list<std::shared_ptr<Item> >::iterator compi = componentList.begin();
 		 compi != componentList.end(); ++compi)
 	{
 		compi->lock()->Reserve(false);
@@ -441,38 +441,41 @@ int Game::CreateNPC(Coordinate target, NPCType type) {
 		if (itemType > 0 && itemType < static_cast<int>(Item::Presets.size())) {
 			std::set<ItemCategory> categories = Item::Presets[itemType].categories;
 			if (categories.find(Item::StringToItemCategory("weapon")) != categories.end()
-				&& !npc->Wielding().lock())
+				&& !npc->Wielding())
 			{
 				int itemUid = CreateItem(npc->Position(), itemType, false, npc->GetFaction(),
-						std::vector<std::weak_ptr<Item> >(), npc->inventory);
+						std::vector<std::shared_ptr<Item> >(), npc->inventory);
 				std::shared_ptr<Item> item = itemList[itemUid];
 				npc->mainHand = item;
-			} else if (categories.find(Item::StringToItemCategory("armor")) != categories.end()
-				&& !npc->Wearing().lock())
+			}
+			else if (categories.find(Item::StringToItemCategory("armor")) != categories.end()
+					 && !npc->Wearing())
 			{
 				int itemUid = CreateItem(npc->Position(), itemType, false, npc->GetFaction(),
-						std::vector<std::weak_ptr<Item> >(), npc->inventory);
+						std::vector<std::shared_ptr<Item> >(), npc->inventory);
 				std::shared_ptr<Item> item = itemList[itemUid];
 				npc->armor = item;
-			} else if (categories.find(Item::StringToItemCategory("quiver")) != categories.end()
-				&& !npc->quiver.lock())
+			}
+			else if (categories.find(Item::StringToItemCategory("quiver")) != categories.end()
+					 && !npc->quiver.lock())
 			{
 				int itemUid = CreateItem(npc->Position(), itemType, false, npc->GetFaction(),
-						std::vector<std::weak_ptr<Item> >(), npc->inventory);
+						std::vector<std::shared_ptr<Item> >(), npc->inventory);
 				std::shared_ptr<Item> item = itemList[itemUid];
 				npc->quiver = std::static_pointer_cast<Container>(item); //Quivers = containers
 			} else if (categories.find(Item::StringToItemCategory("ammunition")) != categories.end()
 				&& npc->quiver.lock() && npc->quiver.lock()->empty()) {
 				for (int i = 0; i < 20 && !npc->quiver.lock()->Full(); ++i)
 				{
-					CreateItem(npc->Position(), itemType, false, npc->GetFaction(), std::vector<std::weak_ptr<Item> >(),
+					CreateItem(npc->Position(), itemType, false, npc->GetFaction(),
+							std::vector<std::shared_ptr<Item> >(),
 							npc->quiver.lock());
 				}
 			}
 			else
 			{
 				int itemUid = CreateItem(npc->Position(), itemType, false, npc->GetFaction(),
-						std::vector<std::weak_ptr<Item> >(), npc->inventory);
+						std::vector<std::shared_ptr<Item> >(), npc->inventory);
 				static_cast<void>(itemUid);
 			}
 		}
@@ -762,7 +765,7 @@ std::weak_ptr<Construction> Game::GetConstruction(int uid)
 }
 
 int Game::CreateItem(Coordinate pos, ItemType type, bool store, int ownerFaction,
-		std::vector<std::weak_ptr<Item> > comps, std::shared_ptr<Container> container)
+		std::vector<std::shared_ptr<Item> > comps, std::shared_ptr<Container> container)
 {
 	if (type >= 0 && type < static_cast<signed int>(Item::Presets.size()))
 	{
@@ -821,9 +824,9 @@ int Game::CreateItem(Coordinate pos, ItemType type, bool store, int ownerFaction
 		return -1;
 }
 
-void Game::RemoveItem(std::weak_ptr<Item> witem)
+void Game::RemoveItem(std::shared_ptr<Item> witem)
 {
-	if (std::shared_ptr<Item> item = witem.lock())
+	if (std::shared_ptr<Item> item = witem)
 	{
 		Map::Inst()->ItemList(item->Position())->erase(item->uid);
 		if (freeItems.find(witem) != freeItems.end()) freeItems.erase(witem);
@@ -838,23 +841,23 @@ void Game::RemoveItem(std::weak_ptr<Item> witem)
 	}
 }
 
-std::weak_ptr<Item> Game::GetItem(int uid)
+std::shared_ptr<Item> Game::GetItem(int uid)
 {
 	if (itemList.find(uid) != itemList.end()) return itemList[uid];
-	return std::weak_ptr<Item>();
+	return std::shared_ptr<Item>();
 }
 
-void Game::ItemContained(std::weak_ptr<Item> item, bool con)
+void Game::ItemContained(std::shared_ptr<Item> item, bool con)
 {
 	if (!con)
 	{
 		freeItems.insert(item);
-		Map::Inst()->ItemList(item.lock()->Position())->insert(item.lock()->Uid());
+		Map::Inst()->ItemList(item->Position())->insert(item->Uid());
 	}
 	else
 	{
 		freeItems.erase(item);
-		Map::Inst()->ItemList(item.lock()->Position())->erase(item.lock()->Uid());
+		Map::Inst()->ItemList(item->Position())->erase(item->Uid());
 	}
 }
 
@@ -913,21 +916,21 @@ int Game::DistanceNPCToCoordinate(int uid, Coordinate pos) {
 
 // TODO this currently checks every stockpile.  We could maintain some data structure that allowed us to check the closest stockpile(s)
 // first.
-std::weak_ptr<Item>
+std::shared_ptr<Item>
 Game::FindItemByCategoryFromStockpiles(ItemCategory category, Coordinate target, int flags, int value)
 {
 	int nearestDistance = std::numeric_limits<int>::max();
-	std::weak_ptr<Item> nearest = std::weak_ptr<Item>();
+	std::shared_ptr<Item> nearest = std::shared_ptr<Item>();
 	for (std::map<int, std::shared_ptr<Construction> >::iterator consIter = staticConstructionList.begin();
 		 consIter != staticConstructionList.end(); ++consIter)
 	{
 		if (consIter->second->stockpile && !consIter->second->farmplot)
 		{
-			std::weak_ptr<Item> item(
+			std::shared_ptr<Item> item(
 					std::static_pointer_cast<Stockpile>(consIter->second)->FindItemByCategory(category, flags, value));
-			if (item.lock() && !item.lock()->Reserved())
+			if (item && !item->Reserved())
 			{
-				int distance = (flags & MOSTDECAYED ? item.lock()->GetDecay() : Distance(item.lock()->Position(),
+				int distance = (flags & MOSTDECAYED ? item->GetDecay() : Distance(item->Position(),
 						target));
 				if (distance < nearestDistance)
 				{
@@ -942,20 +945,20 @@ Game::FindItemByCategoryFromStockpiles(ItemCategory category, Coordinate target,
 
 // TODO this currently checks every stockpile.  We could maintain some data structure that allowed us to check the closest stockpile(s)
 // first.
-std::weak_ptr<Item> Game::FindItemByTypeFromStockpiles(ItemType type, Coordinate target, int flags, int value)
+std::shared_ptr<Item> Game::FindItemByTypeFromStockpiles(ItemType type, Coordinate target, int flags, int value)
 {
 	int nearestDistance = std::numeric_limits<int>::max();
-	std::weak_ptr<Item> nearest = std::weak_ptr<Item>();
+	std::shared_ptr<Item> nearest = std::shared_ptr<Item>();
 	for (std::map<int, std::shared_ptr<Construction> >::iterator consIter = staticConstructionList.begin();
 		 consIter != staticConstructionList.end(); ++consIter)
 	{
 		if (consIter->second->stockpile && !consIter->second->farmplot)
 		{
-			std::weak_ptr<Item> item(
+			std::shared_ptr<Item> item(
 					std::static_pointer_cast<Stockpile>(consIter->second)->FindItemByType(type, flags, value));
-			if (item.lock() && !item.lock()->Reserved())
+			if (item && !item->Reserved())
 			{
-				int distance = (flags & MOSTDECAYED ? item.lock()->GetDecay() : Distance(item.lock()->Position(),
+				int distance = (flags & MOSTDECAYED ? item->GetDecay() : Distance(item->Position(),
 						target));
 				if (distance < nearestDistance)
 				{
@@ -1173,10 +1176,10 @@ void Game::Update() {
 		consi->second->Update();
 	}
 
-	for (std::list<std::weak_ptr<Item> >::iterator itemi = stoppedItems.begin(); itemi != stoppedItems.end();)
+	for (std::list<std::shared_ptr<Item> >::iterator itemi = stoppedItems.begin(); itemi != stoppedItems.end();)
 	{
 		flyingItems.erase(*itemi);
-		if (std::shared_ptr<Item> item = itemi->lock())
+		if (std::shared_ptr<Item> item = itemi)
 		{
 			if (item->condition == 0)
 			{ //The impact has destroyed the item
@@ -1186,9 +1189,9 @@ void Game::Update() {
 		itemi = stoppedItems.erase(itemi);
 	}
 
-	for (std::set<std::weak_ptr<Item> >::iterator itemi = flyingItems.begin(); itemi != flyingItems.end(); ++itemi)
+	for (std::set<std::shared_ptr<Item> >::iterator itemi = flyingItems.begin(); itemi != flyingItems.end(); ++itemi)
 	{
-		if (std::shared_ptr<Item> item = itemi->lock()) item->UpdateVelocity();
+		if (std::shared_ptr<Item> item = itemi) item->UpdateVelocity();
 	}
 
 	/*Constantly checking our free item list for items that can be stockpiled is overkill, so it's done once every
@@ -1199,9 +1202,10 @@ void Game::Update() {
 		refreshStockpiles = false;
 		if (freeItems.size() < 100)
 		{
-			for (std::set<std::weak_ptr<Item> >::iterator itemi = freeItems.begin(); itemi != freeItems.end(); ++itemi)
+			for (std::set<std::shared_ptr<Item> >::iterator itemi = freeItems.begin();
+				 itemi != freeItems.end(); ++itemi)
 			{
-				if (std::shared_ptr<Item> item = itemi->lock())
+				if (std::shared_ptr<Item> item = itemi)
 				{
 					if (!item->Reserved() && item->GetFaction() == PLAYERFACTION && item->GetVelocity() == 0)
 						StockpileItem(item);
@@ -1210,9 +1214,9 @@ void Game::Update() {
 		} else {
 			for (size_t i = 0; i < std::max(static_cast<size_t>(100), freeItems.size()/4); ++i)
 			{
-				std::set<std::weak_ptr<Item> >::iterator itemi = boost::next(freeItems.begin(),
+				std::set<std::shared_ptr<Item> >::iterator itemi = boost::next(freeItems.begin(),
 						Random::ChooseIndex(freeItems));
-				if (std::shared_ptr<Item> item = itemi->lock())
+				if (std::shared_ptr<Item> item = itemi)
 				{
 					if (!item->Reserved() && item->GetFaction() == PLAYERFACTION && item->GetVelocity() == 0)
 						StockpileItem(item);
@@ -1306,9 +1310,9 @@ void Game::Update() {
 }
 
 std::shared_ptr<Job>
-Game::StockpileItem(std::weak_ptr<Item> witem, bool returnJob, bool disregardTerritory, bool reserveItem)
+Game::StockpileItem(std::shared_ptr<Item> witem, bool returnJob, bool disregardTerritory, bool reserveItem)
 {
-	if (std::shared_ptr<Item> item = witem.lock())
+	if (std::shared_ptr<Item> item = witem)
 	{
 		if ((!reserveItem || !item->Reserved()) && item->GetFaction() == PLAYERFACTION)
 		{
@@ -1382,7 +1386,7 @@ Game::StockpileItem(std::weak_ptr<Item> witem, bool returnJob, bool disregardTer
 				stockJob->Attempts(1);
 				stockJob->ConnectToEntity(nearest);
 				Coordinate target = Coordinate(-1, -1);
-				std::weak_ptr<Item> container;
+				std::shared_ptr<Item> container;
 
 				//Check if the item can be contained, and if so if any containers are in the stockpile
 				if (Item::Presets[item->Type()].fitsin >= 0)

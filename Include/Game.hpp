@@ -272,29 +272,29 @@ public:
 	/*      ITEMS       ITEMS       ITEMS       */
 	int CreateItem(Coordinate, ItemType, bool stockpile = false,
 			int ownerFaction = 0,
-			std::vector<std::weak_ptr<Item> > = std::vector<std::weak_ptr<Item> >(),
+			std::vector<std::shared_ptr<Item> > = std::vector<std::shared_ptr<Item> >(),
 			std::shared_ptr<Container> = std::shared_ptr<Container>());
 
-	void RemoveItem(std::weak_ptr<Item>);
+	void RemoveItem(std::shared_ptr<Item>);
 
-	std::weak_ptr<Item> GetItem(int);
+	std::shared_ptr<Item> GetItem(int);
 
 	std::map<int, std::shared_ptr<Item> > itemList;
 
-	void ItemContained(std::weak_ptr<Item>, bool contained);
+	void ItemContained(std::shared_ptr<Item>, bool contained);
 
-	std::set<std::weak_ptr<Item> > freeItems; //Free as in not contained
-	std::set<std::weak_ptr<Item> > flyingItems; //These need to be updated
-	std::list<std::weak_ptr<Item> > stoppedItems; //These need to be removed from flyingItems
+	std::set<std::shared_ptr<Item> > freeItems; //Free as in not contained
+	std::set<std::shared_ptr<Item> > flyingItems; //These need to be updated
+	std::list<std::shared_ptr<Item> > stoppedItems; //These need to be removed from flyingItems
 	static int ItemTypeCount;
 	static int ItemCatCount;
 
-	std::shared_ptr<Job> StockpileItem(std::weak_ptr<Item>, bool returnJob = false, bool disregardTerritory = false,
+	std::shared_ptr<Job> StockpileItem(std::shared_ptr<Item>, bool returnJob = false, bool disregardTerritory = false,
 			bool reserveItem = true);
 
-	std::weak_ptr<Item> FindItemByCategoryFromStockpiles(ItemCategory, Coordinate, int flags = 0, int value = 0);
+	std::shared_ptr<Item> FindItemByCategoryFromStockpiles(ItemCategory, Coordinate, int flags = 0, int value = 0);
 
-	std::weak_ptr<Item> FindItemByTypeFromStockpiles(ItemType, Coordinate, int flags = 0, int value = 0);
+	std::shared_ptr<Item> FindItemByTypeFromStockpiles(ItemType, Coordinate, int flags = 0, int value = 0);
 
 	void CreateItems(int, ItemType, Coordinate, Coordinate);
 

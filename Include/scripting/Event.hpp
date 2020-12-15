@@ -36,7 +36,7 @@ namespace Script {
 
 		void BuildingDestroyed(std::weak_ptr<Construction>, int, int);
 
-		void ItemCreated(std::weak_ptr<Item>, int, int);
+		void ItemCreated(std::shared_ptr<Item>, int, int);
 
 		void TierChanged(int, const std::string&);
 		/*void ItemDestroyed(Item*, int, int);

@@ -22,7 +22,7 @@ class Item;
 namespace Script { namespace API {
 	struct PyItem
 	{
-		PyItem(std::weak_ptr<Item>);
+		PyItem(std::shared_ptr<Item>);
 
 		py::tuple GetPosition();
 
@@ -41,6 +41,6 @@ namespace Script { namespace API {
 		static void Expose();
 
 	private:
-		std::weak_ptr<Item> item;
+		std::shared_ptr<Item> item;
 	};
 }}

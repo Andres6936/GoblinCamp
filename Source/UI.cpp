@@ -823,7 +823,7 @@ std::weak_ptr<Entity> UI::GetEntity(const Coordinate& pos)
 		std::set<int>* itemList = Map::Inst()->ItemList(pos);
 		if (!itemList->empty())
 		{
-			std::set<std::weak_ptr<Item> >::iterator itemi = Game::Inst()->freeItems.find(
+			std::set<std::shared_ptr<Item> >::iterator itemi = Game::Inst()->freeItems.find(
 					Game::Inst()->itemList[*itemList->begin()]);
 			if (itemi != Game::Inst()->freeItems.end())
 			{
@@ -941,7 +941,7 @@ void UI::ChooseCreateItem() {
 	if (item >= 0) {
 		UI::Inst()->state(UIPLACEMENT);
 		UI::Inst()->SetCallback(boost::bind(&Game::CreateItem, Game::Inst(), _1, ItemType(item), false,
-				0, std::vector<std::weak_ptr<Item> >(), std::shared_ptr<Container>()));
+				0, std::vector<std::shared_ptr<Item> >(), std::shared_ptr<Container>()));
 		UI::Inst()->SetPlacementCallback(boost::bind(Game::CheckTree, _1, Coordinate(1, 1)));
 		UI::Inst()->blueprint(Coordinate(1,1));
 		Game::Inst()->Renderer()->SetCursorMode(Item::Presets[item]);

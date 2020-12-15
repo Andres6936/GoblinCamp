@@ -192,17 +192,24 @@ std::string SideBar::NPCSquadLabel(NPC *npc) {
 }
 
 std::string SideBar::NPCWeaponLabel(NPC *npc) {
-	if(npc->Wielding().lock()) {
-		return boost::str(boost::format("W: %s") % npc->Wielding().lock()->Name());
-	} else {
+	if (npc->Wielding())
+	{
+		return boost::str(boost::format("W: %s") % npc->Wielding()->Name());
+	}
+	else
+	{
 		return "";
 	}
 }
 
-std::string SideBar::NPCArmorLabel(NPC *npc) {
-	if(npc->Wearing().lock()) {
-		return boost::str(boost::format("A: %s") % npc->Wearing().lock()->Name());
-	} else {
+std::string SideBar::NPCArmorLabel(NPC *npc)
+{
+	if (npc->Wearing())
+	{
+		return boost::str(boost::format("A: %s") % npc->Wearing()->Name());
+	}
+	else
+	{
 		return "";
 	}
 }

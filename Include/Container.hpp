@@ -26,16 +26,16 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 class ContainerListener
 {
 public:
-	virtual void ItemAdded(std::weak_ptr<Item>) = 0;
+	virtual void ItemAdded(std::shared_ptr<Item>) = 0;
 
-	virtual void ItemRemoved(std::weak_ptr<Item>) = 0;
+	virtual void ItemRemoved(std::shared_ptr<Item>) = 0;
 };
 
 class Container : public Item
 {
 	GC_SERIALIZABLE_CLASS
 
-	std::set<std::weak_ptr<Item> > items;
+	std::set<std::shared_ptr<Item> > items;
 	int capacity;
 	int reservedSpace;
 
@@ -45,22 +45,22 @@ class Container : public Item
 	int water, filth; //Special cases for real liquids
 public:
 	Container(Coordinate = Coordinate(0, 0), ItemType type = 0, int cap = 1000, int faction = 0,
-			std::vector<std::weak_ptr<Item> > = std::vector<std::weak_ptr<Item> >(),
+			std::vector<std::shared_ptr<Item> > = std::vector<std::shared_ptr<Item> >(),
 			std::vector<ContainerListener*> = std::vector<ContainerListener*>());
 
 	virtual ~Container();
 
-	virtual bool AddItem(std::weak_ptr<Item>);
+	virtual bool AddItem(std::shared_ptr<Item>);
 
-	virtual void RemoveItem(std::weak_ptr<Item>);
+	virtual void RemoveItem(std::shared_ptr<Item>);
 
 	void ReserveSpace(bool, int bulk = 1);
 
-	std::weak_ptr<Item> GetItem(std::weak_ptr<Item>);
+	std::shared_ptr<Item> GetItem(std::shared_ptr<Item>);
 
-	std::set<std::weak_ptr<Item> >* GetItems();
+	std::set<std::shared_ptr<Item> >* GetItems();
 
-	std::weak_ptr<Item> GetFirstItem();
+	std::shared_ptr<Item> GetFirstItem();
 
 	bool empty();
 
@@ -70,9 +70,9 @@ public:
 
 	bool Full();
 
-	std::set<std::weak_ptr<Item> >::iterator begin();
+	std::set<std::shared_ptr<Item> >::iterator begin();
 
-	std::set<std::weak_ptr<Item> >::iterator end();
+	std::set<std::shared_ptr<Item> >::iterator end();
 
 	void AddListener(ContainerListener* listener);
 

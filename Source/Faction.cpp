@@ -242,11 +242,11 @@ bool Faction::FindJob(std::shared_ptr<NPC> npc)
 			{
 				std::shared_ptr<Job> stealJob(
 						new Job("Steal " + Item::ItemCategoryToString(goalSpecifiers[currentGoal])));
-				std::weak_ptr<Item> item = Game::Inst()->FindItemByCategoryFromStockpiles(goalSpecifiers[currentGoal],
+				std::shared_ptr<Item> item = Game::Inst()->FindItemByCategoryFromStockpiles(goalSpecifiers[currentGoal],
 						npc->Position());
-				if (item.lock())
+				if (item)
 				{
-					if (GenerateStealJob(stealJob, item.lock()))
+					if (GenerateStealJob(stealJob, item))
 					{
 						npc->StartJob(stealJob);
 						return true;

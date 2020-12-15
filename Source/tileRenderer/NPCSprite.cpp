@@ -113,12 +113,12 @@ void NPCSprite::Draw(int screenX, int screenY, std::shared_ptr<NPC> npc) const
 	{
 		int weaponIndex = -1;
 		int armourIndex = -1;
-		if (std::shared_ptr<Item> weapon = npc->Wielding().lock())
+		if (std::shared_ptr<Item> weapon = npc->Wielding())
 		{
 			const ItemPreset& itemPreset = Item::Presets[weapon->Type()];
 			weaponIndex = findIndex(itemPreset, weaponTypeNames);
 		}
-		if (std::shared_ptr<Item> armour = npc->Wearing().lock())
+		if (std::shared_ptr<Item> armour = npc->Wearing())
 		{
 			const ItemPreset& itemPreset = Item::Presets[armour->Type()];
 			armourIndex = findIndex(itemPreset, armourTypeNames);

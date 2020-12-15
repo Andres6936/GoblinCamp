@@ -27,7 +27,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Stockpile.hpp"
 
 Container::Container(
-		Coordinate pos, ItemType type, int capValue, int faction, std::vector<std::weak_ptr<Item> > components,
+		Coordinate pos, ItemType type, int capValue, int faction, std::vector<std::shared_ptr<Item> > components,
 		std::vector<ContainerListener*> nlisteners
 ) :
 	Item(pos, type, faction, components),
@@ -42,15 +42,15 @@ Container::Container(
 Container::~Container() {
 	while (!items.empty())
 	{
-		std::weak_ptr<Item> item = GetFirstItem();
+		std::shared_ptr<Item> item = GetFirstItem();
 		RemoveItem(item);
-		if (item.lock()) item.lock()->PutInContainer();
+		if (item) item->PutInContainer();
 	}
 }
 
-bool Container::AddItem(std::weak_ptr<Item> witem)
+bool Container::AddItem(std::shared_ptr<Item> witem)
 {
-	std::shared_ptr<Item> item = witem.lock();
+	std::shared_ptr<Item> item = witem;
 	if (item && capacity >= std::max(item->GetBulk(), 1))
 	{
 		item->PutInContainer(std::static_pointer_cast<Item>(shared_from_this()));
@@ -66,15 +66,15 @@ bool Container::AddItem(std::weak_ptr<Item> witem)
 	return false;
 }
 
-void Container::RemoveItem(std::weak_ptr<Item> item)
+void Container::RemoveItem(std::shared_ptr<Item> item)
 {
 	if (items.find(item) != items.end())
 	{
 		items.erase(item);
-		if (item.lock())
+		if (item)
 		{
-			capacity += std::max(item.lock()->GetBulk(), 1);
-			if (item.lock()->Type() == Item::StringToItemType("water")) --water;
+			capacity += std::max(item->GetBulk(), 1);
+			if (item->Type() == Item::StringToItemType("water")) --water;
 		}
 		for (std::vector<ContainerListener*>::iterator it = listeners.begin(); it != listeners.end(); it++)
 		{
@@ -83,12 +83,12 @@ void Container::RemoveItem(std::weak_ptr<Item> item)
 	}
 }
 
-std::weak_ptr<Item> Container::GetItem(std::weak_ptr<Item> item)
+std::shared_ptr<Item> Container::GetItem(std::shared_ptr<Item> item)
 {
 	return *items.find(item);
 }
 
-std::set<std::weak_ptr<Item> >* Container::GetItems()
+std::set<std::shared_ptr<Item> >* Container::GetItems()
 {
 	return &items;
 }
@@ -108,18 +108,18 @@ int Container::Capacity()
 	return capacity - reservedSpace;
 }
 
-std::weak_ptr<Item> Container::GetFirstItem()
+std::shared_ptr<Item> Container::GetFirstItem()
 {
-	if (items.empty()) return std::weak_ptr<Item>();
+	if (items.empty()) return std::shared_ptr<Item>();
 	return *items.begin();
 }
 
-std::set<std::weak_ptr<Item> >::iterator Container::begin()
+std::set<std::shared_ptr<Item> >::iterator Container::begin()
 {
 	return items.begin();
 }
 
-std::set<std::weak_ptr<Item> >::iterator Container::end()
+std::set<std::shared_ptr<Item> >::iterator Container::end()
 {
 	return items.end();
 }
@@ -157,9 +157,9 @@ void Container::RemoveListener(ContainerListener *listener) {
 void Container::GetTooltip(int x, int y, Tooltip *tooltip)
 {
 	int capacityUsed = 0;
-	for (std::set<std::weak_ptr<Item> >::iterator itemi = items.begin(); itemi != items.end(); ++itemi)
+	for (std::set<std::shared_ptr<Item> >::iterator itemi = items.begin(); itemi != items.end(); ++itemi)
 	{
-		if (itemi->lock()) capacityUsed += std::max(1, itemi->lock()->GetBulk());
+		if (*itemi) capacityUsed += std::max(1, (*itemi)->GetBulk());
 	}
 	tooltip->AddEntry(TooltipEntry(
 			(boost::format("%s - %d items (%d/%d)") % name % size() % capacityUsed % (capacity + capacityUsed)).str(),
@@ -183,7 +183,7 @@ void Container::AddWater(int amount) {
 		for (int i = 0; i < amount; ++i)
 		{
 			int waterUid = Game::Inst()->CreateItem(Position(), Item::StringToItemType("Water"));
-			std::shared_ptr<Item> waterItem = Game::Inst()->GetItem(waterUid).lock();
+			std::shared_ptr<Item> waterItem = Game::Inst()->GetItem(waterUid);
 
 			if (!AddItem(waterItem))
 			{
@@ -197,9 +197,9 @@ void Container::AddWater(int amount) {
 void Container::RemoveWater(int amount) {
 	for (int i = 0; i < amount; ++i)
 	{
-		for (std::set<std::weak_ptr<Item> >::iterator itemi = items.begin(); itemi != items.end(); ++itemi)
+		for (std::set<std::shared_ptr<Item> >::iterator itemi = items.begin(); itemi != items.end(); ++itemi)
 		{
-			std::shared_ptr<Item> waterItem = itemi->lock();
+			std::shared_ptr<Item> waterItem = *itemi;
 			if (waterItem && waterItem->Type() == Item::StringToItemType("water"))
 			{
 				Game::Inst()->RemoveItem(waterItem);
@@ -225,9 +225,10 @@ int Container::ContainsFilth() { return filth; }
 void Container::Draw(Coordinate upleft, TCODConsole* console) {
 	int screenx = (pos - upleft).X();
 	int screeny = (pos - upleft).Y();
-	if (screenx >= 0 && screenx < console->getWidth() && screeny >= 0 && screeny < console->getHeight()) {
-		if (!items.empty() && items.begin()->lock())
-			console->putCharEx(screenx, screeny, items.begin()->lock()->GetGraphic(), items.begin()->lock()->Color(), color);
+	if (screenx >= 0 && screenx < console->getWidth() && screeny >= 0 && screeny < console->getHeight())
+	{
+		if (!items.empty() && *(items.begin()))
+			console->putCharEx(screenx, screeny, (*(items.begin()))->GetGraphic(), (*(items.begin()))->Color(), color);
 		else
 			console->putCharEx(screenx, screeny, graphic, color, Map::Inst()->GetBackColor(pos));
 	}
@@ -238,9 +239,9 @@ int Container::GetReservedSpace() { return reservedSpace; }
 void Container::Position(const Coordinate& pos)
 {
 	Item::Position(pos);
-	for (std::set<std::weak_ptr<Item> >::iterator itemi = items.begin(); itemi != items.end(); ++itemi)
+	for (std::set<std::shared_ptr<Item> >::iterator itemi = items.begin(); itemi != items.end(); ++itemi)
 	{
-		std::shared_ptr<Item> item = itemi->lock();
+		std::shared_ptr<Item> item = *itemi;
 		if (item) item->Position(pos);
 	}
 }
@@ -249,9 +250,9 @@ Coordinate Container::Position() {return Item::Position();}
 
 void Container::SetFaction(int faction)
 {
-	for (std::set<std::weak_ptr<Item> >::const_iterator itemi = items.begin(); itemi != items.end(); ++itemi)
+	for (std::set<std::shared_ptr<Item> >::const_iterator itemi = items.begin(); itemi != items.end(); ++itemi)
 	{
-		if (std::shared_ptr<Item> item = itemi->lock())
+		if (std::shared_ptr<Item> item = *itemi)
 		{
 			item->SetFaction(faction);
 		}

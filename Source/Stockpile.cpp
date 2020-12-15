@@ -69,15 +69,15 @@ Stockpile::~Stockpile()
 		 conti != containers.end(); ++conti)
 	{
 		//Loop through all the items in the containers
-		for (std::set<std::weak_ptr<Item> >::iterator itemi = conti->second->begin();
+		for (std::set<std::shared_ptr<Item> >::iterator itemi = conti->second->begin();
 			 itemi != conti->second->end(); ++itemi)
 		{
 			//If the item is also a container, remove 'this' as a listener
-			if (itemi->lock() && itemi->lock()->IsCategory(Item::StringToItemCategory("Container")))
+			if (itemi && (*itemi)->IsCategory(Item::StringToItemCategory("Container")))
 			{
-				if (std::dynamic_pointer_cast<Container>(itemi->lock()))
+				if (std::dynamic_pointer_cast<Container>(itemi))
 				{
-					std::shared_ptr<Container> container = std::static_pointer_cast<Container>(itemi->lock());
+					std::shared_ptr<Container> container = std::static_pointer_cast<Container>(itemi);
 					container->RemoveListener(this);
 				}
 			}
@@ -104,7 +104,7 @@ void Stockpile::SetMap(Map* map) {
 int Stockpile::Build() {return 1;}
 
 //TODO: Remove repeated code
-std::weak_ptr<Item> Stockpile::FindItemByCategory(ItemCategory cat, int flags, int value)
+std::shared_ptr<Item> Stockpile::FindItemByCategory(ItemCategory cat, int flags, int value)
 {
 
 	//These two are used only for MOSTDECAYED
@@ -119,8 +119,8 @@ std::weak_ptr<Item> Stockpile::FindItemByCategory(ItemCategory cat, int flags, i
 	{
 		if (conti->second && !conti->second->empty())
 		{
-			std::weak_ptr<Item> witem = *conti->second->begin();
-			if (std::shared_ptr<Item> item = witem.lock())
+			std::shared_ptr<Item> witem = *conti->second->begin();
+			if (std::shared_ptr<Item> item = witem)
 			{
 				if (item->IsCategory(cat) && !item->Reserved())
 				{
@@ -179,10 +179,10 @@ std::weak_ptr<Item> Stockpile::FindItemByCategory(ItemCategory cat, int flags, i
 					//This item is not the one we want, but it might contain what we're looking for.
 					std::weak_ptr<Container> cont = std::static_pointer_cast<Container>(item);
 
-					for (std::set<std::weak_ptr<Item> >::iterator itemi = cont.lock()->begin();
+					for (std::set<std::shared_ptr<Item> >::iterator itemi = cont.lock()->begin();
 						 itemi != cont.lock()->end(); ++itemi)
 					{
-						std::shared_ptr<Item> innerItem(itemi->lock());
+						std::shared_ptr<Item> innerItem(itemi);
 						if (innerItem && innerItem->IsCategory(cat) && !innerItem->Reserved())
 						{
 
@@ -224,7 +224,7 @@ std::weak_ptr<Item> Stockpile::FindItemByCategory(ItemCategory cat, int flags, i
 	return savedItem;
 }
 
-std::weak_ptr<Item> Stockpile::FindItemByType(ItemType typeValue, int flags, int value)
+std::shared_ptr<Item> Stockpile::FindItemByType(ItemType typeValue, int flags, int value)
 {
 
 	//These two are used only for MOSTDECAYED
@@ -241,8 +241,8 @@ std::weak_ptr<Item> Stockpile::FindItemByType(ItemType typeValue, int flags, int
 	{
 		if (!conti->second->empty())
 		{
-			std::weak_ptr<Item> witem = *conti->second->begin();
-			if (std::shared_ptr<Item> item = witem.lock())
+			std::shared_ptr<Item> witem = *conti->second->begin();
+			if (std::shared_ptr<Item> item = witem)
 			{
 				if (item->Type() == typeValue && !item->Reserved())
 				{
@@ -296,10 +296,10 @@ std::weak_ptr<Item> Stockpile::FindItemByType(ItemType typeValue, int flags, int
 				else if (std::dynamic_pointer_cast<Container>(item))
 				{
 					std::weak_ptr<Container> cont = std::static_pointer_cast<Container>(item);
-					for (std::set<std::weak_ptr<Item> >::iterator itemi = cont.lock()->begin();
+					for (std::set<std::shared_ptr<Item> >::iterator itemi = cont.lock()->begin();
 						 itemi != cont.lock()->end(); ++itemi)
 					{
-						std::shared_ptr<Item> innerItem(itemi->lock());
+						std::shared_ptr<Item> innerItem(itemi);
 						if (innerItem && innerItem->Type() == typeValue && !innerItem->Reserved())
 						{
 							++itemsFound;
@@ -399,10 +399,10 @@ void Stockpile::Draw(Coordinate upleft, TCODConsole* console) {
 
 						if (!containers[p]->empty())
 						{
-							std::weak_ptr<Item> item = *containers[p]->begin();
-							if (item.lock())
+							std::shared_ptr<Item> item = *containers[p]->begin();
+							if (item)
 							{
-								item.lock()->Draw(upleft, console);
+								item->Draw(upleft, console);
 								TCODColor bgColor = console->getCharBackground(screenx, screeny);
 								bgColor.setValue(std::min(1.0,
 										static_cast<double>(bgColor.getValue() - ((cos(strobe) - 1) / 10))));
@@ -457,10 +457,10 @@ bool Stockpile::Full(ItemType itemType) {
 				if (containers[p]->empty() && !reserved[p]) return false;
 
 				//Check if a container exists for this ItemCategory that isn't full
-				std::weak_ptr<Item> item = containers[p]->GetFirstItem();
-				if (item.lock() && item.lock()->IsCategory(Item::StringToItemCategory("Container")))
+				std::shared_ptr<Item> item = containers[p]->GetFirstItem();
+				if (item && item->IsCategory(Item::StringToItemCategory("Container")))
 				{
-					std::shared_ptr<Container> container = std::static_pointer_cast<Container>(item.lock());
+					std::shared_ptr<Container> container = std::static_pointer_cast<Container>(item);
 					if (type != -1 && container->IsCategory(Item::Presets[itemType].fitsin) &&
 						container->Capacity() >= Item::Presets[itemType].bulk)
 						return false;
@@ -584,9 +584,9 @@ void Stockpile::SetAllAllowed(bool nallowed) {
 	Game::Inst()->RefreshStockpiles();
 }
 
-void Stockpile::ItemAdded(std::weak_ptr<Item> witem)
+void Stockpile::ItemAdded(std::shared_ptr<Item> witem)
 {
-	if (std::shared_ptr<Item> item = witem.lock())
+	if (std::shared_ptr<Item> item = witem)
 	{
 		std::set<ItemCategory> categories = Item::Presets[item->Type()].categories;
 		for (std::set<ItemCategory>::iterator it = categories.begin(); it != categories.end(); it++)
@@ -612,7 +612,7 @@ void Stockpile::ItemAdded(std::weak_ptr<Item> witem)
 
 			//"Add" each item inside a container as well
 			std::shared_ptr<Container> container = std::static_pointer_cast<Container>(item);
-			for (std::set<std::weak_ptr<Item> >::iterator i = container->begin(); i != container->end(); i++)
+			for (std::set<std::shared_ptr<Item> >::iterator i = container->begin(); i != container->end(); i++)
 			{
 				ItemAdded(*i);
 			}
@@ -635,9 +635,9 @@ void Stockpile::ItemAdded(std::weak_ptr<Item> witem)
 	}
 }
 
-void Stockpile::ItemRemoved(std::weak_ptr<Item> witem)
+void Stockpile::ItemRemoved(std::shared_ptr<Item> witem)
 {
-	if (std::shared_ptr<Item> item = witem.lock())
+	if (std::shared_ptr<Item> item = witem)
 	{
 
 		//"Remove" each item inside a container
@@ -645,7 +645,7 @@ void Stockpile::ItemRemoved(std::weak_ptr<Item> witem)
 		{
 			std::shared_ptr<Container> container = std::static_pointer_cast<Container>(item);
 			container->RemoveListener(this);
-			for (std::set<std::weak_ptr<Item> >::iterator i = container->begin(); i != container->end(); i++)
+			for (std::set<std::shared_ptr<Item> >::iterator i = container->begin(); i != container->end(); i++)
 			{
 				ItemRemoved(*i);
 			}
@@ -676,10 +676,10 @@ void Stockpile::GetTooltip(int x, int y, Tooltip *tooltip) {
 	if (containers.find(Coordinate(x,y)) != containers.end()) {
 		if(!containers[Coordinate(x, y)]->empty())
 		{
-			std::weak_ptr<Item> item = containers[Coordinate(x, y)]->GetFirstItem();
-			if (item.lock())
+			std::shared_ptr<Item> item = containers[Coordinate(x, y)]->GetFirstItem();
+			if (item)
 			{
-				item.lock()->GetTooltip(x, y, tooltip);
+				item->GetTooltip(x, y, tooltip);
 			}
 		}
 	}

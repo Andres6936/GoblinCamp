@@ -27,9 +27,9 @@ namespace py = boost::python;
 
 namespace Script { namespace API
 	{
-#define ITEM_ALIVE(var) std::shared_ptr<Item> var = item.lock()
+#define ITEM_ALIVE(var) std::shared_ptr<Item> var = item
 
-		PyItem::PyItem(std::weak_ptr<Item> item) : item(item)
+		PyItem::PyItem(std::shared_ptr<Item> item) : item(item)
 		{
 		}
 

@@ -64,10 +64,10 @@ void FarmPlot::Draw(Coordinate upleft, TCODConsole* console) {
 						console->setChar(screenx, screeny, (graphic[1]));
 
 						if (!containers[p]->empty()) {
-							std::weak_ptr<Item> item = containers[p]->GetFirstItem();
-							if (item.lock())
+							std::shared_ptr<Item> item = containers[p]->GetFirstItem();
+							if (item)
 							{
-								console->putCharEx(screenx, screeny, item.lock()->GetGraphic(), item.lock()->Color(),
+								console->putCharEx(screenx, screeny, item->GetGraphic(), item->Color(),
 										TCODColor::black);
 							}
 						}
@@ -154,7 +154,7 @@ int FarmPlot::Use() {
 					growth[containerIt->first] = -(MONTH_LENGTH / 2) + Random::Generate(MONTH_LENGTH - 1);
 					if (seedi->second)
 					{
-						std::weak_ptr<Item> seed = Game::Inst()->FindItemByTypeFromStockpiles(seedi->first, Center());
+						std::shared_ptr<Item> seed = Game::Inst()->FindItemByTypeFromStockpiles(seedi->first, Center());
 						if (seed.lock())
 						{
 							std::shared_ptr<Job> plantJob(new Job("Plant " + Item::ItemTypeToString(seedi->first)));
@@ -216,10 +216,10 @@ bool FarmPlot::Full(ItemType type) {
 				if (containers[p]->empty() && !reserved[p]) return false;
 
 				//Check if a container exists for this ItemCategory that isn't full
-				std::weak_ptr<Item> item = containers[p]->GetFirstItem();
-				if (item.lock() && item.lock()->IsCategory(Item::StringToItemCategory("Container")))
+				std::shared_ptr<Item> item = containers[p]->GetFirstItem();
+				if (item && item->IsCategory(Item::StringToItemCategory("Container")))
 				{
-					std::shared_ptr<Container> container = std::static_pointer_cast<Container>(item.lock());
+					std::shared_ptr<Container> container = std::static_pointer_cast<Container>(item);
 					if (type != -1 && container->IsCategory(Item::Presets[type].fitsin) &&
 						container->Capacity() >= Item::Presets[type].bulk)
 						return false;
