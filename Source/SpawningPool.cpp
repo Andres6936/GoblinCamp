@@ -137,7 +137,7 @@ void SpawningPool::Update() {
 		while (!corpseContainer->empty())
 		{
 			std::shared_ptr<Item> corpse = corpseContainer->GetFirstItem();
-			if (std::shared_ptr<Item> actualItem = corpse.lock())
+			if (std::shared_ptr<Item> actualItem = corpse)
 			{
 				if (actualItem->IsCategory(Item::StringToItemCategory("corpse")))
 				{
