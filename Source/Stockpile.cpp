@@ -177,41 +177,44 @@ std::shared_ptr<Item> Stockpile::FindItemByCategory(ItemCategory cat, int flags,
 					//This item is not the one we want, but it might contain what we're looking for.
 					std::weak_ptr<Container> cont = std::static_pointer_cast<Container>(item);
 
-					for (std::set<std::shared_ptr<Item> >::iterator itemi = cont.lock()->begin();
-						 itemi != cont.lock()->end(); ++itemi)
+					for (auto& itemi : *(cont.lock()))
 					{
-						std::shared_ptr<Item> innerItem(*itemi);
-						if (innerItem && innerItem->IsCategory(cat) && !innerItem->Reserved())
+						if (itemi && itemi->IsCategory(cat) && !itemi->Reserved())
 						{
 
 							++itemsFound;
 
 							if (flags & BETTERTHAN)
 							{
-								if (innerItem->RelativeValue() <= value) continue;
+								if (itemi->RelativeValue() <= value) continue;
 							}
 							if (flags & APPLYMINIMUMS)
 							{
 								/*For now this only affects seeds. With this flag set don't return
 								seeds if at or below the set minimum for them*/
-								if (innerItem->IsCategory(Item::StringToItemCategory("Seed"))) {
-									if (StockManager::Inst()->TypeQuantity(innerItem->Type()) <=
-										StockManager::Inst()->Minimum(innerItem->Type())) 
-											continue;
+								if (itemi->IsCategory(Item::StringToItemCategory("Seed")))
+								{
+									if (StockManager::Inst()->TypeQuantity(itemi->Type()) <=
+										StockManager::Inst()->Minimum(itemi->Type()))
+										continue;
 								}
 							}
 
-							if (flags & MOSTDECAYED) {
-								int itemDecay = innerItem->GetDecay();
-								if (flags & AVOIDGARBAGE && innerItem->IsCategory(Item::StringToItemCategory("Garbage"))) itemDecay += 100;
-								if (decay == -1 || decay > itemDecay) { //First item or closer to decay
+							if (flags & MOSTDECAYED)
+							{
+								int itemDecay = itemi->GetDecay();
+								if (flags & AVOIDGARBAGE &&
+									itemi->IsCategory(Item::StringToItemCategory("Garbage")))
+									itemDecay += 100;
+								if (decay == -1 || decay > itemDecay)
+								{ //First item or closer to decay
 									decay = itemDecay;
-									savedItem = innerItem;
+									savedItem = itemi;
 								}
 								continue; //Always continue, we need to look through all the items
 							}
-							
-							return innerItem;
+
+							return itemi;
 						}
 					}
 				}
