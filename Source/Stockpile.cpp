@@ -665,9 +665,10 @@ void Stockpile::ItemRemoved(std::shared_ptr<Item> witem)
 		if (Item::Presets[item->Type()].fitsin >= 0)
 			--demand[Item::Presets[item->Type()].fitsin];
 
-		std::set<ItemCategory> categories = Item::Presets[item->Type()].categories;
-		for(std::set<ItemCategory>::iterator it = categories.begin(); it != categories.end(); it++) {
-			amount[*it] = amount[*it] - 1;
+		std::set <ItemCategory> categories = Item::Presets[item->Type()].categories;
+		for (auto& it : categories)
+		{
+			amount[it] = amount[it] - 1;
 		}
 	}
 }
