@@ -64,7 +64,7 @@ namespace Script { namespace Event {
 			Script::InvokeListeners("onBuildingDestroyed", "(Oii)", obj.ptr(), x, y);
 		}
 
-		void ItemCreated(std::weak_ptr<Item> item, int x, int y)
+		void ItemCreated(std::shared_ptr<Item> item, int x, int y)
 		{
 			Script::API::PyItem pyitem(item);
 

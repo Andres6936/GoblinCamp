@@ -382,7 +382,7 @@ void Job::CreatePourWaterJob(std::shared_ptr<Job> job, Coordinate location)
 		{
 			std::shared_ptr<Container> container = std::static_pointer_cast<Container>(waterItem->ContainedIn().lock());
 			//Reserve everything inside the container
-			for (std::set<std::weak_ptr<Item> >::iterator itemi = container->begin();
+			for (std::set<std::shared_ptr<Item> >::iterator itemi = container->begin();
 				 itemi != container->end(); ++itemi)
 			{
 				job->ReserveEntity(*itemi);

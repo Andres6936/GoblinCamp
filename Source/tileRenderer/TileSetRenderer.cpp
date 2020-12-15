@@ -171,7 +171,7 @@ void TilesetRenderer::PreparePrefabs()
 		nopi->graphicsHint = tileSet->GetGraphicsHintFor(*nopi);
 	}
 	for (std::vector<ItemPreset>::iterator itemi = Item::Presets.begin(); itemi != Item::Presets.end(); ++itemi) {
-		itemi->graphicsHint = tileSet->GetGraphicsHintFor(*itemi);
+		(*itemi)->graphicsHint = tileSet->GetGraphicsHintFor(*itemi);
 	}
 	for (std::vector<ConstructionPreset>::iterator constructi = Construction::Presets.begin(); constructi != Construction::Presets.end(); ++constructi) {
 		constructi->graphicsHint = tileSet->GetGraphicsHintFor(*constructi);
@@ -348,19 +348,19 @@ void TilesetRenderer::DrawItems() const
 	for (std::map<int, std::shared_ptr<Item> >::iterator itemi = Game::Inst()->itemList.begin();
 		 itemi != Game::Inst()->itemList.end(); ++itemi)
 	{
-		if (itemi->second == 0)
+		if ((*itemi)->second == 0)
 		{ // should not be here. but it happens. null pointer
 			itemi = Game::Inst()->itemList.erase(itemi); // delete this shit
 			if (itemi == Game::Inst()->itemList.end())break;
 			continue;
 		}
 
-		if (!itemi->second->ContainedIn().lock())
+		if (!(*itemi)->second->ContainedIn().lock())
 		{
-			Coordinate itemPos = itemi->second->Position();
+			Coordinate itemPos = (*itemi)->second->Position();
 			Coordinate start(startTileX, startTileY), extent(tilesX, tilesY);
 			if (itemPos.insideExtent(start, extent))
-				tileSet->DrawItem((itemPos-start).X(), (itemPos-start).Y(), itemi->second);
+				tileSet->DrawItem((itemPos - start).X(), (itemPos - start).Y(), (*itemi)->second);
 		}
 	}
 }

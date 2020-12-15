@@ -179,7 +179,7 @@ void TileSet::DrawNPC(int screenX, int screenY, std::shared_ptr<NPC> npc) const
 				DrawItem(screenX, screenY, carriedItem);
 			}
 		}
-		else if (std::shared_ptr<Item> wielded = npc->Wielding().lock())
+		else if (std::shared_ptr<Item> wielded = npc->Wielding())
 		{
 			int itemHint = wielded->GetGraphicsHint();
 			if (itemHint != -1 && itemSprites[itemHint].renderWhenWielded)

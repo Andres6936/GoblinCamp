@@ -55,9 +55,9 @@ public:
 
 	virtual void Draw(Coordinate, TCODConsole*);
 
-	std::weak_ptr<Item> FindItemByCategory(ItemCategory, int flags = 0, int value = 0);
+	std::shared_ptr<Item> FindItemByCategory(ItemCategory, int flags = 0, int value = 0);
 
-	std::weak_ptr<Item> FindItemByType(ItemType, int flags = 0, int value = 0);
+	std::shared_ptr<Item> FindItemByType(ItemType, int flags = 0, int value = 0);
 
 	int Symbol();
 
@@ -83,9 +83,9 @@ public:
 
 	virtual void GetTooltip(int x, int y, Tooltip* tooltip);
 
-	void ItemAdded(std::weak_ptr<Item>);
+	void ItemAdded(std::shared_ptr<Item>);
 
-	void ItemRemoved(std::weak_ptr<Item>);
+	void ItemRemoved(std::shared_ptr<Item>);
 
 	Coordinate Center();
 

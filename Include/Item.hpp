@@ -105,9 +105,9 @@ protected:
 	int graphic;
 
 	Item(const Coordinate& = zero, ItemType = -1, int owner = -1,
-			std::vector<std::weak_ptr<Item> > = std::vector<std::weak_ptr<Item> >());
+			std::vector<std::shared_ptr<Item> > = std::vector<std::shared_ptr<Item> >());
 
-	std::weak_ptr<Item> container;
+	std::shared_ptr<Item> container;
 	bool internal;
 
 public:
@@ -143,9 +143,9 @@ public:
 
 	virtual void Draw(Coordinate, TCODConsole*);
 
-	virtual void PutInContainer(std::weak_ptr<Item> = std::weak_ptr<Item>());
+	virtual void PutInContainer(std::shared_ptr<Item> = std::shared_ptr<Item>());
 
-	std::weak_ptr<Item> ContainedIn();
+	std::shared_ptr<Item> ContainedIn();
 
 	ItemType Type();
 
@@ -204,7 +204,7 @@ class WaterItem : public OrganicItem
 public:
 	WaterItem(Coordinate= Coordinate(0, 0), ItemType= 0);
 
-	virtual void PutInContainer(std::weak_ptr<Item> = std::weak_ptr<Item>());
+	virtual void PutInContainer(std::shared_ptr<Item> = std::shared_ptr<Item>());
 };
 
 BOOST_CLASS_VERSION(WaterItem, 0)

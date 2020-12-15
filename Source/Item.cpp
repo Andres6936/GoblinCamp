@@ -42,7 +42,7 @@ boost::unordered_map<std::string, ItemType> Item::itemCategoryNames = boost::uno
 std::multimap<StatusEffectType, ItemType> Item::EffectRemovers = std::multimap<StatusEffectType, ItemType>();
 std::multimap<StatusEffectType, ItemType> Item::GoodEffectAdders = std::multimap<StatusEffectType, ItemType>();
 
-Item::Item(const Coordinate& startPos, ItemType typeval, int owner, std::vector<std::weak_ptr<Item> > components) :
+Item::Item(const Coordinate& startPos, ItemType typeval, int owner, std::vector<std::shared_ptr<Item> > components) :
 		Entity(),
 
 		type(typeval),
@@ -50,7 +50,7 @@ Item::Item(const Coordinate& startPos, ItemType typeval, int owner, std::vector<
 		decayCounter(-1),
 
 		attemptedStore(false),
-		container(std::weak_ptr<Item>()),
+		container(std::shared_ptr<Item>()),
 		internal(false)
 {
 	SetFaction(owner);
@@ -81,10 +81,12 @@ Item::Item(const Coordinate& startPos, ItemType typeval, int owner, std::vector<
 		}
 
 		if (components.size() > 0) {
-			for (int i = 0; i < (signed int)components.size(); ++i) {
-				if (components[i].lock()) {
-					color = TCODColor::lerp(color, components[i].lock()->Color(), 0.35f);
-					if (components[i].lock()->IsFlammable()) flame += 2;
+			for (int i = 0; i < (signed int)components.size(); ++i)
+			{
+				if (components[i])
+				{
+					color = TCODColor::lerp(color, components[i]->Color(), 0.35f);
+					if (components[i]->IsFlammable()) flame += 2;
 					else --flame;
 				}
 			}
@@ -161,7 +163,7 @@ void Item::Reserve(bool value) {
 	}
 }
 
-void Item::PutInContainer(std::weak_ptr<Item> con)
+void Item::PutInContainer(std::shared_ptr<Item> con)
 {
 	container = con;
 	attemptedStore = false;
@@ -175,7 +177,7 @@ void Item::PutInContainer(std::weak_ptr<Item> con)
 	}
 }
 
-std::weak_ptr<Item> Item::ContainedIn()
+std::shared_ptr<Item> Item::ContainedIn()
 {
 	return container;
 }
@@ -264,23 +266,27 @@ public:
 
 		//Fruits
 		for (std::map<int, std::vector<std::string> >::iterator itemi = presetFruits.begin();
-			itemi != presetFruits.end(); ++itemi) {
-				for (std::vector<std::string>::iterator fruiti = itemi->second.begin(); 
-					fruiti != itemi->second.end(); ++fruiti) {
-						Item::Presets[itemi->first].fruits.push_back(Item::StringToItemType(*fruiti));
-				}
+			itemi != presetFruits.end(); ++itemi)
+		{
+			for (std::vector<std::string>::iterator fruiti = (*itemi)->second.begin();
+				 fruiti != (*itemi)->second.end(); ++fruiti)
+			{
+				Item::Presets[(*itemi)->first].fruits.push_back(Item::StringToItemType(*fruiti));
+			}
 		}
 
 		//Decay
 		for (std::map<int, std::vector<std::string> >::iterator itemi = presetDecay.begin();
-			itemi != presetDecay.end(); ++itemi) {
-				for (std::vector<std::string>::iterator decayi = itemi->second.begin(); 
-					decayi != itemi->second.end(); ++decayi) {
-						if (boost::iequals(*decayi, "Filth"))
-							Item::Presets[itemi->first].decayList.push_back(-1);
-						else
-							Item::Presets[itemi->first].decayList.push_back(Item::StringToItemType(*decayi));
-				}
+			itemi != presetDecay.end(); ++itemi)
+		{
+			for (std::vector<std::string>::iterator decayi = (*itemi)->second.begin();
+				 decayi != (*itemi)->second.end(); ++decayi)
+			{
+				if (boost::iequals(*decayi, "Filth"))
+					Item::Presets[(*itemi)->first].decayList.push_back(-1);
+				else
+					Item::Presets[(*itemi)->first].decayList.push_back(Item::StringToItemType(*decayi));
+			}
 		}
 
 		//Projectiles
@@ -647,7 +653,7 @@ void Item::Impact(int speedChange) {
 	if (condition == 0)
 	{ //Note that condition < 0 means that it is not damaged by impacts
 		//The item has impacted and broken. Create debris owned by no one
-		std::vector<std::weak_ptr<Item> > component(1, std::static_pointer_cast<Item>(shared_from_this()));
+		std::vector<std::shared_ptr<Item> > component(1, std::static_pointer_cast<Item>(shared_from_this()));
 		Game::Inst()->CreateItem(Position(), Item::StringToItemType("debris"), false, -1, component);
 		//Game::Update removes all condition==0 items in the stopped items list, which is where this item will be
 	}
@@ -657,18 +663,22 @@ bool Item::IsFlammable() { return flammable; }
 
 void Item::UpdateEffectItems() {
 	int index = -1;
-	for (std::vector<ItemPreset>::iterator itemi = Presets.begin(); itemi != Presets.end(); ++itemi) {
+	for (std::vector<ItemPreset>::iterator itemi = Presets.begin(); itemi != Presets.end(); ++itemi)
+	{
 		++index;
-		for (std::vector<std::pair<StatusEffectType, int> >::iterator remEffi = itemi->removesEffects.begin();
-			remEffi != itemi->removesEffects.end(); ++remEffi) {
-				EffectRemovers.insert(std::make_pair(remEffi->first, (ItemType)index));
+		for (std::vector<std::pair<StatusEffectType, int> >::iterator remEffi = (*itemi)->removesEffects.begin();
+			 remEffi != (*itemi)->removesEffects.end(); ++remEffi)
+		{
+			EffectRemovers.insert(std::make_pair(remEffi->first, (ItemType)index));
 		}
-		for (std::vector<std::pair<StatusEffectType, int> >::iterator addEffi = itemi->addsEffects.begin();
-			addEffi != itemi->addsEffects.end(); ++addEffi) {
-				StatusEffect effect(addEffi->first);
-				if (!effect.negative) {
-					GoodEffectAdders.insert(std::make_pair(addEffi->first, (ItemType)index));
-				}
+		for (std::vector<std::pair<StatusEffectType, int> >::iterator addEffi = (*itemi)->addsEffects.begin();
+			 addEffi != (*itemi)->addsEffects.end(); ++addEffi)
+		{
+			StatusEffect effect(addEffi->first);
+			if (!effect.negative)
+			{
+				GoodEffectAdders.insert(std::make_pair(addEffi->first, (ItemType)index));
+			}
 		}
 	}
 }
@@ -800,7 +810,7 @@ void OrganicItem::load(InputArchive& ar, const unsigned int version) {
 
 WaterItem::WaterItem(Coordinate pos, ItemType typeVal) : OrganicItem(pos, typeVal) {}
 
-void WaterItem::PutInContainer(std::weak_ptr<Item> con)
+void WaterItem::PutInContainer(std::shared_ptr<Item> con)
 {
 	container = con;
 	attemptedStore = false;

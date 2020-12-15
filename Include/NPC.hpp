@@ -141,10 +141,10 @@ class NPC : public Entity {
 	bool jobBegun;
 	bool expert;
 
-	std::weak_ptr<Item> carried;
-	std::weak_ptr<Item> mainHand;
-	std::weak_ptr<Item> offHand;
-	std::weak_ptr<Item> armor;
+	std::shared_ptr<Item> carried;
+	std::shared_ptr<Item> mainHand;
+	std::shared_ptr<Item> offHand;
+	std::shared_ptr<Item> armor;
 	std::weak_ptr<Container> quiver;
 
 	int thirst, hunger, weariness;
@@ -160,7 +160,7 @@ class NPC : public Entity {
 	void HandleWeariness();
 
 	int health, maxHealth;
-	std::weak_ptr<Item> foundItem;
+	std::shared_ptr<Item> foundItem;
 	std::shared_ptr<Container> inventory;
 
 	std::list<std::weak_ptr<NPC> > nearNpcs;
@@ -295,9 +295,9 @@ public:
 
 	void Kill(std::string deathMessage);
 
-	void PickupItem(std::weak_ptr<Item>);
+	void PickupItem(std::shared_ptr<Item>);
 
-	void DropItem(std::weak_ptr<Item>);
+	void DropItem(std::shared_ptr<Item>);
 
 	void Hit(std::weak_ptr<Entity>, bool careful = false);
 
@@ -317,9 +317,9 @@ public:
 
 	void FindNewWeapon();
 
-	std::weak_ptr<Item> Wielding() const;
+	std::shared_ptr<Item> Wielding() const;
 
-	std::weak_ptr<Item> Carrying() const;
+	std::shared_ptr<Item> Carrying() const;
 
 	bool HasHands() const;
 
@@ -328,9 +328,9 @@ public:
 	bool IsFlying() const; //Special case for pathing's sake. Equivalent to HasEffect(FLYING) except it's threadsafe
 	void FindNewArmor();
 
-	std::weak_ptr<Item> Wearing() const;
+	std::shared_ptr<Item> Wearing() const;
 
-	void DecreaseItemCondition(std::weak_ptr<Item>);
+	void DecreaseItemCondition(std::shared_ptr<Item>);
 
 	int GetHealth() const;
 
