@@ -8,8 +8,8 @@ Goblins camp is Dwarf Fortress-like game.
 
 ### Status Quo
 
-The code have been abandoned some years ago, but you can still build and run it in in Debian Wheezy
-chroot container. See [BUILD.using_cmake.md](BUILD.using_cmake.md) for building guide
+The code have been abandoned some years ago, but you can still build and run it in in Debian Wheezy chroot container.
+See [BUILD.using_cmake.md](BUILD.using_cmake.md) for building guide
 
 <p align="center">
     <img src="./Documentation/Screenshots/Base.png"/>
@@ -17,3 +17,13 @@ chroot container. See [BUILD.using_cmake.md](BUILD.using_cmake.md) for building 
     <img src="./Documentation/Screenshots/Terrain.png"/>
     <img src="./Documentation/Screenshots/Winter.png"/>
 </p>
+
+### Modern CMake
+
+Simplify the process of build the app.
+
+```sh
+mkdir Build && cd Build
+cmake ..
+make
+```
