@@ -666,9 +666,9 @@ void Stockpile::ItemRemoved(std::shared_ptr<Item> witem)
 			--demand[Item::Presets[item->Type()].fitsin];
 
 		std::set <ItemCategory> categories = Item::Presets[item->Type()].categories;
-		for (auto& it : categories)
+		for (auto& itemCategory : categories)
 		{
-			amount[it] = amount[it] - 1;
+			amount[itemCategory] = amount[itemCategory] - 1;
 		}
 	}
 }
