@@ -136,7 +136,7 @@ int Game::PlaceConstruction(Coordinate target, ConstructionType construct)
 		 mati != Construction::Presets[construct].materials.end(); ++mati)
 	{
 		std::shared_ptr<Item> material = Game::Inst()->FindItemByCategoryFromStockpiles(*mati, target, EMPTY);
-		if (std::shared_ptr<Item> item = material.lock())
+		if (std::shared_ptr<Item> item = material)
 		{
 			item->Reserve(true);
 			componentList.push_back(item);
@@ -146,7 +146,7 @@ int Game::PlaceConstruction(Coordinate target, ConstructionType construct)
 			for (std::list<std::shared_ptr<Item> >::iterator compi = componentList.begin();
 				 compi != componentList.end(); ++compi)
 			{
-				compi->lock()->Reserve(false);
+				(*compi)->Reserve(false);
 			}
 			componentList.clear();
 			Announce::Inst()->AddMsg((boost::format("Cancelled %s: insufficient [%s] in stockpiles") %
@@ -170,7 +170,7 @@ int Game::PlaceConstruction(Coordinate target, ConstructionType construct)
 	for (std::list<std::shared_ptr<Item> >::iterator compi = componentList.begin();
 		 compi != componentList.end(); ++compi)
 	{
-		compi->lock()->Reserve(false);
+		(*compi)->Reserve(false);
 	}
 	componentList.clear();
 
@@ -830,7 +830,7 @@ void Game::RemoveItem(std::shared_ptr<Item> witem)
 	{
 		Map::Inst()->ItemList(item->Position())->erase(item->uid);
 		if (freeItems.find(witem) != freeItems.end()) freeItems.erase(witem);
-		if (std::shared_ptr<Container> container = std::static_pointer_cast<Container>(item->container.lock()))
+		if (std::shared_ptr<Container> container = std::static_pointer_cast<Container>(item->container))
 		{
 			if (container)
 			{
@@ -1179,7 +1179,7 @@ void Game::Update() {
 	for (std::list<std::shared_ptr<Item> >::iterator itemi = stoppedItems.begin(); itemi != stoppedItems.end();)
 	{
 		flyingItems.erase(*itemi);
-		if (std::shared_ptr<Item> item = itemi)
+		if (std::shared_ptr<Item> item = *itemi)
 		{
 			if (item->condition == 0)
 			{ //The impact has destroyed the item
@@ -1191,7 +1191,7 @@ void Game::Update() {
 
 	for (std::set<std::shared_ptr<Item> >::iterator itemi = flyingItems.begin(); itemi != flyingItems.end(); ++itemi)
 	{
-		if (std::shared_ptr<Item> item = itemi) item->UpdateVelocity();
+		if (std::shared_ptr<Item> item = *itemi) item->UpdateVelocity();
 	}
 
 	/*Constantly checking our free item list for items that can be stockpiled is overkill, so it's done once every
@@ -1205,7 +1205,7 @@ void Game::Update() {
 			for (std::set<std::shared_ptr<Item> >::iterator itemi = freeItems.begin();
 				 itemi != freeItems.end(); ++itemi)
 			{
-				if (std::shared_ptr<Item> item = itemi)
+				if (std::shared_ptr<Item> item = *itemi)
 				{
 					if (!item->Reserved() && item->GetFaction() == PLAYERFACTION && item->GetVelocity() == 0)
 						StockpileItem(item);
@@ -1216,7 +1216,7 @@ void Game::Update() {
 			{
 				std::set<std::shared_ptr<Item> >::iterator itemi = boost::next(freeItems.begin(),
 						Random::ChooseIndex(freeItems));
-				if (std::shared_ptr<Item> item = itemi)
+				if (std::shared_ptr<Item> item = *itemi)
 				{
 					if (!item->Reserved() && item->GetFaction() == PLAYERFACTION && item->GetVelocity() == 0)
 						StockpileItem(item);
@@ -1328,7 +1328,7 @@ Game::StockpileItem(std::shared_ptr<Item> witem, bool returnJob, bool disregardT
 			std::shared_ptr<Container> containerItem = std::dynamic_pointer_cast<Container>(item);
 			if (containerItem && !containerItem->empty())
 			{
-				if (std::shared_ptr<Item> innerItem = containerItem->GetFirstItem().lock())
+				if (std::shared_ptr<Item> innerItem = containerItem->GetFirstItem())
 				{
 					itemType = innerItem->Type();
 				}
@@ -1393,22 +1393,23 @@ Game::StockpileItem(std::shared_ptr<Item> witem, bool returnJob, bool disregardT
 				{
 					container = nearest->FindItemByCategory(Item::Presets[item->Type()].fitsin, NOTFULL,
 							item->GetBulk());
-					if (container.lock())
+					if (container)
 					{
-						target = container.lock()->Position();
-						stockJob->ReserveSpace(std::static_pointer_cast<Container>(container.lock()), item->GetBulk());
+						target = container->Position();
+						stockJob->ReserveSpace(std::static_pointer_cast<Container>(container), item->GetBulk());
 					}
 				}
 
 				if (target.X() == -1) target = nearest->FreePosition();
 
-				if (target.X() != -1) {
+				if (target.X() != -1)
+				{
 					stockJob->ReserveSpot(nearest, target, item->Type());
 					if (reserveItem) stockJob->ReserveEntity(item);
 					stockJob->tasks.push_back(Task(MOVE, item->Position()));
 					stockJob->tasks.push_back(Task(TAKE, item->Position(), item));
 					stockJob->tasks.push_back(Task(MOVE, target));
-					if (!container.lock())
+					if (!container)
 						stockJob->tasks.push_back(Task(PUTIN, target, nearest->Storage(target)));
 					else
 						stockJob->tasks.push_back(Task(PUTIN, target, container));
@@ -2843,7 +2844,7 @@ void Game::RebalanceStockpiles(ItemCategory requiredCategory, std::shared_ptr<St
 			std::shared_ptr<Stockpile> sp(std::static_pointer_cast<Stockpile>(stocki->second));
 			if (sp != excluded && sp->GetAmount(requiredCategory) > sp->GetDemand(requiredCategory))
 			{
-				std::shared_ptr<Item> surplus = sp->FindItemByCategory(requiredCategory, EMPTY).lock();
+				std::shared_ptr<Item> surplus = sp->FindItemByCategory(requiredCategory, EMPTY);
 				if (surplus)
 				{
 					std::shared_ptr<Job> stockpileJob = StockpileItem(surplus, true);

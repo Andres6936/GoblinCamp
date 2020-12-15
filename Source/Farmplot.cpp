@@ -92,33 +92,34 @@ void FarmPlot::Update()
 		//growths before giving fruit. 3 * 2 months means 6 months from seed to fruits
 		if (!containerIt->second->empty() && growth[containerIt->first] > MONTH_LENGTH * 2 && Random::Generate(4) == 0)
 		{
-			std::weak_ptr<OrganicItem> plant(
-					std::static_pointer_cast<OrganicItem>(containerIt->second->GetFirstItem().lock()));
-			if (plant.lock() && !plant.lock()->Reserved())
+			std::shared_ptr<OrganicItem> plant(
+					std::static_pointer_cast<OrganicItem>(containerIt->second->GetFirstItem()));
+			if (plant && !plant->Reserved())
 			{
 				if (Random::Generate(9) == 0)
 				{ //Chance for the plant to die
 					containerIt->second->RemoveItem(plant);
-					Game::Inst()->CreateItem(plant.lock()->Position(), Item::StringToItemType("Dead plant"), true);
+					Game::Inst()->CreateItem(plant->Position(), Item::StringToItemType("Dead plant"), true);
 					Game::Inst()->RemoveItem(plant);
 					growth[containerIt->first] = 0;
 				}
 				else
 				{
-					if (plant.lock()->Growth() > -1)
+					if (plant->Growth() > -1)
 					{ //Plant is stil growing
-						int newPlant = Game::Inst()->CreateItem(plant.lock()->Position(), plant.lock()->Growth());
+						int newPlant = Game::Inst()->CreateItem(plant->Position(), plant->Growth());
 						containerIt->second->RemoveItem(plant);
 						containerIt->second->AddItem(Game::Inst()->GetItem(newPlant));
 						Game::Inst()->RemoveItem(plant);
 						growth[containerIt->first] = 0;
-					} else
+					}
+					else
 					{ //Plant has grown to full maturity, and should be harvested
 						std::shared_ptr<Job> harvestJob(new Job("Harvest", HIGH, 0, true));
 						harvestJob->ReserveEntity(plant);
-						harvestJob->tasks.push_back(Task(MOVE, plant.lock()->Position()));
-						harvestJob->tasks.push_back(Task(TAKE, plant.lock()->Position(), plant));
-						harvestJob->tasks.push_back(Task(HARVEST, plant.lock()->Position(), plant));
+						harvestJob->tasks.push_back(Task(MOVE, plant->Position()));
+						harvestJob->tasks.push_back(Task(TAKE, plant->Position(), plant));
+						harvestJob->tasks.push_back(Task(HARVEST, plant->Position(), plant));
 						JobManager::Inst()->AddJob(harvestJob);
 						growth[containerIt->first] = 0;
 					}
@@ -155,14 +156,14 @@ int FarmPlot::Use() {
 					if (seedi->second)
 					{
 						std::shared_ptr<Item> seed = Game::Inst()->FindItemByTypeFromStockpiles(seedi->first, Center());
-						if (seed.lock())
+						if (seed)
 						{
 							std::shared_ptr<Job> plantJob(new Job("Plant " + Item::ItemTypeToString(seedi->first)));
 							plantJob->ReserveEntity(seed);
 							plantJob->ReserveSpot(std::static_pointer_cast<Stockpile>(shared_from_this()),
-									containerIt->first, seed.lock()->Type());
-							plantJob->tasks.push_back(Task(MOVE, seed.lock()->Position()));
-							plantJob->tasks.push_back(Task(TAKE, seed.lock()->Position(), seed));
+									containerIt->first, seed->Type());
+							plantJob->tasks.push_back(Task(MOVE, seed->Position()));
+							plantJob->tasks.push_back(Task(TAKE, seed->Position(), seed));
 							plantJob->tasks.push_back(Task(MOVE, containerIt->first));
 							plantJob->tasks.push_back(Task(PUTIN, containerIt->first, containerIt->second));
 							JobManager::Inst()->AddJob(plantJob);
