@@ -123,16 +123,16 @@ void TCODMapRenderer::DrawMap(Map* map, float focusX, float focusY, int viewport
 		for (std::map<int, std::shared_ptr<Item> >::iterator itemi = Game::Inst()->itemList.begin();
 			 itemi != Game::Inst()->itemList.end();)
 		{
-			if (!(*itemi)->second)
+			if (!(itemi)->second)
 			{
 				std::map<int, std::shared_ptr<Item> >::iterator tmp = itemi;
 				++itemi;
 				Game::Inst()->itemList.erase(tmp);
 				continue;
 			}
-			else if (!(*itemi)->second->ContainedIn().lock())
+			else if (!(itemi)->second->ContainedIn())
 			{
-				(*itemi)->second->Draw(upleft, &minimap);
+				(itemi)->second->Draw(upleft, &minimap);
 			}
 			++itemi;
 		}
