@@ -225,7 +225,7 @@ std::shared_ptr<Item> Stockpile::FindItemByCategory(ItemCategory cat, int flags,
 	return savedItem;
 }
 
-std::shared_ptr<Item> Stockpile::FindItemByType(ItemType typeValue, int flags, int value)
+std::shared_ptr<Item> Stockpile::FindItemByType(const ItemType typeValue, const int flags, const int value)
 {
 
 	//These two are used only for MOSTDECAYED
