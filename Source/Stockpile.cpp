@@ -743,10 +743,9 @@ Coordinate Stockpile::Center() {
 
 void Stockpile::TranslateInternalContainerListeners()
 {
-	for (std::map<Coordinate, std::shared_ptr<Container> >::iterator it = containers.begin();
-		 it != containers.end(); ++it)
+	for (auto&[coordinate, container] : containers)
 	{
-		it->second->TranslateContainerListeners();
+		container->TranslateContainerListeners();
 	}
 }
 
