@@ -920,13 +920,12 @@ Game::FindItemByCategoryFromStockpiles(ItemCategory category, Coordinate target,
 {
 	int nearestDistance = std::numeric_limits<int>::max();
 	std::shared_ptr<Item> nearest = std::shared_ptr<Item>();
-	for (std::map<int, std::shared_ptr<Construction> >::iterator consIter = staticConstructionList.begin();
-		 consIter != staticConstructionList.end(); ++consIter)
+	for (auto&[_, construction] : staticConstructionList)
 	{
-		if (consIter->second->stockpile && !consIter->second->farmplot)
+		if (construction->stockpile && !construction->farmplot)
 		{
 			std::shared_ptr<Item> item(
-					std::static_pointer_cast<Stockpile>(consIter->second)->FindItemByCategory(category, flags, value));
+					std::static_pointer_cast<Stockpile>(construction)->FindItemByCategory(category, flags, value));
 			if (item && !item->Reserved())
 			{
 				int distance = (flags & MOSTDECAYED ? item->GetDecay() : Distance(item->Position(),
