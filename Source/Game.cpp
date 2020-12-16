@@ -132,10 +132,9 @@ int Game::PlaceConstruction(Coordinate target, ConstructionType construct)
 {
 	//Check if the required materials exist before creating the build job
 	std::list<std::shared_ptr<Item> > componentList;
-	for (std::list<ItemCategory>::iterator mati = Construction::Presets[construct].materials.begin();
-		 mati != Construction::Presets[construct].materials.end(); ++mati)
+	for (auto& mati : Construction::Presets[construct].materials)
 	{
-		std::shared_ptr<Item> material = Game::Inst()->FindItemByCategoryFromStockpiles(*mati, target, EMPTY);
+		std::shared_ptr<Item> material = Game::Inst()->FindItemByCategoryFromStockpiles(mati, target, EMPTY);
 		if (std::shared_ptr<Item> item = material)
 		{
 			item->Reserve(true);
@@ -143,14 +142,13 @@ int Game::PlaceConstruction(Coordinate target, ConstructionType construct)
 		}
 		else
 		{
-			for (std::list<std::shared_ptr<Item> >::iterator compi = componentList.begin();
-				 compi != componentList.end(); ++compi)
+			for (auto& compi : componentList)
 			{
-				(*compi)->Reserve(false);
+				compi->Reserve(false);
 			}
 			componentList.clear();
 			Announce::Inst()->AddMsg((boost::format("Cancelled %s: insufficient [%s] in stockpiles") %
-									  Construction::Presets[construct].name % Item::ItemCategoryToString(*mati)).str(),
+									  Construction::Presets[construct].name % Item::ItemCategoryToString(mati)).str(),
 					TCODColor::red);
 			return -1;
 		}
