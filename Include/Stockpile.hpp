@@ -57,7 +57,7 @@ public:
 
 	std::shared_ptr<Item> FindItemByCategory(ItemCategory, int flags = 0, int value = 0);
 
-	std::shared_ptr<Item> FindItemByType(ItemType, int flags = 0, int value = 0);
+	std::shared_ptr<Item> FindItemByType(const ItemType, const int flags = 0, const int value = 0);
 
 	int Symbol();
 
