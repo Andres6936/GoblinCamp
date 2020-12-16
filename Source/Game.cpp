@@ -1328,12 +1328,11 @@ Game::StockpileItem(std::shared_ptr<Item> witem, bool returnJob, bool disregardT
 			}
 			else if (containerItem) useDemand = true; //Empty containers are stored based on demand
 
-			for (std::map<int, std::shared_ptr<Construction> >::iterator stocki = staticConstructionList.begin();
-				 stocki != staticConstructionList.end(); ++stocki)
+			for (auto&[_, construction] : staticConstructionList)
 			{
-				if (stocki->second->stockpile)
+				if (construction->stockpile)
 				{
-					std::shared_ptr<Stockpile> sp(std::static_pointer_cast<Stockpile>(stocki->second));
+					std::shared_ptr<Stockpile> sp(std::static_pointer_cast<Stockpile>(construction));
 					if (sp->Allowed(Item::Presets[itemType].specificCategories) && !sp->Full(itemType))
 					{
 
