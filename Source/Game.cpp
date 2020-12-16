@@ -1160,10 +1160,9 @@ void Game::Update() {
 	}
 	JobManager::Inst()->AssignJobs();
 
-	for (std::list<std::weak_ptr<NPC> >::iterator remNpci = npcsWaitingForRemoval.begin();
-		 remNpci != npcsWaitingForRemoval.end(); ++remNpci)
+	for (auto& remNpci : npcsWaitingForRemoval)
 	{
-		RemoveNPC(*remNpci);
+		RemoveNPC(remNpci);
 	}
 
 	for (std::map<int, std::shared_ptr<Construction> >::iterator consi = dynamicConstructionList.begin();
