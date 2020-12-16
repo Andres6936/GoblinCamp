@@ -1152,11 +1152,11 @@ void Game::Update() {
 	}
 
 	std::list<std::weak_ptr<NPC> > npcsWaitingForRemoval;
-	for (std::map<int, std::shared_ptr<NPC> >::iterator npci = npcList.begin(); npci != npcList.end(); ++npci)
+	for (auto&[_, npc] : npcList)
 	{
-		npci->second->Update();
-		if (!npci->second->Dead()) npci->second->Think();
-		if (npci->second->Dead() || npci->second->Escaped()) npcsWaitingForRemoval.push_back(npci->second);
+		npc->Update();
+		if (!npc->Dead()) npc->Think();
+		if (npc->Dead() || npc->Escaped()) npcsWaitingForRemoval.push_back(npc);
 	}
 	JobManager::Inst()->AssignJobs();
 
