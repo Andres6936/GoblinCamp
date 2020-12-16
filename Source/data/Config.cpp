@@ -158,14 +158,7 @@ namespace Config {
 		
 		return Globals::keys[name];
 	}
-	
-	/**
-		Changes keycode bound to a named key. If the key doesn't exist,
-		a warning will be logged (but the binding will be saved).
-		
-		\param[in] name  Name of the key.
-		\param[in] value New keycode for the key.
-	*/
+
 	void SetKey(const std::string& name, const char value) {
 		LOG("Setting " << name << " to '" << value << "'");
 		

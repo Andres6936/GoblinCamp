@@ -45,16 +45,26 @@ namespace Config
 	{
 		return boost::lexical_cast<T>(GetStringCVar(name));
 	}
-	
-	template <typename T>
-	inline void SetCVar(const std::string& name, const T& value) {
+
+	template<typename T>
+	inline void SetCVar(const std::string& name, const T& value)
+	{
 		SetStringCVar(name, boost::lexical_cast<std::string>(value));
 	}
-	
+
 	const CVarMap& GetCVarMap();
-	
+
 	// key bindings
 	char GetKey(const std::string&);
-	void SetKey(const std::string&, const char);
+
+	/**
+	 * Changes keycode bound to a named key. If the key doesn't exist, a
+	 * warning will be logged (but the binding will be saved).
+	 *
+	 * @param name: Name of the key.
+	 * @param value: New keycode for the key.
+	 */
+	void SetKey(const std::string& name, const char value);
+
 	KeyMap& GetKeyMap();
 }
