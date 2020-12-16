@@ -58,9 +58,12 @@ namespace {
 		{
 			// Convert the fs::file_time_type to std::time_t
 			// Reference: https://stackoverflow.com/a/61067330
-			namespace Chrono = std::chrono;
-			return Chrono::system_clock::to_time_t(Chrono::time_point_cast<Chrono::system_clock::duration>(
-					timestamp - fs::file_time_type::clock::now() + Chrono::system_clock::now()
+			namespace chrono = std::chrono;
+
+			using clock = std::chrono::system_clock;
+
+			return clock::to_time_t(chrono::time_point_cast<clock::duration>(
+					timestamp - fs::file_time_type::clock::now() + clock::now()
 			));
 		});
 
