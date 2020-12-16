@@ -711,17 +711,25 @@ void Stockpile::GetTooltip(int x, int y, Tooltip *tooltip) {
 				tooltip->AddEntry(TooltipEntry(" ...", TCODColor::grey));
 				return;
 			}
-			tooltip->AddEntry(TooltipEntry((boost::format(" %s x%d") % Item::ItemCategoryToString(vecView[i].first) % vecView[i].second).str(), TCODColor::grey));
+			tooltip->AddEntry(TooltipEntry(
+					(boost::format(" %s x%d") % Item::ItemCategoryToString(vecView[i].first) % vecView[i].second).str(),
+					TCODColor::grey));
 
-			for(std::vector<ItemCat>::iterator cati = Item::Categories.begin(); cati != Item::Categories.end(); cati++) {
-				if(cati->parent >= 0 && Item::StringToItemCategory(Item::Categories[cati->parent].GetName()) == vecView[i].first) {
-					int amt = amount[Item::StringToItemCategory(cati->GetName())];
-					if (amt > 0) {
-						if(++count > 30) {
+			for (auto& cati : Item::Categories)
+			{
+				if (cati.parent >= 0 &&
+					Item::StringToItemCategory(Item::Categories[cati.parent].GetName()) == vecView[i].first)
+				{
+					int amt = amount[Item::StringToItemCategory(cati.GetName())];
+					if (amt > 0)
+					{
+						if (++count > 30)
+						{
 							tooltip->AddEntry(TooltipEntry(" ...", TCODColor::grey));
 							return;
 						}
-						tooltip->AddEntry(TooltipEntry((boost::format("	 %s x%d") % cati->GetName() % amt).str(), TCODColor::grey));
+						tooltip->AddEntry(TooltipEntry((boost::format("	 %s x%d") % cati.GetName() % amt).str(),
+								TCODColor::grey));
 					}
 				}
 			}
