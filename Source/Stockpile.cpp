@@ -424,9 +424,9 @@ bool Stockpile::Allowed(ItemCategory cat) {
 
 //Return true if any given category is allowed, this allows stockpiles to take axes, even if slashing weapons are disallowed for ex.
 bool Stockpile::Allowed(std::set<ItemCategory> cats) {
-	for (auto& cati : cats)
+	for (auto& category : cats)
 	{
-		if (Allowed(cati)) return true;
+		if (Allowed(category)) return true;
 	}
 	return false;
 }
