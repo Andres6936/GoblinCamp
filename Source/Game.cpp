@@ -1165,7 +1165,7 @@ void Game::Update() {
 		RemoveNPC(remNpci);
 	}
 
-	for (auto&[_, construction] dynamicConstructionList)
+	for (auto&[_, construction] : dynamicConstructionList)
 	{
 		construction->Update();
 	}
