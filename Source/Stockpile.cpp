@@ -715,12 +715,12 @@ void Stockpile::GetTooltip(int x, int y, Tooltip *tooltip) {
 					(boost::format(" %s x%d") % Item::ItemCategoryToString(vecView[i].first) % vecView[i].second).str(),
 					TCODColor::grey));
 
-			for (auto& cati : Item::Categories)
+			for (auto& category : Item::Categories)
 			{
-				if (cati.parent >= 0 &&
-					Item::StringToItemCategory(Item::Categories[cati.parent].GetName()) == vecView[i].first)
+				if (category.parent >= 0 &&
+					Item::StringToItemCategory(Item::Categories[category.parent].GetName()) == vecView[i].first)
 				{
-					int amt = amount[Item::StringToItemCategory(cati.GetName())];
+					int amt = amount[Item::StringToItemCategory(category.GetName())];
 					if (amt > 0)
 					{
 						if (++count > 30)
@@ -728,7 +728,7 @@ void Stockpile::GetTooltip(int x, int y, Tooltip *tooltip) {
 							tooltip->AddEntry(TooltipEntry(" ...", TCODColor::grey));
 							return;
 						}
-						tooltip->AddEntry(TooltipEntry((boost::format("	 %s x%d") % cati.GetName() % amt).str(),
+						tooltip->AddEntry(TooltipEntry((boost::format("	 %s x%d") % category.GetName() % amt).str(),
 								TCODColor::grey));
 					}
 				}
