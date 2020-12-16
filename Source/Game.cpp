@@ -1196,10 +1196,9 @@ void Game::Update() {
 		refreshStockpiles = false;
 		if (freeItems.size() < 100)
 		{
-			for (std::set<std::shared_ptr<Item> >::iterator itemi = freeItems.begin();
-				 itemi != freeItems.end(); ++itemi)
+			for (auto& itemi : freeItems)
 			{
-				if (std::shared_ptr<Item> item = *itemi)
+				if (std::shared_ptr<Item> item = itemi)
 				{
 					if (!item->Reserved() && item->GetFaction() == PLAYERFACTION && item->GetVelocity() == 0)
 						StockpileItem(item);
