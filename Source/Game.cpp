@@ -1060,12 +1060,11 @@ void Game::Update() {
 
 		if (safeMonths > 0) --safeMonths;
 
-		for (std::map<int, std::shared_ptr<Construction> >::iterator cons = staticConstructionList.begin();
-			 cons != staticConstructionList.end(); ++cons)
-		{ cons->second->SpawnRepairJob(); }
-		for (std::map<int, std::shared_ptr<Construction> >::iterator cons = dynamicConstructionList.begin();
-			 cons != dynamicConstructionList.end(); ++cons)
-		{ cons->second->SpawnRepairJob(); }
+		for (auto&[_, construction] : staticConstructionList)
+		{ construction->SpawnRepairJob(); }
+
+		for (auto&[_, construction] : dynamicConstructionList)
+		{ construction->SpawnRepairJob(); }
 
 		if (season < LateWinter) season = (Season)((int)season + 1);
 		else season = EarlySpring;
