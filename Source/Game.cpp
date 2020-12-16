@@ -1030,7 +1030,7 @@ Coordinate Game::FindWater(Coordinate pos)
 {
 	Coordinate closest = undefined;
 	int closestDistance = std::numeric_limits<int>::max();
-	for (std::list<std::weak_ptr<WaterNode> >::iterator wati = waterList.begin(); wati != waterList.end(); ++wati)
+	for (auto& wati : waterList)
 	{
 		if (std::shared_ptr<WaterNode> water = wati->lock())
 		{
