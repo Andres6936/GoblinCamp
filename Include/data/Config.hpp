@@ -23,6 +23,12 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 namespace Config
 {
 	typedef std::unordered_map<std::string, std::string> CVarMap;
+
+	/**
+	 * This element describes an individual key mapping.  Its attributes
+	 * collectively specify a key that, when pressed, will cause the execution
+	 * of an action such as a fixed command.
+	 */
 	typedef std::unordered_map<std::string, char> KeyMap;
 
 	void Init();
