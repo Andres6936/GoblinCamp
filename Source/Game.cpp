@@ -1173,7 +1173,7 @@ void Game::Update() {
 	for (std::list<std::shared_ptr<Item> >::iterator itemi = stoppedItems.begin(); itemi != stoppedItems.end();)
 	{
 		flyingItems.erase(*itemi);
-		if (std::shared_ptr<Item> item = *itemi)
+		if (std::shared_ptr < Item > item = *itemi)
 		{
 			if (item->condition == 0)
 			{ //The impact has destroyed the item
@@ -1183,9 +1183,9 @@ void Game::Update() {
 		itemi = stoppedItems.erase(itemi);
 	}
 
-	for (std::set<std::shared_ptr<Item> >::iterator itemi = flyingItems.begin(); itemi != flyingItems.end(); ++itemi)
+	for (auto& itemi : flyingItems)
 	{
-		if (std::shared_ptr<Item> item = *itemi) item->UpdateVelocity();
+		if (std::shared_ptr < Item > item = itemi) item->UpdateVelocity();
 	}
 
 	/*Constantly checking our free item list for items that can be stockpiled is overkill, so it's done once every
