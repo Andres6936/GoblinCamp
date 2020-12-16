@@ -947,13 +947,12 @@ std::shared_ptr<Item> Game::FindItemByTypeFromStockpiles(ItemType type, Coordina
 {
 	int nearestDistance = std::numeric_limits<int>::max();
 	std::shared_ptr<Item> nearest = std::shared_ptr<Item>();
-	for (std::map<int, std::shared_ptr<Construction> >::iterator consIter = staticConstructionList.begin();
-		 consIter != staticConstructionList.end(); ++consIter)
+	for (auto&[_, construction] : staticConstructionList)
 	{
-		if (consIter->second->stockpile && !consIter->second->farmplot)
+		if (construction->stockpile && !construction->farmplot)
 		{
 			std::shared_ptr<Item> item(
-					std::static_pointer_cast<Stockpile>(consIter->second)->FindItemByType(type, flags, value));
+					std::static_pointer_cast<Stockpile>(construction)->FindItemByType(type, flags, value));
 			if (item && !item->Reserved())
 			{
 				int distance = (flags & MOSTDECAYED ? item->GetDecay() : Distance(item->Position(),
