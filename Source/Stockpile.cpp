@@ -693,16 +693,21 @@ void Stockpile::GetTooltip(int x, int y, Tooltip *tooltip) {
 
 	tooltip->AddEntry(TooltipEntry(name, TCODColor::white));
 	std::vector<std::pair<ItemCategory, int> > vecView = std::vector<std::pair<ItemCategory, int> >();
-	for(std::map<ItemCategory, int>::iterator it = amount.begin(); it != amount.end(); it++) {
-		if(Item::Categories[it->first].parent < 0 && it->second > 0) {
-			vecView.push_back(*it);
+	for (auto&[itemCategory, amount] : amount)
+	{
+		if (Item::Categories[itemCategory].parent < 0 && amount > 0)
+		{
+			vecView.push_back({ itemCategory, amount });
 		}
 	}
-	if(!vecView.empty()) {
+	if (!vecView.empty())
+	{
 		std::sort(vecView.begin(), vecView.end(), AmountCompare());
 		int count = 0;
-		for(size_t i = 0; i < vecView.size(); i++) {
-			if(++count > 30) {
+		for (size_t i = 0; i < vecView.size(); i++)
+		{
+			if (++count > 30)
+			{
 				tooltip->AddEntry(TooltipEntry(" ...", TCODColor::grey));
 				return;
 			}
