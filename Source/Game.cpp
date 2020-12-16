@@ -1165,10 +1165,9 @@ void Game::Update() {
 		RemoveNPC(remNpci);
 	}
 
-	for (std::map<int, std::shared_ptr<Construction> >::iterator consi = dynamicConstructionList.begin();
-		 consi != dynamicConstructionList.end(); ++consi)
+	for (auto&[_, construction] dynamicConstructionList)
 	{
-		consi->second->Update();
+		construction->Update();
 	}
 
 	for (std::list<std::shared_ptr<Item> >::iterator itemi = stoppedItems.begin(); itemi != stoppedItems.end();)
