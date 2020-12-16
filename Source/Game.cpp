@@ -1032,7 +1032,7 @@ Coordinate Game::FindWater(Coordinate pos)
 	int closestDistance = std::numeric_limits<int>::max();
 	for (auto& wati : waterList)
 	{
-		if (std::shared_ptr<WaterNode> water = wati->lock())
+		if (std::shared_ptr<WaterNode> water = wati.lock())
 		{
 			if (water->IsCoastal() && water->Depth() > DRINKABLE_WATER_DEPTH)
 			{
