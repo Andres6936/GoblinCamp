@@ -817,12 +817,11 @@ int Stockpile::GetAmount(ItemCategory category) {
 //Checks if new containers exist to hold items not in containers
 void Stockpile::Reorganize()
 {
-	for (std::map<Coordinate, std::shared_ptr<Container> >::const_iterator space = containers.begin();
-		 space != containers.end(); ++space)
+	for (auto&[coordinate, container] : containers)
 	{
-		if (!space->second->empty())
+		if (!container->empty())
 		{
-			if (std::shared_ptr<Item> item = space->second->GetFirstItem())
+			if (std::shared_ptr<Item> item = container->GetFirstItem())
 			{
 				if (Item::Presets[item->Type()].fitsin >= 0)
 				{
