@@ -215,16 +215,15 @@ int Game::PlaceConstruction(Coordinate target, ConstructionType construct)
 	std::shared_ptr<Job> buildJob(new Job("Build " + Construction::Presets[construct].name, MED, 0, false));
 	buildJob->DisregardTerritory();
 
-	for (std::list<ItemCategory>::iterator materialIter = newCons->MaterialList()->begin();
-		 materialIter != newCons->MaterialList()->end(); ++materialIter)
+	for (auto& materialIter : *(newCons->MaterialList()))
 	{
-		std::shared_ptr<Job> pickupJob(new Job("Pickup " + Item::ItemCategoryToString(*materialIter) + " for " +
+		std::shared_ptr<Job> pickupJob(new Job("Pickup " + Item::ItemCategoryToString(materialIter) + " for " +
 											   Construction::Presets[construct].name, MED, 0, true));
 		pickupJob->Parent(buildJob);
 		pickupJob->DisregardTerritory();
 		buildJob->PreReqs()->push_back(pickupJob);
 
-		pickupJob->tasks.push_back(Task(FIND, target, std::weak_ptr<Entity>(), *materialIter, EMPTY));
+		pickupJob->tasks.push_back(Task(FIND, target, std::weak_ptr<Entity>(), materialIter, EMPTY));
 		pickupJob->tasks.push_back(Task(MOVE));
 		pickupJob->tasks.push_back(Task(TAKE));
 		pickupJob->tasks.push_back(Task(MOVE, newCons->Storage().lock()->Position(), newCons));
