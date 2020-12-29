@@ -94,6 +94,10 @@ class Game {
 
 	std::map<int, std::shared_ptr<Construction> > staticConstructionList;
 	std::map<int, std::shared_ptr<Construction> > dynamicConstructionList;
+
+	/**
+	 * Store the references to each entity in the app's cycle of life.
+	 */
 	std::map<int, std::shared_ptr<NPC> > npcList;
 
 	static bool initializedOnce;
