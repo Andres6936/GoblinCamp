@@ -79,6 +79,10 @@ public:
 		return Coordinate(std::max(p.x, q.x), std::max(p.y, q.y));
 	}
 
+	/**
+	 * @param dir Direction associate with the coordinate.
+	 * @return The coordinate associate with the direction.
+	 */
 	static Coordinate DirectionToCoordinate(Direction dir);
 
 	/* specific and generic accessors
