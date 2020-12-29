@@ -117,38 +117,48 @@ public:
 
 	   This latter form will avoid all kinds of copy-paste bugs.
 	*/
-	inline int X() const {
+	[[deprecated("Use getX() instead.")]] inline int X() const
+	{
 		return x;
 	}
-	
-	inline int X(const int& v) {
+
+	[[deprecated]] inline int X(const int& v)
+	{
 		return x = v;
 	}
-	
-	inline int Y() const {
+
+	[[deprecated("Use getY() instead.")]] inline int Y() const
+	{
 		return y;
 	}
-	
-	inline int Y(const int& v) {
+
+	[[deprecated]] inline int Y(const int& v)
+	{
 		return y = v;
 	}
 
 	// in order not to have to handle failure, we use a bool-like
 	// semantics where 0 gets mapped to X and everyone else to Y
-	inline int operator[](int d) const {
+	[[deprecated("Use the getters getX() and getY() instead.")]] inline int operator[](int d) const
+	{
 		if (d == 0) return x;
 		else return y;
 	}
-	inline int &operator[](int d) {
+
+	[[deprecated("Use the setters setX() and setY() instead.")]]inline int& operator[](int d)
+	{
 		if (d == 0) return x;
 		else return y;
 	}
 
 	//useful for legacy TCOD interaction
-	inline int *Xptr() {
+	inline int* Xptr()
+	{
 		return &x;
 	}
-	inline int *Yptr() {
+
+	inline int* Yptr()
+	{
 		return &y;
 	}
 	
