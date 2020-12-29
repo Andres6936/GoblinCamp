@@ -234,8 +234,8 @@ public:
 	 */
 
 	inline bool insideRectangle(const Coordinate& low, const Coordinate& high) const {
-		return (   x >= low.X() && x <= high.X()
-		        && y >= low.Y() && y <= high.Y());
+		return (x >= low.getX() && x <= high.getX()
+				&& y >= low.getY() && y <= high.getY());
 	}
 
 	//are we inside the rectangle starting at origin and with extent (width,height) excluded?
@@ -243,8 +243,9 @@ public:
 		return insideRectangle(origin, origin+extent-1);
 	}
 
-	inline bool onRectangleEdges(const Coordinate& low, const Coordinate& high) const {
-		return (x == low.X() || x == high.X() || y == low.Y() || y == high.Y());
+	inline bool onRectangleEdges(const Coordinate& low, const Coordinate& high) const
+	{
+		return (x == low.getX() || x == high.getX() || y == low.getY() || y == high.getY());
 	}
 	inline bool onExtentEdges(const Coordinate& origin, const Coordinate& extent) const {
 		return onRectangleEdges(origin, origin + extent - 1);
