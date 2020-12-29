@@ -1468,14 +1468,13 @@ Season Game::CurrentSeason() { return season; }
 
 void Game::SpawnTillageJobs()
 {
-	for (std::map<int, std::shared_ptr<Construction> >::iterator consi = dynamicConstructionList.begin();
-		 consi != dynamicConstructionList.end(); ++consi)
+	for (auto&[_, construction] : dynamicConstructionList)
 	{
-		if (consi->second->farmplot)
+		if (construction->farmplot)
 		{
 			std::shared_ptr<Job> tillJob(new Job("Till farmplot"));
-			tillJob->tasks.push_back(Task(MOVE, consi->second->Position()));
-			tillJob->tasks.push_back(Task(USE, consi->second->Position(), consi->second));
+			tillJob->tasks.push_back(Task(MOVE, construction->Position()));
+			tillJob->tasks.push_back(Task(USE, construction->Position(), construction));
 			JobManager::Inst()->AddJob(tillJob);
 		}
 	}
