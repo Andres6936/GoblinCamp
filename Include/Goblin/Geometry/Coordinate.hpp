@@ -117,98 +117,111 @@ public:
 
 	   This latter form will avoid all kinds of copy-paste bugs.
 	*/
-	[[deprecated("Use getX() instead.")]] inline int X() const
+	[[deprecated("Use getX() instead.")]]  int X() const
 	{
 		return x;
 	}
 
-	[[deprecated]] inline int X(const int& v)
+	[[deprecated]]  int X(const int& v)
 	{
 		return x = v;
 	}
 
-	[[deprecated("Use getY() instead.")]] inline int Y() const
+	[[deprecated("Use getY() instead.")]]  int Y() const
 	{
 		return y;
 	}
 
-	[[deprecated]] inline int Y(const int& v)
+	[[deprecated]]  int Y(const int& v)
 	{
 		return y = v;
 	}
 
 	// in order not to have to handle failure, we use a bool-like
 	// semantics where 0 gets mapped to X and everyone else to Y
-	[[deprecated("Use the getters getX() and getY() instead.")]] inline int operator[](int d) const
+	[[deprecated("Use the getters getX() and getY() instead.")]]  int operator[](int d) const
 	{
 		if (d == 0) return x;
 		else return y;
 	}
 
-	[[deprecated("Use the setters setX() and setY() instead.")]]inline int& operator[](int d)
+	[[deprecated("Use the setters setX() and setY() instead.")]] int& operator[](int d)
 	{
 		if (d == 0) return x;
 		else return y;
 	}
 
 	//useful for legacy TCOD interaction
-	inline int* Xptr()
+	int* Xptr()
 	{
 		return &x;
 	}
 
-	inline int* Yptr()
+	int* Yptr()
 	{
 		return &y;
 	}
-	
-	inline bool operator<(const Coordinate& other) const {
+
+	bool operator<(const Coordinate& other) const
+	{
 		if (x != other.x) return x < other.x;
 		else return y < other.y;
 	}
-	
-	inline bool operator>(const Coordinate& other) const {
+
+	bool operator>(const Coordinate& other) const
+	{
 		return !(operator<(other));
 	}
-	
-	inline bool operator==(const Coordinate& other) const {
+
+	bool operator==(const Coordinate& other) const
+	{
 		return (x == other.x && y == other.y);
 	}
-	
-	inline bool operator!=(const Coordinate& other) const {
+
+	bool operator!=(const Coordinate& other) const
+	{
 		return !(operator==(other));
 	}
-	
-	inline Coordinate operator+(const int& scalar) const {
+
+	Coordinate operator+(const int& scalar) const
+	{
 		return Coordinate(x + scalar, y + scalar);
 	}
-	
-	inline Coordinate operator-(const int& scalar) const {
+
+	Coordinate operator-(const int& scalar) const
+	{
 		return Coordinate(x - scalar, y - scalar);
 	}
-	
-	inline Coordinate operator+(const Coordinate& other) const {
+
+	Coordinate operator+(const Coordinate& other) const
+	{
 		return Coordinate(x + other.x, y + other.y);
 	}
-	
-	inline Coordinate operator-(const Coordinate& other) const {
+
+	Coordinate operator-(const Coordinate& other) const
+	{
 		return Coordinate(x - other.x, y - other.y);
 	}
 
-	inline Coordinate operator*(const int& scalar) const {
+	Coordinate operator*(const int& scalar) const
+	{
 		return Coordinate(x * scalar, y * scalar);
 	}
 
-	inline Coordinate operator/(const int& scalar) const {
+	Coordinate operator/(const int& scalar) const
+	{
 		return Coordinate(x / scalar, y / scalar);
 	}
 
-	inline Coordinate& operator+=(const Coordinate& other) {
+	Coordinate& operator+=(const Coordinate& other)
+	{
 		x += other.x;
 		y += other.y;
 		return *this;
 	}
-	inline Coordinate& operator+=(const int& scalar) {
+
+	Coordinate& operator+=(const int& scalar)
+	{
 		x += scalar;
 		y += scalar;
 		return *this;
@@ -233,25 +246,29 @@ public:
 	   Both representations are convenient in different situations.
 	 */
 
-	inline bool insideRectangle(const Coordinate& low, const Coordinate& high) const {
+	bool insideRectangle(const Coordinate& low, const Coordinate& high) const
+	{
 		return (x >= low.getX() && x <= high.getX()
 				&& y >= low.getY() && y <= high.getY());
 	}
 
 	//are we inside the rectangle starting at origin and with extent (width,height) excluded?
-	inline bool insideExtent(const Coordinate& origin, const Coordinate& extent) const {
-		return insideRectangle(origin, origin+extent-1);
+	bool insideExtent(const Coordinate& origin, const Coordinate& extent) const
+	{
+		return insideRectangle(origin, origin + extent - 1);
 	}
 
-	inline bool onRectangleEdges(const Coordinate& low, const Coordinate& high) const
+	bool onRectangleEdges(const Coordinate& low, const Coordinate& high) const
 	{
 		return (x == low.getX() || x == high.getX() || y == low.getY() || y == high.getY());
 	}
-	inline bool onExtentEdges(const Coordinate& origin, const Coordinate& extent) const {
+
+	bool onExtentEdges(const Coordinate& origin, const Coordinate& extent) const
+	{
 		return onRectangleEdges(origin, origin + extent - 1);
 	}
 
-	inline Coordinate shrinkRectangle(const Coordinate& low, const Coordinate& high) const
+	Coordinate shrinkRectangle(const Coordinate& low, const Coordinate& high) const
 	{
 		Coordinate res(x, y);
 		for (int d = 0; d < 2; ++d)
@@ -259,7 +276,7 @@ public:
 		return res;
 	}
 
-	inline Coordinate shrinkExtent(const Coordinate& origin, const Coordinate& extent) const
+	Coordinate shrinkExtent(const Coordinate& origin, const Coordinate& extent) const
 	{
 		return shrinkRectangle(origin, origin + extent - 1);
 	};
@@ -290,7 +307,8 @@ public:
 
 };
 
-inline int Distance(const Coordinate& p, const Coordinate& q) {
+int Distance(const Coordinate& p, const Coordinate& q)
+{
 	int distance = 0;
 	//dim-genericity may here seem a bit overkill, but will be nice if
 	//we were to change to Euclidian distance for example
@@ -299,7 +317,8 @@ inline int Distance(const Coordinate& p, const Coordinate& q) {
 	return distance;
 }
 
-inline int Distance(const int& x0, const int& y0, const int& x1, const int& y1) {
+int Distance(const int& x0, const int& y0, const int& x1, const int& y1)
+{
 	//note: this reimplementation is not terribly efficient, but will go away soon anyway
 	return Distance(Coordinate(x0, y0), Coordinate(x1, y1));
 }
