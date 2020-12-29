@@ -2625,18 +2625,15 @@ void Game::UpdateFarmPlotSeedAllowances(ItemType type) {
 	{
 		if (boost::iequals(Item::Categories[itemCategory].name, "seed"))
 		{
-			for (std::map < int, std::shared_ptr < Construction > >
-								 ::iterator dynamicConsi = dynamicConstructionList.begin();
-					dynamicConsi != dynamicConstructionList.end();
-			++dynamicConsi)
+			for (auto&[_, construction] : dynamicConstructionList)
 			{
-				if (dynamicConsi->second->HasTag(FARMPLOT))
+				if (construction->HasTag(FARMPLOT))
 				{
-					std::static_pointer_cast<FarmPlot>(dynamicConsi->second)->AllowedSeeds()->insert(
+					std::static_pointer_cast<FarmPlot>(construction)->AllowedSeeds()->insert(
 							std::pair<ItemType, bool>(type, false));
 				}
 			}
-			}
+		}
 	}
 }
 
