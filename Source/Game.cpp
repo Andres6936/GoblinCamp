@@ -2438,15 +2438,17 @@ void Game::CreateNatureObject(Coordinate pos, int surroundingNatureObjects) {
 
 void Game::CreateNatureObject(Coordinate pos, std::string name) {
 	unsigned int natureObjectIndex = 0;
-	for (std::vector<NatureObjectPreset>::iterator preseti = NatureObject::Presets.begin(); preseti != NatureObject::Presets.end();
-		++preseti) {
-			if (boost::iequals(preseti->name, name)) break;
-			++natureObjectIndex;
+	for (auto& natureObjectPreset : NatureObject::Presets)
+	{
+		if (boost::iequals(natureObjectPreset, name)) break;
+		++natureObjectIndex;
 	}
 
-	if (natureObjectIndex < NatureObject::Presets.size() && 
-		boost::iequals(NatureObject::Presets[natureObjectIndex].name, name)) {
-		if (Map::Inst()->IsInside(pos) && Map::Inst()->GetNatureObject(pos) < 0 && Map::Inst()->GetConstruction(pos) < 0)
+	if (natureObjectIndex < NatureObject::Presets.size() &&
+		boost::iequals(NatureObject::Presets[natureObjectIndex].name, name))
+	{
+		if (Map::Inst()->IsInside(pos) && Map::Inst()->GetNatureObject(pos) < 0 &&
+			Map::Inst()->GetConstruction(pos) < 0)
 		{
 			std::shared_ptr<NatureObject> natObj;
 			if (boost::iequals(NatureObject::Presets[natureObjectIndex].name, "Ice"))
