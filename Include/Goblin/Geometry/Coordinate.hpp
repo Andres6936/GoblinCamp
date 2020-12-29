@@ -280,12 +280,12 @@ public:
 	/**
 	 * @param _x The new coordinate in the axis X.
 	 */
-	void setX(int _x) noexcept;
+	void setX(const int _x) noexcept;
 
 	/**
 	 * @param _y The new coordinate in the axis Y.
 	 */
-	void setY(int _y) noexcept;
+	void setY(const int _y) noexcept;
 
 };
 
