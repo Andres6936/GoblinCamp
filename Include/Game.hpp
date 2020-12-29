@@ -97,6 +97,9 @@ class Game {
 
 	/**
 	 * Store the references to each entity in the app's cycle of life.
+	 *
+	 * @li Key: UUID (Unique Universal Identification) of entity
+	 * @li Value: The reference to entity.
 	 */
 	std::map<int, std::shared_ptr<NPC> > npcList;
 
