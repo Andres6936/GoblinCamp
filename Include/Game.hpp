@@ -277,6 +277,10 @@ public:
 
 	std::weak_ptr<Construction> FindConstructionByTag(ConstructionTag, Coordinate closeTo = Coordinate(-1, -1));
 
+	/**
+	 * @return A random construction, if not exist constructions in the moment
+	 * of call to method, it return nullptr.
+	 */
 	std::weak_ptr<Construction> GetRandomConstruction() const;
 
 	void Damage(Coordinate);
