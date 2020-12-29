@@ -1840,8 +1840,9 @@ void Game::DecayItems()
 		++itemit;
 	}
 
-	for (std::list<int>::iterator delit = eraseList.begin(); delit != eraseList.end(); ++delit) {
-		RemoveItem(GetItem(*delit));
+	for (auto& item : eraseList)
+	{
+		RemoveItem(GetItem(item));
 	}
 
 	for (std::list<std::pair<ItemType, Coordinate> >::iterator crit = creationList.begin();
