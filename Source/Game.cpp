@@ -2550,11 +2550,10 @@ void Game::Damage(Coordinate pos)
 	{
 		construction->Damage(&attack);
 	}
-	for (std::set<int>::iterator npcuid = Map::Inst()->NPCList(pos)->begin();
-		 npcuid != Map::Inst()->NPCList(pos)->end(); ++npcuid)
+	for (auto& npcUid : *(Map::Inst()->NPCList(pos)))
 	{
 		std::shared_ptr<NPC> npc;
-		if (npcList.find(*npcuid) != npcList.end()) npc = npcList[*npcuid];
+		if (npcList.find(npcUid) != npcList.end()) npc = npcList[npcUid];
 		if (npc) npc->Damage(&attack);
 	}
 }
