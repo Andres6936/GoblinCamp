@@ -2621,19 +2621,21 @@ void Game::StartFire(Coordinate pos)
 int Game::GetAge() { return age; }
 
 void Game::UpdateFarmPlotSeedAllowances(ItemType type) {
-	for (std::set<ItemCategory>::iterator cati = Item::Presets[type].categories.begin(); cati != Item::Presets[type].categories.end();
-		++cati) {
-			if (boost::iequals(Item::Categories[*cati].name, "seed"))
+	for (auto& itemCategory : Item::Presets[type].categories)
+	{
+		if (boost::iequals(Item::Categories[itemCategory].name, "seed"))
+		{
+			for (std::map < int, std::shared_ptr < Construction > >
+								 ::iterator dynamicConsi = dynamicConstructionList.begin();
+					dynamicConsi != dynamicConstructionList.end();
+			++dynamicConsi)
 			{
-				for (std::map<int, std::shared_ptr<Construction> >::iterator dynamicConsi = dynamicConstructionList.begin();
-					 dynamicConsi != dynamicConstructionList.end(); ++dynamicConsi)
+				if (dynamicConsi->second->HasTag(FARMPLOT))
 				{
-					if (dynamicConsi->second->HasTag(FARMPLOT))
-					{
-						std::static_pointer_cast<FarmPlot>(dynamicConsi->second)->AllowedSeeds()->insert(
-								std::pair<ItemType, bool>(type, false));
-					}
+					std::static_pointer_cast<FarmPlot>(dynamicConsi->second)->AllowedSeeds()->insert(
+							std::pair<ItemType, bool>(type, false));
 				}
+			}
 			}
 	}
 }
