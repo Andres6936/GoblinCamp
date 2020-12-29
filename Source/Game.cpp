@@ -2201,19 +2201,18 @@ std::weak_ptr<Construction> Game::FindConstructionByTag(ConstructionTag tag, Coo
 	int distance = -1;
 	std::weak_ptr<Construction> foundConstruct;
 
-	for (std::map<int, std::shared_ptr<Construction> >::iterator stati = staticConstructionList.begin();
-		 stati != staticConstructionList.end(); ++stati)
+	for (auto&[_, construction] : staticConstructionList)
 	{
-		if (!stati->second->Reserved() && stati->second->HasTag(tag))
+		if (!construction->Reserved() && construction->HasTag(tag))
 		{
 			if (closeTo.X() == -1)
-				return stati->second;
+				return construction;
 			else
 			{
-				if (distance == -1 || Distance(closeTo, stati->second->Position()) < distance)
+				if (distance == -1 || Distance(closeTo, construction->Position()) < distance)
 				{
-					distance = Distance(closeTo, stati->second->Position());
-					foundConstruct = stati->second;
+					distance = Distance(closeTo, construction->Position());
+					foundConstruct = construction;
 					if (distance < 5) return foundConstruct;
 				}
 			}
