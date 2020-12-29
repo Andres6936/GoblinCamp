@@ -307,7 +307,7 @@ public:
 
 };
 
-int Distance(const Coordinate& p, const Coordinate& q)
+inline int Distance(const Coordinate& p, const Coordinate& q)
 {
 	int distance = 0;
 	//dim-genericity may here seem a bit overkill, but will be nice if
@@ -317,7 +317,7 @@ int Distance(const Coordinate& p, const Coordinate& q)
 	return distance;
 }
 
-int Distance(const int& x0, const int& y0, const int& x1, const int& y1)
+inline int Distance(const int& x0, const int& y0, const int& x1, const int& y1)
 {
 	//note: this reimplementation is not terribly efficient, but will go away soon anyway
 	return Distance(Coordinate(x0, y0), Coordinate(x1, y1));
