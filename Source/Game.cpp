@@ -2819,12 +2819,11 @@ void Game::DisplayStats() {
 //Check each stockpile for empty not-needed containers, and see if some other pile needs them
 void Game::RebalanceStockpiles(ItemCategory requiredCategory, std::shared_ptr<Stockpile> excluded)
 {
-	for (std::map<int, std::shared_ptr<Construction> >::iterator stocki = staticConstructionList.begin();
-		 stocki != staticConstructionList.end(); ++stocki)
+	for (auto&[_, construction] : staticConstructionList)
 	{
-		if (stocki->second->stockpile)
+		if (construction->stockpile)
 		{
-			std::shared_ptr<Stockpile> sp(std::static_pointer_cast<Stockpile>(stocki->second));
+			std::shared_ptr<Stockpile> sp(std::static_pointer_cast<Stockpile>(construction));
 			if (sp != excluded && sp->GetAmount(requiredCategory) > sp->GetDemand(requiredCategory))
 			{
 				std::shared_ptr<Item> surplus = sp->FindItemByCategory(requiredCategory, EMPTY);
