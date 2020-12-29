@@ -1830,10 +1830,9 @@ void Game::DecayItems()
 		{
 			if (--itemit->second->decayCounter == 0)
 			{
-				for (std::vector<ItemType>::iterator decaylisti = Item::Presets[itemit->second->type].decayList.begin();
-					 decaylisti != Item::Presets[itemit->second->type].decayList.end(); ++decaylisti)
+				for (auto& itemDecay : Item::Presets[itemit->second->type].decayList)
 				{
-					creationList.push_back(std::pair<ItemType, Coordinate>(*decaylisti, itemit->second->Position()));
+					creationList.push_back(std::pair<ItemType, Coordinate>(itemDecay, itemit->second->Position()));
 				}
 				eraseList.push_back(itemit->first);
 			}
