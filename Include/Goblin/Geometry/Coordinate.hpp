@@ -15,9 +15,7 @@ You should have received a copy of the GNU General Public License
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
-#include <boost/array.hpp>
 #include <cstdlib> // int abs(int)
-
 #include "data/Serialization.hpp"
 
 enum Direction {
@@ -82,20 +80,32 @@ public:
 	}
 
 	static Coordinate DirectionToCoordinate(Direction dir) {
-		static boost::array<Coordinate,9> coordsToDirs = 
-		{ // gcc complains unless there are two level of braces
-		  // see http://stackoverflow.com/questions/2687701/question-on-boost-array-initializer
-			{Coordinate(0,-1),  // North
-			 Coordinate(1,-1),  // North-east
-			 Coordinate(1,0),   // East
-			 Coordinate(1,1),   // South-east
-			 Coordinate(0,1),   // South
-			 Coordinate(-1,1),  // South-west
-			 Coordinate(-1,0),  // West
-			 Coordinate(-1,-1), // North-west
-			 Coordinate(0,0)}   // No direction
-		};
-		return coordsToDirs[dir];
+
+		switch (dir)
+		{
+
+		case NORTH:
+			return { 0, -1 };
+		case NORTHEAST:
+			return { 1, -1 };
+		case EAST:
+			return { 1, 0 };
+		case SOUTHEAST:
+			return { 1, 1 };
+		case SOUTH:
+			return { 0, 1 };
+		case SOUTHWEST:
+			return { -1, 1 };
+		case WEST:
+			return { -1, 0 };
+		case NORTHWEST:
+			return { -1, -1 };
+		case NODIRECTION:
+			return { 0, 0 };
+		default:
+			// Without direction, unreachable code, avoid warnings.
+			return { 0, 0 };
+		}
 	}
 
 	/* specific and generic accessors
