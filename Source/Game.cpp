@@ -2221,22 +2221,21 @@ std::weak_ptr<Construction> Game::FindConstructionByTag(ConstructionTag tag, Coo
 
 	if (foundConstruct.lock()) return foundConstruct;
 
-	for (std::map<int, std::shared_ptr<Construction> >::iterator dynai = dynamicConstructionList.begin();
-		 dynai != dynamicConstructionList.end(); ++dynai)
+	for (auto&[_, construction] : dynamicConstructionList)
 	{
-		if (!dynai->second->Reserved() && dynai->second->HasTag(tag))
+		if (!construction->Reserved() && construction->HasTag(tag))
 		{
 			if (closeTo.X() == -1)
-				return dynai->second;
+				return construction;
 			else
 			{
-				if (distance == -1 || Distance(closeTo, dynai->second->Position()) < distance)
+				if (distance == -1 || Distance(closeTo, construction->Position()) < distance)
 				{
-					distance = Distance(closeTo, dynai->second->Position());
-					foundConstruct = dynai->second;
+					distance = Distance(closeTo, construction->Position());
+					foundConstruct = construction;
 					if (distance < 5) return foundConstruct;
 				}
-				}
+			}
 			}
 	}
 
