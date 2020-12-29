@@ -2761,10 +2761,9 @@ std::weak_ptr<Construction> Game::GetRandomConstruction() const
 	else if (!dynamicConstructionList.empty())
 	{
 		int index = Random::Generate(dynamicConstructionList.size() - 1);
-		for (std::map<int, std::shared_ptr<Construction> >::const_iterator consi = dynamicConstructionList.begin();
-			 consi != dynamicConstructionList.end(); ++consi)
+		for (auto&[_, construction] : dynamicConstructionList)
 		{
-			if (index-- == 0) return consi->second;
+			if (index-- == 0) return construction;
 		}
 	}
 	return std::weak_ptr<Construction>();
