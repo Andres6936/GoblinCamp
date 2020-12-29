@@ -1482,12 +1482,11 @@ void Game::SpawnTillageJobs()
 
 void Game::DeTillFarmPlots()
 {
-	for (std::map<int, std::shared_ptr<Construction> >::iterator consi = dynamicConstructionList.begin();
-		 consi != dynamicConstructionList.end(); ++consi)
+	for (auto&[_, construction] : dynamicConstructionList)
 	{
-		if (consi->second->farmplot)
+		if (construction->farmplot)
 		{
-			std::static_pointer_cast<FarmPlot>(consi->second)->tilled = false;
+			std::static_pointer_cast<FarmPlot>(construction)->tilled = false;
 		}
 	}
 }
