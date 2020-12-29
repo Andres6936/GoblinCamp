@@ -2840,25 +2840,24 @@ void Game::RebalanceStockpiles(ItemCategory requiredCategory, std::shared_ptr<St
 
 void Game::ProvideMap()
 {
-	for (std::map<int, std::shared_ptr<Item> >::const_iterator itemIterator = itemList.begin();
-		 itemIterator != itemList.end(); ++itemIterator)
+	for (auto&[_, item] : itemList)
 	{
-		itemIterator->second->SetMap(Map::Inst());
+		item->SetMap(Map::Inst());
 	}
-	for (std::map<int, std::shared_ptr<NPC> >::const_iterator npcIterator = npcList.begin();
-		 npcIterator != npcList.end(); ++npcIterator)
+
+	for (auto&[_, npc] : npcList)
 	{
-		npcIterator->second->SetMap(Map::Inst());
+		npc->SetMap(Map::Inst());
 	}
-	for (std::map<int, std::shared_ptr<Construction> >::const_iterator consIterator = staticConstructionList.begin();
-		 consIterator != staticConstructionList.end(); ++consIterator)
+
+	for (auto&[_, construction] : staticConstructionList)
 	{
-		consIterator->second->SetMap(Map::Inst());
+		construction->SetMap(Map::Inst());
 	}
-	for (std::map<int, std::shared_ptr<Construction> >::const_iterator consIterator = dynamicConstructionList.begin();
-		 consIterator != dynamicConstructionList.end(); ++consIterator)
+
+	for (auto&[_, construction] : dynamicConstructionList)
 	{
-		consIterator->second->SetMap(Map::Inst());
+		construction->SetMap(Map::Inst());
 	}
 }
 
