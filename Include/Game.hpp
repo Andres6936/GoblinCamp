@@ -235,7 +235,14 @@ public:
 
 	void Diseasify(Coordinate);
 
-	std::shared_ptr<NPC> GetNPC(int) const;
+	/**
+	 * @brief Return the NPC identify with the UUID.
+	 *
+	 * @param uuid Unique Universal Identification (UUID).
+	 * @return The NPC identify with the Unique Universal Identification
+	 *  (UUID), if not is found, nullptr is return.
+	 */
+	std::shared_ptr<NPC> GetNPC(int uuid) const;
 
 	/*      CONSTRUCTIONS       CONSTRUCTIONS       CONSTRUCTIONS       */
 	static bool CheckPlacement(Coordinate, Coordinate, std::set<TileType> = std::set<TileType>());
