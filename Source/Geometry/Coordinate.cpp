@@ -80,3 +80,15 @@ int Coordinate::getY() const noexcept
 {
 	return y;
 }
+
+// Setters
+
+void Coordinate::setX(int _x) noexcept
+{
+	x = _x;
+}
+
+void Coordinate::setY(int _y) noexcept
+{
+	y = _y;
+}
