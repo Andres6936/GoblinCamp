@@ -32,26 +32,53 @@ enum Direction {
 	NODIRECTION
 };
 
-class Coordinate {
+class Coordinate
+{
 	GC_SERIALIZABLE_CLASS
-	
+
 	friend int Distance(const Coordinate&, const Coordinate&);
+
 	friend std::size_t hash_value(const Coordinate&);
-	
-	int x, y;
+
+	/**
+	 * Coordinate in the axis X.
+	 */
+	int x{ 0 };
+
+	/**
+	 * Coordinate in the axis Y.
+	 */
+	int y{ 0 };
 
 public:
-	Coordinate(int x = 0, int y = 0) : x(x), y(y) { }
+
+	/**
+	 * Initialize the values to (x: 0, y: 0).
+	 */
+	Coordinate() noexcept = default;
+
+	/**
+	 * Initialize the values to (x, y).
+	 *
+	 * @param x Coordinate in the axis X.
+	 * @param y Coordinate in the axis Y.
+	 */
+	Coordinate(const int x, const int y) noexcept: x(x), y(y)
+	{
+	}
 
 	/* beware, those are pairwise {min,max} : Coordinate::min(p,q) is *not* equivalent to (p < q ? p : q)
 	   
 	   Typical use: (min(p,q), max(p,q)) are the (low, high) corner of the bounding box rectangle of p and q
 	 */
-	static Coordinate min(const Coordinate& p, const Coordinate &q) {
-		return Coordinate(std::min(p.x, q.x), std::min(p.y,q.y));
+	static Coordinate min(const Coordinate& p, const Coordinate& q)
+	{
+		return Coordinate(std::min(p.x, q.x), std::min(p.y, q.y));
 	}
-	static Coordinate max(const Coordinate& p, const Coordinate &q) {
-		return Coordinate(std::max(p.x, q.x), std::max(p.y,q.y));
+
+	static Coordinate max(const Coordinate& p, const Coordinate& q)
+	{
+		return Coordinate(std::max(p.x, q.x), std::max(p.y, q.y));
 	}
 
 	static Coordinate DirectionToCoordinate(Direction dir) {
