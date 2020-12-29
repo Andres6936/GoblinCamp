@@ -79,34 +79,7 @@ public:
 		return Coordinate(std::max(p.x, q.x), std::max(p.y, q.y));
 	}
 
-	static Coordinate DirectionToCoordinate(Direction dir) {
-
-		switch (dir)
-		{
-
-		case NORTH:
-			return { 0, -1 };
-		case NORTHEAST:
-			return { 1, -1 };
-		case EAST:
-			return { 1, 0 };
-		case SOUTHEAST:
-			return { 1, 1 };
-		case SOUTH:
-			return { 0, 1 };
-		case SOUTHWEST:
-			return { -1, 1 };
-		case WEST:
-			return { -1, 0 };
-		case NORTHWEST:
-			return { -1, -1 };
-		case NODIRECTION:
-			return { 0, 0 };
-		default:
-			// Without direction, unreachable code, avoid warnings.
-			return { 0, 0 };
-		}
-	}
+	static Coordinate DirectionToCoordinate(Direction dir);
 
 	/* specific and generic accessors
 	   
