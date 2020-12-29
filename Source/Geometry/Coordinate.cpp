@@ -68,3 +68,15 @@ Coordinate Coordinate::DirectionToCoordinate(Direction dir)
 		return { 0, 0 };
 	}
 }
+
+// Getters
+
+int Coordinate::getX() const noexcept
+{
+	return x;
+}
+
+int Coordinate::getY() const noexcept
+{
+	return y;
+}

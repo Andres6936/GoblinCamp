@@ -240,16 +240,31 @@ public:
 		return onRectangleEdges(origin, origin + extent - 1);
 	}
 
-	inline Coordinate shrinkRectangle(const Coordinate& low, const Coordinate& high) const {
-		Coordinate res(x,y);
+	inline Coordinate shrinkRectangle(const Coordinate& low, const Coordinate& high) const
+	{
+		Coordinate res(x, y);
 		for (int d = 0; d < 2; ++d)
 			res[d] = std::max(low[d], std::min(high[d], res[d]));
 		return res;
 	}
 
-	inline Coordinate shrinkExtent(const Coordinate& origin, const Coordinate& extent) const {
+	inline Coordinate shrinkExtent(const Coordinate& origin, const Coordinate& extent) const
+	{
 		return shrinkRectangle(origin, origin + extent - 1);
 	};
+
+	// Getters
+
+	/**
+	 * @return The coordinate in the axis X.
+	 */
+	int getX() const noexcept;
+
+	/**
+	 * @return The coordinate in the axis Y.
+	 */
+	int getY() const noexcept;
+
 };
 
 inline int Distance(const Coordinate& p, const Coordinate& q) {
