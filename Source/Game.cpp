@@ -1845,16 +1845,15 @@ void Game::DecayItems()
 		RemoveItem(GetItem(item));
 	}
 
-	for (std::list<std::pair<ItemType, Coordinate> >::iterator crit = creationList.begin();
-		 crit != creationList.end(); ++crit)
+	for (auto&[itemType, coordinate] : creationList)
 	{
-		if (crit->first >= 0)
+		if (itemType >= 0)
 		{
-			CreateItem(crit->second, crit->first, false);
+			CreateItem(coordinate, itemType, false);
 		}
 		else
 		{
-			CreateFilth(crit->second);
+			CreateFilth(coordinate);
 		}
 	}
 
