@@ -32,6 +32,9 @@ enum Direction {
 
 class Coordinate
 {
+
+private:
+
 	GC_SERIALIZABLE_CLASS
 
 	friend int Distance(const Coordinate&, const Coordinate&);
@@ -50,6 +53,8 @@ class Coordinate
 
 public:
 
+	// Constructs
+
 	/**
 	 * Initialize the values to (x: 0, y: 0).
 	 */
@@ -64,6 +69,8 @@ public:
 	Coordinate(const int x, const int y) noexcept: x(x), y(y)
 	{
 	}
+
+	// Public Static Methods
 
 	/* beware, those are pairwise {min,max} : Coordinate::min(p,q) is *not* equivalent to (p < q ? p : q)
 	   
@@ -84,6 +91,8 @@ public:
 	 * @return The coordinate associate with the direction.
 	 */
 	static Coordinate DirectionToCoordinate(Direction dir);
+
+	// Public Methods
 
 	/* specific and generic accessors
 	   
