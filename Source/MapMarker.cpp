@@ -19,7 +19,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include "MapMarker.hpp"
 #include "Random.hpp"
-#include "Coordinate.hpp"
+#include "Goblin/Geometry/Coordinate.hpp"
 
 MapMarker::MapMarker(MarkerType t, int g, Coordinate pos, int d, TCODColor c) : type(t), 
 	origColor(c), color(c), duration(d), graphic(g),

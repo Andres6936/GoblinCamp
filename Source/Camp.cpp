@@ -20,7 +20,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/serialization/weak_ptr.hpp>
 
 #include "Camp.hpp"
-#include "Coordinate.hpp"
+#include "Goblin/Geometry/Coordinate.hpp"
 #include "Game.hpp"
 #include "Announce.hpp"
 #include "scripting/Event.hpp"

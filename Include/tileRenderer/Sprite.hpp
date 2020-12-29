@@ -19,7 +19,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <vector>
 #include <boost/shared_ptr.hpp>
 #include <boost/function.hpp>
-#include "Coordinate.hpp"
+#include "Goblin/Geometry/Coordinate.hpp"
 #include <libtcod.hpp>
 #include "tileRenderer/Corner.hpp"
 

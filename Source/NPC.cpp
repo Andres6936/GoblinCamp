@@ -35,7 +35,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include "Random.hpp"
 #include "NPC.hpp"
-#include "Coordinate.hpp"
+#include "Goblin/Geometry/Coordinate.hpp"
 #include "JobManager.hpp"
 #include "GCamp.hpp"
 #include "Game.hpp"

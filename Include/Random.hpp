@@ -17,7 +17,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <boost/random.hpp>
 #include <libtcod.hpp>
-#include <Coordinate.hpp>
+#include "Goblin/Geometry/Coordinate.hpp"
 
 namespace Random {
 	typedef boost::rand48 GeneratorImpl;

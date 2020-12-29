@@ -23,7 +23,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "UI/UIComponents.hpp"
 #include "UI/Tooltip.hpp"
 
-#include "Coordinate.hpp"
+#include "Goblin/Geometry/Coordinate.hpp"
 #include "data/Serialization.hpp"
 
 #define ENTITYHEIGHT 5

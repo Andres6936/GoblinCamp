@@ -22,7 +22,7 @@ namespace py = boost::python;
 
 #include "scripting/_gcampapi/PyConstruction.hpp"
 #include "Construction.hpp"
-#include "Coordinate.hpp"
+#include "Goblin/Geometry/Coordinate.hpp"
 #include "Logger.hpp"
 
 namespace Script { namespace API
