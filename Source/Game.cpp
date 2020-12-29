@@ -2695,11 +2695,10 @@ void Game::Badsleepify(Coordinate pos) {
 
 void Game::Diseasify(Coordinate pos) {
 	if (Map::Inst()->IsInside(pos)) {
-		for (std::set<int>::iterator npci = Map::Inst()->NPCList(pos)->begin();
-			npci != Map::Inst()->NPCList(pos)->end(); ++npci)
+		for (auto& npcIndex : *(Map::Inst()->NPCList(pos)))
 		{
 			std::shared_ptr<NPC> npc;
-			if (npcList.find(*npci) != npcList.end()) npc = npcList[*npci];
+			if (npcList.find(npcIndex) != npcList.end()) npc = npcList[npcIndex];
 			if (npc)
 			{
 				npc->AddEffect(COLLYWOBBLES);
