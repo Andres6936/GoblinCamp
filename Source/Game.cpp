@@ -2640,10 +2640,10 @@ void Game::UpdateFarmPlotSeedAllowances(ItemType type) {
 //TODO factorize all that NPC stuff
 void Game::Hungerize(Coordinate pos) {
 	if (Map::Inst()->IsInside(pos)) {
-		for (std::set<int>::iterator npci = Map::Inst()->NPCList(pos)->begin(); npci != Map::Inst()->NPCList(pos)->end(); ++npci)
+		for (auto& npcIndex : *(Map::Inst()->NPCList(pos)))
 		{
-			std::shared_ptr<NPC> npc;
-			if (npcList.find(*npci) != npcList.end()) npc = npcList[*npci];
+			std::shared_ptr <NPC> npc;
+			if (npcList.find(npcIndex) != npcList.end()) npc = npcList[npcIndex];
 			if (npc)
 			{
 				npc->hunger = 50000;
