@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.1) # Do not raise it without a reason. Bump only when you use some feature that is not supported by older verions
+CMAKE_MINIMUM_REQUIRED(VERSION 3.1) # Do not raise it without a reason. Bump only when you use some feature that is not supported by older verions
 
 # set the project name
-project(GoblinCamp LANGUAGES C CXX)
+PROJECT(GoblinCamp LANGUAGES C CXX)
 
 SET(CMAKE_CXX_FLAGS "-std=c++11 -DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_NO_SCOPED_ENUMS")  # FIXME move to add_compile_options() later
 
@@ -20,37 +20,37 @@ SET(GOBLIN_CAMP_SHAREDIR "${GOBLIN_CAMP_DATA_BASE_DIR}/games/goblin-camp" CACHE 
 
 ADD_SUBDIRECTORY("Goblin Camp")
 
-find_package(Boost REQUIRED COMPONENTS thread system filesystem serialization iostreams)
+FIND_PACKAGE(Boost REQUIRED COMPONENTS thread system filesystem serialization iostreams)
 
-if(${Boost_VERSION} GREATER 106699) # boost >= 1.67
-    find_package(Boost COMPONENTS python27 REQUIRED)
-    set(Boost_PYTHON_LIBRARY ${Boost_PYTHON27_LIBRARY})
-else()
+IF (${Boost_VERSION} GREATER 106699) # boost >= 1.67
+    FIND_PACKAGE(Boost COMPONENTS python27 REQUIRED)
+    SET(Boost_PYTHON_LIBRARY ${Boost_PYTHON27_LIBRARY})
+ELSE ()
     # boost python suffixes are determined by distributives
     # try different alternatives
-    find_package(Boost OPTIONAL_COMPONENTS python27)
-    if(Boost_PYTHON27_FOUND)
-        set(Boost_PYTHON_LIBRARY ${Boost_PYTHON27_LIBRARY})
-    else()
-        find_package(Boost OPTIONAL_COMPONENTS python-py27)
-        if(Boost_PYTHON-PY27_FOUND)
-            set(Boost_PYTHON_LIBRARY ${Boost_PYTHON-PY27_LIBRARY})
-        else()
-            find_package(Boost COMPONENTS python REQUIRED)
-        endif()
-    endif()
-endif()
+    FIND_PACKAGE(Boost OPTIONAL_COMPONENTS python27)
+    IF (Boost_PYTHON27_FOUND)
+        SET(Boost_PYTHON_LIBRARY ${Boost_PYTHON27_LIBRARY})
+    ELSE ()
+        FIND_PACKAGE(Boost OPTIONAL_COMPONENTS python-py27)
+        IF (Boost_PYTHON-PY27_FOUND)
+            SET(Boost_PYTHON_LIBRARY ${Boost_PYTHON-PY27_LIBRARY})
+        ELSE ()
+            FIND_PACKAGE(Boost COMPONENTS python REQUIRED)
+        ENDIF ()
+    ENDIF ()
+ENDIF ()
 
-find_package(SDL REQUIRED)
-find_package(SDL_image REQUIRED)
-find_package(PythonLibs 2.7)
-find_package(ZLIB)
-find_package(OpenGL REQUIRED)
-find_package(PNG REQUIRED)
+FIND_PACKAGE(SDL REQUIRED)
+FIND_PACKAGE(SDL_image REQUIRED)
+FIND_PACKAGE(PythonLibs 2.7)
+FIND_PACKAGE(ZLIB)
+FIND_PACKAGE(OpenGL REQUIRED)
+FIND_PACKAGE(PNG REQUIRED)
 
-include_directories(${SDL_INCLUDE_DIR})
-include_directories(${PYTHON_INCLUDE_DIRS})
-include_directories(${PNG_INCLUDE_DIR})
+INCLUDE_DIRECTORIES(${SDL_INCLUDE_DIR})
+INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES(${PNG_INCLUDE_DIR})
 
 # Support to Standard 17
 SET(CMAKE_CXX_STANDARD 17)
@@ -59,14 +59,14 @@ SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 ADD_SUBDIRECTORY(vendor/)
 ADD_SUBDIRECTORY(Source/)
 
-ADD_LIBRARY (GoblinCamp.Data
-    Source/data/Config.cpp
-    Source/data/Data.cpp
-    Source/data/Mods.cpp
-    Source/data/Paths.cpp
-    Source/data/Serialization.cpp
-    Source/data/Tilesets.cpp
-)
+ADD_LIBRARY(GoblinCamp.Data
+        Source/data/Config.cpp
+        Source/data/Data.cpp
+        Source/data/Mods.cpp
+        Source/data/Paths.cpp
+        Source/data/Serialization.cpp
+        Source/data/Tilesets.cpp
+        )
 
 ADD_LIBRARY(GoblinCamp::Data ALIAS GoblinCamp.Data)
 
@@ -117,15 +117,14 @@ ADD_LIBRARY(GoblinCamp.Main
 ADD_LIBRARY(GoblinCamp::Main ALIAS GoblinCamp.Main)
 
 
+SET(platform_SRC
+        Source/platform/linux/DataImpl.cpp
+        )
 
-SET (platform_SRC
-Source/platform/linux/DataImpl.cpp
-)
+ADD_EXECUTABLE(goblin-camp Source/platform/unix/main.cpp Source/GCamp.cpp ${platform_SRC})
 
-add_executable(goblin-camp Source/platform/unix/main.cpp Source/GCamp.cpp ${platform_SRC})
-
-include_directories("goblin-camp" Include/)
-include_directories("goblin-camp" vendor/libtcod/include/)
+INCLUDE_DIRECTORIES("goblin-camp" Include/)
+INCLUDE_DIRECTORIES("goblin-camp" vendor/libtcod/include/)
 
 TARGET_LINK_LIBRARIES(GoblinCamp.Data PUBLIC GoblinCamp::Renderer::Tile)
 
@@ -139,12 +138,12 @@ TARGET_LINK_LIBRARIES(goblin-camp PUBLIC GoblinCamp::Main)
 TARGET_LINK_LIBRARIES(goblin-camp PUBLIC GoblinCamp::UI)
 
 TARGET_LINK_LIBRARIES(goblin-camp PRIVATE
-  ${SDL_LIBRARY}
-  ${SDLIMAGE_LIBRARY}
-  ${PYTHON_LIBRARIES}
-  ${Boost_THREAD_LIBRARY}
-  ${Boost_SYSTEM_LIBRARY}
-  ${Boost_FILESYSTEM_LIBRARY}
+        ${SDL_LIBRARY}
+        ${SDLIMAGE_LIBRARY}
+        ${PYTHON_LIBRARIES}
+        ${Boost_THREAD_LIBRARY}
+        ${Boost_SYSTEM_LIBRARY}
+        ${Boost_FILESYSTEM_LIBRARY}
         ${Boost_SERIALIZATION_LIBRARY}
         ${Boost_PYTHON_LIBRARY}
         ${Boost_IOSTREAMS_LIBRARY}
