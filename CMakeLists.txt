@@ -145,12 +145,18 @@ TARGET_LINK_LIBRARIES(goblin-camp PRIVATE
   ${Boost_THREAD_LIBRARY}
   ${Boost_SYSTEM_LIBRARY}
   ${Boost_FILESYSTEM_LIBRARY}
-  ${Boost_SERIALIZATION_LIBRARY}
-  ${Boost_PYTHON_LIBRARY}
-  ${Boost_IOSTREAMS_LIBRARY}
-  ${ZLIB_LIBRARIES}
-  ${OPENGL_LIBRARIES}
-  ${PNG_LIBRARY}
-)
+        ${Boost_SERIALIZATION_LIBRARY}
+        ${Boost_PYTHON_LIBRARY}
+        ${Boost_IOSTREAMS_LIBRARY}
+        ${ZLIB_LIBRARIES}
+        ${OPENGL_LIBRARIES}
+        ${PNG_LIBRARY}
+        )
 
 FILE(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Library/ DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/share/games/goblin-camp/lib/)
+
+# Include the Content Package Manager for C++
+INCLUDE(CMakeModules/CPM.cmake)
+
+# Execute the Test in the directory
+ADD_SUBDIRECTORY(Test/)
