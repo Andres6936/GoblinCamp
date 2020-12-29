@@ -2314,27 +2314,27 @@ void Game::ReturnToMark(int i) {
 
 void Game::TranslateContainerListeners()
 {
-	for (std::map<int, std::shared_ptr<Item> >::iterator it = itemList.begin(); it != itemList.end(); ++it)
+	for (auto&[_, item] : itemList)
 	{
-		if (std::dynamic_pointer_cast<Container>(it->second))
+		if (std::dynamic_pointer_cast<Container>(item))
 		{
-			std::static_pointer_cast<Container>(it->second)->TranslateContainerListeners();
+			std::static_pointer_cast<Container>(item)->TranslateContainerListeners();
 		}
 	}
-	for (std::map<int, std::shared_ptr<Construction> >::iterator it = staticConstructionList.begin();
-		 it != staticConstructionList.end(); ++it)
+
+	for (auto&[_, construction] : staticConstructionList)
 	{
-		if (std::dynamic_pointer_cast<Stockpile>(it->second))
+		if (std::dynamic_pointer_cast<Stockpile>(construction))
 		{
-			std::static_pointer_cast<Stockpile>(it->second)->TranslateInternalContainerListeners();
+			std::static_pointer_cast<Stockpile>(construction)->TranslateInternalContainerListeners();
 		}
 	}
-	for (std::map<int, std::shared_ptr<Construction> >::iterator it = dynamicConstructionList.begin();
-		 it != dynamicConstructionList.end(); ++it)
+
+	for (auto&[_, construction] : dynamicConstructionList)
 	{
-		if (std::dynamic_pointer_cast<Stockpile>(it->second))
+		if (std::dynamic_pointer_cast<Stockpile>(construction))
 		{
-			std::static_pointer_cast<Stockpile>(it->second)->TranslateInternalContainerListeners();
+			std::static_pointer_cast<Stockpile>(construction)->TranslateInternalContainerListeners();
 		}
 	}
 }
