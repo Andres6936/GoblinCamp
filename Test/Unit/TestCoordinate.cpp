@@ -5,6 +5,17 @@
 #include <doctest/doctest.h>
 #include "Goblin/Geometry/Coordinate.hpp"
 
+TEST_CASE ("Initialization for default to (x: 0, y: 0)")
+{
+	// Initialization for default
+	Coordinate coordinateDefault{};
+
+	// Initialization with parameters
+	Coordinate coordinateParams{ 0, 0 };
+
+			CHECK(coordinateDefault == coordinateParams);
+}
+
 TEST_CASE ("Direction to Coordinate")
 {
 			CHECK(Coordinate::DirectionToCoordinate(Direction::NORTH) == Coordinate{ 0, -1 });
