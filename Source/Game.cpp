@@ -2939,12 +2939,15 @@ void Game::load(InputArchive& ar, const unsigned int version) {
 			std::vector<std::shared_ptr<Faction> > oldFactionData;
 			ar & oldFactionData;
 			oldFactionData[0]->TransferTrapInfo(Faction::factions[PLAYERFACTION]);
-		} else {
+		}
+		else
+		{
 			ar & Faction::factions;
 			Faction::InitAfterLoad(); //Initialize names and default friends, before loading npcs
 		}
-		for (std::list<std::string>::const_iterator factionName = factionNames.begin(); factionName != factionNames.end(); ++factionName) {
-			Faction::StringToFactionType(*factionName);
+		for (auto& factionName : factionNames)
+		{
+			Faction::StringToFactionType(factionName);
 		}
 	}
 	
