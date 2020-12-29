@@ -2126,14 +2126,15 @@ int Game::FindMilitaryRecruit()
 {
 	// Holder for orc with most/full health
 	std::shared_ptr<NPC> strongest;
-	for (std::map<int, std::shared_ptr<NPC> >::iterator npci = npcList.begin(); npci != npcList.end(); ++npci)
+
+	for (auto&[_, npc] : npcList)
 	{
-		if (npci->second->type == NPC::StringToNPCType("orc") && npci->second->faction == PLAYERFACTION)
+		if (npc->type == NPC::StringToNPCType("orc") && npc->faction == PLAYERFACTION)
 		{
 			// Find the orc with the most/full health to prevent near-dead orcs from getting put in the squad
-			if (!npci->second->squad.lock() && (!strongest || npci->second->health > strongest->health))
+			if (!npc->squad.lock() && (!strongest || npc->health > strongest->health))
 			{
-				strongest = (*npci).second;
+				strongest = npc;
 			}
 		}
 	}
