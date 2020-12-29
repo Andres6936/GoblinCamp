@@ -2440,7 +2440,7 @@ void Game::CreateNatureObject(Coordinate pos, std::string name) {
 	unsigned int natureObjectIndex = 0;
 	for (auto& natureObjectPreset : NatureObject::Presets)
 	{
-		if (boost::iequals(natureObjectPreset, name)) break;
+		if (boost::iequals(natureObjectPreset.name, name)) break;
 		++natureObjectIndex;
 	}
 
