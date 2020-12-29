@@ -90,7 +90,7 @@ public:
 	 * @param dir Direction associate with the coordinate.
 	 * @return The coordinate associate with the direction.
 	 */
-	static Coordinate DirectionToCoordinate(Direction dir);
+	static Coordinate DirectionToCoordinate(Direction dir) noexcept;
 
 	// Public Methods
 
