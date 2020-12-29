@@ -17,7 +17,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <libtcod.hpp>
 
-#include "Coordinate.hpp"
+#include "Goblin/Geometry/Coordinate.hpp"
 #include "data/Serialization.hpp"
 
 enum MarkerType {

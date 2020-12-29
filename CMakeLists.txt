@@ -77,7 +77,6 @@ ADD_LIBRARY(GoblinCamp.Main
         Source/Camp.cpp
         Source/Construction.cpp
         Source/Container.cpp
-        Source/Coordinate.cpp
         Source/Door.cpp
         Source/Entity.cpp
         Source/Events.cpp
@@ -129,6 +128,7 @@ INCLUDE_DIRECTORIES("goblin-camp" vendor/libtcod/include/)
 TARGET_LINK_LIBRARIES(GoblinCamp.Data PUBLIC GoblinCamp::Renderer::Tile)
 
 TARGET_LINK_LIBRARIES(GoblinCamp.Main PUBLIC GoblinCamp::Libtcod)
+TARGET_LINK_LIBRARIES(GoblinCamp.Main PUBLIC Goblin::Geometry)
 
 TARGET_LINK_LIBRARIES(goblin-camp PUBLIC GoblinCamp::Renderer::Tile)
 TARGET_LINK_LIBRARIES(goblin-camp PUBLIC GoblinCamp::Scripting)

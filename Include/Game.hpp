@@ -26,7 +26,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <libtcod.hpp>
 
 #include "Tile.hpp"
-#include "Coordinate.hpp"
+#include "Goblin/Geometry/Coordinate.hpp"
 #include "NPC.hpp"
 #include "NatureObject.hpp"
 #include "Events.hpp"

@@ -18,7 +18,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Random.hpp"
 #include "Filth.hpp"
 #include "Game.hpp"
-#include "Coordinate.hpp"
+#include "Goblin/Geometry/Coordinate.hpp"
 
 FilthNode::FilthNode(const Coordinate& pos, int ndep) : pos(pos)
 {

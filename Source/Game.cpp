@@ -36,7 +36,7 @@ namespace py = boost::python;
 #include "Random.hpp"
 #include "Game.hpp"
 #include "Tile.hpp"
-#include "Coordinate.hpp"
+#include "Goblin/Geometry/Coordinate.hpp"
 #include "JobManager.hpp"
 #include "Logger.hpp"
 #include "Map.hpp"

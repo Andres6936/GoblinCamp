@@ -17,7 +17,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <boost/functional/hash.hpp>
 
-#include "Coordinate.hpp"
+#include "Goblin/Geometry/Coordinate.hpp"
 
 std::size_t hash_value(const Coordinate& coord) {
 	std::size_t seed = 0;

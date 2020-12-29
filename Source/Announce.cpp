@@ -17,7 +17,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include "Announce.hpp"
 #include "GCamp.hpp"
-#include "Coordinate.hpp"
+#include "Goblin/Geometry/Coordinate.hpp"
 #include "Game.hpp"
 
 AnnounceMessage::AnnounceMessage(std::string nmsg, TCODColor col, Coordinate pos) :

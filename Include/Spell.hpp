@@ -20,7 +20,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Entity.hpp"
 #include "Attack.hpp"
 #include "data/Serialization.hpp"
-#include "Coordinate.hpp"
+#include "Goblin/Geometry/Coordinate.hpp"
 
 typedef int SpellType;
 

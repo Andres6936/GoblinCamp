@@ -29,7 +29,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Game.hpp"
 #include "Map.hpp"
 #include "Logger.hpp"
-#include "Coordinate.hpp"
+#include "Goblin/Geometry/Coordinate.hpp"
 #include "Announce.hpp"
 #include "UI.hpp"
 #include "UI/MessageBox.hpp"
