@@ -31,9 +31,42 @@ void Coordinate::save(OutputArchive& ar, const unsigned int version) const {
 	ar & y;
 }
 
-void Coordinate::load(InputArchive& ar, const unsigned int version) {
-	if (version == 0) {
+void Coordinate::load(InputArchive& ar, const unsigned int version)
+{
+	if (version == 0)
+	{
 		ar & x;
 		ar & y;
+	}
+}
+
+// Public Static Methods
+
+Coordinate Coordinate::DirectionToCoordinate(Direction dir)
+{
+	switch (dir)
+	{
+
+	case NORTH:
+		return { 0, -1 };
+	case NORTHEAST:
+		return { 1, -1 };
+	case EAST:
+		return { 1, 0 };
+	case SOUTHEAST:
+		return { 1, 1 };
+	case SOUTH:
+		return { 0, 1 };
+	case SOUTHWEST:
+		return { -1, 1 };
+	case WEST:
+		return { -1, 0 };
+	case NORTHWEST:
+		return { -1, -1 };
+	case NODIRECTION:
+		return { 0, 0 };
+	default:
+		// Without direction, unreachable code, avoid warnings.
+		return { 0, 0 };
 	}
 }
