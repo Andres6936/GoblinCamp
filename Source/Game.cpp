@@ -2485,9 +2485,9 @@ void Game::GatherItems(Coordinate a, Coordinate b) {
 		for (int y = a.Y(); y <= b.Y(); ++y) {
 			Coordinate p(x,y);
 			if (Map::Inst()->IsInside(p)) {
-				for (std::set<int>::iterator itemuid = Map::Inst()->ItemList(p)->begin(); 
-					itemuid != Map::Inst()->ItemList(p)->end(); ++itemuid) {
-						StockpileItem(GetItem(*itemuid), false, true);
+				for (auto& itemUid : *(Map::Inst()->ItemList(p)))
+				{
+					StockpileItem(GetItem(itemUid), false, true);
 				}
 			}
 		}
