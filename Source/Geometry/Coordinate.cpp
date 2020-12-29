@@ -40,7 +40,7 @@ void Coordinate::load(InputArchive& ar, const unsigned int version)
 
 // Public Static Methods
 
-Coordinate Coordinate::DirectionToCoordinate(Direction dir)
+Coordinate Coordinate::DirectionToCoordinate(Direction dir) noexcept
 {
 	switch (dir)
 	{
