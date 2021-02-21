@@ -13,15 +13,12 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
-#include <libtcod.hpp>
 #include <string>
 #include <vector>
-#include <boost/cstdint.hpp>
 #include <boost/tokenizer.hpp>
 #include <boost/foreach.hpp>
-#include <algorithm>
+#include <Goblin/User/Interface/DevConsole.hpp>
 
 #include <boost/python/detail/wrap_python.hpp>
 #include <boost/python.hpp>
