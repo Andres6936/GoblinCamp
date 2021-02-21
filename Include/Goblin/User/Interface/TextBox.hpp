@@ -16,14 +16,10 @@
 #pragma once
 
 #include <string>
-#include <vector>
-
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
-#include <memory>
+#include <functional>
 #include <libtcod.hpp>
 
-#include "UIComponents.hpp"
+#include "Goblin/User/Interface/UIComponents.hpp"
 
 class TextBox : public Drawable
 {
