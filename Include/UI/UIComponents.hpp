@@ -33,6 +33,9 @@ enum MenuResult
 	DISMISS = 8
 };
 
+/**
+ * Abstract class
+ */
 class Drawable
 {
 
@@ -103,6 +106,9 @@ public:
 	}
 };
 
+/**
+ * Abstract class
+ */
 class Scrollable
 {
 
