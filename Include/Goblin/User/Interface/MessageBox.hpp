@@ -16,8 +16,7 @@
 #pragma once
 
 #include <string>
-
-#include <boost/function.hpp>
+#include <functional>
 
 class MessageBox
 {
