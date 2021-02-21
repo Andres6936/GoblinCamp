@@ -13,24 +13,21 @@
  
  You should have received a copy of the GNU General Public License 
  along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
-#include <string>
+#include <Goblin/User/Interface/ScrollPanel.hpp>
+#include <Goblin/User/Interface/JobDialog.hpp>
+#include <Goblin/Geometry/Coordinate.hpp>
 
-#include <libtcod.hpp>
-#include <boost/lexical_cast.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/format.hpp>
-
-#include "Goblin/User/Interface/JobDialog.hpp"
+#include "Game.hpp"
 #include "JobManager.hpp"
-#include "Goblin/User/Interface/ScrollPanel.hpp"
 
-void JobDialog::Draw(int _x, int _y, int scroll, int width, int height, TCODConsole* console) {
+void JobDialog::Draw(int _x, int _y, int scroll, int width, int height, TCODConsole* console)
+{
 	JobManager::Inst()->Draw(Coordinate(_x + 1, _y), scroll, width, height, console);
 }
 
-int JobDialog::TotalHeight() {
+int JobDialog::TotalHeight()
+{
 	return JobManager::Inst()->JobAmount();
 }
 
