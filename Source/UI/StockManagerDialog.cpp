@@ -22,12 +22,12 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 
-#include "UI/StockManagerDialog.hpp"
-#include "UI/ScrollPanel.hpp"
+#include "Goblin/User/Interface/StockManagerDialog.hpp"
+#include "Goblin/User/Interface/ScrollPanel.hpp"
 #include "StockManager.hpp"
-#include "UI/Spinner.hpp"
-#include "UI/Label.hpp"
-#include "UI/TextBox.hpp"
+#include "Goblin/User/Interface/Spinner.hpp"
+#include "Goblin/User/Interface/Label.hpp"
+#include "Goblin/User/Interface/TextBox.hpp"
 
 Dialog* StockManagerDialog::stocksDialog = 0;
 

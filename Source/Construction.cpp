@@ -44,7 +44,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Camp.hpp"
 #include "StockManager.hpp"
 #include "UI.hpp"
-#include "UI/ConstructionDialog.hpp"
+#include "Goblin/User/Interface/ConstructionDialog.hpp"
 #include "Item.hpp"
 #include "scripting/Event.hpp"
 #include "Faction.hpp"

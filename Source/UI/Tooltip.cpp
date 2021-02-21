@@ -17,7 +17,7 @@
 
 #include <libtcod.hpp>
 
-#include "UI/Tooltip.hpp"
+#include "Goblin/User/Interface/Tooltip.hpp"
 
 Tooltip* Tooltip::instance = 0;
 Tooltip* Tooltip::Inst() {

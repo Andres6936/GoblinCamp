@@ -19,7 +19,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include "Random.hpp"
 #include "SpawningPool.hpp"
-#include "UI/Button.hpp"
+#include "Goblin/User/Interface/Button.hpp"
 #include "GCamp.hpp"
 #include "StockManager.hpp"
 #include "JobManager.hpp"

@@ -23,14 +23,14 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 
-#include "UI/SquadsDialog.hpp"
-#include "UI/ScrollPanel.hpp"
-#include "UI/Label.hpp"
-#include "UI/Button.hpp"
-#include "UI/Spinner.hpp"
+#include "Goblin/User/Interface/SquadsDialog.hpp"
+#include "Goblin/User/Interface/ScrollPanel.hpp"
+#include "Goblin/User/Interface/Label.hpp"
+#include "Goblin/User/Interface/Button.hpp"
+#include "Goblin/User/Interface/Spinner.hpp"
 #include "UI.hpp"
-#include "UI/TextBox.hpp"
-#include "UI/Frame.hpp"
+#include "Goblin/User/Interface/TextBox.hpp"
+#include "Goblin/User/Interface/Frame.hpp"
 #include "Goblin/User/Interface/Announce.hpp"
 #include "MapMarker.hpp"
 

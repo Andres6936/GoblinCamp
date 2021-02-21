@@ -23,7 +23,7 @@
 #include <memory>
 #include <libtcod.hpp>
 
-#include "UI/Tooltip.hpp"
+#include "Goblin/User/Interface/Tooltip.hpp"
 
 template <class T, class C = std::vector<T> >
 class UIList : public Drawable, public Scrollable

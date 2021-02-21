@@ -22,9 +22,9 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 
-#include "UI/NPCDialog.hpp"
-#include "UI/ScrollPanel.hpp"
-#include "UI/UIList.hpp"
+#include "Goblin/User/Interface/NPCDialog.hpp"
+#include "Goblin/User/Interface/ScrollPanel.hpp"
+#include "Goblin/User/Interface/UIList.hpp"
 
 Dialog* NPCDialog::npcListDialog = 0;
 Dialog* NPCDialog::NPCListDialog() {

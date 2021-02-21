@@ -25,7 +25,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/unordered_map.hpp>
 
 #include "Entity.hpp"
-#include "UI/UIComponents.hpp"
+#include "Goblin/User/Interface/UIComponents.hpp"
 #include "Tile.hpp"
 #include "StatusEffect.hpp"
 #include "Attack.hpp"

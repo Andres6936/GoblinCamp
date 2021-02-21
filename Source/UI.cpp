@@ -35,13 +35,13 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "data/Config.hpp"
 #include "data/Data.hpp"
 #include "Camp.hpp"
-#include "UI/StockManagerDialog.hpp"
-#include "UI/SquadsDialog.hpp"
-#include "UI/ConstructionDialog.hpp"
-#include "UI/AnnounceDialog.hpp"
-#include "UI/Tooltip.hpp"
-#include "UI/JobDialog.hpp"
-#include "UI/DevConsole.hpp"
+#include "Goblin/User/Interface/StockManagerDialog.hpp"
+#include "Goblin/User/Interface/SquadsDialog.hpp"
+#include "Goblin/User/Interface/ConstructionDialog.hpp"
+#include "Goblin/User/Interface/AnnounceDialog.hpp"
+#include "Goblin/User/Interface/Tooltip.hpp"
+#include "Goblin/User/Interface/JobDialog.hpp"
+#include "Goblin/User/Interface/DevConsole.hpp"
 
 UI* UI::instance = 0;
 

@@ -17,10 +17,10 @@
 
 #include <string>
 
-#include "UI/MessageBox.hpp"
-#include "UI/Dialog.hpp"
-#include "UI/Label.hpp"
-#include "UI/Button.hpp"
+#include "Goblin/User/Interface/MessageBox.hpp"
+#include "Goblin/User/Interface/Dialog.hpp"
+#include "Goblin/User/Interface/Label.hpp"
+#include "Goblin/User/Interface/Button.hpp"
 
 void MessageBox::ShowMessageBox(std::string text, std::function<void()> firstAction, std::string firstButton,
 		std::function<void()> secondAction, std::string secondButton)

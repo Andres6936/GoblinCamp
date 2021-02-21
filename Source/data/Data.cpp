@@ -34,7 +34,7 @@ namespace fs = std::filesystem;
 #include "data/Data.hpp"
 #include "data/Paths.hpp"
 #include "Logger.hpp"
-#include "UI/MessageBox.hpp"
+#include "Goblin/User/Interface/MessageBox.hpp"
 #include "Game.hpp"
 #include "scripting/Event.hpp"
 #include "scripting/Engine.hpp"

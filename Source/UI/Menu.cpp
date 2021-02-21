@@ -22,14 +22,14 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 
-#include "UI/Menu.hpp"
+#include "Goblin/User/Interface/Menu.hpp"
 #include "UI.hpp"
-#include "UI/UIComponents.hpp"
-#include "UI/JobDialog.hpp"
-#include "UI/AnnounceDialog.hpp"
-#include "UI/StockManagerDialog.hpp"
-#include "UI/SquadsDialog.hpp"
-#include "UI/NPCDialog.hpp"
+#include "Goblin/User/Interface/UIComponents.hpp"
+#include "Goblin/User/Interface/JobDialog.hpp"
+#include "Goblin/User/Interface/AnnounceDialog.hpp"
+#include "Goblin/User/Interface/StockManagerDialog.hpp"
+#include "Goblin/User/Interface/SquadsDialog.hpp"
+#include "Goblin/User/Interface/NPCDialog.hpp"
 #include "Camp.hpp"
 #include "Map.hpp"
 #include "Weather.hpp"

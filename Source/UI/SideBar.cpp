@@ -26,13 +26,13 @@
 #include "NPC.hpp"
 #include "UI.hpp"
 #include "Farmplot.hpp"
-#include "UI/SideBar.hpp"
-#include "UI/ScrollPanel.hpp"
-#include "UI/Frame.hpp"
-#include "UI/UIList.hpp"
-#include "UI/Label.hpp"
-#include "UI/Button.hpp"
-#include "UI/ConstructionDialog.hpp"
+#include "Goblin/User/Interface/SideBar.hpp"
+#include "Goblin/User/Interface/ScrollPanel.hpp"
+#include "Goblin/User/Interface/Frame.hpp"
+#include "Goblin/User/Interface/UIList.hpp"
+#include "Goblin/User/Interface/Label.hpp"
+#include "Goblin/User/Interface/Button.hpp"
+#include "Goblin/User/Interface/ConstructionDialog.hpp"
 
 SideBar::SideBar() :
 width(19),

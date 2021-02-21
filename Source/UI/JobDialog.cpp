@@ -22,9 +22,9 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 
-#include "UI/JobDialog.hpp"
+#include "Goblin/User/Interface/JobDialog.hpp"
 #include "JobManager.hpp"
-#include "UI/ScrollPanel.hpp"
+#include "Goblin/User/Interface/ScrollPanel.hpp"
 
 void JobDialog::Draw(int _x, int _y, int scroll, int width, int height, TCODConsole* console) {
 	JobManager::Inst()->Draw(Coordinate(_x + 1, _y), scroll, width, height, console);

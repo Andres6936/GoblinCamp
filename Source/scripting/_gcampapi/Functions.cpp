@@ -23,7 +23,7 @@ namespace py = boost::python;
 #include "Goblin/User/Interface/Announce.hpp"
 #include "scripting/API.hpp"
 #include "Version.hpp"
-#include "UI/MessageBox.hpp"
+#include "Goblin/User/Interface/MessageBox.hpp"
 #include "Game.hpp"
 #include "Item.hpp"
 #include "Construction.hpp"

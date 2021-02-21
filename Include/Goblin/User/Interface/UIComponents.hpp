@@ -20,7 +20,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <functional>
 
 #include <libtcod.hpp>
-#include "UI/Tooltip.hpp"
+#include "Goblin/User/Interface/Tooltip.hpp"
 
 enum MenuResult
 {

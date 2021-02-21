@@ -13,17 +13,15 @@
  
  You should have received a copy of the GNU General Public License 
  along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
 #include <string>
 
 #include <libtcod.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/format.hpp>
 
-#include "UI/AnnounceDialog.hpp"
-#include "UI/ScrollPanel.hpp"
+#include "Goblin/User/Interface/AnnounceDialog.hpp"
+#include "Goblin/User/Interface/ScrollPanel.hpp"
 #include "Goblin/User/Interface/Announce.hpp"
 
 void AnnounceDialog::Draw(int x, int y, int scroll, int width, int height, TCODConsole* console) {

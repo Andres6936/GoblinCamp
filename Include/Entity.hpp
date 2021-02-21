@@ -20,8 +20,8 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <list>
 #include <memory>
 
-#include "UI/UIComponents.hpp"
-#include "UI/Tooltip.hpp"
+#include "Goblin/User/Interface/UIComponents.hpp"
+#include "Goblin/User/Interface/Tooltip.hpp"
 
 #include "Goblin/Geometry/Coordinate.hpp"
 #include "data/Serialization.hpp"

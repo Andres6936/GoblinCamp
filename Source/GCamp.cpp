@@ -32,7 +32,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Goblin/Geometry/Coordinate.hpp"
 #include "Goblin/User/Interface/Announce.hpp"
 #include "UI.hpp"
-#include "UI/MessageBox.hpp"
+#include "Goblin/User/Interface/MessageBox.hpp"
 #include "data/Paths.hpp"
 #include "data/Config.hpp"
 #include "data/Data.hpp"

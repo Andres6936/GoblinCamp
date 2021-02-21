@@ -16,8 +16,8 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
 #include "Construction.hpp"
-#include "UI/Dialog.hpp"
-#include "UI/UIComponents.hpp"
+#include "Goblin/User/Interface/Dialog.hpp"
+#include "Goblin/User/Interface/UIComponents.hpp"
 
 #include "data/Serialization.hpp"
 

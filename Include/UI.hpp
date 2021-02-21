@@ -21,8 +21,8 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/function.hpp>
 #include <memory>
 
-#include "UI/Menu.hpp"
-#include "UI/SideBar.hpp"
+#include "Goblin/User/Interface/Menu.hpp"
+#include "Goblin/User/Interface/SideBar.hpp"
 #include "Entity.hpp"
 #include "Game.hpp"
 

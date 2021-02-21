@@ -22,16 +22,16 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
-#include "UI/UIComponents.hpp"
-#include "UI/Label.hpp"
-#include "UI/Dialog.hpp"
-#include "UI/ScrollPanel.hpp"
-#include "UI/Button.hpp"
+#include "Goblin/User/Interface/UIComponents.hpp"
+#include "Goblin/User/Interface/Label.hpp"
+#include "Goblin/User/Interface/Dialog.hpp"
+#include "Goblin/User/Interface/ScrollPanel.hpp"
+#include "Goblin/User/Interface/Button.hpp"
 #include "UI.hpp"
-#include "UI/Grid.hpp"
-#include "UI/Spinner.hpp"
-#include "UI/Frame.hpp"
-#include "UI/TextBox.hpp"
+#include "Goblin/User/Interface/Grid.hpp"
+#include "Goblin/User/Interface/Spinner.hpp"
+#include "Goblin/User/Interface/Frame.hpp"
+#include "Goblin/User/Interface/TextBox.hpp"
 
 void Label::Draw(int x, int y, TCODConsole *console) {
 	console->setAlignment(align);
