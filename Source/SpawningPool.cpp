@@ -13,10 +13,11 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
+#include <boost/bind.hpp>
 #include <boost/serialization/shared_ptr.hpp>
 
+#include "Game.hpp"
 #include "Random.hpp"
 #include "SpawningPool.hpp"
 #include "Goblin/User/Interface/Button.hpp"
