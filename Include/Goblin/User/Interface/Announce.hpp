@@ -32,13 +32,19 @@ class AnnounceMessage
 
 public:
 
+	// Constructor
+
 	AnnounceMessage(std::string, TCODColor = TCODColor::white, Coordinate = Coordinate(-1, -1));
+
+	// Properties
 
 	std::stringstream result;
 	std::string msg;
 	int counter;
 	TCODColor color;
 	Coordinate target;
+
+	// Methods
 
 	std::string ToString();
 };
@@ -48,7 +54,11 @@ class Announce
 
 private:
 
+	// Constructor
+
 	Announce();
+
+	// Properties
 
 	static Announce* instance;
 	std::deque<AnnounceMessage*> messageQueue;
@@ -56,9 +66,13 @@ private:
 	int timer;
 	unsigned int length, height, top;
 
+	// Methods
+
 	void AnnouncementClicked(AnnounceMessage*);
 
 public:
+
+	// Methods
 
 	static Announce* Inst();
 
