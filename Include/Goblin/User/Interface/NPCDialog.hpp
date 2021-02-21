@@ -15,15 +15,11 @@
  along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
-#include <string>
-#include <vector>
-
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
 #include <memory>
+#include <utility>
 #include <libtcod.hpp>
 
-#include "UIComponents.hpp"
+#include "Goblin/User/Interface/UIComponents.hpp"
 #include "NPC.hpp"
 #include "Dialog.hpp"
 
