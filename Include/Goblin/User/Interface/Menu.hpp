@@ -27,14 +27,14 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 class MenuChoice
 {
+
 public:
-	MenuChoice(std::string label = "", std::function<void()> = boost::bind(Game::DoNothing),
-			bool = true,
-			std::string tooltip = "");
+
+	MenuChoice(std::string, std::function<void()>, bool = true, std::string = "");
 
 	std::string label;
 	std::function<void()> callback;
-	bool enabled;
+	bool enabled = true;
 	std::string tooltip;
 };
 

@@ -30,13 +30,13 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Map.hpp"
 #include "Weather.hpp"
 
-MenuChoice::MenuChoice(std::string ntext, std::function<void()> cb, bool nenabled,
-		std::string ntooltip)
+MenuChoice::MenuChoice(std::string _text, std::function<void()> _callback, bool _enabled,
+		std::string _tooltip)
 {
-	label = ntext;
-	callback = cb;
-	enabled = nenabled;
-	tooltip = ntooltip;
+	label = _text;
+	callback = _callback;
+	enabled = _enabled;
+	tooltip = _tooltip;
 }
 
 Menu::Menu(std::vector<MenuChoice> newChoices, std::string ntitle): Panel(0, 0) {
@@ -131,30 +131,39 @@ Menu* Menu::MainMenu() {
 			mainMenu = 0;
 			if (constructionMenu) { delete constructionMenu; constructionMenu = 0; }
 			if (!constructionCategoryMenus.empty()) {
-				for (std::map<std::string, Menu *>::iterator iterator = constructionCategoryMenus.begin();
-					iterator != constructionCategoryMenus.end(); ++iterator) {
-						if (iterator->second) delete iterator->second;
+				for (std::map<std::string, Menu*>::iterator iterator = constructionCategoryMenus.begin();
+					 iterator != constructionCategoryMenus.end(); ++iterator)
+				{
+					if (iterator->second) delete iterator->second;
 				}
 				constructionCategoryMenus.clear();
 			}
 			menuTier = Camp::Inst()->GetTier();
 		}
+
 		mainMenu = new Menu(std::vector<MenuChoice>());
-		if (Game::Inst()->DevMode()) mainMenu->AddChoice(MenuChoice("Dev", boost::bind(UI::ChangeMenu, Menu::DevMenu())));
-		mainMenu->AddChoice(MenuChoice("Build", boost::bind(UI::ChangeMenu, Menu::ConstructionMenu())));
-		mainMenu->AddChoice(MenuChoice("Dismantle", boost::bind(UI::ChooseDismantle)));		
-		mainMenu->AddChoice(MenuChoice("Orders", boost::bind(UI::ChangeMenu, Menu::OrdersMenu())));
-		mainMenu->AddChoice(MenuChoice("Stock Manager", boost::bind(UI::ChangeMenu, StockManagerDialog::StocksDialog())));
-		mainMenu->AddChoice(MenuChoice("Jobs", boost::bind(UI::ChangeMenu, JobDialog::JobListingDialog())));
+
+		if (Game::Inst()->DevMode())
+		{
+			mainMenu->AddChoice({ "Dev", boost::bind(UI::ChangeMenu, Menu::DevMenu()) });
+		}
+
+		mainMenu->AddChoice({ "Build", boost::bind(UI::ChangeMenu, Menu::ConstructionMenu()) });
+		mainMenu->AddChoice({ "Dismantle", boost::bind(UI::ChooseDismantle) });
+		mainMenu->AddChoice({ "Orders", boost::bind(UI::ChangeMenu, Menu::OrdersMenu()) });
+		mainMenu->AddChoice({ "Stock Manager",
+							  boost::bind(UI::ChangeMenu, StockManagerDialog::StocksDialog()) });
+		mainMenu->AddChoice({ "Jobs", boost::bind(UI::ChangeMenu, JobDialog::JobListingDialog()) });
 #ifdef DEBUG
-		mainMenu->AddChoice(MenuChoice("NPC List", boost::bind(UI::ChangeMenu, NPCDialog::NPCListDialog())));
+		mainMenu->AddChoice({"NPC List", boost::bind(UI::ChangeMenu, NPCDialog::NPCListDialog())});
 #endif
-		mainMenu->AddChoice(MenuChoice("Announcements", boost::bind(UI::ChangeMenu, AnnounceDialog::AnnouncementsDialog())));
-		mainMenu->AddChoice(MenuChoice("Squads", boost::bind(UI::ChangeMenu, SquadsDialog::SquadDialog())));
-		mainMenu->AddChoice(MenuChoice("Territory", boost::bind(UI::ChangeMenu, Menu::TerritoryMenu())));
-		mainMenu->AddChoice(MenuChoice("Stats", boost::bind(&Game::DisplayStats, Game::Inst())));
-		mainMenu->AddChoice(MenuChoice("Main Menu", boost::bind(Game::ToMainMenu, true)));
-		mainMenu->AddChoice(MenuChoice("Quit", boost::bind(Game::Exit, true)));
+		mainMenu->AddChoice({ "Announcements",
+							  boost::bind(UI::ChangeMenu, AnnounceDialog::AnnouncementsDialog()) });
+		mainMenu->AddChoice({ "Squads", boost::bind(UI::ChangeMenu, SquadsDialog::SquadDialog()) });
+		mainMenu->AddChoice({ "Territory", boost::bind(UI::ChangeMenu, Menu::TerritoryMenu()) });
+		mainMenu->AddChoice({ "Stats", boost::bind(&Game::DisplayStats, Game::Inst()) });
+		mainMenu->AddChoice({ "Main Menu", boost::bind(Game::ToMainMenu, true) });
+		mainMenu->AddChoice({ "Quit", boost::bind(Game::Exit, true) });
 	}
 	return mainMenu;
 }
@@ -216,26 +225,33 @@ Menu* Menu::OrdersMenu() {
 	{
 		ordersMenu = new Menu(std::vector<MenuChoice>());
 
-		std::function<bool(Coordinate, Coordinate)> checkDitch = boost::bind(Game::CheckTileType, TILEDITCH, _1, _2);
+		std::function<bool(Coordinate, Coordinate)> checkDitch = boost::bind(Game::CheckTileType,
+				TILEDITCH, _1, _2);
 		std::function<void(Coordinate, Coordinate)> rectCall = boost::bind(Game::FillDitch, _1, _2);
 
-		ordersMenu->AddChoice(MenuChoice("Fell trees", boost::bind(UI::ChooseTreeFelling)));
-		ordersMenu->AddChoice(MenuChoice("Designate trees", boost::bind(UI::ChooseDesignateTree)));
-		ordersMenu->AddChoice(MenuChoice("Harvest wild plants", boost::bind(UI::ChoosePlantHarvest)));
-		ordersMenu->AddChoice(MenuChoice("Dig", boost::bind(UI::ChooseDig)));
-		ordersMenu->AddChoice(MenuChoice("Fill ditches",
-				boost::bind(UI::ChooseRectPlacement, rectCall, checkDitch, 178, "Fill ditches")));
-		ordersMenu->AddChoice(MenuChoice("Designate bog for iron", boost::bind(UI::ChooseDesignateBog)));
-		ordersMenu->AddChoice(MenuChoice("Gather items", boost::bind(UI::ChooseGatherItems)));
+		ordersMenu->AddChoice({ "Fell trees", boost::bind(UI::ChooseTreeFelling) });
+		ordersMenu->AddChoice({ "Designate trees", boost::bind(UI::ChooseDesignateTree) });
+		ordersMenu->AddChoice({ "Harvest wild plants", boost::bind(UI::ChoosePlantHarvest) });
+		ordersMenu->AddChoice({ "Dig", boost::bind(UI::ChooseDig) });
+		ordersMenu->AddChoice({ "Fill ditches",
+								boost::bind(UI::ChooseRectPlacement, rectCall, checkDitch, 178,
+										"Fill ditches") });
+		ordersMenu->AddChoice({ "Designate bog for iron", boost::bind(UI::ChooseDesignateBog) });
+		ordersMenu->AddChoice({ "Gather items", boost::bind(UI::ChooseGatherItems) });
 
-		std::function<bool(Coordinate, Coordinate)> checkTree = boost::bind(Game::CheckTree, _1, Coordinate(1, 1));
+		std::function<bool(Coordinate, Coordinate)> checkTree = boost::bind(Game::CheckTree, _1,
+				Coordinate(1, 1));
 		rectCall = boost::bind(&Camp::AddWaterZone, Camp::Inst(), _1, _2);
 		ordersMenu->AddChoice(
-				MenuChoice("Pour water", boost::bind(UI::ChooseRectPlacement, rectCall, checkTree, 'W', "Pour water")));
+				MenuChoice("Pour water",
+						boost::bind(UI::ChooseRectPlacement, rectCall, checkTree, 'W',
+								"Pour water")));
 
 		std::function<void(Coordinate)> call = boost::bind(&Game::StartFire, Game::Inst(), _1);
 		ordersMenu->AddChoice(
-				MenuChoice("Start fire", boost::bind(UI::ChooseNormalPlacement, call, checkTree, 'F', "Start fire")));
+				MenuChoice("Start fire",
+						boost::bind(UI::ChooseNormalPlacement, call, checkTree, 'F',
+								"Start fire")));
 
 		ordersMenu->AddChoice(MenuChoice("Undesignate", boost::bind(UI::ChooseUndesignate)));
 	}
