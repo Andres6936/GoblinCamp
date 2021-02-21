@@ -13,28 +13,25 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
-#include <string>
-
-#include <libtcod.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 
 #include "Goblin/User/Interface/Menu.hpp"
-#include "UI.hpp"
-#include "Goblin/User/Interface/UIComponents.hpp"
 #include "Goblin/User/Interface/JobDialog.hpp"
+#include "Goblin/User/Interface/SquadsDialog.hpp"
 #include "Goblin/User/Interface/AnnounceDialog.hpp"
 #include "Goblin/User/Interface/StockManagerDialog.hpp"
-#include "Goblin/User/Interface/SquadsDialog.hpp"
-#include "Goblin/User/Interface/NPCDialog.hpp"
+
+#include "UI.hpp"
+#include "Game.hpp"
 #include "Camp.hpp"
 #include "Map.hpp"
 #include "Weather.hpp"
 
-MenuChoice::MenuChoice(std::string ntext, std::function<void()> cb, bool nenabled, std::string ntooltip)
+MenuChoice::MenuChoice(std::string ntext, std::function<void()> cb, bool nenabled,
+		std::string ntooltip)
 {
 	label = ntext;
 	callback = cb;
