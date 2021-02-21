@@ -22,7 +22,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/shared_mutex.hpp>
-#include <boost/weak_ptr.hpp>
+#include <memory>
 
 #include "data/Serialization.hpp"
 #include "Job.hpp"

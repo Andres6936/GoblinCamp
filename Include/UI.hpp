@@ -19,7 +19,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <vector>
 #include <string>
 #include <boost/function.hpp>
-#include <boost/weak_ptr.hpp>
+#include <memory>
 
 #include "UI/Menu.hpp"
 #include "UI/SideBar.hpp"

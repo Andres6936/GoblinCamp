@@ -19,7 +19,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <list>
 #include <vector>
 
-#include <boost/weak_ptr.hpp>
+#include <memory>
 #include <boost/enable_shared_from_this.hpp>
 
 #include "data/Serialization.hpp"

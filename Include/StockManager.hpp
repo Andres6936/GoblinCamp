@@ -19,7 +19,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <set>
 #include <list>
 
-#include <boost/weak_ptr.hpp>
+#include <memory>
 #include "data/Serialization.hpp"
 
 class Construction;

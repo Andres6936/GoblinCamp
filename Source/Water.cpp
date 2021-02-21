@@ -19,7 +19,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <libtcod.hpp>
 #include <boost/lexical_cast.hpp>
-#include <boost/weak_ptr.hpp>
+#include <memory>
 
 #include "Random.hpp"
 #include "Logger.hpp"

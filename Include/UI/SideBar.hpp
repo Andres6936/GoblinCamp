@@ -18,7 +18,7 @@
 #include <libtcod.hpp>
 #include <vector>
 #include <string>
-#include <boost/weak_ptr.hpp>
+#include <memory>
 
 #include "Entity.hpp"
 
