@@ -15,20 +15,15 @@ You should have received a copy of the GNU General Public License
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
+#include <map>
 #include <string>
 #include <vector>
+#include <functional>
 
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
-#include <memory>
 #include <libtcod.hpp>
+#include <boost/bind.hpp>
 
-#include "Game.hpp"
-#include "UIComponents.hpp"
-#include "Grid.hpp"
-#include "Dialog.hpp"
-#include "UIList.hpp"
-#include "Frame.hpp"
+#include "Goblin/User/Interface/UIComponents.hpp"
 
 class MenuChoice
 {
