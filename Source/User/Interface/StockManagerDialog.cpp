@@ -13,25 +13,24 @@
  
  You should have received a copy of the GNU General Public License 
  along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
-#include <string>
-
-#include <libtcod.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
+#include <boost/bind.hpp>
 
+#include "Item.hpp"
+#include "StockManager.hpp"
 #include "Goblin/User/Interface/StockManagerDialog.hpp"
 #include "Goblin/User/Interface/ScrollPanel.hpp"
-#include "StockManager.hpp"
 #include "Goblin/User/Interface/Spinner.hpp"
 #include "Goblin/User/Interface/Label.hpp"
 #include "Goblin/User/Interface/TextBox.hpp"
 
 Dialog* StockManagerDialog::stocksDialog = 0;
 
-class StockPanel: public UIContainer {
+class StockPanel : public UIContainer
+{
 private:
 	ItemType itemType;
 	StockManagerDialog *owner;
