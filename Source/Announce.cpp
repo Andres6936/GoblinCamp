@@ -35,7 +35,7 @@ std::string AnnounceMessage::ToString()
 	{
 		result << " x" << counter;
 	}
-	if (target.X() > -1 && target.Y() > -1)
+	if (target.getX() > -1 && target.getY() > -1)
 	{
 		result << " " << (char)TCOD_CHAR_ARROW_E;
 	}
@@ -108,7 +108,7 @@ void Announce::Update()
 
 void Announce::AnnouncementClicked(AnnounceMessage* msg)
 {
-	if (msg->target.X() > -1 && msg->target.Y() > -1)
+	if (msg->target.getX() > -1 && msg->target.getY() > -1)
 	{
 		Game::Inst()->CenterOn(msg->target);
 	}
@@ -165,7 +165,7 @@ void Announce::Draw(Coordinate pos, int from, int amount, TCODConsole* console)
 	{
 		if (count++ >= from)
 		{
-			console->print(pos.X(), pos.Y() + count - from, (*ani)->ToString().c_str());
+			console->print(pos.getX(), pos.getY() + count - from, (*ani)->ToString().c_str());
 			if (count - from + 1 == amount) return;
 		}
 	}
@@ -174,7 +174,7 @@ void Announce::Draw(Coordinate pos, int from, int amount, TCODConsole* console)
 	{
 		if (count++ >= from)
 		{
-			console->print(pos.X(), pos.Y() + count - from, (*ani)->ToString().c_str());
+			console->print(pos.getX(), pos.getY() + count - from, (*ani)->ToString().c_str());
 			if (count - from + 1 == amount) return;
 		}
 	}
