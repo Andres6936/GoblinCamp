@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
-#include <boost/enable_shared_from_this.hpp>
+#include <memory>
 #include <libtcod.hpp>
 
 #include "Goblin/Geometry/Coordinate.hpp"
