@@ -18,7 +18,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <set>
 #include <string>
 #include <list>
-#include <boost/enable_shared_from_this.hpp>
+#include <memory>
 
 #include "UI/UIComponents.hpp"
 #include "UI/Tooltip.hpp"
