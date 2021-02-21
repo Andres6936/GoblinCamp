@@ -71,7 +71,6 @@ ADD_LIBRARY(GoblinCamp.Data
 ADD_LIBRARY(GoblinCamp::Data ALIAS GoblinCamp.Data)
 
 ADD_LIBRARY(GoblinCamp.Main
-        Source/Announce.cpp
         Source/Attack.cpp
         Source/Blood.cpp
         Source/Camp.cpp

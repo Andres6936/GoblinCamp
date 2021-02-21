@@ -1,4 +1,5 @@
 ADD_LIBRARY (GoblinCamp.UI
+        Interface/Announce.cpp
         Interface/AnnounceDialog.cpp
         Interface/ConstructionDialog.cpp
         Interface/DevConsole.cpp
