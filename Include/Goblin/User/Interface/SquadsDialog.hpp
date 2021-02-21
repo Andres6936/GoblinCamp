@@ -15,19 +15,17 @@
  along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
-#include <string>
-#include <vector>
 #include <list>
-
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
+#include <string>
 #include <memory>
+#include <utility>
 #include <libtcod.hpp>
 
-#include "UIComponents.hpp"
-#include "Dialog.hpp"
-#include "UIList.hpp"
-#include "Frame.hpp"
+#include "Squad.hpp"
+#include "Goblin/User/Interface/Frame.hpp"
+#include "Goblin/User/Interface/Dialog.hpp"
+#include "Goblin/User/Interface/UIList.hpp"
+#include "Goblin/User/Interface/UIComponents.hpp"
 
 class SquadsDialog : public Dialog
 {
