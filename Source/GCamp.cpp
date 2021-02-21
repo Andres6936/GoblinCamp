@@ -673,11 +673,13 @@ void SettingsMenu() {
 		TCODConsole::root->print(x + 1, currentY, "Tutorial");
 
 		currentY += 2;
-		TCODConsole::root->setDefaultForeground((translucentUI ? TCODColor::green : TCODColor::grey));
-		TCODConsole::root->print(x + 1, currentY, "Translucent UI");
+		TCODConsole::root->setDefaultForeground(
+				(translucentUI ? TCODColor::green : TCODColor::grey));
+		TCODConsole::root->print(x + 1, currentY, "Translucent User");
 
 		currentY += 2;
-		TCODConsole::root->setDefaultForeground((compressSaves ? TCODColor::green : TCODColor::grey));
+		TCODConsole::root->setDefaultForeground(
+				(compressSaves ? TCODColor::green : TCODColor::grey));
 		TCODConsole::root->print(x + 1, currentY, "Compress saves");
 
 		currentY += 2;

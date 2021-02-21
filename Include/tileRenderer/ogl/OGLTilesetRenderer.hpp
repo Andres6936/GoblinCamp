@@ -66,7 +66,7 @@ private:
 	unsigned int tilesTextureW;
 	unsigned int tilesTextureH;
 
-	// UI Font
+	// User Font
 	std::shared_ptr<const unsigned int> fontTexture;
 	unsigned int fontCharW, fontCharH;
 	unsigned int fontTexW, fontTexH;

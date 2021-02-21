@@ -184,27 +184,35 @@ void ShowDevConsole() {
 	int h = 25;
 	int x = 2;
 	int y = Game::Inst()->ScreenHeight() - h - 2;
-	
+
 	TCOD_key_t key;
 	TCOD_mouse_t mouse;
-	TCODConsole *c = TCODConsole::root;
-	
+	TCODConsole* c = TCODConsole::root;
+
 	bool clicked = false;
 	int scroll = 0;
 	unsigned maxScroll = 0;
-	
+
 	DevConsole console(w - 2);
-	
-	// I tried to use the UI code. Really. I can't wrap my head around it.
-	while (true) {
+
+	// I tried to use the User code. Really. I can't wrap my head around it.
+	while (true)
+	{
 		key = TCODConsole::checkForKeypress(TCOD_KEY_RELEASED);
-		if (key.vk == TCODK_ESCAPE) {
+		if (key.vk == TCODK_ESCAPE)
+		{
 			return;
-		} else if (key.vk == TCODK_ENTER || key.vk == TCODK_KPENTER) {
+		}
+		else if (key.vk == TCODK_ENTER || key.vk == TCODK_KPENTER)
+		{
 			maxScroll = console.Eval();
-		} else if (key.vk == TCODK_BACKSPACE && console.input.size() > 0) {
+		}
+		else if (key.vk == TCODK_BACKSPACE && console.input.size() > 0)
+		{
 			console.input.erase(console.input.end() - 1);
-		} else if (key.c >= ' ' && key.c <= '~') {
+		}
+		else if (key.c >= ' ' && key.c <= '~')
+		{
 			console.input.push_back(key.c);
 		}
 		
