@@ -17,11 +17,11 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <vector>
 #include <deque>
-#include <map>
+#include <string>
 #include <list>
 #include <set>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
+#include <memory>
+
 #include <boost/unordered_map.hpp>
 
 #include "Entity.hpp"
