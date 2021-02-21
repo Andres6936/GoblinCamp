@@ -17,13 +17,9 @@
 
 #include <string>
 #include <vector>
-
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
-#include <memory>
 #include <libtcod.hpp>
 
-#include "UIComponents.hpp"
+#include "Goblin/User/Interface/UIComponents.hpp"
 
 class Frame : public UIContainer
 {
