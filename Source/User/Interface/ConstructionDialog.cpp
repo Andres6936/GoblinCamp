@@ -13,19 +13,16 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
-
-#include <boost/algorithm/string.hpp>
 
 #include "Goblin/User/Interface/ConstructionDialog.hpp"
-#include "Goblin/User/Interface/Button.hpp"
 #include "Goblin/User/Interface/ScrollPanel.hpp"
+#include "Goblin/User/Interface/TextBox.hpp"
+#include "Goblin/User/Interface/Button.hpp"
 #include "Goblin/User/Interface/UIList.hpp"
 #include "Goblin/User/Interface/Label.hpp"
-#include "Goblin/User/Interface/UIComponents.hpp"
-#include "Goblin/User/Interface/Dialog.hpp"
-#include "Goblin/User/Interface/TextBox.hpp"
-#include "Goblin/User/Interface/Spinner.hpp"
+
+#include <boost/bind.hpp>
+
 #include "UI.hpp"
 #include "Game.hpp"
 #include "Stockpile.hpp"
