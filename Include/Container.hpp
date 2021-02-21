@@ -16,9 +16,8 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
 #include <set>
-
-#include <boost/weak_ptr.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
+#include <vector>
 
 #include "Item.hpp"
 #include "data/Serialization.hpp"
