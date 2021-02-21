@@ -15,15 +15,10 @@
  along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
-#include <string>
-#include <vector>
-
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
-#include <memory>
+#include <functional>
 #include <libtcod.hpp>
 
-#include "UIComponents.hpp"
+#include "Goblin/User/Interface/UIComponents.hpp"
 
 class Spinner : public Drawable
 {
