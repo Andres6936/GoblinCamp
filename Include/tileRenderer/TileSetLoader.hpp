@@ -16,7 +16,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <filesystem>
 #include <libtcod.hpp>
 #include "tileRenderer/TileSetRenderer.hpp"

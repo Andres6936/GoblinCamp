@@ -17,7 +17,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <boost/noncopyable.hpp>
 #include <vector>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <boost/function.hpp>
 #include "Goblin/Geometry/Coordinate.hpp"
 #include <libtcod.hpp>

@@ -19,7 +19,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <vector>
 #include <string>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "Water.hpp"
 #include "Filth.hpp"
