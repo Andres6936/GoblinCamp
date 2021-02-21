@@ -27,36 +27,58 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #define ANNOUNCE_MAX_LENGTH 71
 #define ANNOUNCE_HEIGHT 10
 
-class AnnounceMessage {
+class AnnounceMessage
+{
+
 public:
-	AnnounceMessage(std::string, TCODColor = TCODColor::white, Coordinate = Coordinate(-1,-1));
+
+	AnnounceMessage(std::string, TCODColor = TCODColor::white, Coordinate = Coordinate(-1, -1));
+
 	std::stringstream result;
 	std::string msg;
 	int counter;
 	TCODColor color;
 	Coordinate target;
+
 	std::string ToString();
 };
 
-class Announce {
+class Announce
+{
+
 private:
+
 	Announce();
+
 	static Announce* instance;
 	std::deque<AnnounceMessage*> messageQueue;
 	std::deque<AnnounceMessage*> history;
 	int timer;
 	unsigned int length, height, top;
+
 	void AnnouncementClicked(AnnounceMessage*);
+
 public:
+
 	static Announce* Inst();
+
 	static void Reset();
+
 	void AddMsg(std::string, TCODColor = TCODColor::white, const Coordinate& = undefined);
+
 	void Update();
+
 	MenuResult Update(int, int, bool);
+
 	void Draw(TCODConsole*);
+
 	void Draw(Coordinate, int from, int amount, TCODConsole*);
+
 	int AnnounceAmount();
+
 	void EmptyMessageQueue();
+
 	Coordinate CurrentCoordinate();
+
 	void AnnouncementClicked(int);
 };
