@@ -31,7 +31,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "UI.hpp"
 #include "UI/TextBox.hpp"
 #include "UI/Frame.hpp"
-#include "Announce.hpp"
+#include "Goblin/User/Interface/Announce.hpp"
 #include "MapMarker.hpp"
 
 SquadsDialog* SquadsDialog::squadDialog = 0;

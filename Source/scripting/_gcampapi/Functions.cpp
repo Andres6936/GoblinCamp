@@ -20,7 +20,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 namespace py = boost::python;
 
 #include "scripting/_gcampapi/Functions.hpp"
-#include "Announce.hpp"
+#include "Goblin/User/Interface/Announce.hpp"
 #include "scripting/API.hpp"
 #include "Version.hpp"
 #include "UI/MessageBox.hpp"

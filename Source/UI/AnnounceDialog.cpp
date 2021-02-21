@@ -24,7 +24,7 @@
 
 #include "UI/AnnounceDialog.hpp"
 #include "UI/ScrollPanel.hpp"
-#include "Announce.hpp"
+#include "Goblin/User/Interface/Announce.hpp"
 
 void AnnounceDialog::Draw(int x, int y, int scroll, int width, int height, TCODConsole* console) {
 	Announce::Inst()->Draw(Coordinate(x + 1, y), scroll, height, console);

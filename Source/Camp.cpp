@@ -22,7 +22,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Camp.hpp"
 #include "Goblin/Geometry/Coordinate.hpp"
 #include "Game.hpp"
-#include "Announce.hpp"
+#include "Goblin/User/Interface/Announce.hpp"
 #include "scripting/Event.hpp"
 #include "Random.hpp"
 #include "JobManager.hpp"

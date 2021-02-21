@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "stdafx.hpp"
 
-#include "Announce.hpp"
+#include "Goblin/User/Interface/Announce.hpp"
 #include "GCamp.hpp"
 #include "Goblin/Geometry/Coordinate.hpp"
 #include "Game.hpp"

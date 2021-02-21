@@ -23,7 +23,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "GCamp.hpp"
 #include "StockManager.hpp"
 #include "JobManager.hpp"
-#include "Announce.hpp"
+#include "Goblin/User/Interface/Announce.hpp"
 #include "Stats.hpp"
 #include "Camp.hpp"
 

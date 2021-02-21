@@ -22,7 +22,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "iostream"
 #endif
 #include "Random.hpp"
-#include "Announce.hpp"
+#include "Goblin/User/Interface/Announce.hpp"
 #include "Events.hpp"
 #include "Game.hpp"
 #include "GCamp.hpp"

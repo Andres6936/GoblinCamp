@@ -40,7 +40,7 @@ namespace py = boost::python;
 #include "JobManager.hpp"
 #include "Logger.hpp"
 #include "Map.hpp"
-#include "Announce.hpp"
+#include "Goblin/User/Interface/Announce.hpp"
 #include "GCamp.hpp"
 #include "StockManager.hpp"
 #include "UI.hpp"

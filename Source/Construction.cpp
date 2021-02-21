@@ -35,7 +35,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include "Random.hpp"
 #include "Construction.hpp"
-#include "Announce.hpp"
+#include "Goblin/User/Interface/Announce.hpp"
 #include "Logger.hpp"
 #include "Game.hpp"
 #include "Map.hpp"

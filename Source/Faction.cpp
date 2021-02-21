@@ -27,7 +27,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Game.hpp"
 #include "Camp.hpp"
 #include "Random.hpp"
-#include "Announce.hpp"
+#include "Goblin/User/Interface/Announce.hpp"
 
 #include <boost/serialization/vector.hpp>
 
