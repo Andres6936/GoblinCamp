@@ -20,6 +20,7 @@
 #include <utility>
 #include <libtcod.hpp>
 
+#include "NPC.hpp"
 #include "Entity.hpp"
 
 class SideBar

@@ -95,7 +95,5 @@ public:
 
 	static Menu* TerritoryMenu();
 
-	static ItemCategory WeaponChoiceDialog();
-
 	void GetTooltip(int, int, Tooltip*);
 };

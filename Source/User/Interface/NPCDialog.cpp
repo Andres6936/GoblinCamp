@@ -13,23 +13,22 @@
  
  You should have received a copy of the GNU General Public License 
  along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
 #include <string>
 
-#include <libtcod.hpp>
-#include <boost/lexical_cast.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/format.hpp>
-
+#include "Game.hpp"
+#include "Goblin/User/Interface/UIList.hpp"
 #include "Goblin/User/Interface/NPCDialog.hpp"
 #include "Goblin/User/Interface/ScrollPanel.hpp"
-#include "Goblin/User/Interface/UIList.hpp"
 
 Dialog* NPCDialog::npcListDialog = 0;
-Dialog* NPCDialog::NPCListDialog() {
-	if (!npcListDialog) {
-		npcListDialog = new Dialog(new NPCDialog(), "NPCs", Game::Inst()->ScreenWidth() - 20, Game::Inst()->ScreenHeight() - 20);
+
+Dialog* NPCDialog::NPCListDialog()
+{
+	if (!npcListDialog)
+	{
+		npcListDialog = new Dialog(new NPCDialog(), "NPCs", Game::Inst()->ScreenWidth() - 20,
+				Game::Inst()->ScreenHeight() - 20);
 	}
 	return npcListDialog;
 }

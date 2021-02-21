@@ -19,9 +19,9 @@
 #include <utility>
 #include <libtcod.hpp>
 
-#include "Goblin/User/Interface/UIComponents.hpp"
 #include "NPC.hpp"
-#include "Dialog.hpp"
+#include "Goblin/User/Interface/Dialog.hpp"
+#include "Goblin/User/Interface/UIComponents.hpp"
 
 class NPCDialog : public UIContainer
 {
