@@ -15,10 +15,10 @@
  along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
-#include <libtcod.hpp>
-#include <vector>
 #include <string>
 #include <memory>
+#include <utility>
+#include <libtcod.hpp>
 
 #include "Entity.hpp"
 
