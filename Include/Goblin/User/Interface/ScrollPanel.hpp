@@ -25,6 +25,10 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include "UIComponents.hpp"
 
+/**
+ * @brief A container class which implements automatic horizontal and/or
+ * vertical scrolling for a single child component.
+ */
 class ScrollPanel : public Drawable
 {
 private:
