@@ -18,22 +18,35 @@
 #include <string>
 #include <vector>
 
-struct TooltipEntry {
+struct TooltipEntry
+{
 	std::string text;
 	TCODColor color;
-	TooltipEntry(std::string ntext, TCODColor ncolor): text(ntext), color(ncolor) {}
+
+	TooltipEntry(std::string ntext, TCODColor ncolor) : text(ntext), color(ncolor)
+	{
+	}
 };
 
-class Tooltip {
+class Tooltip
+{
 private:
 	std::vector<TooltipEntry> entries;
-	Tooltip(): entries(std::vector<TooltipEntry>()) {}
+
+	Tooltip() : entries(std::vector<TooltipEntry>())
+	{
+	}
+
 	static Tooltip* instance;
 	int offsetX, offsetY;
 public:
 	static Tooltip* Inst();
+
 	void Clear();
+
 	void AddEntry(TooltipEntry entry);
-	void Draw(int x, int y, TCODConsole *console);
+
+	void Draw(int x, int y, TCODConsole* console);
+
 	void OffsetPosition(int x, int y);
 };

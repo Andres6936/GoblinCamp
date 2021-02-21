@@ -47,7 +47,8 @@ private:
 
 public:
 	SquadsDialog(Drawable* ncontents, std::string ntitle, int nwidth, int nheight) :
-			Dialog(ncontents, ntitle, nwidth, nheight), squadName(""), squadMembers(1), squadPriority(0)
+			Dialog(ncontents, ntitle, nwidth, nheight), squadName(""), squadMembers(1),
+			squadPriority(0)
 	{
 	}
 
@@ -55,7 +56,8 @@ public:
 
 	static SquadsDialog* SquadDialog();
 
-	static void DrawSquad(std::pair<std::string, std::shared_ptr<Squad> >, int, int, int, int, bool, TCODConsole*);
+	static void DrawSquad(std::pair<std::string, std::shared_ptr<Squad> >, int, int, int, int, bool,
+			TCODConsole*);
 
 	static void GetSquadTooltip(std::pair<std::string, std::shared_ptr<Squad> >, Tooltip*);
 
@@ -78,9 +80,14 @@ public:
 	void SelectWeapon();
 
 	void Rearm();
+
 	std::string SelectedSquadArmor();
+
 	void SelectArmor();
+
 	void Reequip();
+
 	virtual void Close();
+
 	virtual void Open();
 };

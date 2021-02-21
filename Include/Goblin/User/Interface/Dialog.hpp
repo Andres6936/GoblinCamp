@@ -26,16 +26,26 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "UIComponents.hpp"
 #include "Game.hpp"
 
-class Dialog: public Panel {
+class Dialog : public Panel
+{
 protected:
 	std::string title;
-	Drawable *contents;
+	Drawable* contents;
 public:
-	Dialog(Drawable *ncontents, std::string ntitle, int nwidth, int nheight);
-	~Dialog() { delete contents; }
-	void Draw(int, int, TCODConsole *);
+	Dialog(Drawable* ncontents, std::string ntitle, int nwidth, int nheight);
+
+	~Dialog()
+	{
+		delete contents;
+	}
+
+	void Draw(int, int, TCODConsole*);
+
 	MenuResult Update(int, int, bool, TCOD_key_t);
-	void GetTooltip(int, int, Tooltip *);
+
+	void GetTooltip(int, int, Tooltip*);
+
 	void SetTitle(std::string ntitle);
+
 	void SetHeight(int nheight);
 };

@@ -34,7 +34,8 @@ protected:
 	bool dismiss;
 	std::function<void()> callback;
 public:
-	Button(std::string ntext, std::function<void()> ncallback, int x, int y, int nwidth, char nshortcut = 0,
+	Button(std::string ntext, std::function<void()> ncallback, int x, int y, int nwidth,
+			char nshortcut = 0,
 			bool ndismiss = false) :
 			Drawable(x, y, nwidth, 0),
 			text(ntext),
@@ -55,7 +56,8 @@ class LiveButton : public Button
 private:
 	std::function<std::string()> textFunc;
 public:
-	LiveButton(std::function<std::string()> ntextFunc, std::function<void()> ncallback, int x, int y, int nwidth,
+	LiveButton(std::function<std::string()> ntextFunc, std::function<void()> ncallback, int x,
+			int y, int nwidth,
 			char nshortcut = 0) :
 			Button("", ncallback, x, y, nwidth, nshortcut), textFunc(ntextFunc)
 	{
@@ -69,7 +71,8 @@ class ToggleButton : public Button
 private:
 	std::function<bool()> isOn;
 public:
-	ToggleButton(std::string ntext, std::function<void()> ncallback, std::function<bool()> nisOn, int x, int y,
+	ToggleButton(std::string ntext, std::function<void()> ncallback, std::function<bool()> nisOn,
+			int x, int y,
 			int nwidth, char nshortcut = 0) :
 			Button(ntext, ncallback, x, y, nwidth, nshortcut), isOn(nisOn)
 	{

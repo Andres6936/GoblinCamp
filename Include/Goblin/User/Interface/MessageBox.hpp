@@ -23,6 +23,7 @@ class MessageBox
 {
 public:
 	static void
-	ShowMessageBox(std::string text, std::function<void()> firstAction = NULL, std::string firstButton = "Ok",
+	ShowMessageBox(std::string text, std::function<void()> firstAction = NULL,
+			std::string firstButton = "Ok",
 			std::function<void()> secondAction = NULL, std::string secondButton = "");
 };

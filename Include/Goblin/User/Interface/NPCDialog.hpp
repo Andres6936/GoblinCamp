@@ -32,7 +32,8 @@ class NPCDialog : public UIContainer
 public:
 	NPCDialog();
 
-	static void DrawNPC(std::pair<int, std::shared_ptr<NPC> >, int, int, int, int, bool, TCODConsole*);
+	static void
+	DrawNPC(std::pair<int, std::shared_ptr<NPC> >, int, int, int, int, bool, TCODConsole*);
 
 	static Dialog* npcListDialog;
 

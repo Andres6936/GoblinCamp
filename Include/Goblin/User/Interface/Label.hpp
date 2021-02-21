@@ -25,14 +25,18 @@
 
 #include "UIComponents.hpp"
 
-class Label: public Drawable {
+class Label : public Drawable
+{
 private:
 	std::string text;
 	TCOD_alignment_t align;
 public:
 	Label(std::string ntext, int x, int y, TCOD_alignment_t nalign = TCOD_CENTER) :
-	Drawable(x, y, 0, 1), text(ntext), align(nalign) {}
-	void Draw(int, int, TCODConsole *);
+			Drawable(x, y, 0, 1), text(ntext), align(nalign)
+	{
+	}
+
+	void Draw(int, int, TCODConsole*);
 };
 
 class LiveLabel : public Drawable
@@ -41,7 +45,8 @@ private:
 	std::function<std::string()> text;
 	TCOD_alignment_t align;
 public:
-	LiveLabel(std::function<std::string()> ntext, int x, int y, TCOD_alignment_t nalign = TCOD_CENTER) :
+	LiveLabel(std::function<std::string()> ntext, int x, int y,
+			TCOD_alignment_t nalign = TCOD_CENTER) :
 			Drawable(x, y, 0, 1), text(ntext), align(nalign)
 	{
 	}

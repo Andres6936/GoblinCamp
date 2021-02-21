@@ -25,18 +25,28 @@
 
 #include "UIComponents.hpp"
 
-class Grid: public Drawable, public Scrollable {
+class Grid : public Drawable, public Scrollable
+{
 private:
 	int cols;
-	std::vector<Drawable *> contents;
+	std::vector<Drawable*> contents;
 public:
-	Grid(std::vector<Drawable *> ncontents, int ncols, int x, int y, int nwidth, int nheight):
-		Drawable(x, y, nwidth, nheight), cols(ncols), contents(ncontents) {}
-	void AddComponent(Drawable *component);
+	Grid(std::vector<Drawable*> ncontents, int ncols, int x, int y, int nwidth, int nheight) :
+			Drawable(x, y, nwidth, nheight), cols(ncols), contents(ncontents)
+	{
+	}
+
+	void AddComponent(Drawable* component);
+
 	void RemoveAll();
-	void Draw(int, int, TCODConsole *);
-	void Draw(int x, int y, int scroll, int width, int height, TCODConsole *);
+
+	void Draw(int, int, TCODConsole*);
+
+	void Draw(int x, int y, int scroll, int width, int height, TCODConsole*);
+
 	int TotalHeight();
+
 	MenuResult Update(int, int, bool, TCOD_key_t);
-	void GetTooltip(int, int, Tooltip *);
+
+	void GetTooltip(int, int, Tooltip*);
 };

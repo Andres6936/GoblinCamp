@@ -37,7 +37,8 @@ public:
 	{
 	}
 
-	TextBox(int x, int y, int nwidth, std::function<std::string()> ngetter, std::function<void(std::string)> nsetter) :
+	TextBox(int x, int y, int nwidth, std::function<std::string()> ngetter,
+			std::function<void(std::string)> nsetter) :
 			Drawable(x, y, nwidth, 1), value(0), getter(ngetter), setter(nsetter)
 	{
 	}

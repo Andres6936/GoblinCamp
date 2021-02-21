@@ -25,12 +25,21 @@
 
 #include "UIComponents.hpp"
 
-class Frame: public UIContainer {
+class Frame : public UIContainer
+{
 private:
 	std::string title;
 public:
-	Frame(std::string ntitle, std::vector<Drawable *> ncomponents, int x, int y, int nwidth, int nheight):
-		UIContainer(ncomponents, x, y, nwidth, nheight), title(ntitle) {}
-	void Draw(int, int, TCODConsole *);
-	void SetTitle(std::string ntitle) { title = ntitle; }
+	Frame(std::string ntitle, std::vector<Drawable*> ncomponents, int x, int y, int nwidth,
+			int nheight) :
+			UIContainer(ncomponents, x, y, nwidth, nheight), title(ntitle)
+	{
+	}
+
+	void Draw(int, int, TCODConsole*);
+
+	void SetTitle(std::string ntitle)
+	{
+		title = ntitle;
+	}
 };

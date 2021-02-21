@@ -25,23 +25,34 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include "UIComponents.hpp"
 
-class ScrollPanel: public Drawable {
+class ScrollPanel : public Drawable
+{
 private:
 	int scroll, scrollBar;
 	int step;
 	bool drawFrame;
-	Scrollable *contents;
+	Scrollable* contents;
 public:
 	ScrollPanel(
-		int x, int y, int nwidth, int nheight, Scrollable *ncontents, bool ndrawFrame = true, int nstep = 1
-	):
-		Drawable(x, y, nwidth, nheight),
-		scroll(0), scrollBar(0),
-		step(nstep),
-		drawFrame(ndrawFrame),
-		contents(ncontents) {}
-	~ScrollPanel() { delete contents; }
-	void Draw(int, int, TCODConsole *);
+			int x, int y, int nwidth, int nheight, Scrollable* ncontents, bool ndrawFrame = true,
+			int nstep = 1
+	) :
+			Drawable(x, y, nwidth, nheight),
+			scroll(0), scrollBar(0),
+			step(nstep),
+			drawFrame(ndrawFrame),
+			contents(ncontents)
+	{
+	}
+
+	~ScrollPanel()
+	{
+		delete contents;
+	}
+
+	void Draw(int, int, TCODConsole*);
+
 	MenuResult Update(int, int, bool, TCOD_key_t);
-	void GetTooltip(int, int, Tooltip *);
+
+	void GetTooltip(int, int, Tooltip*);
 };

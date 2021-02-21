@@ -26,11 +26,18 @@
 #include "UIComponents.hpp"
 #include "Dialog.hpp"
 
-class JobDialog : public Scrollable {
+class JobDialog : public Scrollable
+{
 public:
-	JobDialog() {}
+	JobDialog()
+	{
+	}
+
 	void Draw(int, int, int, int, int, TCODConsole*);
+
 	int TotalHeight();
+
 	static Dialog* jobListingDialog;
+
 	static Dialog* JobListingDialog();
 };

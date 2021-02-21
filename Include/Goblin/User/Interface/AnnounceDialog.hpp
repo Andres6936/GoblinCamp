@@ -26,12 +26,20 @@
 #include "UIComponents.hpp"
 #include "Dialog.hpp"
 
-class AnnounceDialog : public Scrollable {
+class AnnounceDialog : public Scrollable
+{
 public:
-	AnnounceDialog() {}
+	AnnounceDialog()
+	{
+	}
+
 	void Draw(int, int, int, int, int, TCODConsole*);
+
 	MenuResult Update(int, int, bool, TCOD_key_t);
+
 	int TotalHeight();
+
 	static Dialog* announcementsDialog;
+
 	static Dialog* AnnouncementsDialog();
 };

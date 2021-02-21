@@ -25,7 +25,7 @@
 
 #include "Goblin/User/Interface/Tooltip.hpp"
 
-template <class T, class C = std::vector<T> >
+template<class T, class C = std::vector<T> >
 class UIList : public Drawable, public Scrollable
 {
 private:
@@ -45,56 +45,76 @@ public:
 			Drawable(x, y, nwidth, nheight),
 			items(nitems),
 			selectable(nselectable),
-		selection(-1),
-		draw(ndraw),
-		getTooltip(ntooltip),
-		onclick(nonclick) {}
-	void Draw(int, int, TCODConsole *);
-	void Draw(int x, int y, int scroll, int width, int height, TCODConsole *);
+			selection(-1),
+			draw(ndraw),
+			getTooltip(ntooltip),
+			onclick(nonclick)
+	{
+	}
+
+	void Draw(int, int, TCODConsole*);
+
+	void Draw(int x, int y, int scroll, int width, int height, TCODConsole*);
+
 	int TotalHeight();
+
 	MenuResult Update(int, int, bool, TCOD_key_t);
-	void GetTooltip(int, int, Tooltip *);
+
+	void GetTooltip(int, int, Tooltip*);
+
 	int Selected();
+
 	void Select(int);
 };
 
-template <class T, class C>
-void UIList<T, C>::Draw(int x, int y, TCODConsole *console) {
+template<class T, class C>
+void UIList<T, C>::Draw(int x, int y, TCODConsole* console)
+{
 	console->setAlignment(TCOD_LEFT);
 	int count = 0;
-	for(typename C::iterator it = items->begin(); it != items->end() && count < height; it++) {
+	for (typename C::iterator it = items->begin(); it != items->end() && count < height; it++)
+	{
 		T item = *it;
 		draw(item, count, x + _x, y + _y + count, width, selection == count, console);
 		count++;
 	}
 }
 
-template <class T, class C>
-void UIList<T, C>::Draw(int x, int y, int scroll, int _width, int _height, TCODConsole *console) {
+template<class T, class C>
+void UIList<T, C>::Draw(int x, int y, int scroll, int _width, int _height, TCODConsole* console)
+{
 	console->setAlignment(TCOD_LEFT);
 	int count = 0;
-	for(typename C::iterator it = items->begin(); it != items->end(); it++) {
+	for (typename C::iterator it = items->begin(); it != items->end(); it++)
+	{
 		T item = *it;
-		if (count >= scroll && count < scroll + _height) {
+		if (count >= scroll && count < scroll + _height)
+		{
 			draw(item, count, x, y + (count - scroll), _width, selection == count, console);
 		}
 		count++;
 	}
 }
 
-template <class T, class C>
-int UIList<T, C>::TotalHeight() {
+template<class T, class C>
+int UIList<T, C>::TotalHeight()
+{
 	return items->size();
 }
 
-template <class T, class C>
-MenuResult UIList<T, C>::Update(int x, int y, bool clicked, TCOD_key_t key) {
-	if (x >= _x && x < _x + width && y >= _y && y < _y + height) {
-		if (clicked) {
-			if (selectable) {
+template<class T, class C>
+MenuResult UIList<T, C>::Update(int x, int y, bool clicked, TCOD_key_t key)
+{
+	if (x >= _x && x < _x + width && y >= _y && y < _y + height)
+	{
+		if (clicked)
+		{
+			if (selectable)
+			{
 				selection = y - _y;
 			}
-			if (onclick) {
+			if (onclick)
+			{
 				onclick(y - _y);
 			}
 		}
@@ -103,12 +123,17 @@ MenuResult UIList<T, C>::Update(int x, int y, bool clicked, TCOD_key_t key) {
 	return NOMENUHIT;
 }
 
-template <class T, class C>
-void UIList<T, C>::GetTooltip(int x, int y, Tooltip *tooltip) {
-	if(getTooltip) {
-		if (x >= _x && x < _x + width && y >= _y && y < _y + width && y - _y < (signed int)items->size()) {
+template<class T, class C>
+void UIList<T, C>::GetTooltip(int x, int y, Tooltip* tooltip)
+{
+	if (getTooltip)
+	{
+		if (x >= _x && x < _x + width && y >= _y && y < _y + width &&
+			y - _y < (signed int)items->size())
+		{
 			typename C::iterator it = items->begin();
-			for(int i = 0; i < (y - _y); i++) {
+			for (int i = 0; i < (y - _y); i++)
+			{
 				it++;
 			}
 			getTooltip(*it, tooltip);
@@ -116,15 +141,18 @@ void UIList<T, C>::GetTooltip(int x, int y, Tooltip *tooltip) {
 	}
 }
 
-template <class T, class C>
-int UIList<T, C>::Selected() {
-	if(selection >= 0 && selection < (signed int)items->size()) {
+template<class T, class C>
+int UIList<T, C>::Selected()
+{
+	if (selection >= 0 && selection < (signed int)items->size())
+	{
 		return selection;
 	}
 	return -1;
 }
 
-template <class T, class C>
-void UIList<T, C>::Select(int i) {
+template<class T, class C>
+void UIList<T, C>::Select(int i)
+{
 	selection = i;
 }
