@@ -25,7 +25,8 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include "UI/Tooltip.hpp"
 
-enum MenuResult {
+enum MenuResult
+{
 	MENUHIT = 1,
 	NOMENUHIT = 2,
 	KEYRESPOND = 4,
@@ -34,26 +35,45 @@ enum MenuResult {
 
 class Drawable
 {
+
 protected:
-	int _x, _y, width, height;
+
+	int _x;
+
+	int _y;
+
+	int width;
+
+	int height;
+
 	std::function<bool()> visible;
+
 	std::function<void(int, int, Tooltip*)> getTooltip;
+
 public:
+
+	// Constructor
+
 	Drawable(int x, int y, int nwidth, int nheight) :
 			_x(x), _y(y), width(nwidth), height(nheight), visible(0), getTooltip(0)
 	{
 	}
 
-	virtual ~Drawable()
-	{
-	}
+	// Destructor
+	virtual ~Drawable() = default;
+
+	// Abstract Methods
 
 	virtual void Draw(int, int, TCODConsole*) = 0;
+
+	// Virtual Methods
 
 	virtual MenuResult Update(int x, int y, bool clicked, TCOD_key_t key)
 	{
 		return (x >= _x && x < _x + height && y >= _y && y < _y + height) ? MENUHIT : NOMENUHIT;
 	}
+
+	// Getters
 
 	int Height()
 	{
@@ -65,14 +85,16 @@ public:
 		return !visible || visible();
 	}
 
-	void SetVisible(std::function<bool()> nvisible)
-	{
-		visible = nvisible;
-	}
-
 	virtual void GetTooltip(int x, int y, Tooltip* tooltip)
 	{
 		if (getTooltip) getTooltip(x, y, tooltip);
+	}
+
+	// Setters
+
+	void SetVisible(std::function<bool()> nvisible)
+	{
+		visible = nvisible;
 	}
 
 	void SetTooltip(std::function<void(int, int, Tooltip*)> ntooltip)
@@ -81,34 +103,71 @@ public:
 	}
 };
 
-class Scrollable {
+class Scrollable
+{
+
 public:
-	virtual ~Scrollable() {}
-	virtual void Draw(int x, int y, int scroll, int width, int height, TCODConsole *) = 0;
+
+	// Destructor
+
+	virtual ~Scrollable()
+	{
+	}
+
+	virtual void Draw(int x, int y, int scroll, int width, int height, TCODConsole*) = 0;
+
 	virtual int TotalHeight() = 0;
-	virtual MenuResult Update(int x, int y, bool clicked, TCOD_key_t key) { return NOMENUHIT; }
-	virtual void GetTooltip(int x, int y, Tooltip *tooltip) {};
+
+	virtual MenuResult Update(int x, int y, bool clicked, TCOD_key_t key)
+	{
+		return NOMENUHIT;
+	}
+
+	virtual void GetTooltip(int x, int y, Tooltip* tooltip)
+	{
+	};
 };
 
-class UIContainer: public Drawable {
+class UIContainer : public Drawable
+{
+
 protected:
-	std::vector<Drawable *> components;
+
+	std::vector<Drawable*> components;
+
 public:
-	UIContainer(std::vector<Drawable *> ncomponents, int nx, int ny, int nwidth, int nheight):
-	  Drawable(nx, ny, nwidth, nheight), components(ncomponents) {}
+
+	UIContainer(std::vector<Drawable*> ncomponents, int nx, int ny, int nwidth, int nheight) :
+			Drawable(nx, ny, nwidth, nheight), components(ncomponents)
+	{
+	}
+
 	~UIContainer();
-	void AddComponent(Drawable *component);
-	virtual void Draw(int, int, TCODConsole *);
+
+	void AddComponent(Drawable* component);
+
+	virtual void Draw(int, int, TCODConsole*);
+
 	virtual MenuResult Update(int, int, bool, TCOD_key_t);
-	virtual void GetTooltip(int, int, Tooltip *);
+
+	virtual void GetTooltip(int, int, Tooltip*);
 };
 
-class Panel: public Drawable {
+class Panel : public Drawable
+{
+
 public:
-	Panel(int nwidth, int nheight):
-	  Drawable(0, 0, nwidth, nheight) {}
+
+	Panel(int nwidth, int nheight) :
+			Drawable(0, 0, nwidth, nheight)
+	{
+	}
+
 	void ShowModal();
+
 	virtual void Open();
+
 	virtual void Close();
+
 	virtual void selected(int);
 };
