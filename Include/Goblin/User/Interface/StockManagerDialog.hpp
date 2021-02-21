@@ -16,16 +16,10 @@
 #pragma once
 
 #include <string>
-#include <vector>
-
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
-#include <memory>
 #include <libtcod.hpp>
 
-#include "UIComponents.hpp"
-#include "Dialog.hpp"
-#include "Grid.hpp"
+#include "Goblin/User/Interface/Dialog.hpp"
+#include "Goblin/User/Interface/Grid.hpp"
 
 class StockManagerDialog : public Dialog
 {
