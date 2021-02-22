@@ -19,7 +19,7 @@
 #include <functional>
 #include <libtcod.hpp>
 
-#include "Goblin/User/Interface/UIComponents.hpp"
+#include "Goblin/User/Interface/Drawable.hpp"
 
 class Button : public Drawable
 {
