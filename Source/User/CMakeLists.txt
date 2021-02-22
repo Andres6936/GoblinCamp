@@ -12,6 +12,7 @@ ADD_LIBRARY (GoblinCamp.UI
         Interface/Menu.cpp
         Interface/MessageBox.cpp
         Interface/NPCDialog.cpp
+        Interface/Panel.cpp
         Interface/ScrollPanel.cpp
         Interface/SideBar.cpp
         Interface/Spinner.cpp
@@ -19,7 +20,7 @@ ADD_LIBRARY (GoblinCamp.UI
         Interface/StockManagerDialog.cpp
         Interface/TextBox.cpp
         Interface/Tooltip.cpp
-        Interface/Drawable.cpp
+        Interface/UIContainer.cpp
         )
 
 ADD_LIBRARY(GoblinCamp::UI ALIAS GoblinCamp.UI)
