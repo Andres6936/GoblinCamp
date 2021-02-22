@@ -17,7 +17,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <libtcod.hpp>
 
-#include "Goblin/User/Interface/Drawable.hpp"
+#include <Goblin/User/Interface/Abstract/Drawable.hpp>
 
 /**
  * @brief A container class which implements automatic horizontal and/or

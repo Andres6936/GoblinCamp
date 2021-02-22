@@ -20,7 +20,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <list>
 #include <memory>
 
-#include "Goblin/User/Interface/Drawable.hpp"
+#include <Goblin/User/Interface/Panel.hpp>
 #include "Goblin/User/Interface/Tooltip.hpp"
 
 #include "Goblin/Geometry/Coordinate.hpp"

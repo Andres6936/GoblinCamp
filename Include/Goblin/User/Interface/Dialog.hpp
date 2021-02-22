@@ -18,7 +18,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <string>
 #include <libtcod.hpp>
 
-#include "Goblin/User/Interface/Drawable.hpp"
+#include <Goblin/User/Interface/Abstract/Drawable.hpp>
 
 class Dialog : public Panel
 {

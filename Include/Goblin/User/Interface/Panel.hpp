@@ -4,7 +4,7 @@
 #define GOBLINCAMP_PANEL_HPP
 
 #include <libtcod.hpp>
-#include <Goblin/User/Interface/Drawable.hpp>
+#include <Goblin/User/Interface/Abstract/Drawable.hpp>
 
 class Panel : public Drawable
 {
