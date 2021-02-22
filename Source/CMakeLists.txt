@@ -1,3 +1,4 @@
+ADD_SUBDIRECTORY(Config/)
 ADD_SUBDIRECTORY(Geometry/)
 ADD_SUBDIRECTORY(tileRenderer/)
 ADD_SUBDIRECTORY(scripting/)
