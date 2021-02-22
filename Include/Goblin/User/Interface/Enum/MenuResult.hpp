@@ -1,0 +1,14 @@
+// Joan Andrés (@Andres6936) Github.
+
+#ifndef GOBLINCAMP_MENURESULT_HPP
+#define GOBLINCAMP_MENURESULT_HPP
+
+enum MenuResult
+{
+	MENUHIT = 1,
+	NOMENUHIT = 2,
+	KEYRESPOND = 4,
+	DISMISS = 8
+};
+
+#endif //GOBLINCAMP_MENURESULT_HPP

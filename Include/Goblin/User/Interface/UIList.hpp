@@ -22,6 +22,7 @@
 #include <libtcod.hpp>
 
 #include "Goblin/User/Interface/Tooltip.hpp"
+#include <Goblin/User/Interface/Enum/MenuResult.hpp>
 
 template<class T, class C = std::vector<T> >
 class UIList : public Drawable, public Scrollable

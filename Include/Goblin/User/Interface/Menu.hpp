@@ -23,6 +23,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <libtcod.hpp>
 #include <boost/bind.hpp>
 
+#include <Goblin/User/Interface/Enum/MenuResult.hpp>
 #include <Goblin/User/Interface/Abstract/Drawable.hpp>
 
 class MenuChoice

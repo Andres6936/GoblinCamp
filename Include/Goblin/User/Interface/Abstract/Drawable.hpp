@@ -22,13 +22,6 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <libtcod.hpp>
 #include "Goblin/User/Interface/Tooltip.hpp"
 
-enum MenuResult
-{
-	MENUHIT = 1,
-	NOMENUHIT = 2,
-	KEYRESPOND = 4,
-	DISMISS = 8
-};
 
 /**
  * Abstract class
