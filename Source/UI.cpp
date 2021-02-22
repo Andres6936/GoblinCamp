@@ -302,67 +302,90 @@ void UI::HandleMouse() {
 				if (_state == UIPLACEMENT && placeable) {
 					callback(Game::Inst()->TileAt(mouseInput.x, mouseInput.y));
 				} else if (_state == UIABPLACEMENT && placeable) {
-					if (a.X() == 0) {
+					if (a.getX() == 0)
+					{
 						a = Game::Inst()->TileAt(mouseInput.x, mouseInput.y);
 					}
-					else if(!draggingPlacement || a.X() != b.X() || a.Y() != b.Y()) {
+					else if (!draggingPlacement || a.getX() != b.getX() || a.getY() != b.getY())
+					{
 						//Place construction from a->b
-						if (a.X() > b.X()) {
-							tmp = a.X();
-							a.X(b.X());
-							b.X(tmp);
+						if (a.getX() > b.getX())
+						{
+							tmp = a.getX();
+							a.setX(b.getX());
+							b.setX(tmp);
 							xswap = true;
 						}
-						if (a.Y() > b.Y()) {
-							tmp = a.Y();
-							a.Y(b.Y());
-							b.Y(tmp);
+						if (a.getY() > b.getY())
+						{
+							tmp = a.getY();
+							a.setY(b.getY());
+							b.setY(tmp);
 							yswap = true;
 						}
-						for (int ix = a.X(); ix <= b.X(); ++ix) {
-							if (!yswap) {
-								if (placementCallback(Coordinate(ix, a.Y()), _blueprint))
-									callback(Coordinate(ix, a.Y()));
-							} else {
-								if (placementCallback(Coordinate(ix, b.Y()), _blueprint))
-									callback(Coordinate(ix, b.Y()));
+						for (int ix = a.getX(); ix <= b.getX(); ++ix)
+						{
+							if (!yswap)
+							{
+								if (placementCallback(Coordinate(ix, a.getY()), _blueprint))
+									callback(Coordinate(ix, a.getY()));
+							}
+							else
+							{
+								if (placementCallback(Coordinate(ix, b.getY()), _blueprint))
+									callback(Coordinate(ix, b.getY()));
 							}
 						}
-						for (int iy = a.Y(); iy <= b.Y(); ++iy) {
-							if (!xswap) {
-								if (placementCallback(Coordinate(b.X(), iy), _blueprint))
-									callback(Coordinate(b.X(), iy));
-							} else {
-								if (placementCallback(Coordinate(a.X(), iy), _blueprint))
-									callback(Coordinate(a.X(), iy));
+						for (int iy = a.getY(); iy <= b.getY(); ++iy)
+						{
+							if (!xswap)
+							{
+								if (placementCallback(Coordinate(b.getX(), iy), _blueprint))
+									callback(Coordinate(b.getX(), iy));
+							}
+							else
+							{
+								if (placementCallback(Coordinate(a.getX(), iy), _blueprint))
+									callback(Coordinate(a.getX(), iy));
 							}
 						}
-						a.X(0); a.Y(0); b.X(0); b.Y(0);
+						a.setX(0);
+						a.setY(0);
+						b.setX(0);
+						b.setY(0);
 					}
-				} else if (_state == UIRECTPLACEMENT && placeable) {
-					if (a.X() == 0) {
+				} else if (_state == UIRECTPLACEMENT && placeable)
+				{
+					if (a.getX() == 0)
+					{
 						a = Game::Inst()->TileAt(mouseInput.x, mouseInput.y);
 					}
-					else if(!draggingPlacement || a.X() != b.X() || a.Y() != b.Y()) {
+					else if (!draggingPlacement || a.getX() != b.getX() || a.getY() != b.getY())
+					{
 						//Place construction from a->b
-						if (a.X() > b.X()) {
-							tmp = a.X();
-							a.X(b.X());
-							b.X(tmp);
+						if (a.getX() > b.getX())
+						{
+							tmp = a.getX();
+							a.setX(b.getX());
+							b.setX(tmp);
 							xswap = true;
 						}
-						if (a.Y() > b.Y()) {
-							tmp = a.Y();
-							a.Y(b.Y());
-							b.Y(tmp);
+						if (a.getY() > b.getY())
+						{
+							tmp = a.getY();
+							a.setY(b.getY());
+							b.setY(tmp);
 							yswap = true;
 						}
 
 						/*I removed the placement call from here, it causes unnecessary cancelations
 						Callbacks should check tile validity anyway*/
-						rectCallback(a,b);
+						rectCallback(a, b);
 
-						a.X(0); a.Y(0); b.X(0); b.Y(0);
+						a.X(0);
+						a.Y(0);
+						b.X(0);
+						b.Y(0);
 					}
 				} else { //Current state is not any kind of placement, so open construction/npc context menu if over one
 					if (!underCursor.empty()) sideBar.SetEntity(*underCursor.begin());
@@ -378,13 +401,17 @@ void UI::HandleMouse() {
 				menuResult = currentMenu->Update(mouseInput.cx, mouseInput.cy, false, NO_KEY);
 			}
 			if (menuResult & NOMENUHIT) {
-				if (_state == UIABPLACEMENT && placeable) {
-					if (a.X() == 0) {
+				if (_state == UIABPLACEMENT && placeable)
+				{
+					if (a.getX() == 0)
+					{
 						a = Game::Inst()->TileAt(mouseInput.x, mouseInput.y);
 						draggingPlacement = true;
 					}
-				} else if (_state == UIRECTPLACEMENT && placeable) {
-					if (a.X() == 0) {
+				} else if (_state == UIRECTPLACEMENT && placeable)
+				{
+					if (a.getX() == 0)
+					{
 						a = Game::Inst()->TileAt(mouseInput.x, mouseInput.y);
 						draggingPlacement = true;
 					}
@@ -458,75 +485,92 @@ void UI::Draw(TCODConsole* console) {
 	Coordinate mouseTile(Game::Inst()->TileAt(mouseInput.x, mouseInput.y));
 	std::shared_ptr<MapRenderer> renderer = Game::Inst()->Renderer();
 
-	if (_state == UIPLACEMENT || ((_state == UIABPLACEMENT || _state == UIRECTPLACEMENT) && a.X() == 0))
+	if (_state == UIPLACEMENT ||
+		((_state == UIABPLACEMENT || _state == UIRECTPLACEMENT) && a.X() == 0))
 	{
 		renderer->DrawCursor(mouseTile,
-				Coordinate(mouseTile.X() + _blueprint.X() - 1, mouseTile.Y() + _blueprint.Y() - 1), placeable);
+				Coordinate(mouseTile.getX() + _blueprint.getX() - 1,
+						mouseTile.getY() + _blueprint.getY() - 1), placeable);
 	}
-	else if (_state == UIABPLACEMENT && a.X() > 0)
+	else if (_state == UIABPLACEMENT && a.getX() > 0)
 	{
-		if (a.X() > b.X())
+		if (a.getX() > b.getX())
 		{
-			tmp = a.X();
-			a.X(b.X());
-			b.X(tmp);
+			tmp = a.getX();
+			a.setX(b.getX());
+			b.setX(tmp);
 			xswap = true;
 		}
-		if (a.Y() > b.Y()) {
-			tmp = a.Y();
-			a.Y(b.Y());
-			b.Y(tmp);
+		if (a.getY() > b.getY())
+		{
+			tmp = a.getY();
+			a.setY(b.getY());
+			b.setY(tmp);
 			yswap = true;
 		}
-		for (int ix = a.X(); ix <= b.X(); ++ix) {
-			if (!yswap) {
-				renderer->DrawCursor(Coordinate(ix, a.Y()), placeable);
+		for (int ix = a.getX(); ix <= b.getX(); ++ix)
+		{
+			if (!yswap)
+			{
+				renderer->DrawCursor(Coordinate(ix, a.getY()), placeable);
 			}
-			else {
-				renderer->DrawCursor(Coordinate(ix, b.Y()), placeable);
-			}
-		}
-		for (int iy = a.Y(); iy <= b.Y(); ++iy) {
-			if (!xswap) {
-				renderer->DrawCursor(Coordinate(b.X(), iy), placeable);
-			}
-			else {
-				renderer->DrawCursor(Coordinate(a.X(), iy), placeable);
+			else
+			{
+				renderer->DrawCursor(Coordinate(ix, b.getY()), placeable);
 			}
 		}
-		if (xswap) {
-			tmp = a.X();
-			a.X(b.X());
-			b.X(tmp);
+		for (int iy = a.getY(); iy <= b.getY(); ++iy)
+		{
+			if (!xswap)
+			{
+				renderer->DrawCursor(Coordinate(b.getX(), iy), placeable);
+			}
+			else
+			{
+				renderer->DrawCursor(Coordinate(a.getX(), iy), placeable);
+			}
 		}
-		if (yswap) {
-			tmp = a.Y();
-			a.Y(b.Y());
-			b.Y(tmp);
+		if (xswap)
+		{
+			tmp = a.getX();
+			a.setX(b.getX());
+			b.setX(tmp);
 		}
-	} else if (_state == UIRECTPLACEMENT && a.X() > 0) {
-		if (a.X() > b.X()) {
-			tmp = a.X();
-			a.X(b.X());
-			b.X(tmp);
+		if (yswap)
+		{
+			tmp = a.getY();
+			a.setY(b.getY());
+			b.setY(tmp);
+		}
+	}
+	else if (_state == UIRECTPLACEMENT && a.getX() > 0)
+	{
+		if (a.getX() > b.getX())
+		{
+			tmp = a.getX();
+			a.setX(b.getX());
+			b.setX(tmp);
 			xswap = true;
 		}
-		if (a.Y() > b.Y()) {
-			tmp = a.Y();
-			a.Y(b.Y());
-			b.Y(tmp);
+		if (a.getY() > b.getY())
+		{
+			tmp = a.getY();
+			a.setY(b.getY());
+			b.setY(tmp);
 			yswap = true;
 		}
 		renderer->DrawCursor(a, b, placeable);
-		if (xswap) {
-			tmp = a.X();
-			a.X(b.X());
-			b.X(tmp);
+		if (xswap)
+		{
+			tmp = a.getX();
+			a.setX(b.getX());
+			b.setX(tmp);
 		}
-		if (yswap) {
-			tmp = a.Y();
-			a.Y(b.Y());
-			b.Y(tmp);
+		if (yswap)
+		{
+			tmp = a.getY();
+			a.setY(b.getY());
+			b.setY(tmp);
 		}
 	}
 
@@ -558,7 +602,7 @@ void UI::Draw(TCODConsole* console) {
 			if (std::shared_ptr<Entity> entity = ucit->lock())
 			{
 				Coordinate mouseLoc = Game::Inst()->TileAt(mouseInput.x, mouseInput.y);
-				entity->GetTooltip(mouseLoc.X(), mouseLoc.Y(), tooltip);
+				entity->GetTooltip(mouseLoc.getX(), mouseLoc.getY(), tooltip);
 
 				if (entity->CanStrobe())
 				{
