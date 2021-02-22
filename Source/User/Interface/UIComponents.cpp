@@ -32,14 +32,19 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Goblin/User/Interface/Spinner.hpp"
 #include "Goblin/User/Interface/Frame.hpp"
 #include "Goblin/User/Interface/TextBox.hpp"
+#include <Goblin/Config/WindowConfig.hpp>
 
-void Label::Draw(int x, int y, TCODConsole *console) {
+using namespace Goblin;
+
+void Label::Draw(int x, int y, TCODConsole* console)
+{
 	console->setAlignment(align);
 	console->setDefaultForeground(TCODColor::white);
 	console->print(x + _x, y + _y, text.c_str());
 }
 
-void LiveLabel::Draw(int x, int y, TCODConsole *console) {
+void LiveLabel::Draw(int x, int y, TCODConsole* console)
+{
 	console->setAlignment(align);
 	console->setDefaultForeground(TCODColor::white);
 	console->print(x + _x, y + _y, text().c_str());
