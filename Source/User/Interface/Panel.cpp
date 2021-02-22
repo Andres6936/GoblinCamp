@@ -4,6 +4,8 @@
 #include <Goblin/Config/WindowConfig.hpp>
 #include "UI.hpp"
 
+using namespace Goblin;
+
 void Panel::selected(int newSel)
 {
 }
