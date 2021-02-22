@@ -23,18 +23,9 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include "Goblin/User/Interface/UIComponents.hpp"
 #include "UI.hpp"
-#include "Goblin/User/Interface/Frame.hpp"
 #include <Goblin/Config/WindowConfig.hpp>
 
 using namespace Goblin;
-
-
-
-void Frame::Draw(int x, int y, TCODConsole *console) {
-	console->printFrame(x + _x, y + _y, width, height, true, TCOD_BKGND_SET, title.c_str());
-	UIContainer::Draw(x, y, console);
-}
-
 
 void Panel::selected(int newSel) {}
 void Panel::Open() {}
