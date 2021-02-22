@@ -18,7 +18,7 @@
 #include <functional>
 #include <libtcod.hpp>
 
-#include "Goblin/User/Interface/Drawable.hpp"
+#include <Goblin/User/Interface/Abstract/Drawable.hpp>
 
 class Spinner : public Drawable
 {
