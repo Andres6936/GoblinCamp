@@ -1,15 +1,20 @@
 ADD_LIBRARY (GoblinCamp.UI
         Interface/Announce.cpp
         Interface/AnnounceDialog.cpp
+        Interface/Button.cpp
         Interface/ConstructionDialog.cpp
         Interface/DevConsole.cpp
         Interface/JobDialog.cpp
+        Interface/Label.cpp
         Interface/Menu.cpp
         Interface/MessageBox.cpp
         Interface/NPCDialog.cpp
+        Interface/ScrollPanel.cpp
         Interface/SideBar.cpp
+        Interface/Spinner.cpp
         Interface/SquadsDialog.cpp
         Interface/StockManagerDialog.cpp
+        Interface/TextBox.cpp
         Interface/Tooltip.cpp
         Interface/UIComponents.cpp
         )
