@@ -18,15 +18,19 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <vector>
 #include <boost/tokenizer.hpp>
 #include <boost/foreach.hpp>
-#include <Goblin/User/Interface/DevConsole.hpp>
-
 #include <boost/python/detail/wrap_python.hpp>
 #include <boost/python.hpp>
+
 namespace py = boost::python;
 
 #include "scripting/Engine.hpp"
 #include "Logger.hpp"
 #include "Game.hpp"
+
+#include <Goblin/User/Interface/DevConsole.hpp>
+#include <Goblin/Config/WindowConfig.hpp>
+
+using namespace Goblin;
 
 // +-------[ DEV CONSOLE ]--------------------------+
 // | output                                       ^ |
@@ -176,8 +180,9 @@ struct DevConsole {
 	}
 };
 
-void ShowDevConsole() {
-	int w = Game::Inst()->ScreenWidth() - 4;
+void ShowDevConsole()
+{
+	int w = WindowConfig::getWidth() - 4;
 	int h = 25;
 	int x = 2;
 	int y = Game::Inst()->ScreenHeight() - h - 2;

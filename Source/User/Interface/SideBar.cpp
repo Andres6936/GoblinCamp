@@ -33,22 +33,29 @@
 #include "Goblin/User/Interface/Label.hpp"
 #include "Goblin/User/Interface/Button.hpp"
 #include "Goblin/User/Interface/ConstructionDialog.hpp"
+#include <Goblin/Config/WindowConfig.hpp>
+
+using namespace Goblin;
 
 SideBar::SideBar() :
-width(19),
-height(30),
-topY(0),
-npc(false),
-construction(false)
-{}
+		width(19),
+		height(30),
+		topY(0),
+		npc(false),
+		construction(false)
+{
+}
 
-MenuResult SideBar::Update(int x, int y, bool clicked) {
-	if (contents && x > Game::Inst()->ScreenWidth() - width) {
+MenuResult SideBar::Update(int x, int y, bool clicked)
+{
+	if (contents && x > WindowConfig::getWidth() - width)
+	{
 		MenuResult result = contents->Update(x - (leftX + 1), y - (topY + 14), clicked, NO_KEY);
-		if(!(result & NOMENUHIT)) {
+		if (!(result & NOMENUHIT))
+		{
 			return result;
 		}
-		if (y > topY && y < topY+height) return MENUHIT;
+		if (y > topY && y < topY + height) return MENUHIT;
 	}
 	return NOMENUHIT;
 }

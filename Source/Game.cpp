@@ -72,6 +72,10 @@ namespace py = boost::python;
 #include "tileRenderer/TileSetRenderer.hpp"
 #include "MathEx.hpp"
 
+#include "Goblin/Config/WindowConfig.hpp"
+
+using namespace Goblin;
+
 int Game::ItemTypeCount = 0;
 int Game::ItemCatCount = 0;
 
@@ -81,7 +85,6 @@ Game* Game::instance = 0;
 bool Game::devMode = false;
 
 Game::Game() :
-		screenWidth(0),
 		screenHeight(0),
 		season(EarlySpring),
 		time(0),
@@ -560,7 +563,6 @@ void Game::Exit(bool confirm)
 	}
 }
 
-int Game::ScreenWidth() const { return screenWidth; }
 int Game::ScreenHeight() const { return screenHeight; }
 
 namespace {
@@ -610,18 +612,22 @@ void Game::ProgressScreen(std::function<void(void)> blockingCall, bool isLoading
 	// XXX heavily experimental
 	boost::promise<void> promise;
 	boost::unique_future<void> future(promise.get_future());
-	
+
 	// make copies before launching the thread
-	int x = Game::Inst()->screenWidth  / 2;
+	int x = WindowConfig::getWidth() / 2;
 	int y = Game::Inst()->screenHeight / 2;
-	
+
 	DrawProgressScreen(x, y, 0, isLoading);
-	
-	boost::thread thread([&]() {
-		try {
+
+	boost::thread thread([&]()
+	{
+		try
+		{
 			blockingCall();
 			promise.set_value();
-		} catch (const std::exception& e) {
+		}
+		catch (const std::exception& e)
+		{
 			promise.set_exception(boost::copy_exception(e));
 		}
 	});
@@ -636,19 +642,20 @@ void Game::ProgressScreen(std::function<void(void)> blockingCall, bool isLoading
 	}
 }
 
-void Game::ErrorScreen() {
+void Game::ErrorScreen()
+{
 	boost::lock_guard<boost::mutex> lock(loadingScreenMutex);
-	
-	Game *game = Game::Inst();
+
+	Game* game = Game::Inst();
 	TCODConsole::root->setDefaultForeground(TCODColor::white);
 	TCODConsole::root->setDefaultBackground(TCODColor::black);
 	TCODConsole::root->setAlignment(TCOD_CENTER);
 	TCODConsole::root->clear();
-	TCODConsole::root->print(
-		game->screenWidth / 2, game->screenHeight / 2,
-		"A critical error occurred, refer to the logfile for more information."
+	TCODConsole::root->print(WindowConfig::getWidth() / 2, game->screenHeight / 2,
+			"A critical error occurred, refer to the logfile for more information."
 	);
-	TCODConsole::root->print(game->screenWidth / 2, game->screenHeight / 2 + 1, "Press any key to exit the game.");
+	TCODConsole::root->print(WindowConfig::getWidth() / 2, game->screenHeight / 2 + 1,
+			"Press any key to exit the game.");
 	TCODConsole::root->flush();
 	TCODConsole::waitForKeypress(true);
 	exit(255);
@@ -659,28 +666,34 @@ void Game::Init(bool firstTime) {
 	int height = Config::GetCVar<int>("resolutionY");
 	bool fullscreen = Config::GetCVar<bool>("fullscreen");
 
-	if (width <= 0 || height <= 0) {
-		if (fullscreen) {
+	if (width <= 0 || height <= 0)
+	{
+		if (fullscreen)
+		{
 			TCODSystem::getCurrentResolution(&width, &height);
-		} else {
-			width  = 640;
+		}
+		else
+		{
+			width = 640;
 			height = 480;
 		}
 	}
 
 	TCODSystem::getCharSize(&charWidth, &charHeight);
-	screenWidth  = width / charWidth;
+	WindowConfig::setWidth(width / charWidth);
 	screenHeight = height / charHeight;
 
 	srand((unsigned int)std::time(0));
 
 	//Enabling TCOD_RENDERER_GLSL can cause GCamp to crash on exit, apparently it's because of an ATI driver issue.
 	//TCOD_renderer_t renderer_type = static_cast<TCOD_renderer_t>(Config::GetCVar<int>("renderer"));
-	if (firstTime) TCODConsole::initRoot(screenWidth, screenHeight, "Goblin Camp", fullscreen, TCOD_RENDERER_SDL);
+	if (firstTime)
+		TCODConsole::initRoot(WindowConfig::getWidth(), screenHeight, "Goblin Camp", fullscreen,
+				TCOD_RENDERER_SDL);
 	TCODMouse::showCursor(true);
 	TCODConsole::setKeyboardRepeat(500, 10);
 
-	buffer = new TCODConsole(screenWidth, screenHeight);
+	buffer = new TCODConsole(WindowConfig::getWidth(), screenHeight);
 	ResetRenderer();
 
 	events = std::shared_ptr<Events>(new Events(Map::Inst()));
@@ -1462,8 +1475,10 @@ void Game::Draw(TCODConsole * console, float focusX, float focusY, bool drawUI, 
 	}
 }
 
-void Game::FlipBuffer() {
-	TCODConsole::blit(buffer, 0, 0, screenWidth, screenHeight, TCODConsole::root, 0, 0);
+void Game::FlipBuffer()
+{
+	TCODConsole::blit(buffer, 0, 0, WindowConfig::getWidth(), screenHeight, TCODConsole::root, 0,
+			0);
 	TCODConsole::root->flush();
 }
 

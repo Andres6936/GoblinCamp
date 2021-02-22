@@ -360,21 +360,24 @@ void Panel::Close() {
 }
 
 void Panel::ShowModal() {
-	TCODConsole *background = new TCODConsole(Game::Inst()->ScreenWidth(), Game::Inst()->ScreenHeight());
-	TCODConsole::blit (TCODConsole::root, 0, 0, Game::Inst()->ScreenWidth(), Game::Inst()->ScreenHeight(),
-		background, 0, 0);
+	TCODConsole* background = new TCODConsole(WindowConfig::getWidth(),
+			Game::Inst()->ScreenHeight());
+	TCODConsole::blit(TCODConsole::root, 0, 0, WindowConfig::getWidth(),
+			Game::Inst()->ScreenHeight(),
+			background, 0, 0);
 
-	int _x = (Game::Inst()->ScreenWidth() - width) / 2;
+	int _x = (WindowConfig::getWidth() - width) / 2;
 	int _y = (Game::Inst()->ScreenHeight() - height) / 2;
 	TCOD_key_t key;
 	TCOD_mouse_t mouseStatus;
 	TCODMouse::showCursor(true);
-	while (true) {
+	while (true)
+	{
 		TCODConsole::root->clear();
 		TCODConsole::root->setDefaultForeground(TCODColor::white);
 		TCODConsole::root->setDefaultBackground(TCODColor::black);
-		TCODConsole::blit(background, 0, 0, Game::Inst()->ScreenWidth(), Game::Inst()->ScreenHeight(),
-			TCODConsole::root, 0, 0, 0.7F, 1.0F);
+		TCODConsole::blit(background, 0, 0, WindowConfig::getWidth(), Game::Inst()->ScreenHeight(),
+				TCODConsole::root, 0, 0, 0.7F, 1.0F);
 
 		Draw(_x, _y, TCODConsole::root);
 		TCODConsole::root->flush();
@@ -382,8 +385,10 @@ void Panel::ShowModal() {
 		key = TCODConsole::checkForKeypress();
 		mouseStatus = TCODMouse::getStatus();
 
-		MenuResult result = Update(mouseStatus.cx, mouseStatus.cy, mouseStatus.lbutton_pressed!=0, key);
-		if((result & DISMISS) || key.vk == TCODK_ESCAPE) {
+		MenuResult result = Update(mouseStatus.cx, mouseStatus.cy, mouseStatus.lbutton_pressed != 0,
+				key);
+		if ((result & DISMISS) || key.vk == TCODK_ESCAPE)
+		{
 			delete this;
 			return;
 		}
@@ -440,7 +445,7 @@ UIContainer::~UIContainer() {
 Dialog::Dialog(Drawable *ncontents, std::string ntitle, int nwidth, int nheight):
 	Panel(nwidth, nheight), title(ntitle), contents(ncontents)
 {
-	_x = (Game::Inst()->ScreenWidth() - nwidth) / 2;
+	_x = (WindowConfig::getWidth() - nwidth) / 2;
 	_y = (Game::Inst()->ScreenHeight() - nheight) / 2;
 }
 
@@ -449,9 +454,10 @@ void Dialog::SetTitle(std::string ntitle) {
 	title = ntitle;
 }
 
-void Dialog::SetHeight(int nheight) {
+void Dialog::SetHeight(int nheight)
+{
 	height = nheight;
-	_x = (Game::Inst()->ScreenWidth() - width) / 2;
+	_x = (WindowConfig::getWidth() - width) / 2;
 	_y = (Game::Inst()->ScreenHeight() - height) / 2;
 }
 

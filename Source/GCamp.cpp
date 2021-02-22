@@ -46,15 +46,26 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include "Version.hpp"
 
+#include <Goblin/Config/WindowConfig.hpp>
+
+using namespace Goblin;
+
 int MainMenu();
+
 void LoadMenu();
+
 void SaveMenu();
+
 void SettingsMenu();
+
 void KeysMenu();
+
 void ModsMenu();
+
 void TilesetsMenu();
 
-namespace Globals {
+namespace Globals
+{
 }
 
 extern "C" void TCOD_sys_startup(void);
@@ -311,32 +322,33 @@ void ConfirmStartNewGame()
 
 int MainMenu() {
 	MainMenuEntry entries[] = {
-		{"New Game", 'n', &ActiveAlways,     &ConfirmStartNewGame},
-		{"Continue", 'c', &ActiveIfRunning,  &MainLoop},
-		{"Load",     'l', &ActiveIfHasSaves, &LoadMenu},
-		{"Save",     's', &ActiveIfRunning,  &SaveMenu},
-		{"Settings", 'o', &ActiveAlways,     &SettingsMenu},
-		{"Keys",     'k', &ActiveAlways,     &KeysMenu},
-		{"Mods",     'm', &ActiveAlways,     &ModsMenu},
-		{"Tilesets", 't', &ActiveAlways,     &TilesetsMenu},
-		{"Exit",     'q', &ActiveAlways,     NULL}
+			{ "New Game", 'n', &ActiveAlways,     &ConfirmStartNewGame},
+			{ "Continue", 'c', &ActiveIfRunning,  &MainLoop},
+			{ "Load",     'l', &ActiveIfHasSaves, &LoadMenu},
+			{ "Save",     's', &ActiveIfRunning,  &SaveMenu},
+			{ "Settings", 'o', &ActiveAlways,     &SettingsMenu},
+			{ "Keys",     'k', &ActiveAlways,     &KeysMenu},
+			{ "Mods",     'm', &ActiveAlways,     &ModsMenu },
+			{ "Tilesets", 't', &ActiveAlways,     &TilesetsMenu },
+			{ "Exit",     'q', &ActiveAlways, NULL }
 	};
 
 	const unsigned int entryCount = sizeof(entries) / sizeof(MainMenuEntry);
-	void (*function)() = NULL;
-	
+	void (* function)() = NULL;
+
 	bool exit = false;
 	int width = 20;
-	int edgex = Game::Inst()->ScreenWidth()/2 - width/2;
+	int edgex = WindowConfig::getWidth() / 2 - width / 2;
 	int height = (entryCount * 2) + 2;
-	int edgey = Game::Inst()->ScreenHeight()/2 - height/2;
+	int edgey = Game::Inst()->ScreenHeight() / 2 - height / 2;
 	int selected = -1;
 	TCOD_mouse_t mouseStatus;
 	TCOD_key_t key;
 	bool endCredits = false;
 	bool lButtonDown = false;
 
-	while (!exit) {
+	while (!exit)
+	{
 		key = TCODConsole::checkForKeypress(TCOD_KEY_RELEASED);
 
 		TCODConsole::root->setDefaultForeground(TCODColor::white);
@@ -413,15 +425,16 @@ int MainMenu() {
 	return 0;
 }
 
-void LoadMenu() {
+void LoadMenu()
+{
 	int width = 59; // 2 for borders, 20 for filename, 2 spacer, 20 for date, 2 spacer, 13 for filesize
-	int edgex = Game::Inst()->ScreenWidth()/2 - width/2;
+	int edgex = WindowConfig::getWidth() / 2 - width / 2;
 	int selected = -1;
 	TCOD_mouse_t mouseStatus;
 
 	std::vector<Data::Save> list;
 	Data::GetSavedGames(list);
-	
+
 	// sort by last modification, newest on top
 	std::sort(list.begin(), list.end(), std::greater<Data::Save>());
 
@@ -495,13 +508,13 @@ void LoadMenu() {
 					TCODConsole::root->clear();
 					
 					TCODConsole::root->print(
-						Game::Inst()->ScreenWidth() / 2, Game::Inst()->ScreenHeight() / 2,
-						"Could not load the game. Refer to the logfile."
+							WindowConfig::getWidth() / 2, Game::Inst()->ScreenHeight() / 2,
+							"Could not load the game. Refer to the logfile."
 					);
 					
 					TCODConsole::root->print(
-						Game::Inst()->ScreenWidth() / 2, Game::Inst()->ScreenHeight() / 2 + 1,
-						"Press any key to return to the main menu."
+							WindowConfig::getWidth() / 2, Game::Inst()->ScreenHeight() / 2 + 1,
+							"Press any key to return to the main menu."
 					);
 					
 					TCODConsole::root->flush();
@@ -539,15 +552,15 @@ void SaveMenu() {
 				TCODConsole::root->clear();
 				
 				TCODConsole::root->print(
-					Game::Inst()->ScreenWidth() / 2, Game::Inst()->ScreenHeight() / 2,
-					"Could not save the game. Refer to the logfile."
+						WindowConfig::getWidth() / 2, Game::Inst()->ScreenHeight() / 2,
+						"Could not save the game. Refer to the logfile."
 				);
 				
 				TCODConsole::root->print(
-					Game::Inst()->ScreenWidth() / 2, Game::Inst()->ScreenHeight() / 2 + 1,
-					"Press any key to return to the main menu."
+						WindowConfig::getWidth() / 2, Game::Inst()->ScreenHeight() / 2 + 1,
+						"Press any key to return to the main menu."
 				);
-				
+
 				TCODConsole::root->flush();
 				TCODConsole::waitForKeypress(true);
 				return;
@@ -556,13 +569,14 @@ void SaveMenu() {
 		}
 
 		TCODConsole::root->clear();
-		TCODConsole::root->printFrame(Game::Inst()->ScreenWidth()/2-15,
-			Game::Inst()->ScreenHeight()/2-3, 30, 3, true, TCOD_BKGND_SET, "Save name");
+		TCODConsole::root->printFrame(WindowConfig::getWidth() / 2 - 15,
+				Game::Inst()->ScreenHeight() / 2 - 3, 30, 3, true, TCOD_BKGND_SET, "Save name");
 		TCODConsole::root->setDefaultBackground(TCODColor::darkGrey);
-		TCODConsole::root->rect(Game::Inst()->ScreenWidth()/2-14, Game::Inst()->ScreenHeight()/2-2, 28, 1, true);
+		TCODConsole::root->rect(WindowConfig::getWidth() / 2 - 14,
+				Game::Inst()->ScreenHeight() / 2 - 2, 28, 1, true);
 		TCODConsole::root->setDefaultBackground(TCODColor::black);
-		TCODConsole::root->print(Game::Inst()->ScreenWidth()/2,
-			Game::Inst()->ScreenHeight()/2-2, "%s", saveName.c_str());
+		TCODConsole::root->print(WindowConfig::getWidth() / 2,
+				Game::Inst()->ScreenHeight() / 2 - 2, "%s", saveName.c_str());
 		TCODConsole::root->flush();
 
 	}
@@ -589,26 +603,26 @@ void SettingsMenu() {
 	TCOD_renderer_t renderer = static_cast<TCOD_renderer_t>(Config::GetCVar<int>("renderer"));
 	bool useTileset          = Config::GetCVar<bool>("useTileset");
 	bool fullscreen          = Config::GetCVar<bool>("fullscreen");
-	bool tutorial            = Config::GetCVar<bool>("tutorial");
-	bool translucentUI       = Config::GetCVar<bool>("translucentUI");
-	bool compressSaves       = Config::GetCVar<bool>("compressSaves");
-	bool autosave            = Config::GetCVar<bool>("autosave");
-	bool pauseOnDanger       = Config::GetCVar<bool>("pauseOnDanger");
+	bool tutorial = Config::GetCVar<bool>("tutorial");
+	bool translucentUI = Config::GetCVar<bool>("translucentUI");
+	bool compressSaves = Config::GetCVar<bool>("compressSaves");
+	bool autosave = Config::GetCVar<bool>("autosave");
+	bool pauseOnDanger = Config::GetCVar<bool>("pauseOnDanger");
 
 	TCODConsole::root->setAlignment(TCOD_LEFT);
 
 	const int w = 40;
 	const int h = 29;
-	const int x = Game::Inst()->ScreenWidth()/2 - (w / 2);
-	const int y = Game::Inst()->ScreenHeight()/2 - (h / 2);
+	const int x = WindowConfig::getWidth() / 2 - (w / 2);
+	const int y = Game::Inst()->ScreenHeight() / 2 - (h / 2);
 
 	SettingRenderer renderers[] = {
-		{ "GLSL Tileset",	TCOD_RENDERER_GLSL   , true},
-		{ "OpenGL Tileset",	TCOD_RENDERER_OPENGL , true},
-		{ "Tileset",		TCOD_RENDERER_SDL    , true},
-		{ "GLSL",			TCOD_RENDERER_GLSL   , false},
-		{ "OpenGL",			TCOD_RENDERER_OPENGL , false},
-		{ "SDL",			TCOD_RENDERER_SDL    , false}
+			{ "GLSL Tileset",   TCOD_RENDERER_GLSL,   true },
+			{ "OpenGL Tileset", TCOD_RENDERER_OPENGL, true },
+			{ "Tileset",        TCOD_RENDERER_SDL,    true },
+			{ "GLSL",           TCOD_RENDERER_GLSL,   false },
+			{ "OpenGL",         TCOD_RENDERER_OPENGL, false },
+			{ "SDL",            TCOD_RENDERER_SDL,    false }
 	};
 
 	SettingField fields[] = {
@@ -770,21 +784,23 @@ void SettingsMenu() {
 }
 
 // Possible TODO: toggle mods on and off.
-void ModsMenu() {
+void ModsMenu()
+{
 	TCODConsole::root->setAlignment(TCOD_LEFT);
 
 	const int w = 60;
 	const int h = 20;
-	const int x = Game::Inst()->ScreenWidth()/2 - (w / 2);
-	const int y = Game::Inst()->ScreenHeight()/2 - (h / 2);
-	
+	const int x = WindowConfig::getWidth() / 2 - (w / 2);
+	const int y = Game::Inst()->ScreenHeight() / 2 - (h / 2);
+
 	const std::list<Mods::Metadata>& modList = Mods::GetLoaded();
 	const int subH = static_cast<int>(modList.size()) * 9;
 	TCODConsole sub(w - 2, std::max(1, subH));
 
 	int currentY = 0;
-	
-	for(Mods::Metadata mod : modList) {
+
+	for (Mods::Metadata mod : modList)
+	{
 		sub.setDefaultBackground(TCODColor::black);
 		
 		sub.setAlignment(TCOD_CENTER);
@@ -969,26 +985,28 @@ void KeysMenu() {
 	Config::KeyMap& keyMap = Config::GetKeyMap();
 	std::vector<std::string> labels;
 	labels.reserve(keyMap.size());
-	
+
 	TCODConsole::root->setAlignment(TCOD_LEFT);
-	
+
 	int w = 40;
 	const int h = static_cast<int>(keyMap.size()) + 4;
-	
-	BOOST_FOREACH(Config::KeyMap::value_type pair, keyMap) {
-		w = std::max(w, (int)pair.first.size() + 7); // 2 for borders, 5 for [ X ]
-		labels.push_back(pair.first);
-	}
-	
-	const int x = Game::Inst()->ScreenWidth()/2 - (w / 2);
-	const int y = Game::Inst()->ScreenHeight()/2 - (h / 2);
-	
+
+	BOOST_FOREACH(Config::KeyMap::value_type pair, keyMap)
+				{
+					w = std::max(w, (int)pair.first.size() + 7); // 2 for borders, 5 for [ X ]
+					labels.push_back(pair.first);
+				}
+
+	const int x = WindowConfig::getWidth() / 2 - (w / 2);
+	const int y = Game::Inst()->ScreenHeight() / 2 - (h / 2);
+
 	TCOD_mouse_t mouse;
-	TCOD_key_t   key;
-	
+	TCOD_key_t key;
+
 	int focus = 0;
-	
-	while (true) {
+
+	while (true)
+	{
 		key = TCODConsole::checkForKeypress(TCOD_KEY_RELEASED);
 		if (key.vk == TCODK_ESCAPE) return;
 		else if (key.vk == TCODK_ENTER || key.vk == TCODK_KPENTER) break;

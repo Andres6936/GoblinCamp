@@ -61,17 +61,23 @@ enum Season {
 
 class Game {
 	GC_SERIALIZABLE_CLASS
-	
+
 	friend class ConfigListener;
+
 	friend void SettingsMenu();
+
 	friend class TCODMapRenderer;
+
 	friend class TilesetRenderer;
+
 	friend class NPCDialog;
+
 	friend void StartNewGame();
 
 	Game();
+
 	static Game* instance;
-	int screenWidth, screenHeight;
+	int screenHeight;
 	Season season;
 	int time;
 	int age;
@@ -134,8 +140,6 @@ public:
 	{
 		return renderer;
 	};
-
-	int ScreenWidth() const;
 
 	int ScreenHeight() const;
 

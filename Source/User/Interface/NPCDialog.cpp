@@ -21,19 +21,25 @@
 #include "Goblin/User/Interface/NPCDialog.hpp"
 #include "Goblin/User/Interface/ScrollPanel.hpp"
 
+#include <Goblin/Config/WindowConfig.hpp>
+
+using namespace Goblin;
+
 Dialog* NPCDialog::npcListDialog = 0;
 
 Dialog* NPCDialog::NPCListDialog()
 {
 	if (!npcListDialog)
 	{
-		npcListDialog = new Dialog(new NPCDialog(), "NPCs", Game::Inst()->ScreenWidth() - 20,
+		npcListDialog = new Dialog(new NPCDialog(), "NPCs", WindowConfig::getWidth() - 20,
 				Game::Inst()->ScreenHeight() - 20);
 	}
 	return npcListDialog;
 }
 
-NPCDialog::NPCDialog(): UIContainer(std::vector<Drawable*>(), 0, 0, Game::Inst()->ScreenWidth() - 20, Game::Inst()->ScreenHeight() - 20) {
+NPCDialog::NPCDialog() : UIContainer(std::vector<Drawable*>(), 0, 0, WindowConfig::getWidth() - 20,
+		Game::Inst()->ScreenHeight() - 20)
+{
 	AddComponent(new ScrollPanel(0, 0, width, height,
 			new UIList<std::pair<int, std::shared_ptr<NPC> >, std::map<int, std::shared_ptr<NPC> > >(
 					&(Game::Inst()->npcList), 0, 0, width - 2, height, NPCDialog::DrawNPC), false));

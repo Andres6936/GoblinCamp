@@ -42,6 +42,9 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Goblin/User/Interface/Tooltip.hpp"
 #include "Goblin/User/Interface/JobDialog.hpp"
 #include "Goblin/User/Interface/DevConsole.hpp"
+#include <Goblin/Config/WindowConfig.hpp>
+
+using namespace Goblin;
 
 UI* UI::instance = 0;
 
@@ -225,21 +228,27 @@ void UI::HandleKeyboard() {
 		}
 	}
 
-	if (mouseInput.x < 0) {
+	if (mouseInput.x < 0)
+	{
 		diffX += mouseInput.cx;
 		mouseInput.x = 0;
 		mouseInput.cx = 0;
-	} else if (mouseInput.cx >= Game::Inst()->ScreenWidth()) {
-		diffX += mouseInput.cx - (Game::Inst()->ScreenWidth()-1);
-		mouseInput.cx = Game::Inst()->ScreenWidth() - 1;
-		mouseInput.x = (Game::Inst()->ScreenWidth() - 1)* Game::Inst()->CharWidth();
 	}
-	if (mouseInput.y < 0) {
+	else if (mouseInput.cx >= WindowConfig::getWidth())
+	{
+		diffX += mouseInput.cx - (WindowConfig::getWidth() - 1);
+		mouseInput.cx = WindowConfig::getWidth() - 1;
+		mouseInput.x = (WindowConfig::getWidth() - 1) * Game::Inst()->CharWidth();
+	}
+	if (mouseInput.y < 0)
+	{
 		diffY += mouseInput.cy;
 		mouseInput.y = 0;
 		mouseInput.cy = 0;
-	} else if (mouseInput.cy >= Game::Inst()->ScreenHeight()) {
-		diffY += mouseInput.cy - (Game::Inst()->ScreenHeight()-1);
+	}
+	else if (mouseInput.cy >= Game::Inst()->ScreenHeight())
+	{
+		diffY += mouseInput.cy - (Game::Inst()->ScreenHeight() - 1);
 		mouseInput.cy = Game::Inst()->ScreenHeight() - 1;
 		mouseInput.y = (Game::Inst()->ScreenHeight() - 1) * Game::Inst()->CharHeight();
 	}
@@ -667,9 +676,10 @@ void UI::DrawTopBar(TCODConsole* console) {
 		Game::Inst()->SeasonToString(Game::Inst()->CurrentSeason()).c_str(),
 		TCODSystem::getFps());
 
-	if (Game::Inst()->Paused()) {
+	if (Game::Inst()->Paused())
+	{
 		console->setDefaultForeground(TCODColor::red);
-		console->print(Game::Inst()->ScreenWidth() / 2, 1, "- - - - PAUSED - - - -");
+		console->print(WindowConfig::getWidth() / 2, 1, "- - - - PAUSED - - - -");
 	}
 	console->setAlignment(TCOD_LEFT);
 

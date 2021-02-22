@@ -19,13 +19,19 @@
 #include "Goblin/User/Interface/AnnounceDialog.hpp"
 #include <Goblin/User/Interface/ScrollPanel.hpp>
 #include "Goblin/User/Interface/Announce.hpp"
+#include <Goblin/Config/WindowConfig.hpp>
 
-void AnnounceDialog::Draw(int x, int y, int scroll, int width, int height, TCODConsole* console) {
+using namespace Goblin;
+
+void AnnounceDialog::Draw(int x, int y, int scroll, int width, int height, TCODConsole* console)
+{
 	Announce::Inst()->Draw(Coordinate(x + 1, y), scroll, height, console);
 }
 
-MenuResult AnnounceDialog::Update(int x, int y, bool clicked, TCOD_key_t key) {
-	if(clicked) {
+MenuResult AnnounceDialog::Update(int x, int y, bool clicked, TCOD_key_t key)
+{
+	if (clicked)
+	{
 		Announce::Inst()->AnnouncementClicked(y - 1);
 	}
 	return MENUHIT;
@@ -37,12 +43,13 @@ int AnnounceDialog::TotalHeight() {
 
 Dialog* AnnounceDialog::announcementsDialog = 0;
 Dialog* AnnounceDialog::AnnouncementsDialog() {
-	if (!announcementsDialog) {
-		int width = Game::Inst()->ScreenWidth() - 20;
+	if (!announcementsDialog)
+	{
+		int width = WindowConfig::getWidth() - 20;
 		int height = Game::Inst()->ScreenHeight() - 20;
 		announcementsDialog = new Dialog(
-			new ScrollPanel(0, 0, width, height, new AnnounceDialog(), false),
-			"Announcements", width, height
+				new ScrollPanel(0, 0, width, height, new AnnounceDialog(), false),
+				"Announcements", width, height
 		);
 	}
 	return announcementsDialog;
