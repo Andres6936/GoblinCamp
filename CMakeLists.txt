@@ -113,6 +113,7 @@ ADD_LIBRARY(GoblinCamp.Main
         )
 
 ADD_LIBRARY(GoblinCamp::Main ALIAS GoblinCamp.Main)
+TARGET_LINK_LIBRARIES(GoblinCamp.Main PRIVATE Goblin.Configuration)
 
 
 SET(platform_SRC
