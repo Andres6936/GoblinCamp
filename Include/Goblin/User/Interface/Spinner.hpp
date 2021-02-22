@@ -18,6 +18,7 @@
 #include <functional>
 #include <libtcod.hpp>
 
+#include <Goblin/User/Interface/Enum/MenuResult.hpp>
 #include <Goblin/User/Interface/Abstract/Drawable.hpp>
 
 class Spinner : public Drawable

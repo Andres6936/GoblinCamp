@@ -20,6 +20,8 @@
 #include <utility>
 #include <libtcod.hpp>
 
+#include <Goblin/User/Interface/Enum/MenuResult.hpp>
+
 #include "NPC.hpp"
 #include "Entity.hpp"
 

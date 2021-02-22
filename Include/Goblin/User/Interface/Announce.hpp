@@ -22,6 +22,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <libtcod.hpp>
 
 #include "Goblin/Geometry/Coordinate.hpp"
+#include <Goblin/User/Interface/Enum/MenuResult.hpp>
 #include <Goblin/User/Interface/Abstract/Drawable.hpp>
 
 #define ANNOUNCE_MAX_LENGTH 71
