@@ -246,11 +246,11 @@ void UI::HandleKeyboard() {
 		mouseInput.y = 0;
 		mouseInput.cy = 0;
 	}
-	else if (mouseInput.cy >= Game::Inst()->ScreenHeight())
+	else if (mouseInput.cy >= WindowConfig::getHeight())
 	{
-		diffY += mouseInput.cy - (Game::Inst()->ScreenHeight() - 1);
-		mouseInput.cy = Game::Inst()->ScreenHeight() - 1;
-		mouseInput.y = (Game::Inst()->ScreenHeight() - 1) * Game::Inst()->CharHeight();
+		diffY += mouseInput.cy - (WindowConfig::getHeight() - 1);
+		mouseInput.cy = WindowConfig::getHeight() - 1;
+		mouseInput.y = (WindowConfig::getHeight() - 1) * Game::Inst()->CharHeight();
 	}
 
 	Game::Inst()->MoveCam(diffX, diffY);

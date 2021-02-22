@@ -185,7 +185,7 @@ void ShowDevConsole()
 	int w = WindowConfig::getWidth() - 4;
 	int h = 25;
 	int x = 2;
-	int y = Game::Inst()->ScreenHeight() - h - 2;
+	int y = WindowConfig::getHeight() - h - 2;
 
 	TCOD_key_t key;
 	TCOD_mouse_t mouse;

@@ -366,13 +366,13 @@ void Panel::Close() {
 
 void Panel::ShowModal() {
 	TCODConsole* background = new TCODConsole(WindowConfig::getWidth(),
-			Game::Inst()->ScreenHeight());
+			WindowConfig::getHeight());
 	TCODConsole::blit(TCODConsole::root, 0, 0, WindowConfig::getWidth(),
-			Game::Inst()->ScreenHeight(),
+			WindowConfig::getHeight(),
 			background, 0, 0);
 
 	int _x = (WindowConfig::getWidth() - width) / 2;
-	int _y = (Game::Inst()->ScreenHeight() - height) / 2;
+	int _y = (WindowConfig::getHeight() - height) / 2;
 	TCOD_key_t key;
 	TCOD_mouse_t mouseStatus;
 	TCODMouse::showCursor(true);
@@ -381,7 +381,7 @@ void Panel::ShowModal() {
 		TCODConsole::root->clear();
 		TCODConsole::root->setDefaultForeground(TCODColor::white);
 		TCODConsole::root->setDefaultBackground(TCODColor::black);
-		TCODConsole::blit(background, 0, 0, WindowConfig::getWidth(), Game::Inst()->ScreenHeight(),
+		TCODConsole::blit(background, 0, 0, WindowConfig::getWidth(), WindowConfig::getHeight(),
 				TCODConsole::root, 0, 0, 0.7F, 1.0F);
 
 		Draw(_x, _y, TCODConsole::root);
@@ -451,7 +451,7 @@ Dialog::Dialog(Drawable *ncontents, std::string ntitle, int nwidth, int nheight)
 	Panel(nwidth, nheight), title(ntitle), contents(ncontents)
 {
 	_x = (WindowConfig::getWidth() - nwidth) / 2;
-	_y = (Game::Inst()->ScreenHeight() - nheight) / 2;
+	_y = (WindowConfig::getHeight() - nheight) / 2;
 }
 
 
@@ -463,7 +463,7 @@ void Dialog::SetHeight(int nheight)
 {
 	height = nheight;
 	_x = (WindowConfig::getWidth() - width) / 2;
-	_y = (Game::Inst()->ScreenHeight() - height) / 2;
+	_y = (WindowConfig::getHeight() - height) / 2;
 }
 
 void Dialog::Draw(int x, int y, TCODConsole *console) {

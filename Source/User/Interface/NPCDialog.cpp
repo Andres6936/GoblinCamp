@@ -32,13 +32,13 @@ Dialog* NPCDialog::NPCListDialog()
 	if (!npcListDialog)
 	{
 		npcListDialog = new Dialog(new NPCDialog(), "NPCs", WindowConfig::getWidth() - 20,
-				Game::Inst()->ScreenHeight() - 20);
+				WindowConfig::getHeight() - 20);
 	}
 	return npcListDialog;
 }
 
 NPCDialog::NPCDialog() : UIContainer(std::vector<Drawable*>(), 0, 0, WindowConfig::getWidth() - 20,
-		Game::Inst()->ScreenHeight() - 20)
+		WindowConfig::getHeight() - 20)
 {
 	AddComponent(new ScrollPanel(0, 0, width, height,
 			new UIList<std::pair<int, std::shared_ptr<NPC> >, std::map<int, std::shared_ptr<NPC> > >(
