@@ -3,6 +3,11 @@
 #ifndef GOBLINCAMP_UICONTAINER_HPP
 #define GOBLINCAMP_UICONTAINER_HPP
 
+#include <vector>
+#include <libtcod.hpp>
+
+#include <Goblin/User/Interface/Abstract/Drawable.hpp>
+
 class UIContainer : public Drawable
 {
 

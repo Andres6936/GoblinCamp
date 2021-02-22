@@ -23,6 +23,8 @@
 
 #include "Goblin/User/Interface/Tooltip.hpp"
 #include <Goblin/User/Interface/Enum/MenuResult.hpp>
+#include <Goblin/User/Interface/Abstract/Drawable.hpp>
+#include <Goblin/User/Interface/Abstract/Scrollable.hpp>
 
 template<class T, class C = std::vector<T> >
 class UIList : public Drawable, public Scrollable

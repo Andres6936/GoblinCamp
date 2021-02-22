@@ -19,6 +19,7 @@
 #include <vector>
 #include <libtcod.hpp>
 
+#include <Goblin/User/Interface/UIContainer.hpp>
 #include <Goblin/User/Interface/Abstract/Drawable.hpp>
 
 class Frame : public UIContainer

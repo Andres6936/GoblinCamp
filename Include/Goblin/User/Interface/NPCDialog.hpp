@@ -21,7 +21,7 @@
 
 #include "NPC.hpp"
 #include "Goblin/User/Interface/Dialog.hpp"
-#include <Goblin/User/Interface/Abstract/Drawable.hpp>
+#include <Goblin/User/Interface/UIContainer.hpp>
 
 class NPCDialog : public UIContainer
 {

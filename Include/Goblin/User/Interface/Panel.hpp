@@ -3,7 +3,6 @@
 #ifndef GOBLINCAMP_PANEL_HPP
 #define GOBLINCAMP_PANEL_HPP
 
-#include <libtcod.hpp>
 #include <Goblin/User/Interface/Abstract/Drawable.hpp>
 
 class Panel : public Drawable

@@ -3,6 +3,10 @@
 #ifndef GOBLINCAMP_SCROLLABLE_HPP
 #define GOBLINCAMP_SCROLLABLE_HPP
 
+#include <libtcod.hpp>
+#include "Goblin/User/Interface/Tooltip.hpp"
+#include <Goblin/User/Interface/Enum/MenuResult.hpp>
+
 /**
  * Abstract class
  */

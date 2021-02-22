@@ -17,8 +17,8 @@
 
 #include <libtcod.hpp>
 
-#include <Goblin/User/Interface/Abstract/Drawable.hpp>
 #include "Goblin/User/Interface/Dialog.hpp"
+#include <Goblin/User/Interface/Abstract/Scrollable.hpp>
 
 class JobDialog : public Scrollable
 {
