@@ -20,7 +20,7 @@
 #include <libtcod.hpp>
 
 #include "Goblin/User/Interface/Dialog.hpp"
-#include "Goblin/User/Interface/UIComponents.hpp"
+#include "Goblin/User/Interface/Drawable.hpp"
 
 #include "Construction.hpp"
 

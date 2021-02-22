@@ -19,7 +19,7 @@ ADD_LIBRARY (GoblinCamp.UI
         Interface/StockManagerDialog.cpp
         Interface/TextBox.cpp
         Interface/Tooltip.cpp
-        Interface/UIComponents.cpp
+        Interface/Drawable.cpp
         )
 
 ADD_LIBRARY(GoblinCamp::UI ALIAS GoblinCamp.UI)

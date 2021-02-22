@@ -18,7 +18,7 @@
 #include <vector>
 #include <libtcod.hpp>
 
-#include "Goblin/User/Interface/UIComponents.hpp"
+#include "Goblin/User/Interface/Drawable.hpp"
 
 class Grid : public Drawable, public Scrollable
 {

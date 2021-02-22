@@ -21,7 +21,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
-#include "Goblin/User/Interface/UIComponents.hpp"
+#include "Goblin/User/Interface/Drawable.hpp"
 #include "UI.hpp"
 #include <Goblin/Config/WindowConfig.hpp>
 
