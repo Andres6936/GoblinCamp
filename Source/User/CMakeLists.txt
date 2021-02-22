@@ -4,6 +4,8 @@ ADD_LIBRARY (GoblinCamp.UI
         Interface/Button.cpp
         Interface/ConstructionDialog.cpp
         Interface/DevConsole.cpp
+        Interface/Dialog.cpp
+        Interface/Grid.cpp
         Interface/JobDialog.cpp
         Interface/Label.cpp
         Interface/Menu.cpp
