@@ -85,7 +85,6 @@ Game* Game::instance = 0;
 bool Game::devMode = false;
 
 Game::Game() :
-		screenHeight(0),
 		season(EarlySpring),
 		time(0),
 		age(0),
@@ -563,8 +562,6 @@ void Game::Exit(bool confirm)
 	}
 }
 
-int Game::ScreenHeight() const { return screenHeight; }
-
 namespace {
 	std::string loading[] = {
 		"\\ Loading...",
@@ -615,7 +612,7 @@ void Game::ProgressScreen(std::function<void(void)> blockingCall, bool isLoading
 
 	// make copies before launching the thread
 	int x = WindowConfig::getWidth() / 2;
-	int y = Game::Inst()->screenHeight / 2;
+	int y = WindowConfig::getHeight() / 2;
 
 	DrawProgressScreen(x, y, 0, isLoading);
 
@@ -651,10 +648,10 @@ void Game::ErrorScreen()
 	TCODConsole::root->setDefaultBackground(TCODColor::black);
 	TCODConsole::root->setAlignment(TCOD_CENTER);
 	TCODConsole::root->clear();
-	TCODConsole::root->print(WindowConfig::getWidth() / 2, game->screenHeight / 2,
+	TCODConsole::root->print(WindowConfig::getWidth() / 2, WindowConfig::getHeight() / 2,
 			"A critical error occurred, refer to the logfile for more information."
 	);
-	TCODConsole::root->print(WindowConfig::getWidth() / 2, game->screenHeight / 2 + 1,
+	TCODConsole::root->print(WindowConfig::getWidth() / 2, WindowConfig::getHeight() / 2 + 1,
 			"Press any key to exit the game.");
 	TCODConsole::root->flush();
 	TCODConsole::waitForKeypress(true);
@@ -681,19 +678,20 @@ void Game::Init(bool firstTime) {
 
 	TCODSystem::getCharSize(&charWidth, &charHeight);
 	WindowConfig::setWidth(width / charWidth);
-	screenHeight = height / charHeight;
+	WindowConfig::setHeight(height / charHeight);
 
 	srand((unsigned int)std::time(0));
 
 	//Enabling TCOD_RENDERER_GLSL can cause GCamp to crash on exit, apparently it's because of an ATI driver issue.
 	//TCOD_renderer_t renderer_type = static_cast<TCOD_renderer_t>(Config::GetCVar<int>("renderer"));
 	if (firstTime)
-		TCODConsole::initRoot(WindowConfig::getWidth(), screenHeight, "Goblin Camp", fullscreen,
+		TCODConsole::initRoot(WindowConfig::getWidth(), WindowConfig::getHeight(), "Goblin Camp",
+				fullscreen,
 				TCOD_RENDERER_SDL);
 	TCODMouse::showCursor(true);
 	TCODConsole::setKeyboardRepeat(500, 10);
 
-	buffer = new TCODConsole(WindowConfig::getWidth(), screenHeight);
+	buffer = new TCODConsole(WindowConfig::getWidth(), WindowConfig::getHeight());
 	ResetRenderer();
 
 	events = std::shared_ptr<Events>(new Events(Map::Inst()));
@@ -1477,7 +1475,8 @@ void Game::Draw(TCODConsole * console, float focusX, float focusY, bool drawUI, 
 
 void Game::FlipBuffer()
 {
-	TCODConsole::blit(buffer, 0, 0, WindowConfig::getWidth(), screenHeight, TCODConsole::root, 0,
+	TCODConsole::blit(buffer, 0, 0, WindowConfig::getWidth(), WindowConfig::getHeight(),
+			TCODConsole::root, 0,
 			0);
 	TCODConsole::root->flush();
 }

@@ -77,7 +77,6 @@ class Game {
 	Game();
 
 	static Game* instance;
-	int screenHeight;
 	Season season;
 	int time;
 	int age;
@@ -140,8 +139,6 @@ public:
 	{
 		return renderer;
 	};
-
-	int ScreenHeight() const;
 
 	void LoadConfig(std::string);
 
