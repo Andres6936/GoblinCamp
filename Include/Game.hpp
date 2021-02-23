@@ -216,12 +216,17 @@ public:
 
 	int FindMilitaryRecruit();
 
+	/**
+	 * Key: Name of Squad, Value: The object with information of Squad.
+	 */
 	std::map<std::string, std::shared_ptr<Squad> > squadList;
+
 	std::list<std::shared_ptr<Squad> > hostileSquadList;
 
 	void CreateSquad(std::string);
 
-	static void SetSquadTargetCoordinate(Order, Coordinate, std::shared_ptr<Squad>, bool autoClose = true);
+	static void
+	SetSquadTargetCoordinate(Order, Coordinate, std::shared_ptr<Squad>, bool autoClose = true);
 
 	static void SetSquadTargetEntity(Order, Coordinate, std::shared_ptr<Squad>);
 
