@@ -13,10 +13,8 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
 #include <string>
-#include <cassert>
 
 #include <libtcod.hpp>
 #include <boost/lexical_cast.hpp>
@@ -35,6 +33,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "MapMarker.hpp"
 
 SquadsDialog* SquadsDialog::squadDialog = 0;
+
 SquadsDialog* SquadsDialog::SquadDialog() {
 	if (!squadDialog){
 		UIContainer* contents = new UIContainer(std::vector<Drawable*>(), 0, 0, 50, 20);
