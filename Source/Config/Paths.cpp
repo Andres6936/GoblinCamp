@@ -64,7 +64,7 @@ namespace fs = std::filesystem;
 /**
 	Platform-specific APIs required to implement Paths module.
 	
-	These functions are defined in <tt>\<platform\>/DataImpl.cpp</tt>.
+	These functions are defined in <tt>\<Platform\>/DataImpl.cpp</tt>.
 */
 namespace PathsImpl {
 	/**
@@ -137,12 +137,12 @@ namespace Globals {
 }
 
 /**
-	Interface to manage platform-specific paths in a platform-agnostic way.
+	Interface to manage Platform-specific paths in a Platform-agnostic way.
 	Basic building block of data handling code.
 */
 namespace Paths {
 	/**
-		Finds platform-specific directories (see PathsImpl), creates personal directory
+		Finds Platform-specific directories (see PathsImpl), creates personal directory
 		if doesn't exist, and opens log file.
 		
 		This has to be called before anything else, especially anything
