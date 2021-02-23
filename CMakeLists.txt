@@ -56,6 +56,12 @@ INCLUDE_DIRECTORIES(${PNG_INCLUDE_DIR})
 SET(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Include the Content Package Manager for C++
+INCLUDE(CMakeModules/CPM.cmake)
+
+# Added the Doryen Library (Framework)
+CPMADDPACKAGE("gh:Andres6936/Doryen@2021.0131")
+
 ADD_SUBDIRECTORY(vendor/)
 ADD_SUBDIRECTORY(Source/)
 
@@ -153,9 +159,6 @@ TARGET_LINK_LIBRARIES(goblin-camp PRIVATE
         )
 
 FILE(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Library/ DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/share/games/goblin-camp/lib/)
-
-# Include the Content Package Manager for C++
-INCLUDE(CMakeModules/CPM.cmake)
 
 # Execute the Test in the directory
 ADD_SUBDIRECTORY(Test/)
