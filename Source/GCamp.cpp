@@ -199,13 +199,19 @@ void StartNewGame() {
 			Direction dirs[4] = { WEST, EAST, NORTH, SOUTH };
 			int distance = 200;
 			Coordinate p = candidate.second + Coordinate::DirectionToCoordinate(dirs[i]) * distance;
-			TCODLine::init(p.X(), p.Y(), candidate.second.X(), candidate.second.Y());
-			do {
-				if (Map::Inst()->IsInside(p)) {
-					if (Map::Inst()->GetType(p) == TILEDITCH || Map::Inst()->GetType(p) == TILERIVERBED) {
+			TCODLine::init(p.getX(), p.getY(), candidate.second.getX(), candidate.second.getY());
+			do
+			{
+				if (Map::Inst()->IsInside(p))
+				{
+					if (Map::Inst()->GetType(p) == TILEDITCH ||
+						Map::Inst()->GetType(p) == TILERIVERBED)
+					{
 						if (distance < riverDistance) riverDistance = distance;
 						if (distance < 25) riverDistance = 2000;
-					} else if (Map::Inst()->GetType(p) == TILEROCK) {
+					}
+					else if (Map::Inst()->GetType(p) == TILEROCK)
+					{
 						if (distance < hillDistance) hillDistance = distance;
 					}
 				}
@@ -222,18 +228,22 @@ void StartNewGame() {
 	Coordinate spawnBottomCorner = spawnCenterCandidates.top().second + 20;
 
 	//Clear starting area
-	for (int x = spawnTopCorner.X(); x < spawnBottomCorner.X(); ++x) {
-		for (int y = spawnTopCorner.Y(); y < spawnBottomCorner.Y(); ++y) {
-			Coordinate p(x,y);
-			if (Map::Inst()->GetNatureObject(p) >= 0 && Random::Generate(2) < 2) {
+	for (int x = spawnTopCorner.getX(); x < spawnBottomCorner.getX(); ++x)
+	{
+		for (int y = spawnTopCorner.getY(); y < spawnBottomCorner.getY(); ++y)
+		{
+			Coordinate p(x, y);
+			if (Map::Inst()->GetNatureObject(p) >= 0 && Random::Generate(2) < 2)
+			{
 				game->RemoveNatureObject(game->natureList[Map::Inst()->GetNatureObject(p)]);
 			}
 		}
 	}
 
 	//we use Top+15, Bottom-15 to restrict the spawning zone of goblin&orc to the very center, instead of spilled over the whole camp
-	game->CreateNPCs(15, NPC::StringToNPCType("goblin"), spawnTopCorner+15, spawnBottomCorner-15);
-	game->CreateNPCs(6, NPC::StringToNPCType("orc"), spawnTopCorner+15, spawnBottomCorner-15);
+	game->CreateNPCs(15, NPC::StringToNPCType("goblin"), spawnTopCorner + 15,
+			spawnBottomCorner - 15);
+	game->CreateNPCs(6, NPC::StringToNPCType("orc"), spawnTopCorner + 15, spawnBottomCorner - 15);
 
 	game->CreateItems(30, Item::StringToItemType("Bloodberry seed"), spawnTopCorner, spawnBottomCorner);
 	game->CreateItems(5, Item::StringToItemType("Blueleaf seed"), spawnTopCorner, spawnBottomCorner);
