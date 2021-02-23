@@ -1,7 +1,7 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.1) # Do not raise it without a reason. Bump only when you use some feature that is not supported by older verions
+CMAKE_MINIMUM_REQUIRED(VERSION 3.14) # Do not raise it without a reason. Bump only when you use some feature that is not supported by older verions
 
 # set the project name
-PROJECT(GoblinCamp LANGUAGES C CXX)
+PROJECT(Goblin LANGUAGES C CXX)
 
 SET(CMAKE_CXX_FLAGS "-std=c++11 -DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_NO_SCOPED_ENUMS")  # FIXME move to add_compile_options() later
 
