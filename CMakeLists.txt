@@ -123,10 +123,10 @@ TARGET_LINK_LIBRARIES(GoblinCamp.Main PRIVATE Goblin.Configuration)
 
 
 SET(platform_SRC
-        Source/platform/linux/DataImpl.cpp
+        Source/Platform/linux/DataImpl.cpp
         )
 
-ADD_EXECUTABLE(goblin-camp Source/platform/unix/main.cpp Source/GCamp.cpp ${platform_SRC})
+ADD_EXECUTABLE(goblin-camp Source/Platform/unix/main.cpp Source/GCamp.cpp ${platform_SRC})
 
 INCLUDE_DIRECTORIES("goblin-camp" Include/)
 INCLUDE_DIRECTORIES("goblin-camp" vendor/libtcod/include/)
