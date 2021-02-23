@@ -126,7 +126,7 @@ namespace {
 	}
 	
 	/**
-		Saves current game to a given file. Emits onGameSaved scripting event.
+		Saves current game to a given file. Emits onGameSaved Scripting event.
 		
 		\param[in]  file   Full path to the save.
 		\param[out] result Boolean indicating success or failure.
