@@ -29,28 +29,36 @@
 
 class SquadsDialog : public Dialog
 {
+
 private:
-	std::string squadName;
+
 	int squadMembers;
+
 	int squadPriority;
+
+	std::string squadName;
 
 	std::shared_ptr<Squad> GetSquad(int);
 
-	UIList<std::pair<std::string, std::shared_ptr<Squad> >, std::map<std::string, std::shared_ptr<Squad> > >* squadList;
 	Frame* rightFrame;
+
 	Frame* orders;
+
 	std::list<int> markers;
+
+	UIList<std::pair<std::string, std::shared_ptr<Squad> >, std::map<std::string, std::shared_ptr<Squad> > >* squadList;
+
+	static SquadsDialog* squadDialog;
 
 	void RefreshMarkers();
 
 public:
+
 	SquadsDialog(Drawable* ncontents, std::string ntitle, int nwidth, int nheight) :
 			Dialog(ncontents, ntitle, nwidth, nheight), squadName(""), squadMembers(1),
 			squadPriority(0)
 	{
 	}
-
-	static SquadsDialog* squadDialog;
 
 	static SquadsDialog* SquadDialog();
 
