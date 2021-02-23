@@ -161,15 +161,17 @@ void SquadsDialog::CreateSquad() {
 	if(squadName.length() > 0)
 	{
 		Game::Inst()->squadList.insert(std::pair<std::string, std::shared_ptr<Squad> >
-				(squadName, std::shared_ptr<Squad>(new Squad(squadName, squadMembers, squadPriority))));
+				(squadName,
+						std::shared_ptr<Squad>(new Squad(squadName, squadMembers, squadPriority))));
 		int squad = 0;
-		for (std::map<std::string, std::shared_ptr<Squad> >::iterator it = Game::Inst()->squadList.begin();
-			 it != Game::Inst()->squadList.end(); ++it)
+
+		for (const auto&[nameSquad, _] : Game::Inst()->squadList)
 		{
-			if (it->first == squadName)
+			if (nameSquad == squadName)
 			{
 				break;
 			}
+
 			++squad;
 		}
 		squad = std::min(squad, (signed int)Game::Inst()->squadList.size() - 1);
