@@ -38,6 +38,9 @@ private:
 
 	std::string squadName;
 
+	/**
+	 * @return The Squad at index, null if not found.
+	 */
 	std::shared_ptr<Squad> GetSquad(int);
 
 	Frame* rightFrame;
