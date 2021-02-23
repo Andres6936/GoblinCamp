@@ -182,25 +182,27 @@ void SquadsDialog::CreateSquad() {
 
 void SquadsDialog::ModifySquad()
 {
-	std::shared_ptr<Squad> tempSquad = GetSquad(squadList->Selected());
+	std::shared_ptr <Squad> tempSquad = GetSquad(squadList->Selected());
 	Game::Inst()->squadList.erase(tempSquad->Name());
 	tempSquad->Name(squadName);
-	Game::Inst()->squadList.insert(std::pair<std::string,
-			std::shared_ptr<Squad> >(squadName, tempSquad));
+	Game::Inst()->squadList.insert(std::pair < std::string,
+			std::shared_ptr < Squad > > (squadName, tempSquad));
 	tempSquad->MemberLimit(squadMembers);
 	tempSquad->Priority(squadPriority);
 
 	//Reselect the squad, changing the name may change it's position in the list
 	int squad = 0;
-	for (std::map<std::string, std::shared_ptr<Squad> >::iterator it = Game::Inst()->squadList.begin();
-		 it != Game::Inst()->squadList.end(); ++it)
+
+	for (const auto&[nameSquad, _] : Game::Inst()->squadList)
 	{
-		if (it->first == squadName)
+		if (nameSquad == squadName)
 		{
 			break;
 		}
+
 		++squad;
 	}
+
 	squad = std::min(squad, (signed int)Game::Inst()->squadList.size() - 1);
 	squadList->Select(squad);
 	SelectSquad(squad);
