@@ -1,6 +1,9 @@
 // Joan Andrés (@Andres6936) Github.
 
 #include "Goblin/User/Interface/Dialog.hpp"
+#include "Goblin/Config/WindowConfig.hpp"
+
+using namespace Goblin;
 
 Dialog::Dialog(Drawable* ncontents, std::string ntitle, int nwidth, int nheight) :
 		Panel(nwidth, nheight), title(ntitle), contents(ncontents)
