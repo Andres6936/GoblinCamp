@@ -52,113 +52,15 @@ INCLUDE_DIRECTORIES(${SDL_INCLUDE_DIR})
 INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${PNG_INCLUDE_DIR})
 
-# Support to Standard 17
-SET(CMAKE_CXX_STANDARD 17)
-SET(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 # Include the Content Package Manager for C++
 INCLUDE(CMakeModules/CPM.cmake)
 
 # Added the Doryen Library (Framework)
 CPMADDPACKAGE("gh:Andres6936/Doryen@2021.0131")
 
+# Define the target: GoblinCamp::Libtcod
 ADD_SUBDIRECTORY(vendor/)
 ADD_SUBDIRECTORY(Source/)
-
-ADD_LIBRARY(GoblinCamp.Data
-        Source/data/Config.cpp
-        Source/data/Data.cpp
-        Source/data/Mods.cpp
-        Source/data/Paths.cpp
-        Source/data/Serialization.cpp
-        Source/data/Tilesets.cpp
-        )
-
-ADD_LIBRARY(GoblinCamp::Data ALIAS GoblinCamp.Data)
-
-ADD_LIBRARY(GoblinCamp.Main
-        Source/Attack.cpp
-        Source/Blood.cpp
-        Source/Camp.cpp
-        Source/Construction.cpp
-        Source/Container.cpp
-        Source/Door.cpp
-        Source/Entity.cpp
-        Source/Events.cpp
-        Source/Faction.cpp
-        Source/Farmplot.cpp
-        Source/Filth.cpp
-        Source/Fire.cpp
-        Source/GCamp.cpp
-        Source/Game.cpp
-        Source/Item.cpp
-        Source/Job.cpp
-        Source/JobManager.cpp
-        Source/KuhnMunkres.cpp
-        Source/Logger.cpp
-        Source/Map.cpp
-        Source/MapMarker.cpp
-        Source/MapRenderer.cpp
-        Source/NPC.cpp
-        Source/NatureObject.cpp
-        Source/Random.cpp
-        Source/SpawningPool.cpp
-        Source/Spell.cpp
-        Source/Squad.cpp
-        Source/Stats.cpp
-        Source/StatusEffect.cpp
-        Source/StockManager.cpp
-        Source/Stockpile.cpp
-        Source/TCODMapRenderer.cpp
-        Source/Tile.cpp
-        Source/Trap.cpp
-        Source/UI.cpp
-        Source/Water.cpp
-        Source/Weather.cpp
-        Source/Version.cpp
-        )
-
-ADD_LIBRARY(GoblinCamp::Main ALIAS GoblinCamp.Main)
-TARGET_LINK_LIBRARIES(GoblinCamp.Main PRIVATE Goblin.Configuration)
-
-
-SET(platform_SRC
-        Source/Platform/linux/DataImpl.cpp
-        )
-
-ADD_EXECUTABLE(goblin-camp Source/Platform/unix/main.cpp Source/GCamp.cpp ${platform_SRC})
-
-INCLUDE_DIRECTORIES("goblin-camp" Include/)
-INCLUDE_DIRECTORIES("goblin-camp" vendor/libtcod/include/)
-
-TARGET_LINK_LIBRARIES(GoblinCamp.Data PUBLIC GoblinCamp::Renderer::Tile)
-
-TARGET_LINK_LIBRARIES(GoblinCamp.Main PUBLIC GoblinCamp::Libtcod)
-TARGET_LINK_LIBRARIES(GoblinCamp.Main PUBLIC Goblin::Geometry)
-
-TARGET_LINK_LIBRARIES(goblin-camp PUBLIC GoblinCamp::Renderer::Tile)
-TARGET_LINK_LIBRARIES(goblin-camp PUBLIC GoblinCamp::Scripting)
-TARGET_LINK_LIBRARIES(goblin-camp PUBLIC GoblinCamp::Libtcod)
-TARGET_LINK_LIBRARIES(goblin-camp PUBLIC GoblinCamp::Data)
-TARGET_LINK_LIBRARIES(goblin-camp PUBLIC GoblinCamp::Main)
-TARGET_LINK_LIBRARIES(goblin-camp PUBLIC GoblinCamp::UI)
-
-TARGET_LINK_LIBRARIES(goblin-camp PRIVATE
-        ${SDL_LIBRARY}
-        ${SDLIMAGE_LIBRARY}
-        ${PYTHON_LIBRARIES}
-        ${Boost_THREAD_LIBRARY}
-        ${Boost_SYSTEM_LIBRARY}
-        ${Boost_FILESYSTEM_LIBRARY}
-        ${Boost_SERIALIZATION_LIBRARY}
-        ${Boost_PYTHON_LIBRARY}
-        ${Boost_IOSTREAMS_LIBRARY}
-        ${ZLIB_LIBRARIES}
-        ${OPENGL_LIBRARIES}
-        ${PNG_LIBRARY}
-        )
-
-FILE(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Library/ DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/share/games/goblin-camp/lib/)
 
 # Execute the Test in the directory
 ADD_SUBDIRECTORY(Test/)
