@@ -13,14 +13,13 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
-#include "tileRenderer/TileSetRenderer.hpp"
-#include "MapMarker.hpp"
-#include "Game.hpp"
-#include "MathEx.hpp"
 
-#include "tileRenderer/DrawConstructionVisitor.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Math/MathEx.hpp"
+#include "Goblin/Eden/MapMarker.hpp"
+#include "Goblin/Graphics/Tile/TileSetRenderer.hpp"
+#include "Goblin/Graphics/Tile/DrawConstructionVisitor.hpp"
  
 TilesetRenderer::TilesetRenderer(int resolutionX, int resolutionY, TCODConsole * mapConsole) 
 : tcodConsole(mapConsole),

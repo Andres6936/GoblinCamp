@@ -17,7 +17,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <SDL.h>
 #include <SDL_opengl.h>
-#include "tileRenderer/ogl/OGLFunctionExt.hpp"
+#include "Goblin/Graphics/Tile/ogl/OGLFunctionExt.hpp"
 
 // XXX this code is not fully conformant — void* (as returned by SDL_GL_GetProcAddress)
 // is not guaranteed to be able to hold a function pointer by C++.
