@@ -4,4 +4,5 @@ ADD_LIBRARY(Goblin.Graphics STATIC
         TCODMapRenderer.cpp
         UI.cpp
         )
+SET_TARGET_PROPERTIES(Goblin.Graphics PROPERTIES CXX_STANDARD 17)
 TARGET_INCLUDE_DIRECTORIES(Goblin.Graphics PUBLIC $<BUILD_INTERFACE:${GOBLIN_CAMP_ROOT_DIR}/Include/>)
