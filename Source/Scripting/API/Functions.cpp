@@ -22,7 +22,6 @@ namespace py = boost::python;
 #include "Goblin/Scripting/API/Functions.hpp"
 #include "Goblin/User/Interface/Announce.hpp"
 #include "Goblin/Scripting/API.hpp"
-#include "Goblin/Util/Version.hpp"
 #include "Goblin/User/Interface/MessageBox.hpp"
 #include "Goblin/Util/Game.hpp"
 #include "Goblin/Entity/Item.hpp"
@@ -53,7 +52,7 @@ namespace Script
 	}
 	
 	const char *GetVersionString() {
-		return Globals::gameVersion;
+		return "Goblin Camp V2021";
 	}
 	
 	void MessageBox(const std::string& str) {

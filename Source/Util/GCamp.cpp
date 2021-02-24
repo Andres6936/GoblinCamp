@@ -43,7 +43,6 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Goblin/Scripting/Engine.hpp"
 #include "Goblin/Scripting/Event.hpp"
 #include "Goblin/Mechanism/Weather.hpp"
-#include "Goblin/Util/Version.hpp"
 
 #include <Goblin/Config/WindowConfig.hpp>
 
@@ -364,22 +363,27 @@ int MainMenu() {
 		TCODConsole::root->setDefaultBackground(TCODColor::black);
 		TCODConsole::root->clear();
 
-		TCODConsole::root->printFrame(edgex, edgey, width, height, true, TCOD_BKGND_DEFAULT, "Main Menu");
+		TCODConsole::root->printFrame(edgex, edgey, width, height, true, TCOD_BKGND_DEFAULT,
+				"Main Menu");
 
 		TCODConsole::root->setAlignment(TCOD_CENTER);
 		TCODConsole::root->setBackgroundFlag(TCOD_BKGND_SET);
 
 		TCODConsole::root->setDefaultForeground(TCODColor::celadon);
-		TCODConsole::root->print(edgex+width/2, edgey-3, Globals::gameVersion);
+		TCODConsole::root->print(edgex + width / 2, edgey - 3, "Goblin Camp V2021");
 		TCODConsole::root->setDefaultForeground(TCODColor::white);
 
-		for (unsigned int idx = 0; idx < entryCount; ++idx) {
+		for (unsigned int idx = 0; idx < entryCount; ++idx)
+		{
 			const MainMenuEntry& entry = entries[idx];
 
-			if (selected == (idx * 2)) {
+			if (selected == (idx * 2))
+			{
 				TCODConsole::root->setDefaultForeground(TCODColor::black);
 				TCODConsole::root->setDefaultBackground(TCODColor::white);
-			} else {
+			}
+			else
+			{
 				TCODConsole::root->setDefaultForeground(TCODColor::white);
 				TCODConsole::root->setDefaultBackground(TCODColor::black);
 			}
