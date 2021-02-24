@@ -13,24 +13,26 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
+
 
 #include <iostream>
-
-#include "TCODMapRenderer.hpp"
 #include <libtcod.hpp>
-#include "MapMarker.hpp"
-#include "Game.hpp"
-#include "MathEx.hpp"
 
-TCODMapRenderer::TCODMapRenderer(TCODConsole * mapConsole) :
-	console(mapConsole),
-	cursorChar('X'),
-	upleft(0,0)
+#include "Goblin/Graphics/TCODMapRenderer.hpp"
+#include "Goblin/Eden/MapMarker.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Math/MathEx.hpp"
+
+TCODMapRenderer::TCODMapRenderer(TCODConsole* mapConsole) :
+		console(mapConsole),
+		cursorChar('X'),
+		upleft(0, 0)
 {
 }
 
-TCODMapRenderer::~TCODMapRenderer() {}
+TCODMapRenderer::~TCODMapRenderer()
+{
+}
 
 namespace {
 	template <typename MapT>
