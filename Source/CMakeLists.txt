@@ -14,6 +14,7 @@ ADD_SUBDIRECTORY(Util/)
 
 ADD_EXECUTABLE(Goblin.App Platform/unix/main.cpp)
 SET_TARGET_PROPERTIES(Goblin.App PROPERTIES CXX_STANDARD 17)
+# Move the main binary (executable) for that it can be found the directories need.
 SET_TARGET_PROPERTIES(Goblin.App PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin::User::Interface)
