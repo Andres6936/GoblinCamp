@@ -16,7 +16,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
 #include "Job.hpp"
-#include "data/Serialization.hpp"
+#include "Goblin/Config/Serialization.hpp"
 
 class JobManager
 {

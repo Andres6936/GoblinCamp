@@ -17,7 +17,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <boost/unordered_map.hpp>
 
-#include "data/Serialization.hpp"
+#include "Goblin/Config/Serialization.hpp"
 
 class Stats {
 	GC_SERIALIZABLE_CLASS

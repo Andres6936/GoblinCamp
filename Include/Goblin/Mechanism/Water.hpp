@@ -18,7 +18,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <memory>
 #include <libtcod/libtcod.hpp>
 #include "Goblin/Geometry/Coordinate.hpp"
-#include "data/Serialization.hpp"
+#include "Goblin/Config/Serialization.hpp"
 
 #define RIVERDEPTH 5000
 

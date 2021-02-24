@@ -20,7 +20,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/format.hpp>
 #include <libtcod/libtcod.hpp>
 
-#include "data/Serialization.hpp"
+#include "Goblin/Config/Serialization.hpp"
 
 enum NPCStat {
 	MOVESPEED,

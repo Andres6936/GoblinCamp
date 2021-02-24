@@ -16,9 +16,9 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
 #include "Goblin/Geometry/Coordinate.hpp"
-#include "Construction.hpp"
-#include "Container.hpp"
-#include "data/Serialization.hpp"
+#include "Goblin/Mechanism/Construction.hpp"
+#include "Goblin/Entity/Container.hpp"
+#include "Goblin/Config/Serialization.hpp"
 
 class Item;
 

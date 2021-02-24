@@ -24,22 +24,24 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <boost/unordered_map.hpp>
 
-#include "Entity.hpp"
+#include "Goblin/Entity/Entity.hpp"
 #include <Goblin/User/Interface/Panel.hpp>
-#include "Tile.hpp"
-#include "StatusEffect.hpp"
-#include "Attack.hpp"
+#include "Goblin/Entity/Tile.hpp"
+#include "Goblin/Mechanism/StatusEffect.hpp"
+#include "Goblin/Mechanism/Attack.hpp"
+#include "Goblin/Mechanism/ConstructionVisitor.hpp"
 
-#include "ConstructionVisitor.hpp"
-
-#include "data/Serialization.hpp"
+#include "Goblin/Config/Serialization.hpp"
 
 class Job;
+
 typedef int ItemType;
 typedef int ItemCategory;
+
 class Container;
 
-enum BuildResult {
+enum BuildResult
+{
 	BUILD_NOMATERIAL = -99999
 };
 
