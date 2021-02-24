@@ -30,16 +30,17 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 namespace py = boost::python;
 namespace fs = std::filesystem;
 
-#include "data/Config.hpp"
-#include "data/Data.hpp"
-#include "data/Paths.hpp"
-#include "Logger.hpp"
+#include "Goblin/Config/Config.hpp"
+#include "Goblin/Config/Data.hpp"
+#include "Goblin/Config/Paths.hpp"
+#include "Goblin/Log/Logger.hpp"
 #include "Goblin/User/Interface/MessageBox.hpp"
-#include "Game.hpp"
-#include "scripting/Event.hpp"
-#include "scripting/Engine.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Scripting/Event.hpp"
+#include "Goblin/Scripting/Engine.hpp"
 
-namespace {
+namespace
+{
 	/**
 		Converts an UNIX timestamp to ISO8601 date string (YYYY-MM-DD, HH:MM:SS).
 		

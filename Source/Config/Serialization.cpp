@@ -19,7 +19,7 @@ Goblin Camp to compile when each class' serialization function was in
 the class' .cpp file. I assume that there is some magical Boost macro
 that would fix that problem, but I unfortunately have very limited time
 and I couldn't come up with a coherent answer just by googling. */
-#include "stdafx.hpp"
+
 
 #pragma warning(push, 2) //Boost::serialization generates a few very long warnings
 
@@ -33,16 +33,16 @@ and I couldn't come up with a coherent answer just by googling. */
 
 namespace io = boost::iostreams;
 
-#include "Logger.hpp"
-#include "data/Config.hpp"
-#include "data/Serialization.hpp"
+#include "Goblin/Log/Logger.hpp"
+#include "Goblin/Config/Config.hpp"
+#include "Goblin/Config/Serialization.hpp"
 
-#include "Entity.hpp"
-#include "Game.hpp"
-#include "JobManager.hpp"
-#include "Camp.hpp"
-#include "StockManager.hpp"
-#include "Map.hpp"
+#include "Goblin/Entity/Entity.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Task/JobManager.hpp"
+#include "Goblin/Config/Camp.hpp"
+#include "Goblin/Config/StockManager.hpp"
+#include "Goblin/Eden/Map.hpp"
 
 // IMPORTANT
 // Implementing class versioning properly is an effort towards backward compatibility for saves,
