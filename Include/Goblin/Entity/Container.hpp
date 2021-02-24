@@ -19,8 +19,8 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <memory>
 #include <vector>
 
-#include "Item.hpp"
-#include "data/Serialization.hpp"
+#include "Goblin/Entity/Item.hpp"
+#include "Goblin/Config/Serialization.hpp"
 
 class ContainerListener
 {
