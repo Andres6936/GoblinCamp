@@ -18,8 +18,7 @@ TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin::User::Interface)
 TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin::Renderer::Tile)
 TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin::Scripting)
 TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin::Libtcod)
-TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin::Data)
-TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin::Main)
+TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin::Configuration)
 
 TARGET_LINK_LIBRARIES(Goblin.App PRIVATE
         ${SDL_LIBRARY}
