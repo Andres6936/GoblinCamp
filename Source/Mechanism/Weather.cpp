@@ -13,21 +13,24 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
-#include "Weather.hpp"
-#include "Random.hpp"
-#include "Game.hpp"
-#include "GCamp.hpp"
+#include "Goblin/Mechanism/Weather.hpp"
+#include "Goblin/Math/Random.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Util/GCamp.hpp"
 
 Weather::Weather(Map* vmap) : map(vmap), windDirection(NORTH),
-	prevailingWindDirection(NORTH), currentWeather(NORMALWEATHER), 
-	tileChange(false),
-	changeAll(false), tileChangeRate(0), changePosition(0),
-	currentSeason(-1) {
+							  prevailingWindDirection(NORTH), currentWeather(NORMALWEATHER),
+							  tileChange(false),
+							  changeAll(false), tileChangeRate(0), changePosition(0),
+							  currentSeason(-1)
+{
 }
 
-Direction Weather::GetWindDirection() { return windDirection; }
+Direction Weather::GetWindDirection()
+{
+	return windDirection;
+}
 
 void Weather::RandomizeWind() {
 	prevailingWindDirection = static_cast<Direction>(Random::Generate(7));
