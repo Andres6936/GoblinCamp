@@ -17,25 +17,23 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
 #include <list>
+#include <memory>
 
 #include <boost/multi_array.hpp>
-#include <memory>
-#include <memory>
 #include <boost/thread/mutex.hpp>
 
 #include <libtcod/libtcod.hpp>
 
-#include "Tile.hpp"
+#include "Goblin/Entity/Tile.hpp"
 #include "Goblin/Geometry/Coordinate.hpp"
-#include "NPC.hpp"
-#include "NatureObject.hpp"
-#include "Events.hpp"
-#include "Job.hpp"
-#include "Fire.hpp"
-#include "Spell.hpp"
-#include "GCamp.hpp"
-
-#include "MapRenderer.hpp"
+#include "Goblin/Entity/NPC.hpp"
+#include "Goblin/Eden/NatureObject.hpp"
+#include "Goblin/Mechanism/Events.hpp"
+#include "Goblin/Task/Job.hpp"
+#include "Goblin/Mechanism/Fire.hpp"
+#include "Goblin/Mechanism/Spell.hpp"
+#include "Goblin/Util/GCamp.hpp"
+#include "Goblin/Eden/MapRenderer.hpp"
 #include "Goblin/Config/Serialization.hpp"
 
 #define BFS_MAX_DISTANCE 20
@@ -44,7 +42,8 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 class Faction;
 
-enum Season {
+enum Season
+{
 	EarlySpring,
 	Spring,
 	LateSpring,
