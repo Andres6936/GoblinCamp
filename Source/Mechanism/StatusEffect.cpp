@@ -13,25 +13,25 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
+
 
 #include <boost/algorithm/string.hpp>
 #include <boost/serialization/utility.hpp>
 
-#include "StatusEffect.hpp"
-#include "GCamp.hpp"
-#include "Game.hpp"
-#include "Attack.hpp"
+#include "Goblin/Mechanism/StatusEffect.hpp"
+#include "Goblin/Util/GCamp.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Mechanism/Attack.hpp"
 
 //TODO: All this needs to be put into data files at some point
 
-StatusEffect::StatusEffect(StatusEffectType typeval, int g, TCODColor col) : 
-graphic(g),
-	color(col),
-	type(typeval),
-	damageType(DAMAGE_BLUNT),
-	visible(true),
-	negative(true),
+StatusEffect::StatusEffect(StatusEffectType typeval, int g, TCODColor col) :
+		graphic(g),
+		color(col),
+		type(typeval),
+		damageType(DAMAGE_BLUNT),
+		visible(true),
+		negative(true),
 	contagionChance(0),
 	applicableResistance(MAGIC_RES)
 {

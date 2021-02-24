@@ -13,7 +13,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
+
 
 #include <boost/algorithm/string.hpp>
 #include <boost/serialization/map.hpp>
@@ -22,26 +22,29 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/serialization/list.hpp>
 #include <boost/serialization/utility.hpp>
 
-#include "Random.hpp"
-#include "StockManager.hpp"
-#include "Item.hpp"
-#include "Construction.hpp"
-#include "NatureObject.hpp"
-#include "JobManager.hpp"
-#include "Map.hpp"
-#include "Game.hpp"
-#include "Camp.hpp"
-#include "Job.hpp"
-#include "Stockpile.hpp"
-#include "SpawningPool.hpp"
+#include "Goblin/Math/Random.hpp"
+#include "Goblin/Mechanism/StockManager.hpp"
+#include "Goblin/Entity/Item.hpp"
+#include "Goblin/Mechanism/Construction.hpp"
+#include "Goblin/Eden/NatureObject.hpp"
+#include "Goblin/Mechanism/JobManager.hpp"
+#include "Goblin/Eden/Map.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Mechanism/Camp.hpp"
+#include "Goblin/Task/Job.hpp"
+#include "Goblin/Mechanism/Stockpile.hpp"
+#include "Goblin/Mechanism/SpawningPool.hpp"
 
 #ifdef DEBUG
 #include <iostream>
 #endif
 
 StockManager* StockManager::instance = 0;
-StockManager* StockManager::Inst() {
-	if (!instance) {
+
+StockManager* StockManager::Inst()
+{
+	if (!instance)
+	{
 		instance = new StockManager();
 	}
 	return instance;
