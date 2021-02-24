@@ -13,23 +13,22 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
 #include <boost/algorithm/string.hpp>
 #include <boost/serialization/utility.hpp>
 #include <boost/serialization/vector.hpp>
 
-#include "Attack.hpp"
-#include "GCamp.hpp"
-#include "Game.hpp"
+#include "Goblin/Mechanism/Attack.hpp"
+#include "Goblin/Util/GCamp.hpp"
+#include "Goblin/Util/Game.hpp"
 
 Attack::Attack() : damageType(DAMAGE_BLUNT),
-	damageAmount(TCOD_dice_t()),
-	cooldown(0),
-	cooldownMax(UPDATES_PER_SECOND),
-	statusEffects(std::vector<std::pair<StatusEffectType, int> >()),
-	projectile(0),
-	magicProjectile(false)
+				   damageAmount(TCOD_dice_t()),
+				   cooldown(0),
+				   cooldownMax(UPDATES_PER_SECOND),
+				   statusEffects(std::vector<std::pair<StatusEffectType, int> >()),
+				   projectile(0),
+				   magicProjectile(false)
 {
 	damageAmount.addsub = 1;
 	damageAmount.multiplier = 1;
