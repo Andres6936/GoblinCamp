@@ -18,18 +18,22 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <memory>
 #include <boost/python/detail/wrap_python.hpp>
 #include <boost/python.hpp>
+
 namespace py = boost::python;
 
-#include "scripting/_gcampapi/PyConstruction.hpp"
-#include "Construction.hpp"
+#include "Goblin/Scripting/API/PyConstruction.hpp"
+#include "Goblin/Mechanism/Construction.hpp"
 #include "Goblin/Geometry/Coordinate.hpp"
-#include "Logger.hpp"
+#include "Goblin/Log/Logger.hpp"
 
-namespace Script { namespace API
+namespace Script
+{
+	namespace API
 	{
 #define CONSTRUCTION_ALIVE(var) std::shared_ptr<Construction> var = construction.lock()
 
-		PyConstruction::PyConstruction(std::weak_ptr<Construction> construction) : construction(construction)
+		PyConstruction::PyConstruction(std::weak_ptr<Construction> construction) : construction(
+				construction)
 		{
 		}
 
