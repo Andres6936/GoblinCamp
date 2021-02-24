@@ -13,23 +13,27 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
 #include <boost/python/detail/wrap_python.hpp>
 #include <boost/python.hpp>
+
 namespace py = boost::python;
 
-#include "scripting/_gcampapi/LoggerStream.hpp"
-#include "Logger.hpp"
+#include "Goblin/Scripting/API/LoggerStream.hpp"
+#include "Goblin/Log/Logger.hpp"
 
-namespace Script { namespace API {
-	void LoggerStream::write(const char *str) {
-		Logger::log << str;
-	}
-	
-	void ExposeLoggerStream() {
-		py::class_<LoggerStream>("LoggerStream")
-			.def("write", &LoggerStream::write)
-		;
+namespace Script
+{
+	namespace API
+	{
+		void LoggerStream::write(const char* str)
+		{
+			Logger::log << str;
+		}
+
+		void ExposeLoggerStream()
+		{
+			py::class_<LoggerStream>("LoggerStream")
+					.def("write", &LoggerStream::write);
 	}
 }}
