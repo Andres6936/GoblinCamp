@@ -17,7 +17,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include "Goblin/Graphics/Tile/TileSetRenderer.hpp"
 #include "Goblin/Graphics/Tile/TileSetTexture.hpp"
-#include "Goblin/Graphics/Tile/ogl/OGLViewportLayer.hpp"
+#include "Goblin/Graphics/Tile/OGL/OGLViewportLayer.hpp"
 #include <boost/multi_array.hpp>
 
 struct RawTileData
