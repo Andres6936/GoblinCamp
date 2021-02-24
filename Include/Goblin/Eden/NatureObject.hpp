@@ -18,16 +18,18 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <string>
 #include <vector>
 
-#include "Entity.hpp"
-#include "data/Serialization.hpp"
+#include "Goblin/Entity/Entity.hpp"
+#include "Goblin/Config/Serialization.hpp"
 
 class Coordinate;
+
 class WaterNode;
 
 typedef int ItemType;
 typedef int NatureObjectType;
 
-class NatureObjectPreset {
+class NatureObjectPreset
+{
 public:
 	NatureObjectPreset();
 	std::string name;
