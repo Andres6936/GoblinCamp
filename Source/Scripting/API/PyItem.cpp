@@ -13,19 +13,21 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
 #include <memory>
 #include <boost/python/detail/wrap_python.hpp>
 #include <boost/python.hpp>
+
 namespace py = boost::python;
 
-#include "scripting/_gcampapi/PyItem.hpp"
-#include "Item.hpp"
+#include "Goblin/Scripting/API/PyItem.hpp"
+#include "Goblin/Entity/Item.hpp"
 #include "Goblin/Geometry/Coordinate.hpp"
-#include "Logger.hpp"
+#include "Goblin/Log/Logger.hpp"
 
-namespace Script { namespace API
+namespace Script
+{
+	namespace API
 	{
 #define ITEM_ALIVE(var) std::shared_ptr<Item> var = item
 
