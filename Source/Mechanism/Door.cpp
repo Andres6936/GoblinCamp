@@ -13,19 +13,21 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
-#include "Door.hpp"
-#include "Map.hpp"
-#include "GCamp.hpp"
+
+#include "Goblin/Mechanism/Door.hpp"
+#include "Goblin/Eden/Map.hpp"
+#include "Goblin/Util/GCamp.hpp"
 
 Door::Door(ConstructionType type, Coordinate target) : Construction(type, target)
 {
 	closedGraphic = graphic[1];
 }
 
-void Door::Update() {
-	if (!map->NPCList(pos)->empty()) {
+void Door::Update()
+{
+	if (!map->NPCList(pos)->empty())
+	{
 		graphic[1] = 254;
 		time = (UPDATES_PER_SECOND / 2);
 		map->SetBlocksLight(pos, false);
