@@ -13,27 +13,28 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
+
 
 #include <boost/serialization/set.hpp>
 #include <boost/serialization/list.hpp>
 #include <boost/serialization/weak_ptr.hpp>
 
-#include "Camp.hpp"
+#include "Goblin/Mechanism/Camp.hpp"
 #include "Goblin/Geometry/Coordinate.hpp"
-#include "Game.hpp"
+#include "Goblin/Util/Game.hpp"
 #include "Goblin/User/Interface/Announce.hpp"
-#include "scripting/Event.hpp"
-#include "Random.hpp"
-#include "JobManager.hpp"
-#include "Stats.hpp"
-#include "Faction.hpp"
-#include "SpawningPool.hpp"
+#include "Goblin/Scripting/Event.hpp"
+#include "Goblin/Math/Random.hpp"
+#include "Goblin/Task/JobManager.hpp"
+#include "Goblin/Mechanism/Stats.hpp"
+#include "Goblin/Mechanism/Faction.hpp"
+#include "Goblin/Mechanism/SpawningPool.hpp"
 
 #if BOOST_VERSION >= 106700
 // Since boost 1.67 you need this to use ::next ot ::prior
 // TODO may be this is temproary, and later should go back to boost/utility.hpp
 #include <boost/next_prior.hpp>
+
 #endif
 
 
