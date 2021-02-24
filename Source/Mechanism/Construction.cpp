@@ -25,6 +25,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #ifdef DEBUG
 #	include <iostream>
 #endif
+
 #include <algorithm>
 
 #include <boost/serialization/weak_ptr.hpp>
@@ -33,30 +34,32 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/serialization/deque.hpp>
 #include <boost/serialization/list.hpp>
 
-#include "Random.hpp"
-#include "Construction.hpp"
-#include "Goblin/User/Interface/Announce.hpp"
-#include "Logger.hpp"
-#include "Game.hpp"
-#include "Map.hpp"
-#include "JobManager.hpp"
-#include "GCamp.hpp"
-#include "Camp.hpp"
-#include "StockManager.hpp"
-#include "UI.hpp"
+#include "Goblin/Math/Random.hpp"
+#include "Goblin/Mechanism/Construction.hpp"
+#include "Goblin/Log/Logger.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Eden/Map.hpp"
+#include "Goblin/Task/JobManager.hpp"
+#include "Goblin/Util/GCamp.hpp"
+#include "Goblin/Mechanism/Camp.hpp"
+#include "Goblin/Mechanism/StockManager.hpp"
+#include "Goblin/Mechanism/UI.hpp"
 #include "Goblin/User/Interface/ConstructionDialog.hpp"
-#include "Item.hpp"
-#include "scripting/Event.hpp"
-#include "Faction.hpp"
-#include "Stockpile.hpp"
-#include "Stats.hpp"
-#include "data/Config.hpp"
+#include "Goblin/User/Interface/Announce.hpp"
+#include "Goblin/Entity/Item.hpp"
+#include "Goblin/Scripting/Event.hpp"
+#include "Goblin/Mechanism/Faction.hpp"
+#include "Goblin/Mechanism/Stockpile.hpp"
+#include "Goblin/Mechanism/Stats.hpp"
+#include "Goblin/Config/Config.hpp"
 
-Coordinate Construction::Blueprint(ConstructionType construct) {
+Coordinate Construction::Blueprint(ConstructionType construct)
+{
 	return Construction::Presets[construct].blueprint;
 }
 
-Coordinate Construction::ProductionSpot(ConstructionType construct) {
+Coordinate Construction::ProductionSpot(ConstructionType construct)
+{
 	return Construction::Presets[construct].productionSpot;
 }
 
