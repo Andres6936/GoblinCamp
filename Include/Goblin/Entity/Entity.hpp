@@ -24,7 +24,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Goblin/User/Interface/Tooltip.hpp"
 
 #include "Goblin/Geometry/Coordinate.hpp"
-#include "data/Serialization.hpp"
+#include "Goblin/Config/Serialization.hpp"
 
 #define ENTITYHEIGHT 5
 

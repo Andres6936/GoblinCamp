@@ -23,18 +23,19 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <memory>
 #include <libtcod.hpp>
 
-#include "Entity.hpp"
-#include "Attack.hpp"
+#include "Goblin/Entity/Entity.hpp"
+#include "Goblin/Mechanism/Attack.hpp"
 #include "Goblin/Geometry/Coordinate.hpp"
-
-#include "data/Serialization.hpp"
+#include "Goblin/Config/Serialization.hpp"
 
 typedef int ItemCategory;
 typedef int ItemType;
 
-class ItemCat {
+class ItemCat
+{
 public:
 	ItemCat();
+
 	bool flammable;
 	std::string name;
 	std::string GetName();

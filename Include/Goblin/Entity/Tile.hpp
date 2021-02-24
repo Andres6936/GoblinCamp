@@ -21,14 +21,14 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <memory>
 
-#include "Water.hpp"
-#include "Filth.hpp"
-#include "Blood.hpp"
-#include "Fire.hpp"
+#include "Goblin/Mechanism/Water.hpp"
+#include "Goblin/Mechanism/Filth.hpp"
+#include "Goblin/Mechanism/Blood.hpp"
+#include "Goblin/Mechanism/Fire.hpp"
+#include "Goblin/Config/Serialization.hpp"
 
-#include "data/Serialization.hpp"
-
-enum TileType {
+enum TileType
+{
 	TILENONE,
 	TILEGRASS,
 	TILEDITCH,

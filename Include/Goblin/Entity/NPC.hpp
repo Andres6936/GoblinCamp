@@ -26,14 +26,13 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <libtcod.hpp>
 
 #include "Goblin/Geometry/Coordinate.hpp"
-#include "Job.hpp"
-#include "Entity.hpp"
-#include "Container.hpp"
-#include "StatusEffect.hpp"
-#include "Squad.hpp"
-#include "Attack.hpp"
-
-#include "data/Serialization.hpp"
+#include "Goblin/Task/Job.hpp"
+#include "Goblin/Entity/Entity.hpp"
+#include "Goblin/Entity/Container.hpp"
+#include "Goblin/Mechanism/StatusEffect.hpp"
+#include "Goblin/Mechanism/Squad.hpp"
+#include "Goblin/Mechanism/Attack.hpp"
+#include "Goblin/Config/Serialization.hpp"
 
 #define LOS_DISTANCE 12
 #define MAXIMUM_JOB_ATTEMPTS 5
