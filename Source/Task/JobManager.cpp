@@ -13,26 +13,30 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
 #include <boost/serialization/list.hpp>
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/shared_ptr.hpp>
 #include <boost/serialization/weak_ptr.hpp>
 
-#include "JobManager.hpp"
-#include "Game.hpp"
-#include "KuhnMunkres.hpp"
-#include "StockManager.hpp"
+#include "Goblin/Task/JobManager.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Task/KuhnMunkres.hpp"
+#include "Goblin/Mechanism/StockManager.hpp"
 
-JobManager::JobManager() {
-	for (std::vector<ItemCat>::iterator i = Item::Categories.begin(); i != Item::Categories.end(); ++i) {
+JobManager::JobManager()
+{
+	for (std::vector<ItemCat>::iterator i = Item::Categories.begin();
+		 i != Item::Categories.end(); ++i)
+	{
 		toolJobs.push_back(std::vector<std::weak_ptr<Job> >());
 	}
 }
-JobManager *JobManager::instance = 0;
 
-JobManager *JobManager::Inst() {
+JobManager* JobManager::instance = 0;
+
+JobManager* JobManager::Inst()
+{
 	if (!instance) instance = new JobManager();
 	return instance;
 }
