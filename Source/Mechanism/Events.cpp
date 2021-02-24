@@ -13,7 +13,6 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
 #include <boost/format.hpp>
 #include <boost/algorithm/string.hpp>
@@ -21,24 +20,26 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #if DEBUG
 #include "iostream"
 #endif
-#include "Random.hpp"
+
+#include "Goblin/Math/Random.hpp"
 #include "Goblin/User/Interface/Announce.hpp"
-#include "Events.hpp"
-#include "Game.hpp"
-#include "GCamp.hpp"
-#include "Camp.hpp"
-#include "StockManager.hpp"
-#include "data/Config.hpp"
-#include "Faction.hpp"
+#include "Goblin/Mechanism/Events.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Util/GCamp.hpp"
+#include "Goblin/Mechanism/Camp.hpp"
+#include "Goblin/Mechanism/StockManager.hpp"
+#include "Goblin/Config/Config.hpp"
+#include "Goblin/Mechanism/Faction.hpp"
 
 Events::Events(Map* vmap) :
-	map(vmap),
-	hostileSpawningMonsters(std::vector<int>()),
-	timeSinceHostileSpawn(0),
-	peacefulAnimals(std::vector<int>()),
-	migratingAnimals(std::vector<int>())
+		map(vmap),
+		hostileSpawningMonsters(std::vector<int>()),
+		timeSinceHostileSpawn(0),
+		peacefulAnimals(std::vector<int>()),
+		migratingAnimals(std::vector<int>())
 {
-	for (unsigned int i = 0; i < NPC::Presets.size(); ++i) {
+	for (unsigned int i = 0; i < NPC::Presets.size(); ++i)
+	{
 		if (NPC::Presets[i].tags.find("attacksrandomly") != NPC::Presets[i].tags.end())
 			hostileSpawningMonsters.push_back(i);
 		if (NPC::Presets[i].tags.find("localwildlife") != NPC::Presets[i].tags.end())
