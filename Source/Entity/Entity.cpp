@@ -21,7 +21,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/serialization/set.hpp>
 
 #include "Goblin/Entity/Entity.hpp"
-#include "Goblin/Util/Map.hpp"
+#include "Goblin/Eden/Map.hpp"
 #include "Goblin/Mechanism/Faction.hpp"
 
 FlightPath::FlightPath(Coordinate c) : coord(c), height(-1)

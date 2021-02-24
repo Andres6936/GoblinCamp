@@ -17,7 +17,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <string>
 #include <boost/assert.hpp>
-#include <libtcod/libtcod.hpp>
+#include <libtcod.hpp>
 #include <filesystem>
 #include <boost/algorithm/string.hpp>
 
@@ -27,7 +27,7 @@ namespace fs = std::filesystem;
 #include "Goblin/Log/Logger.hpp"
 #include "Goblin/Config/Mods.hpp"
 #include "Goblin/Config/Paths.hpp"
-#include "Goblin/Config/Construction.hpp"
+#include "Goblin/Mechanism/Construction.hpp"
 #include "Goblin/Entity/Item.hpp"
 #include "Goblin/Eden/NatureObject.hpp"
 #include "Goblin/Entity/NPC.hpp"

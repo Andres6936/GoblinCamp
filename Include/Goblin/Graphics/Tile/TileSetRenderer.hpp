@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
-#include <libtcod/libtcod.hpp>
+#include <libtcod.hpp>
 
 #include "Goblin/Eden/MapRenderer.hpp"
 #include "Goblin/Graphics/Tile/TileSetTexture.hpp"

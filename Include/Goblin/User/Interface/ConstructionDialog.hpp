@@ -17,7 +17,7 @@
 
 #include <vector>
 #include <memory>
-#include <libtcod/libtcod.hpp>
+#include <libtcod.hpp>
 
 #include "Goblin/User/Interface/Dialog.hpp"
 #include <Goblin/User/Interface/UIContainer.hpp>

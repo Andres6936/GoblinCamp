@@ -20,7 +20,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <vector>
 #include <functional>
 
-#include <libtcod/libtcod.hpp>
+#include <libtcod.hpp>
 
 #include <Goblin/User/Interface/Panel.hpp>
 #include <Goblin/User/Interface/Enum/MenuResult.hpp>

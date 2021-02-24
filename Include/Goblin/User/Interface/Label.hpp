@@ -17,7 +17,7 @@
 
 #include <string>
 #include <functional>
-#include <libtcod/libtcod.hpp>
+#include <libtcod.hpp>
 
 #include <Goblin/User/Interface/Abstract/Drawable.hpp>
 

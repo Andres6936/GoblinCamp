@@ -17,7 +17,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <vector>
 #include <string>
-#include <libtcod/libtcod.hpp>
+#include <libtcod.hpp>
 
 #include "Goblin/Mechanism/StatusEffect.hpp"
 #include "Goblin/Config/Serialization.hpp"

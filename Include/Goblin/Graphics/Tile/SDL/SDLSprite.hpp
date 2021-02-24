@@ -17,10 +17,10 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <SDL.h>
 #include <memory>
-#include <libtcod/libtcod.hpp>
+#include <libtcod.hpp>
 #include "Goblin/Graphics/Tile/Sprite.hpp"
 #include "Goblin/Graphics/Tile/TileSetTexture.hpp"
-#include "Goblin/Graphics/Tile/sdl/SDLTilesetRenderer.hpp"
+#include "Goblin/Graphics/Tile/SDL/SDLTilesetRenderer.hpp"
 
 /****************/
 // SDLSprite

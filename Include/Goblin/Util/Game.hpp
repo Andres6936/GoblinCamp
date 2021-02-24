@@ -23,7 +23,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/multi_array.hpp>
 #include <boost/thread/mutex.hpp>
 
-#include <libtcod/libtcod.hpp>
+#include <libtcod.hpp>
 
 #include "Goblin/Entity/Tile.hpp"
 #include "Goblin/Geometry/Coordinate.hpp"

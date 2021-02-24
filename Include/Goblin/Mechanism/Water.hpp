@@ -16,7 +16,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
 #include <memory>
-#include <libtcod/libtcod.hpp>
+#include <libtcod.hpp>
 #include "Goblin/Geometry/Coordinate.hpp"
 #include "Goblin/Config/Serialization.hpp"
 

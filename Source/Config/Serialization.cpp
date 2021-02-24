@@ -40,8 +40,8 @@ namespace io = boost::iostreams;
 #include "Goblin/Entity/Entity.hpp"
 #include "Goblin/Util/Game.hpp"
 #include "Goblin/Task/JobManager.hpp"
-#include "Goblin/Config/Camp.hpp"
-#include "Goblin/Config/StockManager.hpp"
+#include "Goblin/Mechanism/Camp.hpp"
+#include "Goblin/Mechanism/StockManager.hpp"
 #include "Goblin/Eden/Map.hpp"
 
 // IMPORTANT

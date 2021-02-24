@@ -21,7 +21,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <algorithm>
 #include <filesystem>
 #include <boost/format.hpp>
-#include <libtcod/libtcod.hpp>
+#include <libtcod.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/bind.hpp>
 #include <boost/algorithm/string.hpp>

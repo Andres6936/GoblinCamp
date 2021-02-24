@@ -18,7 +18,7 @@
 #include <string>
 #include <memory>
 #include <utility>
-#include <libtcod/libtcod.hpp>
+#include <libtcod.hpp>
 
 #include <Goblin/User/Interface/Enum/MenuResult.hpp>
 

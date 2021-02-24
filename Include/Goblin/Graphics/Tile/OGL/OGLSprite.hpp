@@ -16,7 +16,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
 #include "Goblin/Graphics/Tile/Sprite.hpp"
-#include "Goblin/Graphics/Tile/ogl/OGLTilesetRenderer.hpp"
+#include "Goblin/Graphics/Tile/OGL/OGLTilesetRenderer.hpp"
 
 class OGLSprite : public Sprite
 {
