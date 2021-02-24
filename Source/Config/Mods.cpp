@@ -17,7 +17,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <string>
 #include <boost/assert.hpp>
-#include <libtcod.hpp>
+#include <libtcod/libtcod.hpp>
 #include <filesystem>
 #include <boost/algorithm/string.hpp>
 

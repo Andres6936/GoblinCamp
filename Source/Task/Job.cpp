@@ -20,7 +20,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #endif
 
 #include <string>
-#include <libtcod.hpp>
+#include <libtcod/libtcod.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/serialization/weak_ptr.hpp>
 #include <boost/serialization/list.hpp>

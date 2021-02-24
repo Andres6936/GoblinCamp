@@ -19,7 +19,7 @@
 #include <vector>
 #include <functional>
 #include <memory>
-#include <libtcod.hpp>
+#include <libtcod/libtcod.hpp>
 
 #include "Goblin/User/Interface/Tooltip.hpp"
 #include <Goblin/User/Interface/Enum/MenuResult.hpp>

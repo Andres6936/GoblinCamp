@@ -17,7 +17,7 @@
 
 #include <string>
 #include <functional>
-#include <libtcod.hpp>
+#include <libtcod/libtcod.hpp>
 
 #include <Goblin/User/Interface/Enum/MenuResult.hpp>
 #include <Goblin/User/Interface/Abstract/Drawable.hpp>

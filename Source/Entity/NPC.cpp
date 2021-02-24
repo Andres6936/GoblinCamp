@@ -22,7 +22,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/multi_array.hpp>
 #include <boost/format.hpp>
 #include <boost/algorithm/string.hpp>
-#include <libtcod.hpp>
+#include <libtcod/libtcod.hpp>
 
 #ifdef DEBUG
 #include <iostream>

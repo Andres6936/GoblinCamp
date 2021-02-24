@@ -19,7 +19,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <string>
 #include <sstream>
 
-#include <libtcod.hpp>
+#include <libtcod/libtcod.hpp>
 
 #include "Goblin/Geometry/Coordinate.hpp"
 #include <Goblin/User/Interface/Enum/MenuResult.hpp>

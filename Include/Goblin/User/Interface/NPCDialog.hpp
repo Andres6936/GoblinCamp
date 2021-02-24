@@ -17,7 +17,7 @@
 
 #include <memory>
 #include <utility>
-#include <libtcod.hpp>
+#include <libtcod/libtcod.hpp>
 
 #include "NPC.hpp"
 #include "Goblin/User/Interface/Dialog.hpp"

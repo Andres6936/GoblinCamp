@@ -15,7 +15,7 @@
  along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
-#include <libtcod.hpp>
+#include <libtcod/libtcod.hpp>
 
 #include "Goblin/User/Interface/Dialog.hpp"
 #include <Goblin/User/Interface/Abstract/Scrollable.hpp>

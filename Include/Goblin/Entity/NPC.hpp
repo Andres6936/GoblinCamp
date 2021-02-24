@@ -23,7 +23,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/function.hpp>
 #include <memory>
 
-#include <libtcod.hpp>
+#include <libtcod/libtcod.hpp>
 
 #include "Goblin/Geometry/Coordinate.hpp"
 #include "Goblin/Task/Job.hpp"

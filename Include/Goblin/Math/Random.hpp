@@ -16,7 +16,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
 #include <boost/random.hpp>
-#include <libtcod.hpp>
+#include <libtcod/libtcod.hpp>
 #include "Goblin/Geometry/Coordinate.hpp"
 
 namespace Random {
