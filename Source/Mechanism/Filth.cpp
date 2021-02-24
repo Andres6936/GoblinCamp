@@ -13,11 +13,11 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
-#include "Random.hpp"
-#include "Filth.hpp"
-#include "Game.hpp"
+
+#include "Goblin/Math/Random.hpp"
+#include "Goblin/Mechanism/Filth.hpp"
+#include "Goblin/Util/Game.hpp"
 #include "Goblin/Geometry/Coordinate.hpp"
 
 FilthNode::FilthNode(const Coordinate& pos, int ndep) : pos(pos)
@@ -26,7 +26,9 @@ FilthNode::FilthNode(const Coordinate& pos, int ndep) : pos(pos)
 	Depth(ndep);
 }
 
-FilthNode::~FilthNode() {}
+FilthNode::~FilthNode()
+{
+}
 
 void FilthNode::Update() {
 }

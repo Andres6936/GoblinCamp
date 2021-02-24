@@ -22,11 +22,11 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
-#include "Faction.hpp"
-#include "NPC.hpp"
-#include "Game.hpp"
-#include "Camp.hpp"
-#include "Random.hpp"
+#include "Goblin/Mechanism/Faction.hpp"
+#include "Goblin/Entity/NPC.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Util/Camp.hpp"
+#include "Goblin/Math/Random.hpp"
 #include "Goblin/User/Interface/Announce.hpp"
 
 #include <boost/serialization/vector.hpp>
