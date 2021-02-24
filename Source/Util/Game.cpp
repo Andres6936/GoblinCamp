@@ -80,7 +80,8 @@ int Game::ItemTypeCount = 0;
 int Game::ItemCatCount = 0;
 
 bool Game::initializedOnce = false;
-Game* Game::instance = 0;
+
+Game* Game::instance = nullptr;
 
 bool Game::devMode = false;
 
@@ -112,8 +113,10 @@ Game::~Game() {
 	}
 }
 
-Game* Game::Inst() {
-	if (!instance) {
+Game* Game::Inst()
+{
+	if (instance == nullptr)
+	{
 		instance = new Game();
 		instance->Init(!initializedOnce);
 		initializedOnce = true;
