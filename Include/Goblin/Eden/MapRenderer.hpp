@@ -45,8 +45,10 @@ enum CursorType
 
 class MapRenderer : private boost::noncopyable
 {
+
 public:
-	virtual ~MapRenderer() = 0;
+
+	virtual ~MapRenderer() = default;
 
 	virtual void PreparePrefabs() = 0;
 
@@ -56,7 +58,8 @@ public:
 	 * focus is the location in tile space the viewport is focused on
 	 * viewport is the location on the screen in pixels being rendered to
 	 **/
-	virtual void DrawMap(Map* map, float focusX, float focusY, int viewportX = 0, int viewportY = 0, int viewportW = -1, int viewportH = -1) = 0;
+	virtual void DrawMap(Map* map, float focusX, float focusY, int viewportX = 0, int viewportY = 0,
+			int viewportW = -1, int viewportH = -1) = 0;
 
 	/**
 	 * Calculates the coordinate in tile space under the given screen location
