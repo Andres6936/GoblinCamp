@@ -16,6 +16,7 @@
 
 #include <string>
 
+#include <Goblin/User/Interface/UIContainer.hpp>
 #include "Goblin/User/Interface/MessageBox.hpp"
 #include "Goblin/User/Interface/Dialog.hpp"
 #include "Goblin/User/Interface/Label.hpp"
