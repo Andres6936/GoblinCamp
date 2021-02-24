@@ -15,8 +15,8 @@ You should have received a copy of the GNU General Public License
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 
-#include "Goblin/Graphics/Tile/sdl/SDLTilesetRenderer.hpp"
-#include "Goblin/Graphics/Tile/sdl/SDLSprite.hpp"
+#include "Goblin/Graphics/Tile/SDL/SDLTilesetRenderer.hpp"
+#include "Goblin/Graphics/Tile/SDL/SDLSprite.hpp"
 #include "Goblin/Graphics/Tile/TileSetLoader.hpp"
 
 #include "Goblin/Log/Logger.hpp"

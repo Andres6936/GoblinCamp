@@ -13,19 +13,22 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
-#include "Goblin/Graphics/Tile/ogl/OGLSprite.hpp"
 
-OGLSprite::OGLSprite(OGLTilesetRenderer * const renderer, int tile)
-	: Sprite(tile),
-	  renderer(renderer)
+#include "Goblin/Graphics/Tile/OGL/OGLSprite.hpp"
+
+OGLSprite::OGLSprite(OGLTilesetRenderer* const renderer, int tile)
+		: Sprite(tile),
+		  renderer(renderer)
 {
 }
 
-OGLSprite::~OGLSprite() {}
+OGLSprite::~OGLSprite()
+{
+}
 
-void OGLSprite::DrawInternal(int screenX, int screenY, int tile) const {
+void OGLSprite::DrawInternal(int screenX, int screenY, int tile) const
+{
 	if (tile != -1) {
 		renderer->DrawSprite(screenX, screenY, tile);
 	}

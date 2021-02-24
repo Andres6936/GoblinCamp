@@ -13,11 +13,10 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
-#include "Goblin/Graphics/Tile/ogl/OGLFunctionExt.hpp"
+#include "Goblin/Graphics/Tile/OGL/OGLFunctionExt.hpp"
 
 // XXX this code is not fully conformant — void* (as returned by SDL_GL_GetProcAddress)
 // is not guaranteed to be able to hold a function pointer by C++.
