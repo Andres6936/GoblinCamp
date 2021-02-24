@@ -15,9 +15,9 @@ You should have received a copy of the GNU General Public License
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
-#include <list>
+#include <vector>
 #include <filesystem>
-#include "tileRenderer/TileSetLoader.hpp"
+#include "Goblin/Graphics/Tile/TileSetLoader.hpp"
 
 namespace Tilesets {
 	std::vector<TileSetMetadata> LoadTilesetMetadata();
