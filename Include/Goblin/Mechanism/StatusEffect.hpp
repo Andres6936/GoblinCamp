@@ -18,7 +18,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <string>
 
 #include <boost/format.hpp>
-#include <libtcod.hpp>
+#include <libtcod/libtcod.hpp>
 
 #include "data/Serialization.hpp"
 

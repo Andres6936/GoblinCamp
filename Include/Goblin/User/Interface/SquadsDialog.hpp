@@ -19,7 +19,7 @@
 #include <string>
 #include <memory>
 #include <utility>
-#include <libtcod.hpp>
+#include <libtcod/libtcod.hpp>
 
 #include "Squad.hpp"
 #include "Goblin/User/Interface/Frame.hpp"

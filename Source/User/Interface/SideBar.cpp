@@ -15,7 +15,7 @@
  along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 
-#include <libtcod.hpp>
+#include <libtcod/libtcod.hpp>
 #include <string>
 #include <vector>
 #include <boost/function.hpp>

@@ -17,7 +17,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <SDL.h>
 #include <memory>
-#include <libtcod.hpp>
+#include <libtcod/libtcod.hpp>
 #include "tileRenderer/Sprite.hpp"
 #include "tileRenderer/TileSetTexture.hpp"
 #include "tileRenderer/sdl/SDLTilesetRenderer.hpp"

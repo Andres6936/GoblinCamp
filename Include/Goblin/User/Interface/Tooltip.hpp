@@ -17,7 +17,7 @@
 
 #include <string>
 #include <vector>
-#include <libtcod.hpp>
+#include <libtcod/libtcod.hpp>
 
 struct TooltipEntry
 {

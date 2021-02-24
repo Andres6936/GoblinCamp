@@ -4,7 +4,7 @@
 #define GOBLINCAMP_UICONTAINER_HPP
 
 #include <vector>
-#include <libtcod.hpp>
+#include <libtcod/libtcod.hpp>
 
 #include <Goblin/User/Interface/Abstract/Drawable.hpp>
 

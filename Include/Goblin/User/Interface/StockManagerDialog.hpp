@@ -16,7 +16,7 @@
 #pragma once
 
 #include <string>
-#include <libtcod.hpp>
+#include <libtcod/libtcod.hpp>
 
 #include "Goblin/User/Interface/Dialog.hpp"
 #include "Goblin/User/Interface/Grid.hpp"
