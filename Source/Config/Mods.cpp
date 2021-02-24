@@ -13,7 +13,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
+
 
 #include <string>
 #include <boost/assert.hpp>
@@ -23,18 +23,19 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 namespace fs = std::filesystem;
 
-#include "Game.hpp"
-#include "Logger.hpp"
-#include "data/Mods.hpp"
-#include "data/Paths.hpp"
-#include "Construction.hpp"
-#include "Item.hpp"
-#include "NatureObject.hpp"
-#include "NPC.hpp"
-#include "scripting/Engine.hpp"
-#include "Faction.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Log/Logger.hpp"
+#include "Goblin/Config/Mods.hpp"
+#include "Goblin/Config/Paths.hpp"
+#include "Goblin/Config/Construction.hpp"
+#include "Goblin/Entity/Item.hpp"
+#include "Goblin/Eden/NatureObject.hpp"
+#include "Goblin/Entity/NPC.hpp"
+#include "Goblin/Scripting/Engine.hpp"
+#include "Goblin/Mechanism/Faction.hpp"
 
-namespace Globals {
+namespace Globals
+{
 	/**
 		List of loaded mods. NB: removing an entry from this list does not unload the mod.
 	*/
@@ -42,7 +43,8 @@ namespace Globals {
 	std::list<TilesetModMetadata> availableTilesetMods;
 }
 
-namespace {
+namespace
+{
 	struct ModListener : public ITCODParserListener {
 		Mods::Metadata *ptr;
 		

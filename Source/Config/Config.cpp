@@ -19,11 +19,12 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/assign/list_inserter.hpp>
 #include <boost/date_time/local_time/local_time.hpp>
 
-#include "data/Config.hpp"
-#include "data/Paths.hpp"
-#include "Logger.hpp"
+#include "Goblin/Config/Config.hpp"
+#include "Goblin/Config/Paths.hpp"
+#include "Goblin/Log/Logger.hpp"
 
-namespace Globals {
+namespace Globals
+{
 	/**
 		\var cvars
 		A map of configuration variables.

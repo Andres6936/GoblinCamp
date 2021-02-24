@@ -13,10 +13,10 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
-#include "data/Tilesets.hpp"
-#include "tileRenderer/TileSetLoader.hpp"
+
+#include "Goblin/Config/Tilesets.hpp"
+#include "Goblin/Graphics/Tile/TileSetLoader.hpp"
 
 #include <string>
 #include <boost/assert.hpp>
@@ -25,18 +25,20 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 namespace fs = std::filesystem;
 
-#include "Game.hpp"
-#include "Logger.hpp"
-#include "data/Paths.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Log/Logger.hpp"
+#include "Goblin/Config/Paths.hpp"
 
-namespace {
-			
+namespace
+{
+
 	/**
 		Reads in the metadata for the given tileset.
 		\param[in] dir      Tileset's directory.
 		\param[in] metadataList The metadata list to populate on a successful read
 	*/
-	void LoadMetadata(const fs::path& dir, std::vector<TileSetMetadata>& metadataList) {
+	void LoadMetadata(const fs::path& dir, std::vector<TileSetMetadata>& metadataList)
+	{
 		LOG_FUNC("Trying to load tileset metadata from " << dir.string(), "Tilesets::LoadMetadata");
 		
 		TileSetMetadata metadata = TileSetLoader::LoadTileSetMetadata(dir);
