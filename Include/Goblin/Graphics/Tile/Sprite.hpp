@@ -15,13 +15,16 @@ You should have received a copy of the GNU General Public License
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
-#include <boost/noncopyable.hpp>
 #include <vector>
 #include <memory>
+
+#include <boost/noncopyable.hpp>
 #include <boost/function.hpp>
-#include "Goblin/Geometry/Coordinate.hpp"
+
 #include <libtcod/libtcod.hpp>
-#include "tileRenderer/Corner.hpp"
+
+#include "Goblin/Geometry/Coordinate.hpp"
+#include "Goblin/Graphics/Tile/Corner.hpp"
 
 
 enum SpriteType

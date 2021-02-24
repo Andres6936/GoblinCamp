@@ -16,11 +16,11 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #pragma once
 
-#include "tileRenderer/Sprite.hpp"
-#include "tileRenderer/TileSetTexture.hpp"
-#include "tileRenderer/TileSetRenderer.hpp"
-#include "tileRenderer/ConstructionSprite.hpp"
-#include "tileRenderer/NPCSprite.hpp"
+#include "Goblin/Graphics/Tile/Sprite.hpp"
+#include "Goblin/Graphics/Tile/TileSetTexture.hpp"
+#include "Goblin/Graphics/Tile/TileSetRenderer.hpp"
+#include "Goblin/Graphics/Tile/ConstructionSprite.hpp"
+#include "Goblin/Graphics/Tile/NPCSprite.hpp"
 
 class ConstructionSpriteFactory
 {

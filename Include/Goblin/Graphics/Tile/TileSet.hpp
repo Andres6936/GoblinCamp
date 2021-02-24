@@ -22,29 +22,33 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/unordered_map.hpp>
 #include <SDL.h>
 
-#include "MapRenderer.hpp"
-#include "Tile.hpp"
-#include "NPC.hpp"
-#include "NatureObject.hpp"
-#include "Spell.hpp"
-#include "Fire.hpp"
-#include "tileRenderer/Sprite.hpp"
-#include "tileRenderer/StatusEffectSprite.hpp"
-#include "tileRenderer/NPCSprite.hpp"
-#include "tileRenderer/NatureObjectSpriteSet.hpp"
-#include "tileRenderer/ItemSprite.hpp"
-#include "tileRenderer/ConstructionSprite.hpp"
-#include "tileRenderer/SpellSpriteSet.hpp"
-#include "tileRenderer/TerrainSprite.hpp"
+#include "Goblin/Eden/MapRenderer.hpp"
+#include "Goblin/Entity/Tile.hpp"
+#include "Goblin/Entity/NPC.hpp"
+#include "Goblin/Eden/NatureObject.hpp"
+#include "Goblin/Mechanism/Spell.hpp"
+#include "Goblin/Mechanism/Fire.hpp"
+
+#include "Goblin/Graphics/Tile/Sprite.hpp"
+#include "Goblin/Graphics/Tile/StatusEffectSprite.hpp"
+#include "Goblin/Graphics/Tile/NPCSprite.hpp"
+#include "Goblin/Graphics/Tile/NatureObjectSpriteSet.hpp"
+#include "Goblin/Graphics/Tile/ItemSprite.hpp"
+#include "Goblin/Graphics/Tile/ConstructionSprite.hpp"
+#include "Goblin/Graphics/Tile/SpellSpriteSet.hpp"
+#include "Goblin/Graphics/Tile/TerrainSprite.hpp"
 
 class TileSet : private boost::noncopyable
 {
 public:
 	explicit TileSet(std::string tileSetName, int tileW, int tileH);
+
 	~TileSet();
 
 	int TileWidth() const;
+
 	int TileHeight() const;
+
 	std::string GetName() const;
 	std::string GetAuthor() const;
 	std::string GetVersion() const;

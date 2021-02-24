@@ -16,7 +16,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #pragma once
 
-#include "tileRenderer/Sprite.hpp"
+#include "Goblin/Graphics/Tile/Sprite.hpp"
 
 class StatusEffectSprite
 {

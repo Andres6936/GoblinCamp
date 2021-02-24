@@ -16,10 +16,11 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
 #include <libtcod/libtcod.hpp>
-#include "MapRenderer.hpp"
-#include "tileRenderer/TileSetTexture.hpp"
-#include "tileRenderer/TileSet.hpp"
-#include "tileRenderer/PermutationTable.hpp"
+
+#include "Goblin/Eden/MapRenderer.hpp"
+#include "Goblin/Graphics/Tile/TileSetTexture.hpp"
+#include "Goblin/Graphics/Tile/TileSet.hpp"
+#include "Goblin/Graphics/Tile/PermutationTable.hpp"
 
 class TilesetRenderer : public MapRenderer
 {
