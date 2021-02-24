@@ -26,15 +26,15 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/serialization/list.hpp>
 #include <boost/serialization/vector.hpp>
 
-#include "Job.hpp"
+#include "Goblin/Task/Job.hpp"
 #include "Goblin/User/Interface/Announce.hpp"
-#include "Game.hpp"
-#include "Logger.hpp"
-#include "GCamp.hpp"
-#include "MapMarker.hpp"
-#include "Stockpile.hpp"
-#include "Door.hpp"
-#include "Farmplot.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Log/Logger.hpp"
+#include "Goblin/Util/GCamp.hpp"
+#include "Goblin/Eden/MapMarker.hpp"
+#include "Goblin/Mechanism/Stockpile.hpp"
+#include "Goblin/Mechanism/Door.hpp"
+#include "Goblin/Mechanism/Farmplot.hpp"
 
 Task::Task(Action act, Coordinate tar, std::weak_ptr<Entity> ent, ItemCategory itt, int fla) :
 		target(tar),
