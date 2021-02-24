@@ -1,4 +1,4 @@
-ADD_LIBRARY (GoblinCamp.UI
+ADD_LIBRARY (Goblin.User.Interface
         Interface/Announce.cpp
         Interface/AnnounceDialog.cpp
         Interface/Button.cpp
@@ -23,6 +23,6 @@ ADD_LIBRARY (GoblinCamp.UI
         Interface/UIContainer.cpp
         )
 
-ADD_LIBRARY(GoblinCamp::UI ALIAS GoblinCamp.UI)
-TARGET_INCLUDE_DIRECTORIES(GoblinCamp.UI PUBLIC $<BUILD_INTERFACE:${GOBLIN_CAMP_ROOT_DIR}/Include/>)
-TARGET_LINK_LIBRARIES(GoblinCamp.UI PUBLIC GoblinCamp::Libtcod)
+ADD_LIBRARY(Goblin::User::Interface ALIAS Goblin.User.Interface)
+TARGET_INCLUDE_DIRECTORIES(Goblin.User.Interface PUBLIC $<BUILD_INTERFACE:${GOBLIN_CAMP_ROOT_DIR}/Include/>)
+TARGET_LINK_LIBRARIES(Goblin.User.Interface PUBLIC GoblinCamp::Libtcod)

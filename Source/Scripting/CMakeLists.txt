@@ -1,4 +1,4 @@
-ADD_LIBRARY(GoblinCamp.Scripting
+ADD_LIBRARY(Goblin.Scripting STATIC
         API.cpp
         Engine.cpp
         Event.cpp
@@ -8,11 +8,6 @@ ADD_LIBRARY(GoblinCamp.Scripting
         API/PyItem.cpp
         )
 
-ADD_LIBRARY(GoblinCamp::Scripting ALIAS GoblinCamp.Scripting)
-TARGET_INCLUDE_DIRECTORIES(GoblinCamp.Scripting
-        PUBLIC
-        $<BUILD_INTERFACE:${GOBLIN_CAMP_ROOT_DIR}/Include/>
-        $<INSTALL_INTERFACE:${GOBLIN_CAMP_ROOT_DIR}/Include/>
-        )
-
-TARGET_LINK_LIBRARIES(GoblinCamp.Scripting PUBLIC GoblinCamp::Libtcod)
+ADD_LIBRARY(Goblin::Scripting ALIAS Goblin.Scripting)
+TARGET_INCLUDE_DIRECTORIES(Goblin.Scripting PUBLIC $<BUILD_INTERFACE:${GOBLIN_CAMP_ROOT_DIR}/Include/>)
+TARGET_LINK_LIBRARIES(Goblin.Scripting PUBLIC Goblin::Libtcod)

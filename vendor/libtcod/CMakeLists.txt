@@ -49,8 +49,4 @@ ADD_LIBRARY(GoblinCamp.Libtcod
 )
 
 ADD_LIBRARY (GoblinCamp::Libtcod ALIAS GoblinCamp.Libtcod)
-TARGET_INCLUDE_DIRECTORIES(GoblinCamp.Libtcod
-        PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/>
-        $<INSTALL_INTERFACE:include/>
-        )
+TARGET_INCLUDE_DIRECTORIES(GoblinCamp.Libtcod PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/>)

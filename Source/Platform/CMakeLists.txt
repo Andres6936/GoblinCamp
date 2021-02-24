@@ -1,0 +1,2 @@
+ADD_LIBRARY(Goblin.Platform STATIC linux/DataImpl.cpp)
+TARGET_INCLUDE_DIRECTORIES(Goblin.Platform PUBLIC $<BUILD_INTERFACE:${GOBLIN_CAMP_ROOT_DIR}/Include/>)
