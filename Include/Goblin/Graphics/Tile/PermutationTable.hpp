@@ -16,22 +16,29 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #pragma once
 
+#include <cstdint>
 #include <libtcod/libtcod.hpp>
 #include <vector>
 
-class PermutationTable {
+class PermutationTable
+{
 public:
 	explicit PermutationTable(int power);
-	explicit PermutationTable(int power, uint32 seed);
+
+	explicit PermutationTable(int power, std::uint32_t seed);
+
 	~PermutationTable();
 
-	inline int Hash(int val) const {
+	inline int Hash(int val) const
+	{
 		return table[bitMask & val];
 	}
 
-	inline int ExtHash(int val) const {
+	inline int ExtHash(int val) const
+	{
 		return table[(table[bitMask & val] + (val >> power)) & bitMask];
 	}
+
 private:
 	std::vector<int> table;
 	int power;
