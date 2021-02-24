@@ -24,6 +24,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Goblin/Util/GCamp.hpp"
 #include "Goblin/Mechanism/StockManager.hpp"
 #include "Goblin/Task/JobManager.hpp"
+#include "Goblin/Task/Task.hpp"
 #include "Goblin/User/Interface/Announce.hpp"
 #include "Goblin/Mechanism/Stats.hpp"
 #include "Goblin/Mechanism/Camp.hpp"

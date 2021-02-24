@@ -36,6 +36,7 @@ namespace py = boost::python;
 #include "Goblin/Math/Random.hpp"
 #include "Goblin/Util/Game.hpp"
 #include "Goblin/Entity/Tile.hpp"
+#include "Goblin/Task/Task.hpp"
 #include "Goblin/Task/JobManager.hpp"
 #include "Goblin/Log/Logger.hpp"
 #include "Goblin/Eden/Map.hpp"

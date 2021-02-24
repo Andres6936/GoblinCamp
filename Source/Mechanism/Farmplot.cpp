@@ -30,6 +30,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Goblin/Util/Game.hpp"
 #include "Goblin/Eden/Map.hpp"
 #include "Goblin/Util/GCamp.hpp"
+#include "Goblin/Task/Task.hpp"
 #include "Goblin/Task/JobManager.hpp"
 #include "Goblin/Mechanism/StockManager.hpp"
 

@@ -21,95 +21,26 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <boost/tuple/tuple.hpp>
 
+#include "Goblin/Task/Enum/Action.hpp"
+#include "Goblin/Task/Enum/JobPriority.hpp"
+#include "Goblin/Task/Enum/JobCompletion.hpp"
 #include "Goblin/Mechanism/Construction.hpp"
 #include "Goblin/Config/Serialization.hpp"
 
 class Stockpile;
+
 class Coordinate;
+
 class MapMarker;
+
 class Entity;
+
 class Container;
+
+class Task;
 
 typedef int ItemCategory;
 typedef int ItemType;
-
-enum JobPriority {
-	VERYHIGH,
-	HIGH,
-	MED,
-	LOW,
-	PRIORITY_COUNT
-};
-
-enum JobCompletion {
-	FAILURE,
-	SUCCESS,
-	ONGOING
-};
-
-enum Action {
-	NOACTION,
-	USE,
-	TAKE,
-	DROP,
-	PUTIN,
-	BUILD,
-	MOVE,
-	MOVEADJACENT,
-	MOVENEAR,
-	WAIT,
-	DRINK,
-	EAT,
-	FIND,
-	HARVEST,
-	FELL,
-	HARVESTWILDPLANT,
-	KILL,
-	FLEEMAP,
-	SLEEP,
-	DISMANTLE,
-	WIELD,
-	WEAR,
-	BOGIRON,
-	STOCKPILEITEM,
-	QUIVER,
-	FILL,
-	POUR,
-	DIG,
-	FORGET,
-	UNWIELD,
-	GETANGRY,
-	CALMDOWN,
-	STARTFIRE,
-	REPAIR,
-	FILLDITCH
-};
-
-enum TaskResult {
-	TASKSUCCESS,
-	TASKFAILNONFATAL,
-	TASKFAILFATAL,
-	TASKCONTINUE,
-	TASKOWNDONE,
-	PATHEMPTY
-};
-
-class Task
-{
-	GC_SERIALIZABLE_CLASS
-
-public:
-	Task(Action = NOACTION, Coordinate = Coordinate(-1, -1), std::weak_ptr<Entity> = std::weak_ptr<Entity>(),
-			ItemCategory = 0, int flags = 0);
-
-	Coordinate target;
-	std::weak_ptr<Entity> entity;
-	Action action;
-	ItemCategory item;
-	int flags;
-};
-
-BOOST_CLASS_VERSION(Task, 0)
 
 class Job
 {

@@ -27,6 +27,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include "Goblin/Geometry/Coordinate.hpp"
 #include "Goblin/Task/Job.hpp"
+#include "Goblin/Task/Enum/TaskResult.hpp"
 #include "Goblin/Entity/Entity.hpp"
 #include "Goblin/Entity/Container.hpp"
 #include "Goblin/Mechanism/StatusEffect.hpp"

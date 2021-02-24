@@ -21,6 +21,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "iostream"
 #endif
 
+#include "Goblin/Task/Task.hpp"
 #include "Goblin/Math/Random.hpp"
 #include "Goblin/User/Interface/Announce.hpp"
 #include "Goblin/Mechanism/Events.hpp"

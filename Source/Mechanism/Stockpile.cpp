@@ -19,6 +19,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/serialization/map.hpp>
 #include <boost/serialization/shared_ptr.hpp>
 
+#include "Goblin/Task/Task.hpp"
 #include "Goblin/Math/Random.hpp"
 #include "Goblin/Mechanism/Stockpile.hpp"
 #include "Goblin/Util/Game.hpp"

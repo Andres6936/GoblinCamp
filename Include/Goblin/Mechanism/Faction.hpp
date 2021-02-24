@@ -26,6 +26,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include "Goblin/Config/Serialization.hpp"
 #include "Goblin/Task/Job.hpp"
+#include "Goblin/Task/Enum/TaskResult.hpp"
 
 class NPC;
 

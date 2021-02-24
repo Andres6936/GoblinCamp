@@ -19,9 +19,10 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/serialization/shared_ptr.hpp>
 #include <boost/serialization/weak_ptr.hpp>
 
+#include "Goblin/Task/Task.hpp"
 #include "Goblin/Task/JobManager.hpp"
-#include "Goblin/Util/Game.hpp"
 #include "Goblin/Task/KuhnMunkres.hpp"
+#include "Goblin/Util/Game.hpp"
 #include "Goblin/Mechanism/StockManager.hpp"
 
 JobManager::JobManager()

@@ -20,46 +20,19 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #endif
 
 #include <string>
-#include <libtcod.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/serialization/weak_ptr.hpp>
 #include <boost/serialization/list.hpp>
 #include <boost/serialization/vector.hpp>
 
 #include "Goblin/Task/Job.hpp"
-#include "Goblin/User/Interface/Announce.hpp"
+#include "Goblin/Task/Task.hpp"
 #include "Goblin/Util/Game.hpp"
-#include "Goblin/Log/Logger.hpp"
-#include "Goblin/Util/GCamp.hpp"
 #include "Goblin/Eden/MapMarker.hpp"
 #include "Goblin/Mechanism/Stockpile.hpp"
 #include "Goblin/Mechanism/Door.hpp"
 #include "Goblin/Mechanism/Farmplot.hpp"
 
-Task::Task(Action act, Coordinate tar, std::weak_ptr<Entity> ent, ItemCategory itt, int fla) :
-		target(tar),
-		entity(ent),
-		action(act),
-		item(itt),
-		flags(fla)
-{
-}
-
-void Task::save(OutputArchive& ar, const unsigned int version) const {
-	ar & target;
-	ar & entity;
-	ar & action;
-	ar & item;
-	ar & flags;
-}
-
-void Task::load(InputArchive& ar, const unsigned int version) {
-	ar & target;
-	ar & entity;
-	ar & action;
-	ar & item;
-	ar & flags;
-}
 
 Job::Job(std::string value, JobPriority pri, int z, bool m) :
 		_priority(pri),

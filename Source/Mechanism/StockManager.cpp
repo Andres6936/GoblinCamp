@@ -27,11 +27,12 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Goblin/Entity/Item.hpp"
 #include "Goblin/Mechanism/Construction.hpp"
 #include "Goblin/Eden/NatureObject.hpp"
+#include "Goblin/Task/Job.hpp"
 #include "Goblin/Task/JobManager.hpp"
+#include "Goblin/Task/Task.hpp"
 #include "Goblin/Eden/Map.hpp"
 #include "Goblin/Util/Game.hpp"
 #include "Goblin/Mechanism/Camp.hpp"
-#include "Goblin/Task/Job.hpp"
 #include "Goblin/Mechanism/Stockpile.hpp"
 #include "Goblin/Mechanism/SpawningPool.hpp"
 

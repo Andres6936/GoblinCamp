@@ -16,6 +16,7 @@
 
 #include <string>
 
+#include "Goblin/Task/Task.hpp"
 #include "Goblin/Util/Game.hpp"
 #include "Goblin/User/Interface/UIList.hpp"
 #include "Goblin/User/Interface/NPCDialog.hpp"
