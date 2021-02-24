@@ -23,14 +23,15 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include "Goblin/User/Interface/Menu.hpp"
 #include "Goblin/User/Interface/SideBar.hpp"
-#include "Entity.hpp"
-#include "Game.hpp"
+#include "Goblin/Entity/Entity.hpp"
+#include "Goblin/Util/Game.hpp"
 
-enum UIState {
-	UINORMAL,		 // No selection highlights
+enum UIState
+{
+	UINORMAL,         // No selection highlights
 	UIPLACEMENT,
-	UIABPLACEMENT, 
-	UIRECTPLACEMENT,  
+	UIABPLACEMENT,
+	UIRECTPLACEMENT,
 	UICOUNT
 };
 
