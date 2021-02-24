@@ -13,11 +13,12 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
+
 
 #include <string>
 #include <queue>
 #include <set>
+
 #ifdef DEBUG
 #include <iostream>
 #endif
@@ -26,14 +27,14 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/serialization/shared_ptr.hpp>
 #include <boost/serialization/set.hpp>
 
-#include "Random.hpp"
-#include "Tile.hpp"
+#include "Goblin/Math/Random.hpp"
+#include "Goblin/Entity/Tile.hpp"
+#include "Goblin/Log/Logger.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Mechanism/Construction.hpp"
+#include "Goblin/Mechanism/Faction.hpp"
+#include "Goblin/Mechanism/Trap.hpp"
 #include "Goblin/User/Interface/Announce.hpp"
-#include "Logger.hpp"
-#include "Game.hpp"
-#include "Construction.hpp"
-#include "Faction.hpp"
-#include "Trap.hpp"
 
 Tile::Tile(TileType newType, int newCost) :
 		vis(true),

@@ -13,7 +13,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
+
 
 #include <cstdlib>
 #include <string>
@@ -23,6 +23,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/format.hpp>
 #include <boost/algorithm/string.hpp>
 #include <libtcod.hpp>
+
 #ifdef DEBUG
 #include <iostream>
 #endif
@@ -33,27 +34,36 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/serialization/shared_ptr.hpp>
 #include <boost/serialization/set.hpp>
 
-#include "Random.hpp"
-#include "NPC.hpp"
+#include "Goblin/Math/Random.hpp"
+#include "Goblin/Entity/NPC.hpp"
+#include "Goblin/Mechanism/JobManager.hpp"
+#include "Goblin/Util/GCamp.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Log/Logger.hpp"
+#include "Goblin/Eden/Map.hpp"
+#include "Goblin/Mechanism/StatusEffect.hpp"
+#include "Goblin/Mechanism/Camp.hpp"
+#include "Goblin/Mechanism/Stockpile.hpp"
+#include "Goblin/Mechanism/Faction.hpp"
+#include "Goblin/Mechanism/Stats.hpp"
 #include "Goblin/Geometry/Coordinate.hpp"
-#include "JobManager.hpp"
-#include "GCamp.hpp"
-#include "Game.hpp"
 #include "Goblin/User/Interface/Announce.hpp"
-#include "Logger.hpp"
-#include "Map.hpp"
-#include "StatusEffect.hpp"
-#include "Camp.hpp"
-#include "Stockpile.hpp"
-#include "Faction.hpp"
-#include "Stats.hpp"
 
-SkillSet::SkillSet() {
-	for (int i = 0; i < SKILLAMOUNT; ++i) { skills[i] = 0; }
+SkillSet::SkillSet()
+{
+	for (int i = 0; i < SKILLAMOUNT; ++i)
+	{ skills[i] = 0; }
 }
 
-int SkillSet::operator()(Skill skill) {return skills[skill];}
-void SkillSet::operator()(Skill skill, int value) {skills[skill] = value;}
+int SkillSet::operator()(Skill skill)
+{
+	return skills[skill];
+}
+
+void SkillSet::operator()(Skill skill, int value)
+{
+	skills[skill] = value;
+}
 
 void SkillSet::save(OutputArchive& ar, const unsigned int version) const {
 	ar & skills;
