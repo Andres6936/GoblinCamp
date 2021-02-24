@@ -18,8 +18,10 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <list>
 #include <string>
 #include <memory>
+
 #include <boost/python/detail/wrap_python.hpp>
 #include <boost/python.hpp>
+
 namespace py = boost::python;
 
 #include "NPC.hpp"

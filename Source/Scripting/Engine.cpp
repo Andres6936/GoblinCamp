@@ -22,6 +22,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <list>
 
 #define BOOST_FILESYSTEM_VERSION 3
+
 #include <boost/foreach.hpp>
 #include <filesystem>
 #include <boost/python/detail/wrap_python.hpp>
@@ -30,19 +31,22 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 namespace py = boost::python;
 namespace fs = std::filesystem;
 
-#include "data/Paths.hpp"
-#include "scripting/Engine.hpp"
-#include "scripting/API.hpp"
-#include "scripting/_gcampapi/LoggerStream.hpp"
-#include "Logger.hpp"
+#include "Goblin/Config/Paths.hpp"
+#include "Goblin/Scripting/Engine.hpp"
+#include "Goblin/Scripting/API.hpp"
+#include "Goblin/Scripting/API/LoggerStream.hpp"
+#include "Goblin/Log/Logger.hpp"
 
-namespace Globals {
+namespace Globals
+{
 	py::object loadPackageFunc, printExcFunc;
 	Script::API::LoggerStream stream;
 }
 
-namespace {
-	void LogBootstrapException() {
+namespace
+{
+	void LogBootstrapException()
+	{
 		py::object excType, excValue, excTB;
 		Script::ExtractException(excType, excValue, excTB);
 		
