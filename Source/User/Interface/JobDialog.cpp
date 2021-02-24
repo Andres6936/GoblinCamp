@@ -20,6 +20,7 @@
 
 #include "Goblin/Util/Game.hpp"
 #include "Goblin/Task/JobManager.hpp"
+#include "Goblin/Config/WindowConfig.hpp"
 
 void JobDialog::Draw(int _x, int _y, int scroll, int width, int height, TCODConsole* console)
 {
