@@ -13,11 +13,12 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
+
 
 #include <libtcod.hpp>
 #include <memory>
 #include <boost/algorithm/string.hpp>
+
 #ifdef DEBUG
 #include <iostream>
 #include <boost/format.hpp>
@@ -25,14 +26,14 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <boost/serialization/weak_ptr.hpp>
 
-#include "Random.hpp"
-#include "Item.hpp"
-#include "Game.hpp"
-#include "Map.hpp"
-#include "Logger.hpp"
-#include "StockManager.hpp"
-#include "Attack.hpp"
-#include "Faction.hpp"
+#include "Goblin/Math/Random.hpp"
+#include "Goblin/Entity/Item.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Eden/Map.hpp"
+#include "Goblin/Log/Logger.hpp"
+#include "Goblin/Mechanism/StockManager.hpp"
+#include "Goblin/Mechanism/Attack.hpp"
+#include "Goblin/Mechanism/Faction.hpp"
 
 std::vector<ItemPreset> Item::Presets = std::vector<ItemPreset>();
 std::vector<ItemCat> Item::Categories = std::vector<ItemCat>();
@@ -42,7 +43,8 @@ boost::unordered_map<std::string, ItemType> Item::itemCategoryNames = boost::uno
 std::multimap<StatusEffectType, ItemType> Item::EffectRemovers = std::multimap<StatusEffectType, ItemType>();
 std::multimap<StatusEffectType, ItemType> Item::GoodEffectAdders = std::multimap<StatusEffectType, ItemType>();
 
-Item::Item(const Coordinate& startPos, ItemType typeval, int owner, std::vector<std::shared_ptr<Item> > components) :
+Item::Item(const Coordinate& startPos, ItemType typeval, int owner,
+		std::vector<std::shared_ptr<Item> > components) :
 		Entity(),
 
 		type(typeval),

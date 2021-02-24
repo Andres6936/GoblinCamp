@@ -13,28 +13,29 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
+
 
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/set.hpp>
 #include <boost/serialization/weak_ptr.hpp>
 
-#include "Entity.hpp"
-#include "Container.hpp"
-#include "Logger.hpp"
-#include "Construction.hpp"
-#include "Game.hpp"
-#include "Stockpile.hpp"
+#include "Goblin/Entity/Entity.hpp"
+#include "Goblin/Entity/Container.hpp"
+#include "Goblin/Log/Logger.hpp"
+#include "Goblin/Mechanism/Construction.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Mechanism/Stockpile.hpp"
 
 Container::Container(
-		Coordinate pos, ItemType type, int capValue, int faction, std::vector<std::shared_ptr<Item> > components,
+		Coordinate pos, ItemType type, int capValue, int faction,
+		std::vector<std::shared_ptr<Item> > components,
 		std::vector<ContainerListener*> nlisteners
 ) :
-	Item(pos, type, faction, components),
-	capacity(capValue),
-	reservedSpace(0),
-	listeners(nlisteners),
-	water(0),
+		Item(pos, type, faction, components),
+		capacity(capValue),
+		reservedSpace(0),
+		listeners(nlisteners),
+		water(0),
 	filth(0)
 {
 }

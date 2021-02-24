@@ -13,23 +13,25 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
+
 #ifdef DEBUG
 #include <iostream>
 #endif
 
 #include <boost/serialization/set.hpp>
 
-#include "Entity.hpp"
-#include "Map.hpp"
-#include "Faction.hpp"
+#include "Goblin/Entity/Entity.hpp"
+#include "Goblin/Util/Map.hpp"
+#include "Goblin/Mechanism/Faction.hpp"
 
-FlightPath::FlightPath(Coordinate c) : coord(c), height(-1) {}
+FlightPath::FlightPath(Coordinate c) : coord(c), height(-1)
+{
+}
 
 Entity::Entity() :
-	zone(0), reserved(0), name("NONAME"), faction(-1),
-	velocity(0), nextVelocityMove(0), velocityTarget(Coordinate(0,0)),
-	bulk(0), strobe(0.0f)
+		zone(0), reserved(0), name("NONAME"), faction(-1),
+		velocity(0), nextVelocityMove(0), velocityTarget(Coordinate(0, 0)),
+		bulk(0), strobe(0.0f)
 {
 	uid = uids++; //FIXME: Entity should keep track of freed uids
 }
