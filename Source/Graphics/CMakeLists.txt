@@ -1,3 +1,5 @@
+ADD_SUBDIRECTORY(Tile/)
+
 ADD_LIBRARY(Goblin.Graphics STATIC
         TCODMapRenderer.cpp
         UI.cpp

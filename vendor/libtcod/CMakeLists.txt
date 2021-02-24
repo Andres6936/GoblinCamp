@@ -1,4 +1,4 @@
-ADD_LIBRARY(GoblinCamp.Libtcod
+ADD_LIBRARY(Goblin.Libtcod
     src/bresenham_c.c
     src/bresenham.cpp
     src/bsp_c.c
@@ -48,5 +48,5 @@ ADD_LIBRARY(GoblinCamp.Libtcod
     src/zip.cpp
 )
 
-ADD_LIBRARY (GoblinCamp::Libtcod ALIAS GoblinCamp.Libtcod)
-TARGET_INCLUDE_DIRECTORIES(GoblinCamp.Libtcod PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/>)
+ADD_LIBRARY (Goblin::Libtcod ALIAS Goblin.Libtcod)
+TARGET_INCLUDE_DIRECTORIES(Goblin.Libtcod PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/>)

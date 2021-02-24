@@ -36,5 +36,5 @@ TARGET_LINK_LIBRARIES(Goblin.App PRIVATE
         ${PNG_LIBRARY}
         )
 
-FILE(COPY ${GOBLIN_CAMP_ROOT_DIR}/Library/ DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/share/games/goblin-camp/lib/)
+FILE(COPY ${GOBLIN_CAMP_ROOT_DIR}/Library/ DESTINATION ${GOBLIN_CAMP_ROOT_DIR}/share/games/goblin-camp/lib/)
 
