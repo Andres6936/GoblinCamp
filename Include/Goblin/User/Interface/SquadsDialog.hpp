@@ -21,7 +21,7 @@
 #include <utility>
 #include <libtcod/libtcod.hpp>
 
-#include "Squad.hpp"
+#include "Goblin/Mechanism/Squad.hpp"
 #include "Goblin/User/Interface/Frame.hpp"
 #include "Goblin/User/Interface/Dialog.hpp"
 #include "Goblin/User/Interface/UIList.hpp"
