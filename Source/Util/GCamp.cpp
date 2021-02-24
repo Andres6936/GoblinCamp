@@ -86,6 +86,7 @@ int GCMain(std::vector<std::string>& args) {
 	Data::LoadConfig();
 	Data::LoadFont();
 
+	// Need to initialize the App.
 	Game::Inst();
 	Game::LoadingScreen(&Mods::Load);
 
