@@ -21,7 +21,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <boost/tuple/tuple.hpp>
 
-#include "Construction.hpp"
+#include "Goblin/Mechanism/Construction.hpp"
 #include "Goblin/Config/Serialization.hpp"
 
 class Stockpile;
