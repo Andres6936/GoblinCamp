@@ -1,5 +1,6 @@
 // Joan Andrés (@Andres6936) Github.
 
+#include <Goblin/Graphics/UI.hpp>
 #include "Goblin/User/Interface/Spinner.hpp"
 
 
