@@ -12,13 +12,23 @@ ADD_SUBDIRECTORY(Task/)
 ADD_SUBDIRECTORY(User/)
 ADD_SUBDIRECTORY(Util/)
 
-ADD_EXECUTABLE(Goblin.App Platform/unix/main.cpp Util/GCamp.cpp)
+ADD_EXECUTABLE(Goblin.App Platform/unix/main.cpp)
 
 TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin::User::Interface)
 TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin::Renderer::Tile)
 TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin::Scripting)
 TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin::Libtcod)
 TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin::Configuration)
+TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin.Eden)
+TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin.Entity)
+TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin.Graphics)
+TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin.Log)
+TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin.Math)
+TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin.Mechanism)
+TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin.Platform)
+TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin.Scripting)
+TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin.Task)
+TARGET_LINK_LIBRARIES(Goblin.App PUBLIC Goblin.Util)
 
 TARGET_LINK_LIBRARIES(Goblin.App PRIVATE
         ${SDL_LIBRARY}
