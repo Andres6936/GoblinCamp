@@ -13,7 +13,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
+
 
 #ifdef DEBUG
 #include <iostream>
@@ -22,21 +22,21 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/algorithm/string.hpp>
 #include <boost/serialization/shared_ptr.hpp>
 
-#include "NatureObject.hpp"
-#include "Map.hpp"
-#include "Item.hpp"
-#include "Game.hpp"
-#include "Random.hpp"
+#include "Goblin/Eden/NatureObject.hpp"
+#include "Goblin/Eden/Map.hpp"
+#include "Goblin/Entity/Item.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Math/Random.hpp"
 
 NatureObjectPreset::NatureObjectPreset() :
-	name("NATUREOBJECT PRESET"),
-	graphic('?'),
-	color(TCODColor::pink),
-	components(std::list<ItemType>()),
-	rarity(100),
-	cluster(1),
-	condition(1),
-	tree(false),
+		name("NATUREOBJECT PRESET"),
+		graphic('?'),
+		color(TCODColor::pink),
+		components(std::list<ItemType>()),
+		rarity(100),
+		cluster(1),
+		condition(1),
+		tree(false),
 	harvestable(false),
 	walkable(false),
 	minHeight(0.0f),

@@ -13,7 +13,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
+
 
 #include <boost/unordered_set.hpp>
 #include <boost/algorithm/string.hpp>
@@ -21,23 +21,24 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/serialization/shared_ptr.hpp>
 #include <boost/serialization/utility.hpp>
 
-#include "Random.hpp"
-#include "Map.hpp"
-#include "Game.hpp"
-#include "NPC.hpp"
-#include "StatusEffect.hpp"
-#include "Construction.hpp"
-#include "Door.hpp"
-#include "MapMarker.hpp"
-#include "Faction.hpp"
-#include "Weather.hpp"
-#include "GCamp.hpp"
+#include "Goblin/Math/Random.hpp"
+#include "Goblin/Eden/Map.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Entity/NPC.hpp"
+#include "Goblin/Mechanism/StatusEffect.hpp"
+#include "Goblin/Mechanism/Construction.hpp"
+#include "Goblin/Mechanism/Door.hpp"
+#include "Goblin/Eden/MapMarker.hpp"
+#include "Goblin/Mechanism/Faction.hpp"
+#include "Goblin/Mechanism/Weather.hpp"
+#include "Goblin/Util/GCamp.hpp"
 
 static const int HARDCODED_WIDTH = 500;
 static const int HARDCODED_HEIGHT = 500;
 
 Map::Map() :
-overlayFlags(0), markerids(0) {
+		overlayFlags(0), markerids(0)
+{
 	tileMap.resize(boost::extents[HARDCODED_WIDTH][HARDCODED_HEIGHT]);
 	cachedTileMap.resize(boost::extents[HARDCODED_WIDTH][HARDCODED_HEIGHT]);
 	heightMap = new TCODHeightMap(HARDCODED_WIDTH, HARDCODED_HEIGHT);
