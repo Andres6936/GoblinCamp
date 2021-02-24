@@ -17,18 +17,19 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/bind.hpp>
 #include <boost/serialization/shared_ptr.hpp>
 
-#include "Game.hpp"
-#include "Random.hpp"
-#include "SpawningPool.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Math/Random.hpp"
+#include "Goblin/Mechanism/SpawningPool.hpp"
 #include "Goblin/User/Interface/Button.hpp"
-#include "GCamp.hpp"
-#include "StockManager.hpp"
-#include "JobManager.hpp"
+#include "Goblin/Util/GCamp.hpp"
+#include "Goblin/Mechanism/StockManager.hpp"
+#include "Goblin/Task/JobManager.hpp"
 #include "Goblin/User/Interface/Announce.hpp"
-#include "Stats.hpp"
-#include "Camp.hpp"
+#include "Goblin/Mechanism/Stats.hpp"
+#include "Goblin/Mechanism/Camp.hpp"
 
-SpawningPool::SpawningPool(ConstructionType type, const Coordinate& target) : Construction(type, target),
+SpawningPool::SpawningPool(ConstructionType type, const Coordinate& target) : Construction(type,
+		target),
 																			  dumpFilth(false),
 																			  dumpCorpses(false),
 																			  a(target),
