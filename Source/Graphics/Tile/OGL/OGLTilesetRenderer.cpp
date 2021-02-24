@@ -19,15 +19,15 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Goblin/Graphics/Tile/ogl/OGLResources.hpp"
 #include "Goblin/Graphics/Tile/ogl/OGLFunctionExt.hpp"
 #include "Goblin/Graphics/Tile/TileSetLoader.hpp"
+#include "Goblin/Math/MathEx.hpp"
+#include "Goblin/Log/Logger.hpp"
+#include "Goblin/Config/Paths.hpp"
 
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_opengl.h>
-#include "MathEx.hpp"
-#include "Logger.hpp"
-#include <boost/scoped_array.hpp>
 
-#include "data/Paths.hpp"
+#include <boost/scoped_array.hpp>
 
 using namespace OGLFunctionExtension;
 

@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 
-#include "Goblin/Graphics/Tile/sdl/SDLSprite.hpp"
+#include "Goblin/Graphics/Tile/SDL/SDLSprite.hpp"
 
 SDLSprite::SDLSprite(SDLTilesetRenderer* const renderer, std::shared_ptr<TileSetTexture> tilesetTexture, int tile)
 		: Sprite(tile),

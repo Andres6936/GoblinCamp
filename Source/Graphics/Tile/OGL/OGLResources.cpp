@@ -13,22 +13,25 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
-
-#include "Goblin/Graphics/Tile/ogl/OGLResources.hpp"
-#include "Logger.hpp"
-#include <boost/scoped_array.hpp>
 
 #include <SDL/SDL_opengl.h>
-#include "Goblin/Graphics/Tile/ogl/OGLFunctionExt.hpp"
+#include <boost/scoped_array.hpp>
+
+#include "Goblin/Log/Logger.hpp"
+#include "Goblin/Graphics/Tile/OGL/OGLResources.hpp"
+#include "Goblin/Graphics/Tile/OGL/OGLFunctionExt.hpp"
 
 using namespace OGLFunctionExtension;
 
-namespace {
-	struct TextureDeleter {
-		TextureDeleter(GLuint tex) : handle(tex) {}
+namespace
+{
+	struct TextureDeleter
+	{
+		TextureDeleter(GLuint tex) : handle(tex)
+		{
+		}
 
-		void operator()( GLuint * dummyHandle )
+		void operator()(GLuint* dummyHandle)
 		{
 			glDeleteTextures(1, &handle);
         }
