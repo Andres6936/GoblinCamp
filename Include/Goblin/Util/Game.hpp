@@ -18,6 +18,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <list>
 #include <memory>
+#include <cstdint>
 
 #include <boost/multi_array.hpp>
 #include <boost/thread/mutex.hpp>
@@ -161,7 +162,7 @@ public:
 
 	static void ErrorScreen();
 
-	void GenerateMap(uint32 seed = 0);
+	void GenerateMap(std::uint32_t seed = 0);
 
 	void Update();
 
@@ -170,7 +171,9 @@ public:
 	void CenterOn(Coordinate target);
 
 	void MoveCam(float x, float y);
+
 	void SetMark(int);
+
 	void ReturnToMark(int);
 
 	void Pause();
