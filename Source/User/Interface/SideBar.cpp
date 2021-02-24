@@ -13,7 +13,7 @@
  
  You should have received a copy of the GNU General Public License 
  along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
+
 
 #include <libtcod.hpp>
 #include <string>
@@ -21,11 +21,11 @@
 #include <boost/function.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include "StatusEffect.hpp"
-#include "Item.hpp"
-#include "NPC.hpp"
-#include "UI.hpp"
-#include "Farmplot.hpp"
+#include "Goblin/Mechanism/StatusEffect.hpp"
+#include "Goblin/Entity/Item.hpp"
+#include "Goblin/Entity/NPC.hpp"
+#include "Goblin/Graphics/UI.hpp"
+#include "Goblin/Mechanism/Farmplot.hpp"
 #include "Goblin/User/Interface/SideBar.hpp"
 #include "Goblin/User/Interface/ScrollPanel.hpp"
 #include "Goblin/User/Interface/Frame.hpp"

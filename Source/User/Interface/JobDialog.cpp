@@ -18,8 +18,8 @@
 #include <Goblin/User/Interface/JobDialog.hpp>
 #include <Goblin/Geometry/Coordinate.hpp>
 
-#include "Game.hpp"
-#include "JobManager.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Task/JobManager.hpp"
 
 void JobDialog::Draw(int _x, int _y, int scroll, int width, int height, TCODConsole* console)
 {

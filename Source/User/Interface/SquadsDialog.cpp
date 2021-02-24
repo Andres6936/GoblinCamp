@@ -26,11 +26,11 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Goblin/User/Interface/Label.hpp"
 #include "Goblin/User/Interface/Button.hpp"
 #include "Goblin/User/Interface/Spinner.hpp"
-#include "UI.hpp"
+#include "Goblin/Graphics/UI.hpp"
 #include "Goblin/User/Interface/TextBox.hpp"
 #include "Goblin/User/Interface/Frame.hpp"
 #include "Goblin/User/Interface/Announce.hpp"
-#include "MapMarker.hpp"
+#include "Goblin/Eden/MapMarker.hpp"
 
 SquadsDialog* SquadsDialog::squadDialog = 0;
 

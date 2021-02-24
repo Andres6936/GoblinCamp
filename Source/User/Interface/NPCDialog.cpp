@@ -16,7 +16,7 @@
 
 #include <string>
 
-#include "Game.hpp"
+#include "Goblin/Util/Game.hpp"
 #include "Goblin/User/Interface/UIList.hpp"
 #include "Goblin/User/Interface/NPCDialog.hpp"
 #include "Goblin/User/Interface/ScrollPanel.hpp"
