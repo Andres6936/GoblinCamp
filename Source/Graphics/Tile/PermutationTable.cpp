@@ -34,10 +34,10 @@ PermutationTable::PermutationTable(int pow)
 	}
 }
 
-PermutationTable::PermutationTable(int pow, uint32 seed)
- : 	table(),
-	power(pow),
-	bitMask((1 << pow) - 1) 
+PermutationTable::PermutationTable(int pow, std::uint32_t seed)
+		: table(),
+		  power(pow),
+		  bitMask((1 << pow) - 1)
 {
 	TCODRandom random(seed, TCOD_RNG_CMWC);
 	int size = 1 << pow;
