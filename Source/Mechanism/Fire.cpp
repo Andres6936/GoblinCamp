@@ -21,26 +21,29 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/weak_ptr.hpp>
 
-#include "Fire.hpp"
-#include "Random.hpp"
-#include "Map.hpp"
-#include "Game.hpp"
-#include "Water.hpp"
-#include "SpawningPool.hpp"
-#include "Stockpile.hpp"
-#include "JobManager.hpp"
-#include "Job.hpp"
-#include "Stats.hpp"
+#include "Goblin/Mechanism/Fire.hpp"
+#include "Goblin/Math/Random.hpp"
+#include "Goblin/Eden/Map.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Mechanism/Water.hpp"
+#include "Goblin/Mechanism/SpawningPool.hpp"
+#include "Goblin/Mechanism/Stockpile.hpp"
+#include "Goblin/Task/JobManager.hpp"
+#include "Goblin/Task/Job.hpp"
+#include "Goblin/Mechanism/Stats.hpp"
 
-FireNode::FireNode(const Coordinate& pos, int vtemp) : pos(pos), temperature(vtemp) {
+FireNode::FireNode(const Coordinate& pos, int vtemp) : pos(pos), temperature(vtemp)
+{
 	color.r = Random::Generate(225, 255);
 	color.g = Random::Generate(0, 250);
 	color.b = 0;
-	graphic = Random::Generate(176,178);
+	graphic = Random::Generate(176, 178);
 }
 
-FireNode::~FireNode() {
-	if (waterJob.lock()) {
+FireNode::~FireNode()
+{
+	if (waterJob.lock())
+	{
 		JobManager::Inst()->RemoveJob(waterJob);
 	}
 }
