@@ -78,14 +78,15 @@ int GCMain(std::vector<std::string>& args) {
 	Random::Init();
 	Config::Init();
 	Script::Init(args);
-	
+
 	//
 	// Load phase.
 	//
 	TCOD_sys_startup();
 	Data::LoadConfig();
 	Data::LoadFont();
-	
+
+	Game::Inst();
 	Game::LoadingScreen(&Mods::Load);
 
 #ifdef MACOSX
