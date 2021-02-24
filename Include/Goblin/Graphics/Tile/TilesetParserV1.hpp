@@ -16,19 +16,20 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #pragma once
 
-#include <boost/noncopyable.hpp>
 #include <memory>
 #include <filesystem>
+
+#include <boost/noncopyable.hpp>
 #include <libtcod/libtcod.hpp>
 
-#include "tileRenderer/TileSetRenderer.hpp"
-#include "tileRenderer/TileSetLoader.hpp"
-#include "tileRenderer/TileSet.hpp"
-#include "tileRenderer/TileSetTexture.hpp"
-#include "tileRenderer/NPCSprite.hpp"
-#include "tileRenderer/ItemSprite.hpp"
-#include "tileRenderer/ConstructionSprite.hpp"
-#include "tileRenderer/SpellSpriteSet.hpp"
+#include "Goblin/Graphics/Tile/TileSetRenderer.hpp"
+#include "Goblin/Graphics/Tile/TileSetLoader.hpp"
+#include "Goblin/Graphics/Tile/TileSet.hpp"
+#include "Goblin/Graphics/Tile/TileSetTexture.hpp"
+#include "Goblin/Graphics/Tile/NPCSprite.hpp"
+#include "Goblin/Graphics/Tile/ItemSprite.hpp"
+#include "Goblin/Graphics/Tile/ConstructionSprite.hpp"
+#include "Goblin/Graphics/Tile/SpellSpriteSet.hpp"
 
 class TileSetParserV1 : public ITCODParserListener, private boost::noncopyable
 {

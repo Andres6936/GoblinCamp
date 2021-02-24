@@ -16,23 +16,26 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #pragma once
 
-#include "tileRenderer/TileSetRenderer.hpp"
-#include "tileRenderer/TileSet.hpp"
+#include "Goblin/Graphics/Tile/TileSetRenderer.hpp"
+#include "Goblin/Graphics/Tile/TileSet.hpp"
 
-#include "Farmplot.hpp"
-#include "Stockpile.hpp"
-#include "Door.hpp"
-#include "SpawningPool.hpp"
-#include "Trap.hpp"
+#include "Goblin/Mechanism/Farmplot.hpp"
+#include "Goblin/Mechanism/Stockpile.hpp"
+#include "Goblin/Mechanism/Door.hpp"
+#include "Goblin/Mechanism/SpawningPool.hpp"
+#include "Goblin/Mechanism/Trap.hpp"
 
-class DrawConstructionVisitor : public ConstructionVisitor  {
+class DrawConstructionVisitor : public ConstructionVisitor
+{
 private:
-	const TilesetRenderer * tileSetRenderer;
-	const TileSet * tileSet;
+	const TilesetRenderer* tileSetRenderer;
+	const TileSet* tileSet;
 	int screenX, screenY;
 	const Coordinate& coordinate;
 public:
-	explicit DrawConstructionVisitor(const TilesetRenderer * tileSetRenderer, const TileSet * tileSet, int screenX, int screenY, const Coordinate& pos);
+	explicit DrawConstructionVisitor(const TilesetRenderer* tileSetRenderer, const TileSet* tileSet,
+			int screenX, int screenY, const Coordinate& pos);
+
 	~DrawConstructionVisitor();
 
 	void Visit(FarmPlot * farmPlot);

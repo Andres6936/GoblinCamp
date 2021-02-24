@@ -16,8 +16,8 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #pragma once
 
-#include "NPC.hpp"
-#include "tileRenderer/Sprite.hpp"
+#include "Goblin/Entity/NPC.hpp"
+#include "Goblin/Graphics/Tile/Sprite.hpp"
 
 class NPCSprite
 {
@@ -26,7 +26,8 @@ public:
 
 	explicit NPCSprite(Sprite_ptr sprite);
 
-	explicit NPCSprite(const std::vector<Sprite_ptr>& sprites, const std::vector<std::string>& weaponTypes,
+	explicit NPCSprite(const std::vector<Sprite_ptr>& sprites,
+			const std::vector<std::string>& weaponTypes,
 			const std::vector<std::string>& armourTypes);
 
 	explicit NPCSprite(const std::vector<Sprite_ptr>& sprites, const std::vector<Sprite_ptr>& weaponOverlays,

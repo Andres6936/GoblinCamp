@@ -16,20 +16,23 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #pragma once
 
-#include "tileRenderer/Sprite.hpp"
-#include "tileRenderer/PermutationTable.hpp"
 #include <memory>
-#include "tileRenderer/TileSetTexture.hpp"
+
+#include "Goblin/Graphics/Tile/Sprite.hpp"
+#include "Goblin/Graphics/Tile/PermutationTable.hpp"
+#include "Goblin/Graphics/Tile/TileSetTexture.hpp"
 
 class TerrainSprite
 {
 public:
 	explicit TerrainSprite();
+
 	explicit TerrainSprite(Sprite_ptr sprite);
-	explicit TerrainSprite(std::vector<Sprite_ptr > sprites,
-						   std::vector<Sprite_ptr > snowSprites,
-						   std::vector<float> heightSplits,
-						   Sprite_ptr edge,
+
+	explicit TerrainSprite(std::vector<Sprite_ptr> sprites,
+			std::vector<Sprite_ptr> snowSprites,
+			std::vector<float> heightSplits,
+			Sprite_ptr edge,
 						   Sprite_ptr snowEdge,
 						   std::vector<Sprite_ptr > details,
 						   std::vector<Sprite_ptr > burntDetails,

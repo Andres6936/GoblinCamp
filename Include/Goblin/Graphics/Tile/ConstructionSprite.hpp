@@ -16,18 +16,20 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #pragma once
 
-#include "tileRenderer/Sprite.hpp"
-#include "Construction.hpp"
-#include "ConstructionVisitor.hpp"
+#include "Goblin/Graphics/Tile/Sprite.hpp"
+#include "Goblin/Mechanism/Construction.hpp"
+#include "Goblin/Mechanism/ConstructionVisitor.hpp"
 #include <memory>
 
 class ConstructionSprite
 {
 public:
 	explicit ConstructionSprite();
+
 	~ConstructionSprite();
 
 	void AddSprite(Sprite_ptr sprite);
+
 	void AddUnderConstructionSprite(Sprite_ptr sprite);
 	void AddUnreadyTrapSprite(Sprite_ptr sprite);
 	void SetWidth(int width);
