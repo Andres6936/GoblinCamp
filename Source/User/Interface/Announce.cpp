@@ -15,9 +15,9 @@ You should have received a copy of the GNU General Public License
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include "Goblin/User/Interface/Announce.hpp"
-#include "GCamp.hpp"
+#include "Goblin/Util/GCamp.hpp"
 #include "Goblin/Geometry/Coordinate.hpp"
-#include "Game.hpp"
+#include "Goblin/Util/Game.hpp"
 
 AnnounceMessage::AnnounceMessage(std::string nmsg, TCODColor col, Coordinate pos) :
 		msg(nmsg),
