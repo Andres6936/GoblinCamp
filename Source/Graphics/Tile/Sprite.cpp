@@ -13,11 +13,10 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
 #include <array>
 
-#include "tileRenderer/Sprite.hpp"
+#include "Goblin/Graphics/Tile/Sprite.hpp"
 
 Sprite::Sprite() : tiles(), type(SPRITE_Single), frameTime(15), frameCount(1)
 {

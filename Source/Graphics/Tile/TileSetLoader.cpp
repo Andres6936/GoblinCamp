@@ -14,11 +14,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
-#include "tileRenderer/TileSetLoader.hpp"
-#include "tileRenderer/TilesetParserV1.hpp"
-#include "tileRenderer/TilesetParserV2.hpp"
-#include "data/Mods.hpp"
-#include "data/Paths.hpp"
+#include "Goblin/Graphics/Tile/TileSetLoader.hpp"
+#include "Goblin/Graphics/Tile/TilesetParserV1.hpp"
+#include "Goblin/Graphics/Tile/TilesetParserV2.hpp"
+#include "Goblin/Config/Mods.hpp"
+#include "Goblin/Config/Paths.hpp"
 
 TileSetMetadata::TileSetMetadata()
 	: path(),

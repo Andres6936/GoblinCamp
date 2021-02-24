@@ -13,13 +13,12 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
 #include <SDL.h>
 #include <SDL_image.h>
 
-#include "tileRenderer/TileSetTexture.hpp"
-#include "Logger.hpp"
+#include "Goblin/Log/Logger.hpp"
+#include "Goblin/Graphics/Tile/TileSetTexture.hpp"
 
 TileSetTexture::TileSetTexture(std::filesystem::path path, int tileW, int tileH)
 		: tileWidth(tileW), tileHeight(tileH), tileXDim(0), tileYDim(0), tileCount(0), tiles()

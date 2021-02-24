@@ -13,15 +13,15 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
-#include "tileRenderer/sdl/SDLTilesetRenderer.hpp"
-#include "tileRenderer/sdl/SDLSprite.hpp"
-#include "tileRenderer/TileSetLoader.hpp"
 
-#include "Logger.hpp"
-#include "data/Config.hpp"
-#include "MathEx.hpp"
+#include "Goblin/Graphics/Tile/sdl/SDLTilesetRenderer.hpp"
+#include "Goblin/Graphics/Tile/sdl/SDLSprite.hpp"
+#include "Goblin/Graphics/Tile/TileSetLoader.hpp"
+
+#include "Goblin/Log/Logger.hpp"
+#include "Goblin/Config/Config.hpp"
+#include "Goblin/Math/MathEx.hpp"
 
 std::shared_ptr<TilesetRenderer>
 CreateSDLTilesetRenderer(int width, int height, TCODConsole* console, std::string tilesetName)

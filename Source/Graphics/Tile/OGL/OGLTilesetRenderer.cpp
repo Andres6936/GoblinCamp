@@ -14,11 +14,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
-#include "tileRenderer/ogl/OGLTilesetRenderer.hpp"
-#include "tileRenderer/ogl/OGLSprite.hpp"
-#include "tileRenderer/ogl/OGLResources.hpp"
-#include "tileRenderer/ogl/OGLFunctionExt.hpp"
-#include "tileRenderer/TileSetLoader.hpp"
+#include "Goblin/Graphics/Tile/ogl/OGLTilesetRenderer.hpp"
+#include "Goblin/Graphics/Tile/ogl/OGLSprite.hpp"
+#include "Goblin/Graphics/Tile/ogl/OGLResources.hpp"
+#include "Goblin/Graphics/Tile/ogl/OGLFunctionExt.hpp"
+#include "Goblin/Graphics/Tile/TileSetLoader.hpp"
 
 #include <SDL.h>
 #include <SDL_image.h>

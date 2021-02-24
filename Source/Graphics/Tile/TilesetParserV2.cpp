@@ -13,12 +13,11 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
 #include <boost/algorithm/string.hpp>
 
-#include "tileRenderer/TilesetParserV2.hpp"
-#include "Logger.hpp"
+#include "Goblin/Graphics/Tile/TilesetParserV2.hpp"
+#include "Goblin/Log/Logger.hpp"
 
 const char* TileSetParserV2::uninitialisedTilesetError = "tileset must be defined and tileWidth & tileHeight must be provided first";
 

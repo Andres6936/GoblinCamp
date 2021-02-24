@@ -14,10 +14,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
-#include "stdafx.hpp"
-#include "tileRenderer/SpriteSetFactories.hpp"
-#include "Logger.hpp"
-#include "MathEx.hpp"
+
+#include "Goblin/Graphics/Tile/SpriteSetFactories.hpp"
+#include "Goblin/Log/Logger.hpp"
+#include "Goblin/Math/MathEx.hpp"
 
 ConstructionSpriteFactory::ConstructionSpriteFactory() 
 	: spriteIndices(),

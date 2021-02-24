@@ -14,8 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
-#include "stdafx.hpp"
-#include "tileRenderer/DrawConstructionVisitor.hpp"
+#include "Goblin/Graphics/Tile/DrawConstructionVisitor.hpp"
 
 DrawConstructionVisitor::DrawConstructionVisitor(const TilesetRenderer * tileSetRenderer, const TileSet * tileSet, int screenX, int screenY, const Coordinate& pos)
 		: tileSetRenderer(tileSetRenderer),

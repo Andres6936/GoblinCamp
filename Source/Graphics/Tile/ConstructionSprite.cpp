@@ -14,12 +14,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
-#include "stdafx.hpp"
-#include "tileRenderer/ConstructionSprite.hpp"
-#include "Stockpile.hpp"
-#include "Farmplot.hpp"
-#include "Door.hpp"
-#include "SpawningPool.hpp"
+
+#include "Goblin/Graphics/Tile/ConstructionSprite.hpp"
+#include "Goblin/Mechanism/Stockpile.hpp"
+#include "Goblin/Mechanism/Farmplot.hpp"
+#include "Goblin/Mechanism/Door.hpp"
+#include "Goblin/Mechanism/SpawningPool.hpp"
 
 ConstructionSprite::ConstructionSprite()
 	: sprites(), 
