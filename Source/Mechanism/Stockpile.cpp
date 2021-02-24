@@ -13,30 +13,31 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
+
 
 #include <boost/algorithm/string.hpp>
 #include <boost/serialization/map.hpp>
 #include <boost/serialization/shared_ptr.hpp>
 
-#include "Random.hpp"
-#include "Stockpile.hpp"
-#include "Game.hpp"
-#include "Map.hpp"
-#include "StockManager.hpp"
-#include "Camp.hpp"
-#include "Stats.hpp"
-#include "JobManager.hpp"
+#include "Goblin/Math/Random.hpp"
+#include "Goblin/Mechanism/Stockpile.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Eden/Map.hpp"
+#include "Goblin/Mechanism/StockManager.hpp"
+#include "Goblin/Mechanism/Camp.hpp"
+#include "Goblin/Mechanism/Stats.hpp"
+#include "Goblin/Mechanism/JobManager.hpp"
 
 //find a tile adjacent to p which belongs to Stockpile uid
-static bool FindAdjacentTo(const Coordinate& p, int uid, Coordinate *out);
+static bool FindAdjacentTo(const Coordinate& p, int uid, Coordinate* out);
+
 static bool IsAdjacentTo(const Coordinate& p, int uid);
 
 Stockpile::Stockpile(ConstructionType type, int newSymbol, Coordinate target) :
-	Construction(type, target),
-	symbol(newSymbol),
-	a(target),
-	b(target)
+		Construction(type, target),
+		symbol(newSymbol),
+		a(target),
+		b(target)
 {
 	condition = maxCondition;
 	reserved.insert(std::pair<Coordinate, bool>(target, false));

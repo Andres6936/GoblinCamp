@@ -13,25 +13,29 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
+
 
 #include <boost/serialization/weak_ptr.hpp>
 
-#include "Trap.hpp"
-#include "Game.hpp"
-#include "NPC.hpp"
-#include "GCamp.hpp"
-#include "JobManager.hpp"
-#include "Faction.hpp"
+#include "Goblin/Mechanism/Trap.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Entity/NPC.hpp"
+#include "Goblin/Util/GCamp.hpp"
+#include "Goblin/Task/JobManager.hpp"
+#include "Goblin/Mechanism/Faction.hpp"
 
 Trap::Trap(ConstructionType vtype, Coordinate pos) : Construction(vtype, pos),
-ready(true){
+													 ready(true)
+{
 	readyGraphic = graphic[1];
 }
 
-void Trap::Update() {
-	if (built) {
-		if (ready && !map->NPCList(pos)->empty()) {
+void Trap::Update()
+{
+	if (built)
+	{
+		if (ready && !map->NPCList(pos)->empty())
+		{
 			std::shared_ptr<NPC> npc = Game::Inst()->GetNPC(*map->NPCList(pos)->begin());
 			if (npc && !npc->HasEffect(FLYING))
 			{

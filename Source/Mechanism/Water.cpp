@@ -13,7 +13,6 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
 #include <cmath>
 
@@ -21,22 +20,22 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/lexical_cast.hpp>
 #include <memory>
 
-#include "Random.hpp"
-#include "Logger.hpp"
-#include "Water.hpp"
-#include "Game.hpp"
-#include "Map.hpp"
-#include "GCamp.hpp"
+#include "Goblin/Math/Random.hpp"
+#include "Goblin/Log/Logger.hpp"
+#include "Goblin/Mechanism/Water.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Eden/Map.hpp"
+#include "Goblin/Util/GCamp.hpp"
 #include "Goblin/Geometry/Coordinate.hpp"
-#include "Stats.hpp"
+#include "Goblin/Mechanism/Stats.hpp"
 
 WaterNode::WaterNode(const Coordinate& pos, int vdepth, int time) :
-	pos(pos), depth(vdepth),
-	graphic('?'), color(TCODColor(0,128,255)),
-	inertCounter(0), inert(false),
-	timeFromRiverBed(time),
-	filth(0),
-	coastal(false)
+		pos(pos), depth(vdepth),
+		graphic('?'), color(TCODColor(0, 128, 255)),
+		inertCounter(0), inert(false),
+		timeFromRiverBed(time),
+		filth(0),
+		coastal(false)
 {
 	UpdateGraphic();
 }
