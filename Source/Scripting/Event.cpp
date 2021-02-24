@@ -24,23 +24,28 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 namespace py = boost::python;
 
-#include "NPC.hpp"
-#include "Construction.hpp"
-#include "Item.hpp"
-#include "scripting/Engine.hpp"
-#include "scripting/Event.hpp"
-#include "scripting/API.hpp"
-#include "scripting/_gcampapi/PyItem.hpp"
-#include "scripting/_gcampapi/PyConstruction.hpp"
+#include "Goblin/Entity/NPC.hpp"
+#include "Goblin/Mechanism/Construction.hpp"
+#include "Goblin/Entity/Item.hpp"
+#include "Goblin/Scripting/Engine.hpp"
+#include "Goblin/Scripting/Event.hpp"
+#include "Goblin/Scripting/API.hpp"
+#include "Goblin/Scripting/API/PyItem.hpp"
+#include "Goblin/Scripting/API/PyConstruction.hpp"
 
-namespace Script { namespace Event {
-	void GameStart() {
-		Script::InvokeListeners("onGameStart");
-	}
-	
-	void GameEnd() {
-		Script::InvokeListeners("onGameEnd");
-	}
+namespace Script
+{
+	namespace Event
+	{
+		void GameStart()
+		{
+			Script::InvokeListeners("onGameStart");
+		}
+
+		void GameEnd()
+		{
+			Script::InvokeListeners("onGameEnd");
+		}
 
 		void GameSaved(const std::string& filename)
 		{
