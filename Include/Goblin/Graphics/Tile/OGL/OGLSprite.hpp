@@ -15,16 +15,21 @@ You should have received a copy of the GNU General Public License
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
-#include "tileRenderer/Sprite.hpp"
-#include "tileRenderer/ogl/OGLTilesetRenderer.hpp"
+#include "Goblin/Graphics/Tile/Sprite.hpp"
+#include "Goblin/Graphics/Tile/ogl/OGLTilesetRenderer.hpp"
 
 class OGLSprite : public Sprite
 {
 public:
-	explicit OGLSprite(OGLTilesetRenderer * const renderer, int id);
-	template <typename IterT> explicit OGLSprite(OGLTilesetRenderer * const renderer, IterT start, IterT end, bool connectionMap, int frameRate = 15, int frameCount = 1);
+	explicit OGLSprite(OGLTilesetRenderer* const renderer, int id);
+
+	template<typename IterT>
+	explicit
+	OGLSprite(OGLTilesetRenderer* const renderer, IterT start, IterT end, bool connectionMap,
+			int frameRate = 15, int frameCount = 1);
+
 	~OGLSprite();
-	
+
 protected:
 	void DrawInternal(int screenX, int screenY, int tile) const;
 	void DrawInternal(int screenX, int screenY, int tile, Corner corner) const;

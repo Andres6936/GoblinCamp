@@ -15,9 +15,9 @@ You should have received a copy of the GNU General Public License
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
-#include "tileRenderer/TileSetRenderer.hpp"
-#include "tileRenderer/TileSetTexture.hpp"
-#include "tileRenderer/ogl/OGLViewportLayer.hpp"
+#include "Goblin/Graphics/Tile/TileSetRenderer.hpp"
+#include "Goblin/Graphics/Tile/TileSetTexture.hpp"
+#include "Goblin/Graphics/Tile/ogl/OGLViewportLayer.hpp"
 #include <boost/multi_array.hpp>
 
 struct RawTileData

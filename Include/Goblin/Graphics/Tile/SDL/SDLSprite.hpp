@@ -18,9 +18,9 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <SDL.h>
 #include <memory>
 #include <libtcod/libtcod.hpp>
-#include "tileRenderer/Sprite.hpp"
-#include "tileRenderer/TileSetTexture.hpp"
-#include "tileRenderer/sdl/SDLTilesetRenderer.hpp"
+#include "Goblin/Graphics/Tile/Sprite.hpp"
+#include "Goblin/Graphics/Tile/TileSetTexture.hpp"
+#include "Goblin/Graphics/Tile/sdl/SDLTilesetRenderer.hpp"
 
 /****************/
 // SDLSprite
@@ -30,7 +30,8 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 class SDLSprite : public Sprite
 {
 public:
-	explicit SDLSprite(SDLTilesetRenderer* const renderer, std::shared_ptr<TileSetTexture> tilesetTexture, int tile);
+	explicit SDLSprite(SDLTilesetRenderer* const renderer,
+			std::shared_ptr<TileSetTexture> tilesetTexture, int tile);
 
 	template<typename IterT>
 	explicit SDLSprite(SDLTilesetRenderer* const renderer, std::shared_ptr<TileSetTexture> tilesetTexture, IterT start,
