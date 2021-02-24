@@ -19,10 +19,11 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <string>
 #include <libtcod/libtcod.hpp>
 
-#include "StatusEffect.hpp"
-#include "data/Serialization.hpp"
+#include "Goblin/Mechanism/StatusEffect.hpp"
+#include "Goblin/Config/Serialization.hpp"
 
-enum DamageType {
+enum DamageType
+{
 	DAMAGE_SLASH,
 	DAMAGE_PIERCE,
 	DAMAGE_BLUNT,

@@ -15,15 +15,17 @@ You should have received a copy of the GNU General Public License
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
-#include "Stockpile.hpp"
-#include "data/Serialization.hpp"
+#include "Goblin/Mechanism/Stockpile.hpp"
+#include "Goblin/Config/Serialization.hpp"
 
-class FarmPlot : public Stockpile {
+class FarmPlot : public Stockpile
+{
 	GC_SERIALIZABLE_CLASS
-	
+
 	friend class Game;
-	
-	FarmPlot(ConstructionType=0, int symbol='?', Coordinate=Coordinate(0,0));
+
+	FarmPlot(ConstructionType= 0, int symbol = '?', Coordinate= Coordinate(0, 0));
+
 	bool tilled;
 	std::map<ItemType, bool> allowedSeeds;
 	std::map<Coordinate, int> growth;

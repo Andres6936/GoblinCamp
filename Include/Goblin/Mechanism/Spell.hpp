@@ -17,18 +17,20 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <boost/unordered_map.hpp>
 
-#include "Entity.hpp"
-#include "Attack.hpp"
-#include "data/Serialization.hpp"
+#include "Goblin/Entity/Entity.hpp"
+#include "Goblin/Mechanism/Attack.hpp"
+#include "Goblin/Config/Serialization.hpp"
 #include "Goblin/Geometry/Coordinate.hpp"
 
 typedef int SpellType;
 
 class SpellListener;
 
-class SpellPreset {
+class SpellPreset
+{
 public:
 	SpellPreset(std::string);
+
 	std::string name;
 	std::list<Attack> attacks;
 	bool immaterial;

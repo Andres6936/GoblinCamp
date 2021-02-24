@@ -24,17 +24,19 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/thread/shared_mutex.hpp>
 #include <memory>
 
-#include "data/Serialization.hpp"
-#include "Job.hpp"
+#include "Goblin/Config/Serialization.hpp"
+#include "Goblin/Task/Job.hpp"
 
 class NPC;
+
 class Coordinate;
 
 #define PLAYERFACTION 0
 
 typedef int FactionType;
 
-enum FactionGoal {
+enum FactionGoal
+{
 	FACTIONDESTROY, //Destroy buildings
 	FACTIONKILL,    //Kill hostiles
 	FACTIONSTEAL,   //Steal items valuable to the faction

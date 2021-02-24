@@ -20,7 +20,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <list>
 
 #include <memory>
-#include "data/Serialization.hpp"
+#include "Goblin/Config/Serialization.hpp"
 
 class Construction;
 typedef int ConstructionType;

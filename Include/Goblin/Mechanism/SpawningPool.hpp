@@ -15,12 +15,11 @@ You should have received a copy of the GNU General Public License
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
-#include "Construction.hpp"
+#include "Goblin/Mechanism/Construction.hpp"
 #include <Goblin/User/Interface/Panel.hpp>
 #include <Goblin/User/Interface/Dialog.hpp>
 #include <Goblin/User/Interface/UIContainer.hpp>
-
-#include "data/Serialization.hpp"
+#include "Goblin/Config/Serialization.hpp"
 
 class SpawningPool : public Construction
 {
