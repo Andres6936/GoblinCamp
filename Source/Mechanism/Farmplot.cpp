@@ -13,30 +13,34 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
+
 
 #include <boost/serialization/map.hpp>
+
 #if BOOST_VERSION >= 106700
 // Since boost 1.67 you need this to use ::next ot ::prior
 // TODO may be this is temproary, and later should go back to boost/utility.hpp
 #include <boost/next_prior.hpp>
+
 #endif
 
 
-#include "Random.hpp"
-#include "Farmplot.hpp"
-#include "Game.hpp"
-#include "Map.hpp"
-#include "GCamp.hpp"
-#include "JobManager.hpp"
-#include "StockManager.hpp"
+#include "Goblin/Math/Random.hpp"
+#include "Goblin/Mechanism/Farmplot.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Eden/Map.hpp"
+#include "Goblin/Util/GCamp.hpp"
+#include "Goblin/Task/JobManager.hpp"
+#include "Goblin/Mechanism/StockManager.hpp"
 
-FarmPlot::FarmPlot(ConstructionType type, int symbol, Coordinate target) : Stockpile(type, symbol, target),
-	tilled(false),
-	growth(std::map<Coordinate, int>())
+FarmPlot::FarmPlot(ConstructionType type, int symbol, Coordinate target) : Stockpile(type, symbol,
+		target),
+																		   tilled(false),
+																		   growth(std::map<Coordinate, int>())
 {
 	//Farmplots are a form of stockpile, disallow all items so they don't get stored here
-	for (int i = 0; i < Game::ItemCatCount; ++i) {
+	for (int i = 0; i < Game::ItemCatCount; ++i)
+	{
 		allowed[i] = false;
 	}
 
