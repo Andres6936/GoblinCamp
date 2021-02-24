@@ -1,12 +1,12 @@
-ADD_LIBRARY (GoblinCamp.Renderer.Tile
-    ConstructionSprite.cpp
-    DrawConstructionVisitor.cpp
-    ItemSprite.cpp
-    NatureObjectSpriteSet.cpp
-    NPCSprite.cpp
-    PermutationTable.cpp
-    SpellSpriteSet.cpp
-    Sprite.cpp
+ADD_LIBRARY(Goblin.Renderer.Tile
+        ConstructionSprite.cpp
+        DrawConstructionVisitor.cpp
+        ItemSprite.cpp
+        NatureObjectSpriteSet.cpp
+        NPCSprite.cpp
+        PermutationTable.cpp
+        SpellSpriteSet.cpp
+        Sprite.cpp
         SpriteSetFactories.cpp
         StatusEffectSprite.cpp
         TerrainSprite.cpp
@@ -27,11 +27,6 @@ ADD_LIBRARY (GoblinCamp.Renderer.Tile
         OGL/OGLViewportLayer.cpp
         )
 
-ADD_LIBRARY(GoblinCamp::Renderer::Tile ALIAS GoblinCamp.Renderer.Tile)
-TARGET_INCLUDE_DIRECTORIES(GoblinCamp.Renderer.Tile
-        PUBLIC
-        $<BUILD_INTERFACE:${GOBLIN_CAMP_ROOT_DIR}/Include/>
-        $<INSTALL_INTERFACE:${GOBLIN_CAMP_ROOT_DIR}/Include/>
-        )
-
-TARGET_LINK_LIBRARIES(GoblinCamp.Renderer.Tile PUBLIC GoblinCamp::Libtcod)
+ADD_LIBRARY(Goblin::Renderer::Tile ALIAS Goblin.Renderer.Tile)
+TARGET_INCLUDE_DIRECTORIES(Goblin.Renderer.Tile PUBLIC $<BUILD_INTERFACE:${GOBLIN_CAMP_ROOT_DIR}/Include/>)
+TARGET_LINK_LIBRARIES(Goblin.Renderer.Tile PUBLIC Goblin::Libtcod)
