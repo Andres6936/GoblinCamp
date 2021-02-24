@@ -24,7 +24,7 @@
 #include <Goblin/User/Interface/Enum/MenuResult.hpp>
 #include <Goblin/User/Interface/Abstract/Scrollable.hpp>
 
-#include "Construction.hpp"
+#include "Goblin/Mechanism/Construction.hpp"
 
 class ConstructionDialog : public UIContainer
 {

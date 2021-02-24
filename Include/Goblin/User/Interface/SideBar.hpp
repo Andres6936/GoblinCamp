@@ -22,8 +22,8 @@
 
 #include <Goblin/User/Interface/Enum/MenuResult.hpp>
 
-#include "NPC.hpp"
-#include "Entity.hpp"
+#include "Goblin/Entity/NPC.hpp"
+#include "Goblin/Entity/Entity.hpp"
 
 class SideBar
 {

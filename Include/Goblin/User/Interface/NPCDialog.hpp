@@ -19,7 +19,7 @@
 #include <utility>
 #include <libtcod/libtcod.hpp>
 
-#include "NPC.hpp"
+#include "Goblin/Entity/NPC.hpp"
 #include "Goblin/User/Interface/Dialog.hpp"
 #include <Goblin/User/Interface/UIContainer.hpp>
 
