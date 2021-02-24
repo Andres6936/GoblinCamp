@@ -16,7 +16,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
 #include <boost/noncopyable.hpp>
-#include <libtcod/libtcod.hpp>
+#include <libtcod.hpp>
 #include "Goblin/Entity/NPC.hpp"
 #include "Goblin/Entity/Item.hpp"
 #include "Goblin/Geometry/Coordinate.hpp"

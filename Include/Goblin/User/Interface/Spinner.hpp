@@ -16,7 +16,7 @@
 #pragma once
 
 #include <functional>
-#include <libtcod/libtcod.hpp>
+#include <libtcod.hpp>
 
 #include <Goblin/User/Interface/Enum/MenuResult.hpp>
 #include <Goblin/User/Interface/Abstract/Drawable.hpp>

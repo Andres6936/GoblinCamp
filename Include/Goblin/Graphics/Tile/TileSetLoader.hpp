@@ -18,7 +18,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <memory>
 #include <filesystem>
-#include <libtcod/libtcod.hpp>
+#include <libtcod.hpp>
 
 #include "Goblin/Graphics/Tile/TileSetRenderer.hpp"
 #include "Goblin/Graphics/Tile/TileSet.hpp"

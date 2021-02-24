@@ -17,7 +17,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
 #include <cstdint>
-#include <libtcod/libtcod.hpp>
+#include <libtcod.hpp>
 #include <vector>
 
 class PermutationTable

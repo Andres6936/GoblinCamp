@@ -20,7 +20,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <filesystem>
 
 #include <boost/noncopyable.hpp>
-#include <libtcod/libtcod.hpp>
+#include <libtcod.hpp>
 
 #include "Goblin/Graphics/Tile/TileSetLoader.hpp"
 #include "Goblin/Graphics/Tile/TileSet.hpp"
