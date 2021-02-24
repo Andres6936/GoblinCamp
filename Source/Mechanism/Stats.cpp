@@ -13,16 +13,19 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
-#include "Stats.hpp"
+
+#include "Goblin/Mechanism/Stats.hpp"
 
 Stats::Stats() : points(0), itemsBurned(0), filthCreated(0), filthOutsideMap(0),
-constructions(0), production(0) {}
+				 constructions(0), production(0)
+{
+}
 
 Stats* Stats::instance = 0;
 
-Stats* Stats::Inst() {
+Stats* Stats::Inst()
+{
 	if (!instance) instance = new Stats();
 	return instance;
 }

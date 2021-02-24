@@ -13,7 +13,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
+
 
 #ifdef DEBUG
 #include <iostream>
@@ -23,8 +23,8 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/weak_ptr.hpp>
 
-#include "Squad.hpp"
-#include "Game.hpp"
+#include "Goblin/Mechanism/Squad.hpp"
+#include "Goblin/Util/Game.hpp"
 
 Squad::Squad(std::string nameValue, int memberValue, int pri) :
 		name(nameValue),
