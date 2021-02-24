@@ -22,6 +22,8 @@
 #include "Goblin/Task/JobManager.hpp"
 #include "Goblin/Config/WindowConfig.hpp"
 
+using namespace Goblin;
+
 void JobDialog::Draw(int _x, int _y, int scroll, int width, int height, TCODConsole* console)
 {
 	JobManager::Inst()->Draw(Coordinate(_x + 1, _y), scroll, width, height, console);

@@ -26,7 +26,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include "Goblin/Graphics/UI.hpp"
 #include "Goblin/Util/Game.hpp"
-#include "Goblin/Util/Camp.hpp"
+#include "Goblin/Mechanism/Camp.hpp"
 #include "Goblin/Eden/Map.hpp"
 #include "Goblin/Mechanism/Weather.hpp"
 

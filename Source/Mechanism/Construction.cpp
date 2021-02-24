@@ -13,7 +13,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
+
 
 #include <boost/bind.hpp>
 #include <boost/lambda/lambda.hpp>
@@ -43,7 +43,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Goblin/Util/GCamp.hpp"
 #include "Goblin/Mechanism/Camp.hpp"
 #include "Goblin/Mechanism/StockManager.hpp"
-#include "Goblin/Mechanism/UI.hpp"
+#include "Goblin/Graphics/UI.hpp"
 #include "Goblin/User/Interface/ConstructionDialog.hpp"
 #include "Goblin/User/Interface/Announce.hpp"
 #include "Goblin/Entity/Item.hpp"

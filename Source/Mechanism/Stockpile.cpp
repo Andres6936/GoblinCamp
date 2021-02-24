@@ -26,7 +26,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Goblin/Mechanism/StockManager.hpp"
 #include "Goblin/Mechanism/Camp.hpp"
 #include "Goblin/Mechanism/Stats.hpp"
-#include "Goblin/Mechanism/JobManager.hpp"
+#include "Goblin/Task/JobManager.hpp"
 
 //find a tile adjacent to p which belongs to Stockpile uid
 static bool FindAdjacentTo(const Coordinate& p, int uid, Coordinate* out);
