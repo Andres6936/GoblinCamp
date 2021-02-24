@@ -13,32 +13,37 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
 #include <boost/python/detail/wrap_python.hpp>
 #include <boost/python.hpp>
+
 namespace py = boost::python;
 
-#include "scripting/_gcampapi/Functions.hpp"
+#include "Goblin/Scripting/API/Functions.hpp"
 #include "Goblin/User/Interface/Announce.hpp"
-#include "scripting/API.hpp"
-#include "Version.hpp"
+#include "Goblin/Scripting/API.hpp"
+#include "Goblin/Util/Version.hpp"
 #include "Goblin/User/Interface/MessageBox.hpp"
-#include "Game.hpp"
-#include "Item.hpp"
-#include "Construction.hpp"
-#include "NatureObject.hpp"
-#include "Logger.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Entity/Item.hpp"
+#include "Goblin/Mechanism/Construction.hpp"
+#include "Goblin/Eden/NatureObject.hpp"
+#include "Goblin/Log/Logger.hpp"
 
-namespace Script { namespace API {
-	void Announce(const std::string& str) {
-		::Announce::Inst()->AddMsg(str);
-	}
-	
-	bool IsDebugBuild() {
-	#ifdef DEBUG
-		return true;
-	#else
+namespace Script
+{
+	namespace API
+	{
+		void Announce(const std::string& str)
+		{
+			::Announce::Inst()->AddMsg(str);
+		}
+
+		bool IsDebugBuild()
+		{
+#ifdef DEBUG
+			return true;
+#else
 		return false;
 	#endif
 	}
