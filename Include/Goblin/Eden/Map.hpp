@@ -23,9 +23,9 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/unordered_set.hpp>
 #include <libtcod.hpp>
 
-#include "Tile.hpp"
+#include "Goblin/Entity/Tile.hpp"
 #include "Goblin/Geometry/Coordinate.hpp"
-#include "data/Serialization.hpp"
+#include "Goblin/Config/Serialization.hpp"
 
 class MapMarker;
 class Weather;

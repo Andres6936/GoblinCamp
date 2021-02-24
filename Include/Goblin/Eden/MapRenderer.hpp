@@ -17,10 +17,10 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <boost/noncopyable.hpp>
 #include <libtcod.hpp>
-#include "NPC.hpp"
-#include "Item.hpp"
+#include "Goblin/Entity/NPC.hpp"
+#include "Goblin/Entity/Item.hpp"
 #include "Goblin/Geometry/Coordinate.hpp"
-#include "Map.hpp"
+#include "Goblin/Eden/Map.hpp"
 
 enum CursorType
 {

@@ -18,7 +18,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <libtcod.hpp>
 
 #include "Goblin/Geometry/Coordinate.hpp"
-#include "data/Serialization.hpp"
+#include "Goblin/Config/Serialization.hpp"
 
 enum MarkerType {
 	FLASHINGMARKER
