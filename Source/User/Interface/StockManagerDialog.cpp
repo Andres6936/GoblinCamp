@@ -19,8 +19,8 @@
 #include <boost/format.hpp>
 #include <boost/bind.hpp>
 
-#include "Item.hpp"
-#include "StockManager.hpp"
+#include "Goblin/Entity/Item.hpp"
+#include "Goblin/Task/StockManager.hpp"
 #include "Goblin/User/Interface/StockManagerDialog.hpp"
 #include "Goblin/User/Interface/ScrollPanel.hpp"
 #include "Goblin/User/Interface/Spinner.hpp"

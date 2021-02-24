@@ -14,7 +14,7 @@
  You should have received a copy of the GNU General Public License 
  along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
-#include <Game.hpp>
+#include <Goblin/Util/Game.hpp>
 
 #include "Goblin/User/Interface/AnnounceDialog.hpp"
 #include <Goblin/User/Interface/ScrollPanel.hpp>

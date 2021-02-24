@@ -23,9 +23,9 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 namespace py = boost::python;
 
-#include "scripting/Engine.hpp"
-#include "Logger.hpp"
-#include "Game.hpp"
+#include "Goblin/Scripting/Engine.hpp"
+#include "Goblin/Log/Logger.hpp"
+#include "Goblin/Util/Game.hpp"
 
 #include <Goblin/User/Interface/DevConsole.hpp>
 #include <Goblin/Config/WindowConfig.hpp>

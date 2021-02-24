@@ -23,9 +23,9 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <boost/bind.hpp>
 
-#include "UI.hpp"
-#include "Game.hpp"
-#include "Stockpile.hpp"
+#include "Goblin/Graphics/UI.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Mechanism/Stockpile.hpp"
 
 Dialog* ConstructionDialog::constructionInfoDialog = 0;
 std::weak_ptr<Construction> ConstructionDialog::cachedConstruct = std::weak_ptr<Construction>();

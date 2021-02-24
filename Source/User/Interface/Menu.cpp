@@ -24,11 +24,11 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Goblin/User/Interface/AnnounceDialog.hpp"
 #include "Goblin/User/Interface/StockManagerDialog.hpp"
 
-#include "UI.hpp"
-#include "Game.hpp"
-#include "Camp.hpp"
-#include "Map.hpp"
-#include "Weather.hpp"
+#include "Goblin/Graphics/UI.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Util/Camp.hpp"
+#include "Goblin/Eden/Map.hpp"
+#include "Goblin/Mechanism/Weather.hpp"
 
 MenuChoice::MenuChoice(std::string _text, std::function<void()> _callback, bool _enabled,
 		std::string _tooltip)

@@ -2,7 +2,7 @@
 
 #include "Goblin/User/Interface/Panel.hpp"
 #include <Goblin/Config/WindowConfig.hpp>
-#include "UI.hpp"
+#include "Goblin/Graphics/UI.hpp"
 
 using namespace Goblin;
 
