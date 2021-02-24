@@ -17,19 +17,19 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/algorithm/string.hpp>
 #include <boost/serialization/list.hpp>
 
-#include "Spell.hpp"
-#include "Game.hpp"
-#include "Random.hpp"
+#include "Goblin/Mechanism/Spell.hpp"
+#include "Goblin/Util/Game.hpp"
+#include "Goblin/Math/Random.hpp"
 
 boost::unordered_map<std::string, SpellType> Spell::spellTypeNames = boost::unordered_map<std::string, SpellType>();
 std::vector<SpellPreset> Spell::Presets = std::vector<SpellPreset>();
 
-SpellPreset::SpellPreset(std::string vname) : 
-name(vname),
-	attacks(std::list<Attack>()),
-	immaterial(false),
-	graphic('?'),
-	speed(1),
+SpellPreset::SpellPreset(std::string vname) :
+		name(vname),
+		attacks(std::list<Attack>()),
+		immaterial(false),
+		graphic('?'),
+		speed(1),
 	color(TCODColor::pink),
 	fallbackGraphicsSet(""),
 	graphicsHint(-1)
