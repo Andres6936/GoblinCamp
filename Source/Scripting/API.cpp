@@ -13,35 +13,40 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
-#include "stdafx.hpp"
 
 #include <cassert>
 #include <cstdarg>
 #include <list>
-#include <boost/foreach.hpp>
 
+#include <boost/foreach.hpp>
 #include <boost/python/detail/wrap_python.hpp>
 #include <boost/python.hpp>
+
 namespace py = boost::python;
 
-#include "data/Config.hpp"
-#include "scripting/API.hpp"
-#include "scripting/Engine.hpp"
-#include "scripting/_gcampapi/LoggerStream.hpp"
-#include "scripting/_gcampapi/Functions.hpp"
-#include "scripting/_gcampapi/PyItem.hpp"
-#include "scripting/_gcampapi/PyConstruction.hpp"
-#include "Logger.hpp"
+#include "Goblin/Config/Config.hpp"
+#include "Goblin/Scripting/API.hpp"
+#include "Goblin/Scripting/Engine.hpp"
+#include "Goblin/Scripting/API/LoggerStream.hpp"
+#include "Goblin/Scripting/API/Functions.hpp"
+#include "Goblin/Scripting/API/PyItem.hpp"
+#include "Goblin/Scripting/API/PyConstruction.hpp"
+#include "Goblin/Log/Logger.hpp"
 
-namespace Globals {
+namespace Globals
+{
 	std::list<py::object> listeners;
 }
 
-namespace Script { namespace API {
-	BOOST_PYTHON_MODULE(_gcampapi) {
-		typedef void (*ExposeFunc)(void);
-		ExposeFunc expose[] = {
-			&ExposeLoggerStream, &ExposeFunctions, &PyItem::Expose, &PyConstruction::Expose
+namespace Script
+{
+	namespace API
+	{
+		BOOST_PYTHON_MODULE (_gcampapi)
+		{
+			typedef void (* ExposeFunc)(void);
+			ExposeFunc expose[] = {
+					&ExposeLoggerStream, &ExposeFunctions, &PyItem::Expose, &PyConstruction::Expose
 		};
 		
 		for (unsigned idx = 0; idx < sizeof(expose) / sizeof(expose[0]); ++idx) {
