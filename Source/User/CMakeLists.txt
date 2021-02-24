@@ -24,5 +24,6 @@ ADD_LIBRARY (Goblin.User.Interface
         )
 
 ADD_LIBRARY(Goblin::User::Interface ALIAS Goblin.User.Interface)
-TARGET_INCLUDE_DIRECTORIES(Goblin.User.Interface PUBLIC $<BUILD_INTERFACE:${GOBLIN_CAMP_ROOT_DIR}/Include/>)
+SET_TARGET_PROPERTIES(Goblin.User.Interface PROPERTIES CXX_STANDARD 17)
 TARGET_LINK_LIBRARIES(Goblin.User.Interface PUBLIC Goblin::Libtcod)
+TARGET_INCLUDE_DIRECTORIES(Goblin.User.Interface PUBLIC $<BUILD_INTERFACE:${GOBLIN_CAMP_ROOT_DIR}/Include/>)

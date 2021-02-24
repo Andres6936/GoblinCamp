@@ -20,4 +20,5 @@ ADD_LIBRARY(Goblin.Mechanism STATIC
         Trap.cpp
         Weather.cpp
         )
+SET_TARGET_PROPERTIES(Goblin.Mechanism PROPERTIES CXX_STANDARD 17)
 TARGET_INCLUDE_DIRECTORIES(Goblin.Mechanism PUBLIC $<BUILD_INTERFACE:${GOBLIN_CAMP_ROOT_DIR}/Include/>)
