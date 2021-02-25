@@ -27,8 +27,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 JobManager::JobManager()
 {
-	for (std::vector<ItemCat>::iterator i = Item::Categories.begin();
-		 i != Item::Categories.end(); ++i)
+	for (const ItemCat category : Item::Categories)
 	{
 		toolJobs.push_back(std::vector<std::weak_ptr<Job> >());
 	}
@@ -102,17 +101,19 @@ void JobManager::CancelJob(std::weak_ptr<Job> oldJob, std::string msg, TaskResul
 void JobManager::Draw(Coordinate pos, int from, int width, int height, TCODConsole* console)
 {
 	int skip = 0;
-	int y = pos.Y();
-	std::shared_ptr<NPC> npc;
+	int y = pos.getY();
+	std::shared_ptr <NPC> npc;
 	TCODColor color_mappings[] = { TCODColor::green, TCODColor(0, 160, 60), TCODColor(175, 150, 50),
 								   TCODColor(165, 95, 0), TCODColor::grey };
 
 	for (int i = 0; i <= PRIORITY_COUNT; i++)
 	{
 		console->setDefaultForeground(color_mappings[i]);
-		for (std::list<std::shared_ptr<Job> >::iterator jobi = (i < PRIORITY_COUNT ? availableList[i].begin()
-																				   : waitingList.begin());
-			 jobi != (i < PRIORITY_COUNT ? availableList[i].end() : waitingList.end()); ++jobi)
+		for (std::list < std::shared_ptr < Job > > ::iterator jobi = (i < PRIORITY_COUNT
+																	  ? availableList[i].begin()
+																	  : waitingList.begin());
+				jobi != (i < PRIORITY_COUNT ? availableList[i].end() : waitingList.end());
+		++jobi)
 		{
 			if (skip < from) ++skip;
 			else
@@ -120,9 +121,9 @@ void JobManager::Draw(Coordinate pos, int from, int width, int height, TCODConso
 				npc = Game::Inst()->GetNPC((*jobi)->Assigned());
 				if (npc)
 				{
-					console->print(pos.X(), y, "%c", npc->GetNPCSymbol());
+					console->print(pos.getX(), y, "%c", npc->GetNPCSymbol());
 				}
-				console->print(pos.X() + 2, y, "%s", (*jobi)->name.c_str());
+				console->print(pos.getX() + 2, y, "%s", (*jobi)->name.c_str());
 
 #if DEBUG
 				if (npc) {
@@ -132,7 +133,8 @@ void JobManager::Draw(Coordinate pos, int from, int width, int height, TCODConso
 				}
 				console->print(pos.X() + width - 11, y, "A-> %d", (*jobi)->Assigned());
 #endif
-				if (++y - pos.Y() >= height) {
+				if (++y - pos.getY() >= height)
+				{
 					console->setDefaultForeground(TCODColor::white);
 					return;
 				}
@@ -148,15 +150,14 @@ std::weak_ptr<Job> JobManager::GetJob(int uid)
 
 	for (int i = 0; i < PRIORITY_COUNT; ++i)
 	{
-		for (std::list<std::shared_ptr<Job> >::iterator jobi = availableList[i].begin();
-			 jobi != availableList[i].end(); ++jobi)
+		for (const auto& jobi : availableList[i])
 		{
-			std::shared_ptr<NPC> npc = Game::Inst()->GetNPC(uid);
-			if (npc && (*jobi)->Menial() != npc->Expert())
+			std::shared_ptr <NPC> npc = Game::Inst()->GetNPC(uid);
+			if (npc && jobi->Menial() != npc->Expert())
 			{
-				if ((*jobi)->Assigned() == -1 && !(*jobi)->Removable())
+				if (jobi->Assigned() == -1 && !jobi->Removable())
 				{
-					job = (*jobi);
+					job = jobi;
 					goto FoundJob;
 				}
 			}
@@ -262,17 +263,15 @@ std::weak_ptr<Job> JobManager::GetJobByListIndex(int index)
 
 	for (int i = 0; i < PRIORITY_COUNT; ++i)
 	{
-		for (std::list<std::shared_ptr<Job> >::iterator jobi = availableList[i].begin();
-			 jobi != availableList[i].end(); ++jobi)
+		for (const auto& jobi : availableList[i])
 		{
-			if (count++ == index) return (*jobi);
+			if (count++ == index) return jobi;
 		}
 	}
 
-	for (std::list<std::shared_ptr<Job> >::iterator waitingIter = waitingList.begin();
-		 waitingIter != waitingList.end(); ++waitingIter)
+	for (const auto& waitingIter : waitingList)
 	{
-		if (count++ == index) return (*waitingIter);
+		if (count++ == index) return waitingIter;
 	}
 
 	return std::weak_ptr<Job>();
@@ -317,9 +316,9 @@ void JobManager::NPCWaiting(int uid)
 	{
 		if (npc->Expert())
 		{
-			for (std::vector<int>::iterator it = expertNPCsWaiting.begin(); it != expertNPCsWaiting.end(); it++)
+			for (const auto uidNPC : expertNPCsWaiting)
 			{
-				if (*it == uid)
+				if (uidNPC == uid)
 				{
 					return;
 				}
@@ -328,9 +327,10 @@ void JobManager::NPCWaiting(int uid)
 		}
 		else
 		{
-			for (std::vector<int>::iterator it = menialNPCsWaiting.begin(); it != menialNPCsWaiting.end(); it++)
+			for (const auto uidNPC : menialNPCsWaiting)
 			{
-				if(*it == uid) {
+				if (uidNPC == uid)
+				{
 					return;
 				}
 			}
