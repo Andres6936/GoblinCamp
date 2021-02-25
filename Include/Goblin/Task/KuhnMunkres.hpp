@@ -61,6 +61,9 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
  * The Hungarian method, when applied to the above table, would give the
  * minimum cost: this is $6, achieved by having Paul clean the bathroom, Dave
  * sweep the floors, and Chris wash the windows.
+ * <br><br>
+ *
+ * Ref: https://en.wikipedia.org/wiki/Hungarian_algorithm
  *
  */
 std::vector<int> FindBestMatching(boost::numeric::ublas::matrix<int> costs);
