@@ -383,23 +383,23 @@ void JobManager::AssignJobs() {
 	for (int i = 0; i < PRIORITY_COUNT && (!expertNPCsWaiting.empty() || !menialNPCsWaiting.empty()); i++) {
 		if(!availableList[i].empty())
 		{
-			std::vector<std::shared_ptr<Job> > menialJobsToAssign;
-			std::vector<std::shared_ptr<Job> > expertJobsToAssign;
-			for (std::list<std::shared_ptr<Job> >::iterator jobi = availableList[i].begin();
-				 jobi != availableList[i].end(); ++jobi)
+			std::vector <std::shared_ptr<Job>> menialJobsToAssign;
+			std::vector <std::shared_ptr<Job>> expertJobsToAssign;
+			for (const auto& jobi : availableList[i])
 			{
-				if ((*jobi)->Assigned() == -1 && !(*jobi)->Removable())
+				if (jobi->Assigned() == -1 && !jobi->Removable())
 				{
 					/*Limit assigning jobs to 20 at a time, large matrix sizes cause considerable slowdowns.
 					Also, if the job requires a tool only add it to assignables if there are potentially enough
 					tools for each job*/
-					if (!(*jobi)->RequiresTool() ||
-						((*jobi)->RequiresTool() && maxToolJobs[(*jobi)->GetRequiredTool()] > 0))
+					if (!jobi->RequiresTool() ||
+						(jobi->RequiresTool() && maxToolJobs[jobi->GetRequiredTool()] > 0))
 					{
-						if ((*jobi)->RequiresTool()) --maxToolJobs[(*jobi)->GetRequiredTool()];
-						if ((*jobi)->Menial() && menialJobsToAssign.size() < 20) menialJobsToAssign.push_back(*jobi);
-						else if (!(*jobi)->Menial() && expertJobsToAssign.size() < 20)
-							expertJobsToAssign.push_back(*jobi);
+						if (jobi->RequiresTool()) --maxToolJobs[jobi->GetRequiredTool()];
+						if (jobi->Menial() && menialJobsToAssign.size() < 20)
+							menialJobsToAssign.push_back(jobi);
+						else if (!jobi->Menial() && expertJobsToAssign.size() < 20)
+							expertJobsToAssign.push_back(jobi);
 					}
 				}
 			}
@@ -419,13 +419,15 @@ void JobManager::AssignJobs() {
 							std::shared_ptr<Job> job = menialJobsToAssign[y];
 							std::shared_ptr<NPC> npc = Game::Inst()->GetNPC(menialNPCsWaiting[x]);
 							if (!npc || job->tasks.empty() ||
-								(job->tasks[0].target.X() == 0 && job->tasks[0].target.Y() == 0))
+								(job->tasks[0].target.getX() == 0 &&
+								 job->tasks[0].target.getY() == 0))
 							{
 								menialMatrix(x, y) = 1;
 							}
 							else if (npc)
 							{
-								menialMatrix(x, y) = 10000 - Distance(job->tasks[0].target, npc->Position());
+								menialMatrix(x, y) =
+										10000 - Distance(job->tasks[0].target, npc->Position());
 							}
 							if (npc && job->RequiresTool())
 							{
@@ -448,13 +450,15 @@ void JobManager::AssignJobs() {
 							std::shared_ptr<Job> job = expertJobsToAssign[y];
 							std::shared_ptr<NPC> npc = Game::Inst()->GetNPC(expertNPCsWaiting[x]);
 							if (!npc || job->tasks.empty() ||
-								(job->tasks[0].target.X() == 0 && job->tasks[0].target.Y() == 0))
+								(job->tasks[0].target.getX() == 0 &&
+								 job->tasks[0].target.getY() == 0))
 							{
 								expertMatrix(x, y) = 1;
 							}
 							else
 							{
-								expertMatrix(x, y) = 10000 - Distance(job->tasks[0].target, npc->Position());
+								expertMatrix(x, y) =
+										10000 - Distance(job->tasks[0].target, npc->Position());
 							}
 							if (npc && job->RequiresTool())
 							{
