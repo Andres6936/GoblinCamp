@@ -18,4 +18,37 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <vector>
 #include <boost/numeric/ublas/matrix.hpp>
 
+/**
+ * The Hungarian method is a combinatorial optimization algorithm that solves
+ * the assignment problem in polynomial time and which anticipated later
+ * primal–dual methods. It was developed and published in 1955 by Harold Kuhn,
+ * who gave the name "Hungarian method" because the algorithm was largely based
+ * on the earlier works of two Hungarian mathematicians:
+ * Dénes Kőnig and Jenő Egerváry.
+ * <br><br>
+ *
+ * The assignment problem is a fundamental combinatorial optimization problem.
+ * In its most general form, the problem is as follows:
+ * <br><br>
+ *
+ * <em>
+ * The problem instance has a number of agents and a number of tasks. Any agent
+ * can be assigned to perform any task, incurring some cost that may vary
+ * depending on the agent-task assignment. It is required to perform as many
+ * tasks as possible by assigning at most one agent to each task and at most
+ * one task to each agent, in such a way that the total cost of the assignment
+ * is minimized.
+ * </em><br><br>
+ *
+ * Example:
+ *
+ * In this simple example there are three workers: Paul, Dave, and Chris. One
+ * of them has to clean the bathroom, another sweep the floors and the third
+ * washes the windows, but they each demand different pay for the various tasks.
+ * The problem is to find the lowest-cost way to assign the jobs. The problem
+ * can be represented in a matrix of the costs of the workers doing the jobs.
+ * For example:
+ * <br><br>
+ *
+ */
 std::vector<int> FindBestMatching(boost::numeric::ublas::matrix<int> costs);
