@@ -40,7 +40,9 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
  * is minimized.
  * </em><br><br>
  *
+ * <b>
  * Example:
+ * </b><br><br>
  *
  * In this simple example there are three workers: Paul, Dave, and Chris. One
  * of them has to clean the bathroom, another sweep the floors and the third
