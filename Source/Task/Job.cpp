@@ -294,11 +294,14 @@ void Job::DisregardTerritory() { obeyTerritory = false; }
 
 bool Job::OutsideTerritory() {
 	if (obeyTerritory) {
-		for (std::vector<Task>::iterator task = tasks.begin(); task != tasks.end(); ++task) {
-			Coordinate coord = task->target;
-			if (!Map::Inst()->IsInside(coord)) {
-				if (task->entity.lock()) {
-					coord = task->entity.lock()->Position();
+		for (const auto& task : tasks)
+		{
+			Coordinate coord = task.target;
+			if (!Map::Inst()->IsInside(coord))
+			{
+				if (task.entity.lock())
+				{
+					coord = task.entity.lock()->Position();
 				}
 			}
 
@@ -316,16 +319,21 @@ void Job::AddMapMarker(MapMarker marker) {
 
 void Job::AllowFire() { fireAllowed = true; }
 bool Job::InvalidFireAllowance() {
-	if (!fireAllowed) {
-		for (std::vector<Task>::iterator task = tasks.begin(); task != tasks.end(); ++task) {
-			Coordinate coord = task->target;
-			if (!Map::Inst()->IsInside(coord)) {
-				if (task->entity.lock()) {
-					coord = task->entity.lock()->Position();
+	if (!fireAllowed)
+	{
+		for (const auto& task : tasks)
+		{
+			Coordinate coord = task.target;
+			if (!Map::Inst()->IsInside(coord))
+			{
+				if (task.entity.lock())
+				{
+					coord = task.entity.lock()->Position();
 				}
 			}
 
-			if (Map::Inst()->IsInside(coord)) {
+			if (Map::Inst()->IsInside(coord))
+			{
 				if (Map::Inst()->GetFire(coord).lock()) return true;
 			}
 		}
