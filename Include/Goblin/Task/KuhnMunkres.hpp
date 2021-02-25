@@ -52,5 +52,15 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
  * For example:
  * <br><br>
  *
+ * Clean bathroom | Sweep floors | Wash windows
+ * Paul  | $2 | $3 | $3
+ * Dave  | $3 | $2 | $3
+ * Chris | $3 | $3 | $2
+ *
+ * <br><br>
+ * The Hungarian method, when applied to the above table, would give the
+ * minimum cost: this is $6, achieved by having Paul clean the bathroom, Dave
+ * sweep the floors, and Chris wash the windows.
+ *
  */
 std::vector<int> FindBestMatching(boost::numeric::ublas::matrix<int> costs);
