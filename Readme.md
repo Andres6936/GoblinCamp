@@ -32,6 +32,8 @@ cd boost_1_71_0/
 sudo ./b2 install
 sudo apt-get install libsdl1.2-dev
 sudo apt-get install libsdl-image1.2-dev
+sudo apt-get update
+sudo apt-get install python2.7-dev
 cmake ..
 make
 ```
