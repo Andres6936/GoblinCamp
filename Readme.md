@@ -24,16 +24,16 @@ Simplify the process of build the app.
 
 ```sh
 mkdir Build && cd Build
+sudo apt-get install libsdl1.2-dev
+sudo apt-get install libsdl-image1.2-dev
+sudo apt-get update
+sudo apt-get install python2.7-dev
 wget -O boost-libraries.tar.gz https://dl.bintray.com/boostorg/release/1.71.0/source/boost_1_71_0.tar.gz
 tar xzvf boost-libraries.tar.gz
 cd boost_1_71_0/
 ./bootstrap.sh --with-libraries=python
 ./b2
 sudo ./b2 install
-sudo apt-get install libsdl1.2-dev
-sudo apt-get install libsdl-image1.2-dev
-sudo apt-get update
-sudo apt-get install python2.7-dev
 cmake ..
 make
 ```
