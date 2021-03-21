@@ -28,17 +28,12 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/thread.hpp>
 #include <boost/date_time/posix_time/posix_time_duration.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/python/detail/wrap_python.hpp>
-#include <boost/python.hpp>
-
-namespace py = boost::python;
 
 #include "Goblin/Math/Random.hpp"
 #include "Goblin/Util/Game.hpp"
 #include "Goblin/Entity/Tile.hpp"
 #include "Goblin/Task/Task.hpp"
 #include "Goblin/Task/JobManager.hpp"
-#include "Goblin/Log/Logger.hpp"
 #include "Goblin/Eden/Map.hpp"
 #include "Goblin/Util/GCamp.hpp"
 #include "Goblin/Mechanism/StockManager.hpp"
@@ -48,8 +43,6 @@ namespace py = boost::python;
 #include "Goblin/Mechanism/Farmplot.hpp"
 #include "Goblin/Mechanism/Door.hpp"
 #include "Goblin/Config/Config.hpp"
-#include "Goblin/Scripting/Engine.hpp"
-#include "Goblin/Scripting/Event.hpp"
 #include "Goblin/Mechanism/SpawningPool.hpp"
 #include "Goblin/Mechanism/Camp.hpp"
 #include "Goblin/Eden/MapMarker.hpp"
@@ -59,17 +52,12 @@ namespace py = boost::python;
 #include "Goblin/Mechanism/Stats.hpp"
 
 #include "Goblin/Geometry/Coordinate.hpp"
-#include "Goblin/User/Interface/Frame.hpp"
 #include "Goblin/User/Interface/Label.hpp"
-#include "Goblin/User/Interface/Button.hpp"
-#include "Goblin/User/Interface/UIList.hpp"
 #include "Goblin/User/Interface/Announce.hpp"
 #include "Goblin/User/Interface/MessageBox.hpp"
-#include "Goblin/User/Interface/ScrollPanel.hpp"
 #include "Goblin/User/Interface/StockManagerDialog.hpp"
 
 #include "Goblin/Graphics/TCODMapRenderer.hpp"
-#include "Goblin/Graphics/Tile/TileSetLoader.hpp"
 #include "Goblin/Graphics/Tile/TileSetRenderer.hpp"
 #include "Goblin/Math/MathEx.hpp"
 
@@ -288,7 +276,7 @@ ContinuePlaceStockpile:
 
 	Game::Inst()->RefreshStockpiles();
 
-	Script::Event::BuildingCreated(newSp, a.X(), a.Y());
+//	Script::Event::BuildingCreated(newSp, a.X(), a.Y());
 
 	//Spawning a BUILD job is not required because stockpiles are created "built"
 	return newSp->Uid();
@@ -770,7 +758,7 @@ void Game::RemoveConstruction(std::weak_ptr<Construction> cons)
 			Game::Inst()->staticConstructionList.erase(construct->Uid());
 		}
 
-		Script::Event::BuildingDestroyed(cons, construct->X(), construct->Y());
+//		Script::Event::BuildingDestroyed(cons, construct->X(), construct->Y());
 	}
 }
 
@@ -848,7 +836,7 @@ int Game::CreateItem(Coordinate pos, ItemType type, bool store, int ownerFaction
 
 			if (store) StockpileItem(newItem, false, true);
 
-			Script::Event::ItemCreated(newItem, pos.X(), pos.Y());
+//			Script::Event::ItemCreated(newItem, pos.X(), pos.Y());
 
 #ifdef DEBUG
 			std::cout<<newItem->name<<"("<<newItem->Uid()<<") created\n";
@@ -1299,9 +1287,9 @@ void Game::Update() {
 			{
 				delit->second();
 			}
-			catch (const py::error_already_set&)
+			catch (...)
 			{
-				Script::LogException();
+//				Script::LogException();
 			}
 			delit = delays.erase(delit);
 		}

@@ -25,9 +25,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/lexical_cast.hpp>
 #include <boost/bind.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/python.hpp>
 
-namespace py = boost::python;
 namespace fs = std::filesystem;
 
 #include "Goblin/Config/Config.hpp"
@@ -36,8 +34,6 @@ namespace fs = std::filesystem;
 #include "Goblin/Log/Logger.hpp"
 #include "Goblin/User/Interface/MessageBox.hpp"
 #include "Goblin/Util/Game.hpp"
-#include "Goblin/Scripting/Event.hpp"
-#include "Goblin/Scripting/Engine.hpp"
 
 namespace
 {
@@ -136,7 +132,7 @@ namespace
 		LOG_FUNC("Saving game to " << file, "DoSave");
 		
 		if ((result = Game::Inst()->SaveGame(file))) {
-			Script::Event::GameSaved(file);
+//			Script::Event::GameSaved(file);
 		}
 	}
 	
@@ -254,7 +250,7 @@ namespace Data
 		LOG("Loading game from " << file);
 		
 		if (!Game::Inst()->LoadGame(file)) return false;
-		Script::Event::GameLoaded(file);
+//		Script::Event::GameLoaded(file);
 		
 		return true;
 	}
@@ -294,21 +290,22 @@ namespace Data
 	/**
 		Executes the user's configuration file.
 	*/
-	void LoadConfig() {
+	void LoadConfig()
+	{
 		LOG("Loading user config.");
 		const fs::path& config = Paths::Get(Paths::Config);
 		CreateDefault(config, "## Goblin Camp default empty configuration file");
-		
-		py::object globals = py::import("_gcampconfig").attr("__dict__");
-		py::object locals  = py::import("__gcuserconfig__").attr("__dict__");
-		try {
-			py::exec_file(config.string().c_str(), globals, locals);
-		} catch (const py::error_already_set&) {
-			LOG("Cannot load user config.");
-			Script::LogException();
-			return;
-		}
-		
+
+//		py::object globals = py::import("_gcampconfig").attr("__dict__");
+//		py::object locals  = py::import("__gcuserconfig__").attr("__dict__");
+//		try {
+//			py::exec_file(config.string().c_str(), globals, locals);
+//		} catch (const py::error_already_set&) {
+//			LOG("Cannot load user config.");
+//			Script::LogException();
+//			return;
+//		}
+
 		atexit(SaveConfig);
 	}
 	

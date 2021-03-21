@@ -31,7 +31,6 @@ namespace fs = std::filesystem;
 #include "Goblin/Entity/Item.hpp"
 #include "Goblin/Eden/NatureObject.hpp"
 #include "Goblin/Entity/NPC.hpp"
-#include "Goblin/Scripting/Engine.hpp"
 #include "Goblin/Mechanism/Faction.hpp"
 
 namespace Globals
@@ -134,20 +133,22 @@ namespace
 	*/
 	void LoadMod(const fs::path& dir, bool required = false) {
 		std::string mod = dir.filename().string();
-		
+
 		LOG_FUNC("Trying to load mod '" << mod << "' from " << dir.string(), "LoadMod");
-		
+
 		// Removed magic apiVersion in favour of reusing already-hardcoded 'required' code path.
-		Mods::Metadata metadata(mod, mod, "", "1.0", (required ? Script::version : -1));
-		
-		if (fs::exists(dir / "mod.dat")) {
+		Mods::Metadata metadata(mod, mod, "", "1.0", (required ? 0 : -1));
+
+		if (fs::exists(dir / "mod.dat"))
+		{
 			LOG_FUNC("Loading metadata.", "LoadMod");
 			LoadMetadata(metadata, (dir / "mod.dat"));
 		}
-		
-		try {
-			LoadFile("spells",        dir, Spell::LoadPresets, required);
-			LoadFile("items",         dir, Item::LoadPresets, required);
+
+		try
+		{
+			LoadFile("spells", dir, Spell::LoadPresets, required);
+			LoadFile("items", dir, Item::LoadPresets, required);
 			LoadFile("constructions", dir, Construction::LoadPresets, required);
 			LoadFile("wildplants",    dir, NatureObject::LoadPresets, required);
 			LoadFile("names",         dir, LoadNames, required);
@@ -162,11 +163,16 @@ namespace
 			Globals::availableTilesetMods.push_back(*iter);
 		}
 		
-		if (metadata.apiVersion != -1) {
-			if (metadata.apiVersion != Script::version) {
-				LOG_FUNC("WARNING: Ignoring mod scripts because of an incorrect API version.", "LoadMod");
-			} else {
-				Script::LoadScript(mod, dir.string());
+		if (metadata.apiVersion != -1)
+		{
+			if (metadata.apiVersion != 0)
+			{
+				LOG_FUNC("WARNING: Ignoring mod scripts because of an incorrect API version.",
+						"LoadMod");
+			}
+			else
+			{
+//				Script::LoadScript(mod, dir.string());
 			}
 		}
 		

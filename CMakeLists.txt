@@ -21,26 +21,6 @@ SET(GOBLIN_CAMP_SHAREDIR "${GOBLIN_CAMP_DATA_BASE_DIR}/games/goblin-camp" CACHE 
 ADD_SUBDIRECTORY("Goblin Camp")
 
 FIND_PACKAGE(Boost REQUIRED COMPONENTS thread system filesystem serialization iostreams)
-
-IF (${Boost_VERSION} GREATER 106699) # boost >= 1.67
-    FIND_PACKAGE(Boost COMPONENTS python27 REQUIRED)
-    SET(Boost_PYTHON_LIBRARY ${Boost_PYTHON27_LIBRARY})
-ELSE ()
-    # boost python suffixes are determined by distributives
-    # try different alternatives
-    FIND_PACKAGE(Boost OPTIONAL_COMPONENTS python27)
-    IF (Boost_PYTHON27_FOUND)
-        SET(Boost_PYTHON_LIBRARY ${Boost_PYTHON27_LIBRARY})
-    ELSE ()
-        FIND_PACKAGE(Boost OPTIONAL_COMPONENTS python-py27)
-        IF (Boost_PYTHON-PY27_FOUND)
-            SET(Boost_PYTHON_LIBRARY ${Boost_PYTHON-PY27_LIBRARY})
-        ELSE ()
-            FIND_PACKAGE(Boost COMPONENTS python REQUIRED)
-        ENDIF ()
-    ENDIF ()
-ENDIF ()
-
 FIND_PACKAGE(SDL REQUIRED)
 FIND_PACKAGE(SDL_image REQUIRED)
 FIND_PACKAGE(PythonLibs 2.7)
@@ -49,7 +29,6 @@ FIND_PACKAGE(OpenGL REQUIRED)
 FIND_PACKAGE(PNG REQUIRED)
 
 INCLUDE_DIRECTORIES(${SDL_INCLUDE_DIR})
-INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${PNG_INCLUDE_DIR})
 INCLUDE_DIRECTORIES(vendor/libtcod/include/)
 

@@ -140,30 +140,30 @@ struct DevConsole {
 			PyCodeObject *co = (PyCodeObject*)Py_CompileStringFlags(
 				input.c_str(), "<console>", Py_single_input, &cf
 			);
-			
+
 			if (co == NULL) {
 				py::throw_error_already_set();
 			}
-			
+
 			py::object ns = py::import("__gcdevconsole__").attr("__dict__");
 			PyObject *ret = PyEval_EvalCode(co, ns.ptr(), ns.ptr());
-			
+
 			if (ret == NULL) {
 				Py_DECREF(co);
 				py::throw_error_already_set();
 			}
-			
+
 			Py_DECREF(ret);
 			Py_DECREF(co);
 			//py::handle<> retH(ret);
 			//py::object repr = py::object(py::handle<>(PyObject_Repr(ret)));
-			
+
 			output = GetStreamValue();// + "\n" + std::string(py::extract<char*>(repr));
 		} catch (const py::error_already_set&) {
 			py::object excType, excVal, excTB;
 			Script::ExtractException(excType, excVal, excTB);
 			Script::LogException();
-			
+
 			error = true;
 			if (!excType.is_none()) {
 				output = py::extract<char*>(py::str(excType));

@@ -263,8 +263,8 @@ int Construction::Build() {
 		Camp::Inst()->ConstructionBuilt(type);
 		Game::Inst()->statistics.RegisterNewConstructionBuilt(Construction::Presets[type].name);
 
-		Script::Event::BuildingCreated(std::static_pointer_cast<Construction>(shared_from_this()),
-				pos.X(), pos.Y());
+//		Script::Event::BuildingCreated(std::static_pointer_cast<Construction>(shared_from_this()),
+//				pos.X(), pos.Y());
 	}
 	return condition;
 }

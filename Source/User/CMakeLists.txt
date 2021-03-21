@@ -3,7 +3,6 @@ ADD_LIBRARY (Goblin.User.Interface
         Interface/AnnounceDialog.cpp
         Interface/Button.cpp
         Interface/ConstructionDialog.cpp
-        Interface/DevConsole.cpp
         Interface/Dialog.cpp
         Interface/Frame.cpp
         Interface/Grid.cpp

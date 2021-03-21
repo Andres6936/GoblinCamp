@@ -40,8 +40,6 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Goblin/Config/Tilesets.hpp"
 #include "Goblin/Entity/NPC.hpp"
 #include "Goblin/Entity/Item.hpp"
-#include "Goblin/Scripting/Engine.hpp"
-#include "Goblin/Scripting/Event.hpp"
 #include "Goblin/Mechanism/Weather.hpp"
 
 #include <Goblin/Config/WindowConfig.hpp>
@@ -77,7 +75,7 @@ int GCMain(std::vector<std::string>& args) {
 	Paths::Init();
 	Random::Init();
 	Config::Init();
-	Script::Init(args);
+//	Script::Init(args);
 
 	//
 	// Load phase.
@@ -126,7 +124,7 @@ int GCMain(std::vector<std::string>& args) {
 	//
 	// Shutdown.
 	//
-	Script::Shutdown();
+//	Script::Shutdown();
 	
 	#ifdef CHK_MEMORY_LEAKS
 		// Pull down the singletons. Unnecessary but eases memory leak detection
@@ -178,8 +176,8 @@ void MainLoop() {
 		startMilli = TCODSystem::getElapsedMilli();
 		if (elapsedMilli < targetMilli) TCODSystem::sleepMilli(targetMilli - elapsedMilli);
 	}
-	
-	Script::Event::GameEnd();
+
+//	Script::Event::GameEnd();
 }
 
 void StartNewGame() {
@@ -325,8 +323,8 @@ void ConfirmStartNewGame()
 	{
 		run();
 	}
-	
-	Script::Event::GameStart();
+
+//	Script::Event::GameStart();
 	MainLoop();
 }
 

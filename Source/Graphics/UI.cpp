@@ -37,7 +37,6 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include "Goblin/User/Interface/Tooltip.hpp"
 #include "Goblin/User/Interface/Announce.hpp"
 #include "Goblin/User/Interface/JobDialog.hpp"
-#include "Goblin/User/Interface/DevConsole.hpp"
 #include "Goblin/User/Interface/SquadsDialog.hpp"
 #include "Goblin/User/Interface/AnnounceDialog.hpp"
 #include "Goblin/User/Interface/StockManagerDialog.hpp"
@@ -133,7 +132,7 @@ void UI::HandleKeyboard() {
 			} else if (key.c == keyMap["Jobs"]) {
 				ChangeMenu(JobDialog::JobListingDialog());
 			} else if (Game::Inst()->DevMode() && key.c == keyMap["DevConsole"]) {
-				ShowDevConsole();
+//				ShowDevConsole();
 			} else if (key.c == keyMap["TerrainOverlay"]) {
 				if (Map::Inst()->GetOverlayFlags() & TERRAIN_OVERLAY) Map::Inst()->RemoveOverlay(TERRAIN_OVERLAY);
 				else Map::Inst()->AddOverlay(TERRAIN_OVERLAY);
