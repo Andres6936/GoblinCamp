@@ -61,9 +61,15 @@ public:
 
 	int GetTier();
 
+	/**
+	 * Updated the current tier (level of progression) of user in the game.
+	 */
 	void UpdateTier();
+
 	std::string GetName();
+
 	void ConstructionBuilt(int type);
+
 	void DisableAutoTerritory();
 
 	void ToggleAutoTerritory();
