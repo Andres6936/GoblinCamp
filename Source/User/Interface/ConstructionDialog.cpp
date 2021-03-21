@@ -57,11 +57,11 @@ Dialog* ConstructionDialog::ConstructionInfoDialog(std::weak_ptr<Construction> w
 			if (cons->Producer()) {
 				constructionInfoDialog->SetHeight(40);
 				dialog->AddComponent(new Label("Job Queue", 2, 5, TCOD_LEFT));
-				dialog->AddComponent(new ScrollPanel(2, 6, 23, 34, 
-					new UIList<ItemType, std::deque<ItemType> >(cons->JobList(), 0, 0, 20, 34, 
-					ConstructionDialog::DrawJob,
-					boost::bind(&ConstructionDialog::CancelJob, dialog, _1)),
-					false));
+				dialog->AddComponent(new ScrollPanel(2, 6, 23, 34,
+						new UIList<std::deque<ItemType> >(cons->JobList(), 0, 0, 20, 34,
+								ConstructionDialog::DrawJob,
+								boost::bind(&ConstructionDialog::CancelJob, dialog, _1)),
+						false));
 				dialog->AddComponent(new Label("Product List", 26, 5, TCOD_LEFT));
 				ProductList *productList = new ProductList(cons);
 				for (int prodi = 0; prodi < (signed int)cons->Products()->size(); ++prodi) {

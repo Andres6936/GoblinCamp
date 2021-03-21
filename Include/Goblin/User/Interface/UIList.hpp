@@ -26,22 +26,46 @@
 #include <Goblin/User/Interface/Abstract/Drawable.hpp>
 #include <Goblin/User/Interface/Abstract/Scrollable.hpp>
 
-template<class T, class C = std::vector<T> >
+template<class Container>
 class UIList : public Drawable, public Scrollable
 {
 private:
-	C* items;
-	bool selectable;
+
+	/**
+	 * The type of the elements.
+	 */
+	using ValueType = typename Container::value_type;
+
+	Container* items;
+
 	int selection;
-	std::function<void(T, int, int, int, int, bool, TCODConsole*)> draw;
-	std::function<void(T, Tooltip*)> getTooltip;
+
+	bool selectable;
+
 	std::function<void(int)> onclick;
+
+	std::function<void(ValueType, Tooltip*)> getTooltip;
+
+	std::function<void(ValueType, int, int, int, int, bool, TCODConsole*)> draw;
+
 public:
-	UIList<T, C>(
-			C* nitems, int x, int y, int nwidth, int nheight,
-			std::function<void(T, int, int, int, int, bool, TCODConsole*)> ndraw,
+
+	/**
+	 * @param nitems Pointer to the items
+	 * @param x Coordinate in the X axis for begin to draw.
+	 * @param y Coordinate in the Y axis for begin to draw.
+	 * @param nwidth The width in characters of zone to draw.
+	 * @param nheight The height in characters of zone to draw.
+	 * @param ndraw
+	 * @param nonclick
+	 * @param nselectable
+	 * @param ntooltip
+	 */
+	UIList(
+			Container* nitems, int x, int y, int nwidth, int nheight,
+			std::function<void(ValueType, int, int, int, int, bool, TCODConsole*)> ndraw,
 			std::function<void(int)> nonclick = 0, bool nselectable = false,
-			std::function<void(T, Tooltip*)> ntooltip = 0
+			std::function<void(ValueType, Tooltip*)> ntooltip = 0
 	) :
 			Drawable(x, y, nwidth, nheight),
 			items(nitems),
@@ -53,107 +77,87 @@ public:
 	{
 	}
 
-	void Draw(int, int, TCODConsole*);
+	void Draw(int x, int y, TCODConsole* console) override
+	{
+		console->setAlignment(TCOD_LEFT);
+		int count = 0;
+		for (typename Container::iterator it = items->begin();
+			 it != items->end() && count < height; it++)
+		{
+			ValueType item = *it;
+			draw(item, count, x + _x, y + _y + count, width, selection == count, console);
+			count++;
+		}
+	}
 
-	void Draw(int x, int y, int scroll, int width, int height, TCODConsole*);
+	void Draw(int x, int y, int scroll, int _width, int _height, TCODConsole* console) override
+	{
+		console->setAlignment(TCOD_LEFT);
+		int count = 0;
+		for (typename Container::iterator it = items->begin(); it != items->end(); it++)
+		{
+			ValueType item = *it;
+			if (count >= scroll && count < scroll + _height)
+			{
+				draw(item, count, x, y + (count - scroll), _width, selection == count, console);
+			}
+			count++;
+		}
+	}
 
-	int TotalHeight();
+	int TotalHeight() override
+	{
+		return items->size();
+	}
 
-	MenuResult Update(int, int, bool, TCOD_key_t);
+	MenuResult Update(int x, int y, bool clicked, TCOD_key_t key) override
+	{
+		if (x >= _x && x < _x + width && y >= _y && y < _y + height)
+		{
+			if (clicked)
+			{
+				if (selectable)
+				{
+					selection = y - _y;
+				}
+				if (onclick)
+				{
+					onclick(y - _y);
+				}
+			}
+			return MENUHIT;
+		}
+		return NOMENUHIT;
+	}
 
-	void GetTooltip(int, int, Tooltip*);
+	void GetTooltip(int x, int y, Tooltip* tooltip) override
+	{
+		if (getTooltip)
+		{
+			if (x >= _x && x < _x + width && y >= _y && y < _y + width &&
+				y - _y < (signed int)items->size())
+			{
+				typename Container::iterator it = items->begin();
+				for (int i = 0; i < (y - _y); i++)
+				{
+					it++;
+				}
+				getTooltip(*it, tooltip);
+			}
+		}
+	}
 
-	int Selected();
+	int Selected()
+	{
+		if (selection >= 0 && selection < (signed int)items->size())
+		{
+			return selection;
+		}
+		return -1;
+	}
 
-	void Select(int);
+	void Select(int i)
+	{
+		selection = i;
+	}
 };
-
-template<class T, class C>
-void UIList<T, C>::Draw(int x, int y, TCODConsole* console)
-{
-	console->setAlignment(TCOD_LEFT);
-	int count = 0;
-	for (typename C::iterator it = items->begin(); it != items->end() && count < height; it++)
-	{
-		T item = *it;
-		draw(item, count, x + _x, y + _y + count, width, selection == count, console);
-		count++;
-	}
-}
-
-template<class T, class C>
-void UIList<T, C>::Draw(int x, int y, int scroll, int _width, int _height, TCODConsole* console)
-{
-	console->setAlignment(TCOD_LEFT);
-	int count = 0;
-	for (typename C::iterator it = items->begin(); it != items->end(); it++)
-	{
-		T item = *it;
-		if (count >= scroll && count < scroll + _height)
-		{
-			draw(item, count, x, y + (count - scroll), _width, selection == count, console);
-		}
-		count++;
-	}
-}
-
-template<class T, class C>
-int UIList<T, C>::TotalHeight()
-{
-	return items->size();
-}
-
-template<class T, class C>
-MenuResult UIList<T, C>::Update(int x, int y, bool clicked, TCOD_key_t key)
-{
-	if (x >= _x && x < _x + width && y >= _y && y < _y + height)
-	{
-		if (clicked)
-		{
-			if (selectable)
-			{
-				selection = y - _y;
-			}
-			if (onclick)
-			{
-				onclick(y - _y);
-			}
-		}
-		return MENUHIT;
-	}
-	return NOMENUHIT;
-}
-
-template<class T, class C>
-void UIList<T, C>::GetTooltip(int x, int y, Tooltip* tooltip)
-{
-	if (getTooltip)
-	{
-		if (x >= _x && x < _x + width && y >= _y && y < _y + width &&
-			y - _y < (signed int)items->size())
-		{
-			typename C::iterator it = items->begin();
-			for (int i = 0; i < (y - _y); i++)
-			{
-				it++;
-			}
-			getTooltip(*it, tooltip);
-		}
-	}
-}
-
-template<class T, class C>
-int UIList<T, C>::Selected()
-{
-	if (selection >= 0 && selection < (signed int)items->size())
-	{
-		return selection;
-	}
-	return -1;
-}
-
-template<class T, class C>
-void UIList<T, C>::Select(int i)
-{
-	selection = i;
-}

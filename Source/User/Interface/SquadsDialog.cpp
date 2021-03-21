@@ -38,9 +38,10 @@ SquadsDialog* SquadsDialog::SquadDialog() {
 	if (!squadDialog){
 		UIContainer* contents = new UIContainer(std::vector<Drawable*>(), 0, 0, 50, 20);
 		squadDialog = new SquadsDialog(contents, "Squads", 50, 20);
-		squadDialog->squadList = new UIList<std::pair<std::string, std::shared_ptr<Squad> >, std::map<std::string, std::shared_ptr<Squad> > >(
+		squadDialog->squadList = new UIList<std::map<std::string, std::shared_ptr<Squad> > >(
 				&(Game::Inst()->squadList), 0, 0, 46, 16, SquadsDialog::DrawSquad,
-				boost::bind(&SquadsDialog::SelectSquad, squadDialog, _1), true, &SquadsDialog::GetSquadTooltip);
+				boost::bind(&SquadsDialog::SelectSquad, squadDialog, _1), true,
+				&SquadsDialog::GetSquadTooltip);
 		Frame* left = new Frame("Existing", std::vector<Drawable*>(), 1, 1, 24, 18);
 		left->AddComponent(new ScrollPanel(1, 0, 23, 18, squadDialog->squadList, false));
 		contents->AddComponent(left);

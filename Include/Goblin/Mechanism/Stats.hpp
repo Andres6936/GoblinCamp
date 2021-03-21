@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #pragma once
 
-#include <boost/unordered_map.hpp>
+#include <unordered_map>
 
 #include "Goblin/Config/Serialization.hpp"
 
@@ -36,17 +36,19 @@ class Stats {
 public:
 	static Stats* Inst();
 
-	void AddPoints(unsigned amount=1);
+	void AddPoints(unsigned amount = 1);
 
-	void FilthCreated(unsigned amount=1);
+	void FilthCreated(unsigned amount = 1);
+
 	unsigned GetFilthCreated();
 
-	void FilthFlowsOffEdge(unsigned amount=1);
+	void FilthFlowsOffEdge(unsigned amount = 1);
+
 	unsigned GetFilthFlownOff();
 
-	boost::unordered_map<std::string, unsigned> deaths;
-	boost::unordered_map<std::string, unsigned> constructionsBuilt;
-	boost::unordered_map<std::string, unsigned> itemsBuilt;
+	std::unordered_map<std::string, unsigned> deaths;
+	std::unordered_map<std::string, unsigned> constructionsBuilt;
+	std::unordered_map<std::string, unsigned> itemsBuilt;
 
 	static void Reset();
 };

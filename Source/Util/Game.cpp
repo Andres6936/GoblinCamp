@@ -76,6 +76,8 @@ namespace py = boost::python;
 #include "Goblin/Config/WindowConfig.hpp"
 #include "Goblin/Util/Flossy.hpp"
 
+#include <Goblin/Screen/StatisticsDisplay.hpp>
+
 using namespace Goblin;
 
 int Game::ItemTypeCount = 0;
@@ -2837,66 +2839,9 @@ std::weak_ptr<Construction> Game::GetRandomConstruction() const
 	return std::weak_ptr<Construction>();
 }
 
-namespace {
-	void DrawText(std::pair<std::string, unsigned> text, int count, int x, int y, int width, bool selected, TCODConsole *console) {
-		console->print(x, y, (boost::format("%s : %d") % text.first % text.second).str().c_str());
-	}
-	void DrawDeathText(std::pair<std::string, unsigned> text, int count, int x, int y, int width, bool selected, TCODConsole *console) {
-		console->print(x, y, (boost::format("%d : %s") % text.second % text.first).str().c_str());
-	}
-}
-
-void Game::DisplayStats() {
-	UIContainer* contents = new UIContainer(std::vector<Drawable*>(), 0, 0, 77, 39);
-	Dialog* statDialog = new Dialog(contents, "Statistics", 77, 41);
-
-	Label* points = new Label((boost::format("Points: %d") % statistics.GetScore()).str(), 1, 2,
-			TCOD_LEFT);
-	contents->AddComponent(points);
-
-	Frame* filthFrame = new Frame("Filth", std::vector<Drawable*>(), 1, 4, 25, 4);
-	filthFrame->AddComponent(
-			new Label((boost::format("created: %d") % Stats::Inst()->GetFilthCreated()).str(), 1, 1,
-					TCOD_LEFT));
-	filthFrame->AddComponent(
-			new Label((boost::format("off-map: %d") % Stats::Inst()->GetFilthFlownOff()).str(), 1,
-					2, TCOD_LEFT));
-	contents->AddComponent(filthFrame);
-
-	Label* burntItems = new Label(
-			(boost::format("Burnt items: %d") % statistics.GetAmountItemsBurned()).str(), 1, 9,
-			TCOD_LEFT);
-	contents->AddComponent(burntItems);
-
-	Frame* productionFrame = new Frame("Production", std::vector<Drawable*>(), 26, 1, 25, 34);
-	productionFrame->AddComponent(
-			new Label((boost::format("items: %d") % statistics.GetAmountItemsBuilt()).str(), 1, 1,
-					TCOD_LEFT));
-	productionFrame->AddComponent(new ScrollPanel(1, 2, 23, 15,
-			new UIList<std::pair<std::string, unsigned>, boost::unordered_map<std::string, unsigned> >(
-					&Stats::Inst()->itemsBuilt, 0, 0, 24, Stats::Inst()->itemsBuilt.size(),
-					boost::bind(DrawText, _1, _2, _3, _4, _5, _6, _7), 0, false, 0)));
-	productionFrame->AddComponent(new Label(
-			(boost::format("constructions: %d") % statistics.GetAmountConstructionsBuilt()).str(),
-			1,
-			17, TCOD_LEFT));
-	productionFrame->AddComponent(new ScrollPanel(1, 18, 23, 15,
-			new UIList<std::pair<std::string, unsigned>, boost::unordered_map<std::string, unsigned> >(
-					&Stats::Inst()->constructionsBuilt, 0, 0, 24,
-					Stats::Inst()->constructionsBuilt.size(),
-					boost::bind(DrawText, _1, _2, _3, _4, _5, _6, _7), 0, false, 0)));
-	contents->AddComponent(productionFrame);
-
-	Frame* deathFrame = new Frame("Deaths", std::vector<Drawable*>(), 51, 1, 25, 34);
-	deathFrame->AddComponent(new ScrollPanel(1, 1, 23, 32,
-		new UIList<std::pair<std::string, unsigned>, boost::unordered_map<std::string, unsigned> >(&Stats::Inst()->deaths, 0, 0, 24, Stats::Inst()->deaths.size(),
-		boost::bind(DrawDeathText, _1, _2, _3, _4, _5, _6, _7), 0, false, 0)));
-	contents->AddComponent(deathFrame);
-
-	Button *okButton = new Button("OK", NULL, 33, 37, 10, 'o', true);
-	contents->AddComponent(okButton);
-
-	statDialog->ShowModal();
+void Game::DisplayStats()
+{
+	Goblin::StatisticsDisplay::Show(statistics);
 }
 
 //Check each stockpile for empty not-needed containers, and see if some other pile needs them

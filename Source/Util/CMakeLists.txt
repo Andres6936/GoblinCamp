@@ -2,6 +2,7 @@ ADD_LIBRARY(Goblin.Util STATIC
         Game.cpp
         GCamp.cpp
         Statistics.cpp
+        ../Screen/StatisticsDisplay.cpp
         )
 SET_TARGET_PROPERTIES(Goblin.Util PROPERTIES CXX_STANDARD 17)
 TARGET_INCLUDE_DIRECTORIES(Goblin.Util PUBLIC $<BUILD_INTERFACE:${GOBLIN_CAMP_ROOT_DIR}/Include/>)

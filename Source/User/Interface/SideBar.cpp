@@ -137,17 +137,21 @@ void SideBar::SetEntity(std::weak_ptr<Entity> ent)
 	{
 		height = 30;
 		npc = true;
-		contents = std::shared_ptr<Drawable>(new UIContainer(std::vector<Drawable*>(), 0, 0, width - 2, 15));
+		contents = std::shared_ptr<Drawable>(
+				new UIContainer(std::vector<Drawable*>(), 0, 0, width - 2, 15));
 		std::shared_ptr<UIContainer> container = std::dynamic_pointer_cast<UIContainer>(contents);
 		Frame* frame = new Frame("Effects", std::vector<Drawable*>(), 0, 0, width - 2, 12);
-		frame->AddComponent(new UIList<StatusEffect, std::list<StatusEffect> >(
+		frame->AddComponent(new UIList<std::list<StatusEffect> >(
 				std::dynamic_pointer_cast<NPC>(entity.lock())->StatusEffects(), 1, 1, width - 4, 10,
 				SideBar::DrawStatusEffect));
 		container->AddComponent(frame);
 		std::function<std::string()> func = boost::bind(&SideBar::NPCSquadLabel, npci.get());
-		container->AddComponent(new LiveLabel(boost::bind(&SideBar::NPCSquadLabel, npci.get()), 0, 12, TCOD_LEFT));
-		container->AddComponent(new LiveLabel(boost::bind(&SideBar::NPCWeaponLabel, npci.get()), 0, 13, TCOD_LEFT));
-		container->AddComponent(new LiveLabel(boost::bind(&SideBar::NPCArmorLabel, npci.get()), 0, 14, TCOD_LEFT));
+		container->AddComponent(
+				new LiveLabel(boost::bind(&SideBar::NPCSquadLabel, npci.get()), 0, 12, TCOD_LEFT));
+		container->AddComponent(
+				new LiveLabel(boost::bind(&SideBar::NPCWeaponLabel, npci.get()), 0, 13, TCOD_LEFT));
+		container->AddComponent(
+				new LiveLabel(boost::bind(&SideBar::NPCArmorLabel, npci.get()), 0, 14, TCOD_LEFT));
 	}
 	else if (std::shared_ptr<FarmPlot> fp = std::dynamic_pointer_cast<FarmPlot>(entity.lock()))
 	{
@@ -156,7 +160,7 @@ void SideBar::SetEntity(std::weak_ptr<Entity> ent)
 		contents = std::shared_ptr<Drawable>(new UIContainer(std::vector<Drawable*>(), 0, 0, width - 2, 12));
 		std::shared_ptr<UIContainer> container = std::dynamic_pointer_cast<UIContainer>(contents);
 		container->AddComponent(new ScrollPanel(0, 0, width - 2, 15,
-				new UIList<std::pair<ItemType, bool>, std::map<ItemType, bool> >(fp->AllowedSeeds(), 0, 0, width - 2,
+				new UIList<std::map<ItemType, bool> >(fp->AllowedSeeds(), 0, 0, width - 2,
 						fp->AllowedSeeds()->size(),
 						SideBar::DrawSeed,
 						boost::bind(&FarmPlot::SwitchAllowed, fp.get(), _1))));
@@ -167,11 +171,14 @@ void SideBar::SetEntity(std::weak_ptr<Entity> ent)
 		if (construct->HasTag(WORKSHOP))
 		{
 			height = 30;
-			contents = std::shared_ptr<Drawable>(new UIContainer(std::vector<Drawable*>(), 0, 0, width - 2, 12));
-			std::shared_ptr<UIContainer> container = std::dynamic_pointer_cast<UIContainer>(contents);
+			contents = std::shared_ptr<Drawable>(
+					new UIContainer(std::vector<Drawable*>(), 0, 0, width - 2, 12));
+			std::shared_ptr<UIContainer> container = std::dynamic_pointer_cast<UIContainer>(
+					contents);
 			Frame* frame = new Frame("Production", std::vector<Drawable*>(), 0, 0, width - 2, 12);
-			frame->AddComponent(new UIList<ItemType, std::deque<ItemType> >(construct->JobList(), 1, 1, width - 4, 10,
-					ConstructionDialog::DrawJob));
+			frame->AddComponent(
+					new UIList<std::deque<ItemType> >(construct->JobList(), 1, 1, width - 4, 10,
+							ConstructionDialog::DrawJob));
 			container->AddComponent(frame);
 		}
 		construction = true;

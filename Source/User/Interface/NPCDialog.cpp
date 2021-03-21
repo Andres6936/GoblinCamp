@@ -42,7 +42,7 @@ NPCDialog::NPCDialog() : UIContainer(std::vector<Drawable*>(), 0, 0, WindowConfi
 		WindowConfig::getHeight() - 20)
 {
 	AddComponent(new ScrollPanel(0, 0, width, height,
-			new UIList<std::pair<int, std::shared_ptr<NPC> >, std::map<int, std::shared_ptr<NPC> > >(
+			new UIList<std::map<int, std::shared_ptr<NPC> > >(
 					&(Game::Inst()->npcList), 0, 0, width - 2, height, NPCDialog::DrawNPC), false));
 }
 

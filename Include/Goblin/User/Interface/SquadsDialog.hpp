@@ -49,7 +49,7 @@ private:
 
 	std::list<int> markers;
 
-	UIList<std::pair<std::string, std::shared_ptr<Squad> >, std::map<std::string, std::shared_ptr<Squad> > >* squadList;
+	UIList<std::map<std::string, std::shared_ptr<Squad> > >* squadList;
 
 	static SquadsDialog* squadDialog;
 
