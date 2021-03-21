@@ -18,7 +18,9 @@ using namespace Goblin;
  * @param elementType The key of map.
  *
  * @param container The container that store the keys, generally a
- * unordered associative containers.
+ * unordered associative containers, its is: a containers that implement
+ * unsorted (hashed) data structures that can be quickly searched (O(1)
+ * amortized, O(n) worst-case complexity)..
  */
 template<typename Container>
 void RegisterNewElement(const std::string& elementType, Container& container)
