@@ -109,66 +109,6 @@ void Camp::UnlockCenter() { locked = false; }
 
 int Camp::GetTier() { return tier; }
 
-void Camp::UpdateTier() {
-
-	int population = Game::Inst()->OrcCount() + Game::Inst()->GoblinCount();
-
-	// Immortius: There was previously an issue with new tier calculation - because
-	// the check for each tier had a population range, if you exceeded that population
-	// range before you achieved the other requirements you would not be able to reach that tier.
-	// The solution is to check eligability from highest tier downwards and avoid population ranges.
-	int newTier = 0;
-	if (farmplots > 0)
-	{
-		if      (workshops > 10 && Stats::Inst()->GetItemsBuilt() > 10000 && population >= 200)
-			newTier = 6;
-		else if (workshops > 10 && Stats::Inst()->GetItemsBuilt() > 5000  && population >= 100)
-			newTier = 5;
-		else if (workshops > 10 && Stats::Inst()->GetItemsBuilt() > 3000  && population >= 70)
-			newTier = 4;
-		else if (workshops > 10 && Stats::Inst()->GetItemsBuilt() > 1000   && population >= 50)
-			newTier = 3;
-		else if (workshops > 5  && Stats::Inst()->GetItemsBuilt() > 400   && population >= 30)
-			newTier = 2;
-		else if (workshops > 1  && Stats::Inst()->GetItemsBuilt() > 20    && population >= 20)
-			newTier = 1;
-	}
-
-	if (newTier < tier) ++newTier; //Only drop the camp tier down if newtier <= tier-2
-
-	if (newTier != tier) {
-		bool positive = newTier > tier;
-		tier = newTier;
-		std::string oldName = name;
-		if (tier == 0) {
-			article = "a";
-			name = "Clearing";
-		} else if (tier == 1) {
-			article = "a";
-			name = "Camp";
-		} else if (tier == 2) { 
-			article = "a";
-			name = "Settlement";
-		} else if (tier == 3) {
-			article = "an";
-			name = "Outpost";
-		} else if (tier == 4) {
-			article = "a";
-			name = "Fort";
-		} else if (tier == 5) {
-			article = "a";
-			name = "Stronghold";
-		} else if (tier == 6) {
-			article = "a";
-			name = "Citadel";
-		}
-
-		Announce::Inst()->AddMsg("Your "+oldName+" is now " + article + " " + name + "!", 
-			positive ? TCODColor::lightGreen : TCODColor::yellow);
-		Script::Event::TierChanged(tier, name);
-	}
-}
-
 std::string Camp::GetName() { return name; }
 
 void Camp::ConstructionBuilt(int type) {
@@ -190,7 +130,6 @@ void Camp::Reset() {
 }
 
 void Camp::Update() {
-	UpdateTier();
 	UpdateWaterJobs();
 
 	diseaseModifier = static_cast<int>(std::pow(static_cast<float>((Game::Inst()->GoblinCount() + Game::Inst()->OrcCount() - 20) / 10), 2.0f));

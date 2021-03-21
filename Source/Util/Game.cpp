@@ -1270,9 +1270,25 @@ void Game::Update() {
 
 	Map::Inst()->Update();
 
-	if (time % (UPDATES_PER_SECOND * 1) == 0) Camp::Inst()->Update();
+	if (time % (UPDATES_PER_SECOND * 1) == 0)
+	{
+		statistics.CalculateProgressionLevel();
 
-	for (std::list<std::pair<int, std::function<void()> > >::iterator delit = delays.begin(); delit != delays.end();)
+		if (statistics.GetProgressionLevel() > currentProgressionLevel)
+		{
+			// Update the current progression level
+			currentProgressionLevel = statistics.GetProgressionLevel();
+			// Show a happy message
+			Announce::Inst()->ProgressionLevelUp(statistics.GetProgressionLevel());
+			// Emit a event to the scripts
+			// Script::Event::TierChanged(statistics.GetProgressionLevel(), "Progression Level Up");
+		}
+
+		Camp::Inst()->Update();
+	}
+
+	for (std::list<std::pair<int, std::function<void()> > >::iterator delit = delays.begin();
+		 delit != delays.end();)
 	{
 		if (--delit->first <= 0)
 		{

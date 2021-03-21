@@ -38,7 +38,17 @@ namespace Goblin
 		 */
 		std::uint32_t itemsBuilt{ 0 };
 
+		/**
+		 * The current progression level of user in the current game.
+		 */
+		std::uint32_t progressionLevel{ 0 };
+
 	public:
+
+		/**
+		 * Update the progression level of current game.
+		 */
+		void CalculateProgressionLevel() noexcept;
 
 		/**
 		 * Raise the amount of orcs in the game.

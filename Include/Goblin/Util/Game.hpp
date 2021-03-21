@@ -82,6 +82,8 @@ class Game {
 	int time;
 	int age;
 
+	std::uint32_t currentProgressionLevel{ 0 };
+
 	unsigned int peacefulFaunaCount;
 	bool paused;
 	int charWidth, charHeight;

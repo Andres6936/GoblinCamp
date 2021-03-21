@@ -210,3 +210,35 @@ void Announce::Reset()
 	delete instance;
 	instance = 0;
 }
+
+void Announce::ProgressionLevelUp(const std::uint32_t progressionLevel)
+{
+	if (progressionLevel == 0)
+	{
+		AddMsg("Welcome to your Clearing!", TCODColor::lightGreen);
+	}
+	else if (progressionLevel == 1)
+	{
+		AddMsg("Your Clearing is now a Camp!", TCODColor::lightGreen);
+	}
+	else if (progressionLevel == 2)
+	{
+		AddMsg("Your Camp is now a Settlement!", TCODColor::lightGreen);
+	}
+	else if (progressionLevel == 3)
+	{
+		AddMsg("Your Settlement is now an Outpost!", TCODColor::lightGreen);
+	}
+	else if (progressionLevel == 4)
+	{
+		AddMsg("Your Outpost is now a Fort!", TCODColor::lightGreen);
+	}
+	else if (progressionLevel == 5)
+	{
+		AddMsg("Your Fort is now a Stronghold!", TCODColor::lightGreen);
+	}
+	else if (progressionLevel == 6)
+	{
+		AddMsg("Your Stronghold is now a Citadel!", TCODColor::lightGreen);
+	}
+}

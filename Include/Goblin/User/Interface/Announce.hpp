@@ -78,6 +78,8 @@ public:
 
 	static void Reset();
 
+	void ProgressionLevelUp(const std::uint32_t progressionLevel);
+
 	void AddMsg(std::string, TCODColor = TCODColor::white, const Coordinate& = undefined);
 
 	void Update();
