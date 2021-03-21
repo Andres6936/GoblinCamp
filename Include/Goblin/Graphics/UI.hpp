@@ -89,7 +89,7 @@ public:
 
 	void Update();
 
-	void DrawTopBarMessage(TCODConsole*, std::string message);
+	void DrawTopBarMessage(TCODConsole*, const std::string& message);
 
 	void Draw(TCODConsole*);
 

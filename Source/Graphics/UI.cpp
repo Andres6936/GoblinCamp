@@ -670,7 +670,7 @@ int UI::DrawShortcutHelp(TCODConsole *console, int x, int y, std::string shortcu
 	return out.length() - 2;
 }
 
-void UI::DrawTopBarMessage(TCODConsole* console, std::string message)
+void UI::DrawTopBarMessage(TCODConsole* console, const std::string& message)
 {
 	console->setAlignment(TCOD_CENTER);
 	console->setDefaultForeground(TCODColor::white);
