@@ -95,6 +95,12 @@ namespace Goblin
 		std::uint32_t GetOrcs() const noexcept;
 
 		/**
+		 * The score is calculated in base a all the item and constructions
+		 * built in the current game.
+		 *
+		 * - Each item built in the current game sum 1 (one) point.
+		 * - Each construction built in the current game sum 10 (ten) points.
+		 *
 		 * @return The score of user in the current game.
 		 */
 		std::uint32_t GetScore() const noexcept;
