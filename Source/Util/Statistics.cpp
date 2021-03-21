@@ -1,5 +1,7 @@
 // Joan Andrés (@Andres6936) Github.
 
+#include <type_traits>
+
 #include "Goblin/Util/Statistics.hpp"
 
 using namespace Goblin;
@@ -7,8 +9,8 @@ using namespace Goblin;
 // Private Zone for method not registered in the class
 
 /**
- * Wrapper around of a method that added or updated the value of a map
- * (Aka. Container) in 1 (one) unit.
+ * Wrapper around of a method that added or updated the value of a container
+ * (Aka. unordered associative containers) in 1 (one) unit.
  *
  * @tparam Container The parameter must be of meet the requirements
  * of Container, it is: A Container is an object used to store other
@@ -38,6 +40,43 @@ void RegisterNewElement(const std::string& elementType, Container& container)
 		// Raise the amount of item built a 1 (one).
 		container[elementType] = container[elementType] + 1;
 	}
+}
+
+/**
+ * Wrapper around of method that sum the value of all the values of a
+ * container and return the sum.
+ *
+ * Requirements: The type of value of container must be a Integer, it
+ * is: (char, int, long).
+ *
+ * @tparam Container The parameter must be of meet the requirements
+ * of Container, it is: A Container is an object used to store other
+ * objects and taking care of the management of the memory used by
+ * the objects it contains.
+ *
+ * @param container The container that store the values, generally a
+ * unordered associative containers, its is: a containers that implement
+ * unsorted (hashed) data structures that can be quickly searched (O(1)
+ * amortized, O(n) worst-case complexity)..
+ *
+ * @return The sum total of all the values in the container.
+ */
+template<typename Container>
+std::uint32_t GetAmountElements(const Container& container)
+{
+	// Assert in compilation time that the requirement is meet.
+	static_assert(std::is_integral<Container>::value, "Integral required.");
+
+	// Store the result of operation here
+	std::uint32_t amountElements{ 0 };
+
+	for (const auto&[elementType, amount] : container)
+	{
+		// Sum the amount of all the elements
+		amountElements += amount;
+	}
+
+	return amountElements;
 }
 
 // End Private Zone, Begin Public Zone of methods registered in the class
