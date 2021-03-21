@@ -15,7 +15,8 @@ using namespace Goblin;
  * objects and taking care of the management of the memory used by
  * the objects it contains.
  *
- * @param elementType The key of map.
+ * @param elementType The key in the container, if the key not exist in the
+ * container, it is added to container and set the value to 1 (one).
  *
  * @param container The container that store the keys, generally a
  * unordered associative containers, its is: a containers that implement
