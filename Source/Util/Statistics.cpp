@@ -8,9 +8,28 @@ using namespace Goblin;
 
 // Private Zone for method not registered in the class
 
+template<typename Container>
+void AssertThatValueTypeOfContainerIsIntegerFundamental(const Container& container)
+{
+	// Assert that the type of container value is of type Integral.
+	static_assert(std::is_integral<typename Container::mapped_type>::value,
+			"Integral required for the value type of container.");
+
+	static_assert(std::is_fundamental<typename Container::mapped_type>::value,
+			"Fundamental required for the value type of container");
+}
+
 /**
  * Wrapper around of a method that added or updated the value of a key an
  * container (Aka. unordered associative containers) in 1 (one) unit.
+ *
+ * Requirements:
+ *
+ * - The value type of container must be a Integer, it
+ * is: (char, int, long).
+ *
+ * - The value type of container must be a fundamental type, it is:
+ * (arithmetic type, void, or nullptr_t)
  *
  * @tparam Container The parameter must be of meet the requirements
  * of Container, it is: A Container is an object used to store other
@@ -28,6 +47,9 @@ using namespace Goblin;
 template<typename Container>
 void AddOrUpdateValueOfKeyInOne(const std::string& elementType, Container& container)
 {
+	// Assert in compilation time that the requirement is meet.
+	AssertThatValueTypeOfContainerIsIntegerFundamental(container);
+
 	// If the type of element not exist in the map, insert it and set to 0 (zero).
 	if (container.find(elementType) == container.end())
 	{
@@ -46,8 +68,13 @@ void AddOrUpdateValueOfKeyInOne(const std::string& elementType, Container& conta
  * Wrapper around of method that sum the value of all the keys of a
  * container and return the sum.
  *
- * Requirements: The value type of container must be a Integer, it
+ * Requirements:
+ *
+ * - The value type of container must be a Integer, it
  * is: (char, int, long).
+ *
+ * - The value type of container must be a fundamental type, it is:
+ * (arithmetic type, void, or nullptr_t)
  *
  * @tparam Container The parameter must be of meet the requirements
  * of Container, it is: A Container is an object used to store other
@@ -65,9 +92,7 @@ template<typename Container>
 std::uint32_t SumAndGetValueOfAllKeys(const Container& container)
 {
 	// Assert in compilation time that the requirement is meet.
-	// Assert that the type of container value is of type Integral.
-	static_assert(std::is_integral<typename Container::mapped_type>::value,
-			"Integral required for the value type of container.");
+	AssertThatValueTypeOfContainerIsIntegerFundamental(container);
 
 	// Store the result of operation here
 	std::uint32_t amountElements{ 0 };
