@@ -8,15 +8,25 @@ using namespace Goblin;
 
 // Private Zone for method not registered in the class
 
+/**
+ * Assert in compilation time that the value type of container is Integer.
+ *
+ * @tparam Container The parameter must be of meet the requirements
+ * of Container, it is: A Container is an object used to store other
+ * objects and taking care of the management of the memory used by
+ * the objects it contains.
+ *
+ * @param container The container that store keys and values, generally a
+ * unordered associative containers, its is: a containers that implement
+ * unsorted (hashed) data structures that can be quickly searched (O(1)
+ * amortized, O(n) worst-case complexity)..
+ */
 template<typename Container>
-void AssertThatValueTypeOfContainerIsIntegerFundamental(const Container& container)
+void AssertThatValueTypeOfContainerIsInteger(const Container& container)
 {
 	// Assert that the type of container value is of type Integral.
 	static_assert(std::is_integral<typename Container::mapped_type>::value,
 			"Integral required for the value type of container.");
-
-	static_assert(std::is_fundamental<typename Container::mapped_type>::value,
-			"Fundamental required for the value type of container");
 }
 
 /**
@@ -27,9 +37,6 @@ void AssertThatValueTypeOfContainerIsIntegerFundamental(const Container& contain
  *
  * - The value type of container must be a Integer, it
  * is: (char, int, long).
- *
- * - The value type of container must be a fundamental type, it is:
- * (arithmetic type, void, or nullptr_t)
  *
  * @tparam Container The parameter must be of meet the requirements
  * of Container, it is: A Container is an object used to store other
@@ -48,7 +55,7 @@ template<typename Container>
 void AddOrUpdateValueOfKeyInOne(const std::string& elementType, Container& container)
 {
 	// Assert in compilation time that the requirement is meet.
-	AssertThatValueTypeOfContainerIsIntegerFundamental(container);
+	AssertThatValueTypeOfContainerIsInteger(container);
 
 	// If the type of element not exist in the map, insert it and set to 0 (zero).
 	if (container.find(elementType) == container.end())
@@ -73,9 +80,6 @@ void AddOrUpdateValueOfKeyInOne(const std::string& elementType, Container& conta
  * - The value type of container must be a Integer, it
  * is: (char, int, long).
  *
- * - The value type of container must be a fundamental type, it is:
- * (arithmetic type, void, or nullptr_t)
- *
  * @tparam Container The parameter must be of meet the requirements
  * of Container, it is: A Container is an object used to store other
  * objects and taking care of the management of the memory used by
@@ -92,7 +96,7 @@ template<typename Container>
 std::uint32_t SumAndGetValueOfAllKeys(const Container& container)
 {
 	// Assert in compilation time that the requirement is meet.
-	AssertThatValueTypeOfContainerIsIntegerFundamental(container);
+	AssertThatValueTypeOfContainerIsInteger(container);
 
 	// Store the result of operation here
 	std::uint32_t amountElements{ 0 };
