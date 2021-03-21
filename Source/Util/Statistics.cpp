@@ -46,7 +46,7 @@ void RegisterNewElement(const std::string& elementType, Container& container)
  * Wrapper around of method that sum the value of all the values of a
  * container and return the sum.
  *
- * Requirements: The type of value of container must be a Integer, it
+ * Requirements: The value type of container must be a Integer, it
  * is: (char, int, long).
  *
  * @tparam Container The parameter must be of meet the requirements
@@ -65,7 +65,9 @@ template<typename Container>
 std::uint32_t GetAmountElements(const Container& container)
 {
 	// Assert in compilation time that the requirement is meet.
-	static_assert(std::is_integral<Container>::value, "Integral required.");
+	// Assert that the type of container value is of type Integral.
+	static_assert(std::is_integral<typename Container::mapped_type>::value,
+			"Integral required for the value type of container.");
 
 	// Store the result of operation here
 	std::uint32_t amountElements{ 0 };
@@ -130,16 +132,7 @@ std::uint32_t Statistics::GetPopulation() const noexcept
 
 std::uint32_t Statistics::GetAmountItemsBuilt() const noexcept
 {
-	// Store the result of operation here
-	std::uint32_t amountItemsBuilt{ 0 };
-
-	for (const auto&[itemType, amount] : itemsBuilt)
-	{
-		// Sum the amount of all the items built
-		amountItemsBuilt += amount;
-	}
-
-	return amountItemsBuilt;
+	return GetAmountElements(itemsBuilt);
 }
 
 std::uint32_t Statistics::GetAmountItemBurned() const noexcept
@@ -194,12 +187,5 @@ std::uint32_t Statistics::GetProgressionLevel() const noexcept
 
 std::uint32_t Statistics::GetAmountConstructionsBuilt() const noexcept
 {
-	std::uint32_t amountConstructionsBuilt{ 0 };
-
-	for (const auto&[constructionType, amount] : constructionsBuilt)
-	{
-		amountConstructionsBuilt += amount;
-	}
-
-	return amountConstructionsBuilt;
+	return GetAmountElements(constructionsBuilt);
 }
