@@ -37,7 +37,6 @@ public:
 	static Stats* Inst();
 
 	void AddPoints(unsigned amount=1);
-	unsigned GetPoints();
 
 	void FilthCreated(unsigned amount=1);
 	unsigned GetFilthCreated();

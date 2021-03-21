@@ -2847,10 +2847,11 @@ namespace {
 }
 
 void Game::DisplayStats() {
-	UIContainer *contents = new UIContainer(std::vector<Drawable *>(), 0, 0, 77, 39);
-	Dialog *statDialog = new Dialog(contents, "Statistics", 77, 41);
+	UIContainer* contents = new UIContainer(std::vector<Drawable*>(), 0, 0, 77, 39);
+	Dialog* statDialog = new Dialog(contents, "Statistics", 77, 41);
 
-	Label *points = new Label((boost::format("Points: %d") % Stats::Inst()->GetPoints()).str(), 1, 2, TCOD_LEFT);
+	Label* points = new Label((boost::format("Points: %d") % statistics.GetScore()).str(), 1, 2,
+			TCOD_LEFT);
 	contents->AddComponent(points);
 
 	Frame* filthFrame = new Frame("Filth", std::vector<Drawable*>(), 1, 4, 25, 4);
@@ -2876,7 +2877,8 @@ void Game::DisplayStats() {
 					&Stats::Inst()->itemsBuilt, 0, 0, 24, Stats::Inst()->itemsBuilt.size(),
 					boost::bind(DrawText, _1, _2, _3, _4, _5, _6, _7), 0, false, 0)));
 	productionFrame->AddComponent(new Label(
-			(boost::format("constructions: %d") % statistics.GetAmountConstructionBuilt()).str(), 1,
+			(boost::format("constructions: %d") % statistics.GetAmountConstructionsBuilt()).str(),
+			1,
 			17, TCOD_LEFT));
 	productionFrame->AddComponent(new ScrollPanel(1, 18, 23, 15,
 			new UIList<std::pair<std::string, unsigned>, boost::unordered_map<std::string, unsigned> >(

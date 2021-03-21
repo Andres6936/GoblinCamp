@@ -164,7 +164,7 @@ std::uint32_t Statistics::GetAmountItemsBuilt() const noexcept
 	return SumAndGetValueOfAllKeys(itemsBuilt);
 }
 
-std::uint32_t Statistics::GetAmountItemBurned() const noexcept
+std::uint32_t Statistics::GetAmountItemsBurned() const noexcept
 {
 	return itemsBurned;
 }

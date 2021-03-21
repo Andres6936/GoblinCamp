@@ -123,7 +123,7 @@ namespace Goblin
 		/**
 		 * @return The amount of items burned in the current game.
 		 */
-		std::uint32_t GetAmountItemBurned() const noexcept;
+		std::uint32_t GetAmountItemsBurned() const noexcept;
 
 		/**
 		 * @return Calculate and return the current progression level of game.

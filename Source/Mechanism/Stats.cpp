@@ -31,7 +31,6 @@ Stats* Stats::Inst()
 }
 
 void Stats::AddPoints(unsigned amount) { points += amount; }
-unsigned Stats::GetPoints() { return points; }
 
 void Stats::FilthCreated(unsigned amount) { filthCreated += amount; }
 unsigned Stats::GetFilthCreated() { return filthCreated; }
