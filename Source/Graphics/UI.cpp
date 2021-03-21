@@ -655,9 +655,13 @@ int UI::DrawShortcutHelp(TCODConsole *console, int x, int y, std::string shortcu
 
 	if(!found) {
 		if(keyMap[shortcut] == ' ') {
-			out.insert(0, (boost::format("%cSpace%c-") % (char)TCOD_COLCTRL_1 % (char)TCOD_COLCTRL_STOP).str());
-		} else {
-			out.insert(0, (boost::format("%c%c%c-") % (char)TCOD_COLCTRL_1 % (char)toupper(keyMap[shortcut]) % (char)TCOD_COLCTRL_STOP).str());
+			out.insert(0, (boost::format("%cSpace%c-") % (char)TCOD_COLCTRL_1 %
+						   (char)TCOD_COLCTRL_STOP).str());
+		}
+		else
+		{
+			out.insert(0, (boost::format("%c%c%c-") % (char)TCOD_COLCTRL_1 %
+						   (char)toupper(keyMap[shortcut]) % (char)TCOD_COLCTRL_STOP).str());
 		}
 	}
 
@@ -666,15 +670,17 @@ int UI::DrawShortcutHelp(TCODConsole *console, int x, int y, std::string shortcu
 	return out.length() - 2;
 }
 
-void UI::DrawTopBar(TCODConsole* console) {
+void UI::DrawTopBarMessage(TCODConsole* console, std::string message)
+{
 	console->setAlignment(TCOD_CENTER);
 	console->setDefaultForeground(TCODColor::white);
-	console->print(console->getWidth() / 2, 0, "w(%s)  -  %s  -  Orcs: %d   Goblins: %d  -  Year %d, %s  FPS: %d", Map::Inst()->GetWindAbbreviation().c_str(),
-		Camp::Inst()->GetName().c_str(),
-		Game::Inst()->OrcCount(), Game::Inst()->GoblinCount(), 
-		Game::Inst()->GetAge(),
-		Game::Inst()->SeasonToString(Game::Inst()->CurrentSeason()).c_str(),
-		TCODSystem::getFps());
+	console->print(console->getWidth() / 2, 0, message.data());
+}
+
+void UI::DrawTopBar(TCODConsole* console)
+{
+	console->setAlignment(TCOD_CENTER);
+	console->setDefaultForeground(TCODColor::white);
 
 	if (Game::Inst()->Paused())
 	{

@@ -89,6 +89,8 @@ public:
 
 	void Update();
 
+	void DrawTopBarMessage(TCODConsole*, std::string message);
+
 	void Draw(TCODConsole*);
 
 	void blueprint(const Coordinate&);

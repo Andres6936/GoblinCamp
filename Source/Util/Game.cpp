@@ -74,6 +74,7 @@ namespace py = boost::python;
 #include "Goblin/Math/MathEx.hpp"
 
 #include "Goblin/Config/WindowConfig.hpp"
+#include "Goblin/Util/Flossy.hpp"
 
 using namespace Goblin;
 
@@ -90,8 +91,6 @@ Game::Game() :
 		season(EarlySpring),
 		time(0),
 		age(0),
-		orcCount(0),
-		goblinCount(0),
 		peacefulFaunaCount(0),
 		paused(false),
 		toMainMenu(false),
@@ -415,12 +414,14 @@ int Game::CreateNPC(Coordinate target, NPCType type) {
 		}
 	}
 
-	if (boost::iequals(NPC::NPCTypeToString(type), "orc")) {
-		++orcCount;
+	if (boost::iequals(NPC::NPCTypeToString(type), "orc"))
+	{
+		statistics.RaiseOrcs(1);
 		npc->AddTrait(FRESH);
 	}
-	else if (boost::iequals(NPC::NPCTypeToString(type), "goblin")) {
-		++goblinCount;
+	else if (boost::iequals(NPC::NPCTypeToString(type), "goblin"))
+	{
+		statistics.RaiseGoblins(1);
 		if (Random::Generate(2) == 0) npc->AddTrait(CHICKENHEART);
 	}
 	else if (NPC::Presets[type].tags.find("localwildlife") != NPC::Presets[type].tags.end()) ++peacefulFaunaCount;
@@ -495,10 +496,25 @@ int Game::CreateNPC(Coordinate target, NPCType type) {
 	return npc->Uid();
 }
 
-int Game::OrcCount() const { return orcCount; }
-void Game::OrcCount(int add) { orcCount += add; }
-int Game::GoblinCount() const { return goblinCount; }
-void Game::GoblinCount(int add) { goblinCount += add; }
+int Game::OrcCount() const
+{
+	return statistics.GetOrcs();
+}
+
+void Game::OrcCount(int add)
+{
+	statistics.RaiseOrcs(add);
+}
+
+int Game::GoblinCount() const
+{
+	return statistics.GetGoblins();
+}
+
+void Game::GoblinCount(int add)
+{
+	statistics.RaiseGoblins(add);
+}
 
 //Moves the entity to a valid walkable tile
 void Game::BumpEntity(int uid)
@@ -1273,7 +1289,7 @@ void Game::Update() {
 		else ++delit;
 	}
 
-	if (!gameOver && orcCount == 0 && goblinCount == 0)
+	if (!gameOver && statistics.GetPopulation())
 	{
 		gameOver = true;
 		//Game over, display stats
@@ -1282,7 +1298,8 @@ void Game::Update() {
 				boost::bind(&Game::GameOver, Game::Inst()), "Quit");
 	}
 
-	for (std::list<std::weak_ptr<FireNode> >::iterator fireit = fireList.begin(); fireit != fireList.end();)
+	for (std::list<std::weak_ptr<FireNode> >::iterator fireit = fireList.begin();
+		 fireit != fireList.end();)
 	{
 		if (std::shared_ptr<FireNode> fire = fireit->lock())
 		{
@@ -1472,7 +1489,19 @@ void Game::Draw(TCODConsole * console, float focusX, float focusY, bool drawUI, 
 	TCODSystem::getCharSize(&charX, &charY);
 	renderer->DrawMap(Map::Inst(), focusX, focusY, posX * charX, posY * charY, sizeX * charX, sizeY * charY);
 
-	if (drawUI) {
+	if (drawUI)
+	{
+		const std::string statisticsTopBar = flossy::format(
+				"w({}) - {} - Orcs: {} Goblins: {} - Year {}, {} FPS: {}",
+				Map::Inst()->GetWindAbbreviation(),
+				Camp::Inst()->GetName(),
+				statistics.GetOrcs(),
+				statistics.GetGoblins(),
+				Game::Inst()->GetAge(),
+				Game::Inst()->SeasonToString(Game::Inst()->CurrentSeason()),
+				TCODSystem::getFps());
+
+		UI::Inst()->DrawTopBarMessage(console, statisticsTopBar);
 		UI::Inst()->Draw(console);
 	}
 }
@@ -2897,8 +2926,8 @@ void Game::save(OutputArchive& ar, const unsigned int version) const  {
 	ar.register_type<WaterItem>();
 	ar & season;
 	ar & time;
-	ar & orcCount;
-	ar & goblinCount;
+	ar & statistics.GetOrcs();
+	ar & statistics.GetGoblins();
 	ar & peacefulFaunaCount;
 	ar & safeMonths;
 	ar & marks;
@@ -2933,26 +2962,36 @@ void Game::load(InputArchive& ar, const unsigned int version) {
 	ar.register_type<Door>();
 	ar.register_type<SpawningPool>();
 	ar.register_type<Trap>();
-	if (version >= 1) {
+	if (version >= 1)
+	{
 		ar.register_type<Ice>();
 		ar.register_type<Stats>();
 		ar.register_type<WaterItem>();
 	}
+
+	std::uint32_t orcsAmount{ 0 };
+	std::uint32_t goblinsAmount{ 0 };
+
 	ar & season;
 	ar & time;
-	ar & orcCount;
-	ar & goblinCount;
+	ar & orcsAmount;
+	ar & goblinsAmount;
 	ar & peacefulFaunaCount;
 	ar & safeMonths;
 	ar & marks;
 	ar & camX;
 	ar & camY;
 
+	// For default initialize to zero.
+	statistics.RaiseOrcs(orcsAmount);
+	statistics.RaiseGoblins(goblinsAmount);
+
 	//Save games may not have all of the current factions saved, which is why we need to store
 	//a list of current factions here, and make sure they all exist after loading
 	{
 		std::list<std::string> factionNames;
-		for (size_t i = 0; i < Faction::factions.size(); ++i) {
+		for (size_t i = 0; i < Faction::factions.size(); ++i)
+		{
 			factionNames.push_back(Faction::FactionTypeToString(i));
 		}
 		if (version < 1)

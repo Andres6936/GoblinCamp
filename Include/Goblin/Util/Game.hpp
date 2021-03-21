@@ -25,17 +25,18 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <libtcod.hpp>
 
-#include "Goblin/Entity/Tile.hpp"
-#include "Goblin/Geometry/Coordinate.hpp"
-#include "Goblin/Entity/NPC.hpp"
-#include "Goblin/Eden/NatureObject.hpp"
-#include "Goblin/Mechanism/Events.hpp"
-#include "Goblin/Task/Job.hpp"
-#include "Goblin/Mechanism/Fire.hpp"
-#include "Goblin/Mechanism/Spell.hpp"
-#include "Goblin/Util/GCamp.hpp"
-#include "Goblin/Eden/MapRenderer.hpp"
-#include "Goblin/Config/Serialization.hpp"
+#include <Goblin/Entity/Tile.hpp>
+#include <Goblin/Geometry/Coordinate.hpp>
+#include <Goblin/Entity/NPC.hpp>
+#include <Goblin/Eden/NatureObject.hpp>
+#include <Goblin/Mechanism/Events.hpp>
+#include <Goblin/Task/Job.hpp>
+#include <Goblin/Mechanism/Fire.hpp>
+#include <Goblin/Mechanism/Spell.hpp>
+#include <Goblin/Util/GCamp.hpp>
+#include <Goblin/Util/Statistics.hpp>
+#include <Goblin/Eden/MapRenderer.hpp>
+#include <Goblin/Config/Serialization.hpp>
 
 #define BFS_MAX_DISTANCE 20
 
@@ -80,7 +81,7 @@ class Game {
 	Season season;
 	int time;
 	int age;
-	int orcCount, goblinCount;
+
 	unsigned int peacefulFaunaCount;
 	bool paused;
 	int charWidth, charHeight;
@@ -111,6 +112,9 @@ class Game {
 	static bool initializedOnce;
 
 public:
+
+	Goblin::Statistics statistics{};
+
 	static Game* Inst();
 
 	~Game();
