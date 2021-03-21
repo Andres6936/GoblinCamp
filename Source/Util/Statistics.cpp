@@ -8,7 +8,7 @@ using namespace Goblin;
 
 /**
  * Wrapper around of a method that added or updated the value of a map
- * (Aka. Container) a 1 (one) unit.
+ * (Aka. Container) in 1 (one) unit.
  *
  * @tparam Container The parameter must be of meet the requirements
  * of Container, it is: A Container is an object used to store other
