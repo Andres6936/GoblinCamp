@@ -4,9 +4,37 @@
 
 using namespace Goblin;
 
-void Statistics::CalculateProgressionLevel() noexcept
+void Statistics::RaiseOrcs(const std::uint32_t amount) noexcept
+{
+	orcs += amount;
+}
+
+void Statistics::RaiseGoblins(const std::uint32_t amount) noexcept
+{
+	goblins += amount;
+}
+
+std::uint32_t Statistics::GetOrcs() const noexcept
+{
+	return orcs;
+}
+
+std::uint32_t Statistics::GetGoblins() const noexcept
+{
+	return goblins;
+}
+
+std::uint32_t Statistics::GetPopulation() const noexcept
+{
+	return orcs + goblins;
+}
+
+std::uint32_t Statistics::GetProgressionLevel() const noexcept
 {
 	const std::uint32_t population = GetPopulation();
+
+	// Store the result in this variable.
+	std::uint32_t progressionLevel{ 0 };
 
 	// Imports: There was previously an issue with new tier calculation - because
 	// the check for each tier had a population range, if you exceeded that population
@@ -41,34 +69,6 @@ void Statistics::CalculateProgressionLevel() noexcept
 	{
 		progressionLevel = 0;
 	}
-}
 
-void Statistics::RaiseOrcs(const std::uint32_t amount) noexcept
-{
-	orcs += amount;
-}
-
-void Statistics::RaiseGoblins(const std::uint32_t amount) noexcept
-{
-	goblins += amount;
-}
-
-std::uint32_t Statistics::GetOrcs() const noexcept
-{
-	return orcs;
-}
-
-std::uint32_t Statistics::GetGoblins() const noexcept
-{
-	return goblins;
-}
-
-std::uint32_t Statistics::GetPopulation() const noexcept
-{
-	return orcs + goblins;
-}
-
-std::uint32_t Statistics::GetProgressionLevel() const noexcept
-{
 	return progressionLevel;
 }

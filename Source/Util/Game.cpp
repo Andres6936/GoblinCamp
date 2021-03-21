@@ -1272,16 +1272,17 @@ void Game::Update() {
 
 	if (time % (UPDATES_PER_SECOND * 1) == 0)
 	{
-		statistics.CalculateProgressionLevel();
+		const std::uint32_t progressionLevel = statistics.GetProgressionLevel();
 
-		if (statistics.GetProgressionLevel() > currentProgressionLevel)
+		// Show a happy message if the user is progress in the game.
+		if (progressionLevel > currentProgressionLevel)
 		{
 			// Update the current progression level
-			currentProgressionLevel = statistics.GetProgressionLevel();
+			currentProgressionLevel = progressionLevel;
 			// Show a happy message
-			Announce::Inst()->ProgressionLevelUp(statistics.GetProgressionLevel());
+			Announce::Inst()->ProgressionLevelUp(progressionLevel);
 			// Emit a event to the scripts
-			// Script::Event::TierChanged(statistics.GetProgressionLevel(), "Progression Level Up");
+			// Script::Event::TierChanged(progressionLevel, "Progression Level Up");
 		}
 
 		Camp::Inst()->Update();
