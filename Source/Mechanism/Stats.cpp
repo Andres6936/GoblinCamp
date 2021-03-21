@@ -49,9 +49,6 @@ void Stats::ConstructionBuilt(std::string name) {
 }
 unsigned Stats::GetConstructionsBuilt() { return constructions; }
 
-void Stats::ItemBuilt(std::string name) { itemsBuilt[name] += 1; ++production; AddPoints(); }
-unsigned Stats::GetItemsBuilt() { return production; }
-
 
 void Stats::Reset() {
 	delete instance;

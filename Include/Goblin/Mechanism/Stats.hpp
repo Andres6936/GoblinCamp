@@ -51,8 +51,6 @@ public:
 	unsigned GetConstructionsBuilt();
 
 	boost::unordered_map<std::string, unsigned> itemsBuilt;
-	void ItemBuilt(std::string);
-	unsigned GetItemsBuilt();
 
 	void ItemBurned(unsigned amount=1);
 	unsigned GetItemsBurned();

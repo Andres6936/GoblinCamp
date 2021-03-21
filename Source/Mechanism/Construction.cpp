@@ -434,11 +434,23 @@ int Construction::Use() {
 			}
 
 			//Create the items
-			if (itemContainer) itemContainer->PutInContainer(); 
-			for (int i = 0; i < Item::Presets[jobList[0]].multiplier; ++i) {
-				if (itemContainer) Game::Inst()->CreateItem(Position()+Construction::Presets[type].productionSpot, jobList[0], false, 0, components, itemContainer);
-				else Game::Inst()->CreateItem(Position()+Construction::Presets[type].productionSpot, jobList[0], true, 0, components);
-				Stats::Inst()->ItemBuilt(Item::Presets[jobList[0]].name);
+			if (itemContainer) itemContainer->PutInContainer();
+			for (int i = 0; i < Item::Presets[jobList[0]].multiplier; ++i)
+			{
+				if (itemContainer)
+				{
+					Game::Inst()->CreateItem(
+							Position() + Construction::Presets[type].productionSpot, jobList[0],
+							false, 0, components, itemContainer);
+				}
+				else
+				{
+					Game::Inst()->CreateItem(
+							Position() + Construction::Presets[type].productionSpot, jobList[0],
+							true, 0, components);
+				}
+
+				Game::Inst()->statistics.RegisterNewItemBuilt(Item::Presets[jobList[0]].name);
 			}
 
 			//Destroy the components

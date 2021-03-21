@@ -1029,7 +1029,9 @@ MOVENEARend:
 						if (stockpile)
 						{
 							int item = Game::Inst()->CreateItem(Position(), *fruiti, false);
-							Stats::Inst()->ItemBuilt(Item::Presets[*fruiti].name); //Harvesting counts as production
+							//Harvesting counts as production
+							Game::Inst()->statistics.RegisterNewItemBuilt(
+									Item::Presets[*fruiti].name);
 							PickupItem(Game::Inst()->GetItem(item));
 							stockpile = false;
 						}
@@ -1067,8 +1069,9 @@ MOVENEARend:
 							if (stockpile)
 							{
 								int item = Game::Inst()->CreateItem(tree->Position(), *iti, false);
-								Stats::Inst()->ItemBuilt(
-										Item::Presets[*iti].name); //Felling trees counts as item production
+								//Felling trees counts as item production
+								Game::Inst()->statistics.RegisterNewItemBuilt(
+										Item::Presets[*iti].name);
 								DropItem(carried);
 								PickupItem(Game::Inst()->GetItem(item));
 								stockpile = false;

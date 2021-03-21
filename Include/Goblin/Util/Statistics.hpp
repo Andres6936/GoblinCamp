@@ -73,6 +73,11 @@ namespace Goblin
 		std::uint32_t GetOrcs() const noexcept;
 
 		/**
+		 * @return The score of user in the current game.
+		 */
+		std::uint32_t GetScore() const noexcept;
+
+		/**
 		 * @return The amoun of goblins in the current game.
 		 */
 		std::uint32_t GetGoblins() const noexcept;
