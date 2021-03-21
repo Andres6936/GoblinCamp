@@ -35,6 +35,18 @@ void Statistics::RegisterNewItemBuilt(const std::string& itemType) noexcept
 	}
 }
 
+void Statistics::RegisterNewConstructionBuilt(const std::string& constructionType) noexcept
+{
+	if (constructionsBuilt.find(constructionType) == constructionsBuilt.end())
+	{
+		constructionsBuilt[constructionType] = 1;
+	}
+	else
+	{
+		constructionsBuilt[constructionType] = constructionsBuilt[constructionType] + 1;
+	}
+}
+
 // Getters
 
 std::uint32_t Statistics::GetOrcs() const noexcept
@@ -119,4 +131,16 @@ std::uint32_t Statistics::GetProgressionLevel() const noexcept
 	}
 
 	return progressionLevel;
+}
+
+std::uint32_t Statistics::GetAmountConstructionsBuilt() const noexcept
+{
+	std::uint32_t amountConstructionsBuilt{ 0 };
+
+	for (const auto&[constructionType, amount] : constructionsBuilt)
+	{
+		amountConstructionsBuilt += amount;
+	}
+
+	return amountConstructionsBuilt;
 }

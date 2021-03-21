@@ -46,6 +46,11 @@ namespace Goblin
 		 */
 		std::unordered_map<std::string, std::uint32_t> itemsBuilt{};
 
+		/**
+		 * Store in the key: the type of construction and in the value: the
+		 * amount of constructions of this type built in the current game.
+		 */
+		std::unordered_map<std::string, std::uint32_t> constructionsBuilt{};
 
 	public:
 
@@ -74,6 +79,13 @@ namespace Goblin
 		 * @param itemType The type of item built.
 		 */
 		void RegisterNewItemBuilt(const std::string& itemType) noexcept;
+
+		/**
+		 * Raise in 1 the amount of constructions of this type in the current game.
+		 *
+		 * @param itemType The type of construction built.
+		 */
+		void RegisterNewConstructionBuilt(const std::string& constructionType) noexcept;
 
 		// Getters
 
@@ -111,6 +123,11 @@ namespace Goblin
 		 * @return Calculate and return the current progression level of game.
 		 */
 		std::uint32_t GetProgressionLevel() const noexcept;
+
+		/**
+		 * @return The amount of construction built in the current game.
+		 */
+		std::uint32_t GetAmountConstructionsBuilt() const noexcept;
 
 	};
 
