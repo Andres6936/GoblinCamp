@@ -1289,7 +1289,7 @@ void Game::Update() {
 		else ++delit;
 	}
 
-	if (!gameOver && statistics.GetPopulation())
+	if (!gameOver && statistics.GetPopulation() == 0)
 	{
 		gameOver = true;
 		//Game over, display stats
