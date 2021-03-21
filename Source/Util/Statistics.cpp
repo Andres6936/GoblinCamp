@@ -62,7 +62,7 @@ void RegisterNewElement(const std::string& elementType, Container& container)
  * @return The sum total of all the values in the container.
  */
 template<typename Container>
-std::uint32_t GetAmountElements(const Container& container)
+std::uint32_t SumAndGetValueOfAllKeys(const Container& container)
 {
 	// Assert in compilation time that the requirement is meet.
 	// Assert that the type of container value is of type Integral.
@@ -132,7 +132,7 @@ std::uint32_t Statistics::GetPopulation() const noexcept
 
 std::uint32_t Statistics::GetAmountItemsBuilt() const noexcept
 {
-	return GetAmountElements(itemsBuilt);
+	return SumAndGetValueOfAllKeys(itemsBuilt);
 }
 
 std::uint32_t Statistics::GetAmountItemBurned() const noexcept
@@ -187,5 +187,5 @@ std::uint32_t Statistics::GetProgressionLevel() const noexcept
 
 std::uint32_t Statistics::GetAmountConstructionsBuilt() const noexcept
 {
-	return GetAmountElements(constructionsBuilt);
+	return SumAndGetValueOfAllKeys(constructionsBuilt);
 }
