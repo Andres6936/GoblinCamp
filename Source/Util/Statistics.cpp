@@ -146,7 +146,7 @@ std::uint32_t Statistics::GetOrcs() const noexcept
 
 std::uint32_t Statistics::GetScore() const noexcept
 {
-	return GetAmountItemsBuilt();
+	return GetAmountItemsBuilt() + (GetAmountConstructionsBuilt() * 10);
 }
 
 std::uint32_t Statistics::GetGoblins() const noexcept

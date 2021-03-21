@@ -2876,7 +2876,7 @@ void Game::DisplayStats() {
 					&Stats::Inst()->itemsBuilt, 0, 0, 24, Stats::Inst()->itemsBuilt.size(),
 					boost::bind(DrawText, _1, _2, _3, _4, _5, _6, _7), 0, false, 0)));
 	productionFrame->AddComponent(new Label(
-			(boost::format("constructions: %d") % Stats::Inst()->GetConstructionsBuilt()).str(), 1,
+			(boost::format("constructions: %d") % statistics.GetAmountConstructionBuilt()).str(), 1,
 			17, TCOD_LEFT));
 	productionFrame->AddComponent(new ScrollPanel(1, 18, 23, 15,
 			new UIList<std::pair<std::string, unsigned>, boost::unordered_map<std::string, unsigned> >(

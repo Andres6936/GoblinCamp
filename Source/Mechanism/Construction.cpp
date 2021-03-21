@@ -250,7 +250,8 @@ int Construction::Build() {
 		else if (Construction::Presets[type].tags[DOOR]) { UpdateWallGraphic(true, false); }
 		if (producer)
 		{
-			StockManager::Inst()->UpdateWorkshops(std::static_pointer_cast<Construction>(shared_from_this()), true);
+			StockManager::Inst()->UpdateWorkshops(
+					std::static_pointer_cast<Construction>(shared_from_this()), true);
 			for (unsigned int prod = 0; prod < Construction::Presets[type].products.size(); ++prod)
 			{
 				StockManager::Inst()->UpdateQuantity(Construction::Presets[type].products[prod], 0);
@@ -260,9 +261,10 @@ int Construction::Build() {
 		if (!HasTag(CENTERSCAMP)) Camp::Inst()->UpdateCenter(Center(), true);
 		else Camp::Inst()->LockCenter(Center());
 		Camp::Inst()->ConstructionBuilt(type);
-		Stats::Inst()->ConstructionBuilt(Construction::Presets[type].name);
+		Game::Inst()->statistics.RegisterNewConstructionBuilt(Construction::Presets[type].name);
 
-		Script::Event::BuildingCreated(std::static_pointer_cast<Construction>(shared_from_this()), pos.X(), pos.Y());
+		Script::Event::BuildingCreated(std::static_pointer_cast<Construction>(shared_from_this()),
+				pos.X(), pos.Y());
 	}
 	return condition;
 }

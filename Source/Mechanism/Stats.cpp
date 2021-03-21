@@ -39,14 +39,6 @@ unsigned Stats::GetFilthCreated() { return filthCreated; }
 void Stats::FilthFlowsOffEdge(unsigned amount) { filthOutsideMap += amount; AddPoints(amount); }
 unsigned Stats::GetFilthFlownOff() { return filthOutsideMap; }
 
-void Stats::ConstructionBuilt(std::string name) { 
-	constructionsBuilt[name] += 1; 
-	++constructions; 
-	AddPoints(10U);
-}
-unsigned Stats::GetConstructionsBuilt() { return constructions; }
-
-
 void Stats::Reset() {
 	delete instance;
 	instance = new Stats();

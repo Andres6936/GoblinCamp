@@ -47,9 +47,6 @@ public:
 
 	boost::unordered_map<std::string, unsigned> deaths;
 	boost::unordered_map<std::string, unsigned> constructionsBuilt;
-	void ConstructionBuilt(std::string);
-	unsigned GetConstructionsBuilt();
-
 	boost::unordered_map<std::string, unsigned> itemsBuilt;
 
 	static void Reset();

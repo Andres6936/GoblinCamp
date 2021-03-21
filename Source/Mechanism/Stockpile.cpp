@@ -55,13 +55,14 @@ Stockpile::Stockpile(ConstructionType type, int newSymbol, Coordinate target) :
 			boost::iequals(Item::Categories[Item::Categories[i].parent].GetName(), "Container"))
 		{
 			limits.insert(std::pair<ItemCategory, int>(i, 100));
-			demand.insert(std::pair<ItemCategory, int>(i, 0)); //Initial demand for each container is 0
+			demand.insert(
+					std::pair<ItemCategory, int>(i, 0)); //Initial demand for each container is 0
 			lastDemandBalance.insert(std::pair<ItemCategory, int>(i, 0));
 		}
 	}
 	Camp::Inst()->UpdateCenter(Center(), true);
 	Camp::Inst()->ConstructionBuilt(type);
-	Stats::Inst()->ConstructionBuilt(Construction::Presets[type].name);
+	Game::Inst()->statistics.RegisterNewConstructionBuilt(Construction::Presets[type].name);
 }
 
 Stockpile::~Stockpile()
