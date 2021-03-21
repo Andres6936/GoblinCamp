@@ -43,7 +43,7 @@ void RegisterNewElement(const std::string& elementType, Container& container)
 }
 
 /**
- * Wrapper around of method that sum the value of all the values of a
+ * Wrapper around of method that sum the value of all the keys of a
  * container and return the sum.
  *
  * Requirements: The value type of container must be a Integer, it
