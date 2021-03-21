@@ -40,6 +40,8 @@ void RegisterNewElement(const std::string& elementType, Container& container)
 	}
 }
 
+// End Private Zone, Begin Public Zone of methods registered in the class
+
 void Statistics::RegisterNewItemBurned() noexcept
 {
 	itemsBurned += 1;
