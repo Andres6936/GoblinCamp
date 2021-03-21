@@ -9,8 +9,8 @@ using namespace Goblin;
 // Private Zone for method not registered in the class
 
 /**
- * Wrapper around of a method that added or updated the value of a container
- * (Aka. unordered associative containers) in 1 (one) unit.
+ * Wrapper around of a method that added or updated the value of a key an
+ * container (Aka. unordered associative containers) in 1 (one) unit.
  *
  * @tparam Container The parameter must be of meet the requirements
  * of Container, it is: A Container is an object used to store other
@@ -26,7 +26,7 @@ using namespace Goblin;
  * amortized, O(n) worst-case complexity)..
  */
 template<typename Container>
-void RegisterNewElement(const std::string& elementType, Container& container)
+void AddOrUpdateValueOfKeyInOne(const std::string& elementType, Container& container)
 {
 	// If the type of element not exist in the map, insert it and set to 0 (zero).
 	if (container.find(elementType) == container.end())
@@ -100,12 +100,12 @@ void Statistics::RaiseGoblins(const std::uint32_t amount) noexcept
 
 void Statistics::RegisterNewItemBuilt(const std::string& itemType) noexcept
 {
-	RegisterNewElement(itemType, itemsBuilt);
+	AddOrUpdateValueOfKeyInOne(itemType, itemsBuilt);
 }
 
 void Statistics::RegisterNewConstructionBuilt(const std::string& constructionType) noexcept
 {
-	RegisterNewElement(constructionType, constructionsBuilt);
+	AddOrUpdateValueOfKeyInOne(constructionType, constructionsBuilt);
 }
 
 // Getters
