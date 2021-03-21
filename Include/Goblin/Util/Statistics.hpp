@@ -3,7 +3,9 @@
 #ifndef GOBLIN_STATISTICS_HPP
 #define GOBLIN_STATISTICS_HPP
 
+#include <string>
 #include <cstdint>
+#include <unordered_map>
 
 namespace Goblin
 {
@@ -34,9 +36,10 @@ namespace Goblin
 		std::uint32_t workshops{ 0 };
 
 		/**
-		 * The amount item built in the current game.
+		 * Store in the key: the type of item built and in the value: the
+		 * amount of items built of this type in the current game.
 		 */
-		std::uint32_t itemsBuilt{ 0 };
+		std::unordered_map<std::string, std::uint32_t> itemsBuilt{};
 
 
 	public:
@@ -56,6 +59,15 @@ namespace Goblin
 		void RaiseGoblins(const std::uint32_t amount) noexcept;
 
 		/**
+		 * Raise in 1 the amount of items built of this type.
+		 *
+		 * @param itemType The type of item built.
+		 */
+		void RegisterNewItemBuilt(const std::string& itemType) noexcept;
+
+		// Getters
+
+		/**
 		 * @return The amount of orcs in the current game.
 		 */
 		std::uint32_t GetOrcs() const noexcept;
@@ -69,6 +81,11 @@ namespace Goblin
 		 * @return The amount of population (orcs + goblins) in the current game.
 		 */
 		std::uint32_t GetPopulation() const noexcept;
+
+		/**
+		 * @return The amount of items built in the current game.
+		 */
+		std::uint32_t GetAmountItemsBuilt() const noexcept;
 
 		/**
 		 * @return Calculate and return the current progression level of game.
