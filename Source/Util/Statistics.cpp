@@ -4,6 +4,39 @@
 
 using namespace Goblin;
 
+// Private Zone for method not registered in the class
+
+/**
+ * Wrapper around of a method that added or updated the value of a map
+ * (Aka. Container) a 1 (one) unit.
+ *
+ * @tparam Container The parameter must be of meet the requirements
+ * of Container, it is: A Container is an object used to store other
+ * objects and taking care of the management of the memory used by
+ * the objects it contains.
+ *
+ * @param elementType The key of map.
+ *
+ * @param container The container that store the keys, generally a
+ * unordered associative containers.
+ */
+template<typename Container>
+void RegisterNewElement(const std::string& elementType, Container& container)
+{
+	// If the type of element not exist in the map, insert it and set to 0 (zero).
+	if (container.find(elementType) == container.end())
+	{
+		// Create the key and the set to 1 (because a item has been built).
+		container[elementType] = 1;
+	}
+		// The type of element already has been defined and have minimum a item built.
+	else
+	{
+		// Raise the amount of item built a 1 (one).
+		container[elementType] = container[elementType] + 1;
+	}
+}
+
 void Statistics::RegisterNewItemBurned() noexcept
 {
 	itemsBurned += 1;
@@ -21,30 +54,12 @@ void Statistics::RaiseGoblins(const std::uint32_t amount) noexcept
 
 void Statistics::RegisterNewItemBuilt(const std::string& itemType) noexcept
 {
-	// If the type of element not exist in the map, insert it and set to 0 (zero).
-	if (itemsBuilt.find(itemType) == itemsBuilt.end())
-	{
-		// Create the key and the set to 1 (because a item has been built).
-		itemsBuilt[itemType] = 1;
-	}
-		// The type of element already has been defined and have minimum a item built.
-	else
-	{
-		// Raise the amount of item built a 1 (one).
-		itemsBuilt[itemType] = itemsBuilt[itemType] + 1;
-	}
+	RegisterNewElement(itemType, itemsBuilt);
 }
 
 void Statistics::RegisterNewConstructionBuilt(const std::string& constructionType) noexcept
 {
-	if (constructionsBuilt.find(constructionType) == constructionsBuilt.end())
-	{
-		constructionsBuilt[constructionType] = 1;
-	}
-	else
-	{
-		constructionsBuilt[constructionType] = constructionsBuilt[constructionType] + 1;
-	}
+	RegisterNewElement(constructionType, constructionsBuilt);
 }
 
 // Getters
