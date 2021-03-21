@@ -52,9 +52,6 @@ public:
 
 	boost::unordered_map<std::string, unsigned> itemsBuilt;
 
-	void ItemBurned(unsigned amount=1);
-	unsigned GetItemsBurned();
-
 	static void Reset();
 };
 

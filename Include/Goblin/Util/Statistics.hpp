@@ -36,6 +36,11 @@ namespace Goblin
 		std::uint32_t workshops{ 0 };
 
 		/**
+		 * The amount of items burned (deleted or removed) of current game.
+		 */
+		std::uint32_t itemsBurned{ 0 };
+
+		/**
 		 * Store in the key: the type of item built and in the value: the
 		 * amount of items built of this type in the current game.
 		 */
@@ -45,21 +50,26 @@ namespace Goblin
 	public:
 
 		/**
-		 * Raise the amount of orcs in the game.
+		 * Raise in 1 the amount of items burned in the current game.
+		 */
+		void RegisterNewItemBurned() noexcept;
+
+		/**
+		 * Raise the amount of orcs in the current game.
 		 *
 		 * @param amount The amount of orcs to raise.
 		 */
 		void RaiseOrcs(const std::uint32_t amount) noexcept;
 
 		/**
-		 * Raise the amount of goblins in the game.
+		 * Raise the amount of goblins in the current game.
 		 *
 		 * @param amount The amount of goblins to raise.
 		 */
 		void RaiseGoblins(const std::uint32_t amount) noexcept;
 
 		/**
-		 * Raise in 1 the amount of items built of this type.
+		 * Raise in 1 the amount of items built of this type in the current game.
 		 *
 		 * @param itemType The type of item built.
 		 */
@@ -91,6 +101,11 @@ namespace Goblin
 		 * @return The amount of items built in the current game.
 		 */
 		std::uint32_t GetAmountItemsBuilt() const noexcept;
+
+		/**
+		 * @return The amount of items burned in the current game.
+		 */
+		std::uint32_t GetAmountItemBurned() const noexcept;
 
 		/**
 		 * @return Calculate and return the current progression level of game.

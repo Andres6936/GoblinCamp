@@ -2863,7 +2863,7 @@ void Game::DisplayStats() {
 	contents->AddComponent(filthFrame);
 
 	Label* burntItems = new Label(
-			(boost::format("Burnt items: %d") % Stats::Inst()->GetItemsBurned()).str(), 1, 9,
+			(boost::format("Burnt items: %d") % statistics.GetAmountItemsBurned()).str(), 1, 9,
 			TCOD_LEFT);
 	contents->AddComponent(burntItems);
 

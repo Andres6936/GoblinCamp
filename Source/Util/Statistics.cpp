@@ -4,6 +4,11 @@
 
 using namespace Goblin;
 
+void Statistics::RegisterNewItemBurned() noexcept
+{
+	itemsBurned += 1;
+}
+
 void Statistics::RaiseOrcs(const std::uint32_t amount) noexcept
 {
 	orcs += amount;
@@ -64,6 +69,11 @@ std::uint32_t Statistics::GetAmountItemsBuilt() const noexcept
 	}
 
 	return amountItemsBuilt;
+}
+
+std::uint32_t Statistics::GetAmountItemBurned() const noexcept
+{
+	return itemsBurned;
 }
 
 std::uint32_t Statistics::GetProgressionLevel() const noexcept

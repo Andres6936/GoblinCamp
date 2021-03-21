@@ -155,8 +155,8 @@ void FireNode::Update() {
 				{
 					Game::Inst()->CreateItem(item->Position(), Item::StringToItemType("ash"));
 					Game::Inst()->RemoveItem(item);
+					Game::Inst()->statistics.RegisterNewItemBurned();
 					temperature += 250;
-					Stats::Inst()->ItemBurned();
 					break;
 				}
 			}
