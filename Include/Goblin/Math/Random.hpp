@@ -25,7 +25,7 @@ namespace Random {
 	struct Dice {
 		Dice(unsigned int, unsigned int = 1, float = 1.f, float = 0.f);
 		Dice(const TCOD_dice_t&);
-		int Roll();
+		int Roll() const;
 		int Max();
 		int Min();
 	private:

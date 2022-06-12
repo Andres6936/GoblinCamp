@@ -128,7 +128,7 @@ namespace
 		\param[in]  file   Full path to the save.
 		\param[out] result Boolean indicating success or failure.
 	*/
-	void DoSave(std::string file, bool& result) {
+	void DoSave(const std::string& file, bool& result) {
 		LOG_FUNC("Saving game to " << file, "DoSave");
 		
 		if ((result = Game::Inst()->SaveGame(file))) {
@@ -220,11 +220,11 @@ namespace Data
 			
 			save.replace_extension();
 			
-			list.push_back(Save(
+			list.emplace_back(
 				save.filename().string(),
 				fs::file_size(it->path()),
 				fs::last_write_time(it->path())
-			));
+			);
 		}
 	}
 	
@@ -268,7 +268,7 @@ namespace Data
 	bool SaveGame(const std::string& save, bool confirm) {
 		std::string file = SanitizeFilename(save);
 		
-		if (file.size() == 0) {
+		if (file.empty()) {
 			file = "_";
 		}
 		
@@ -281,7 +281,7 @@ namespace Data
 		} else {
 			MessageBox::ShowMessageBox(
 				"Save game exists, overwrite?", boost::bind(DoSave, file, boost::ref(result)), "Yes",
-				NULL, "No");
+				nullptr, "No");
 		}
 		
 		return result;

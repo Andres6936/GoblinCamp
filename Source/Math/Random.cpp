@@ -53,7 +53,7 @@ namespace
 		\returns Seed value.
 	*/
 	unsigned int GetStandardSeed() {
-		return static_cast<unsigned int>(time(NULL));
+		return static_cast<unsigned int>(time(nullptr));
 	}
 }
 
@@ -94,7 +94,7 @@ namespace Random {
 		
 		\returns Result of the roll(s).
 	*/
-	int Dice::Roll() {
+	int Dice::Roll() const {
 		int result = 0;
 		
 		for (unsigned int i = 0; i < dices; ++i) {

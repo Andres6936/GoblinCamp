@@ -14,8 +14,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License 
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
-
-#include <boost/bind.hpp>
 #include <filesystem>
 
 namespace fs = std::filesystem;
@@ -244,9 +242,6 @@ namespace Paths {
 		// every value' warning. So, crash and burn.
 		LOG("Impossible code path, crashing.");
 		assert(false);
-#if defined(__GNUC__)
-		__builtin_unreachable(); // to silence the warning
-#endif
 	}
 	
 #if defined(_MSC_VER)
