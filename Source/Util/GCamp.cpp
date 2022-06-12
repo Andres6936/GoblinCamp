@@ -151,9 +151,8 @@ void MainLoop() {
 	int update = -1;
 	if (Config::GetCVar<int>("halfRendering")) update = 0;
 
-	int elapsedMilli;
-	int targetMilli = 1000 / (UPDATES_PER_SECOND);
-	int startMilli = TCODSystem::getElapsedMilli();
+	std::uint32_t targetMilli = 1000 / (UPDATES_PER_SECOND);
+	std::uint32_t startMilli = TCODSystem::getElapsedMilli();
 	while (game->Running()) {
 		if (Game::ToMainMenu()) {
 			Game::ToMainMenu(false);
@@ -172,7 +171,7 @@ void MainLoop() {
 			if (update == 0) update = 1;
 		} else if (update == 1) update = 0;
 
-		elapsedMilli = TCODSystem::getElapsedMilli() - startMilli;
+		std::uint32_t elapsedMilli = TCODSystem::getElapsedMilli() - startMilli;
 		startMilli = TCODSystem::getElapsedMilli();
 		if (elapsedMilli < targetMilli) TCODSystem::sleepMilli(targetMilli - elapsedMilli);
 	}
@@ -310,13 +309,13 @@ namespace {
 
 void ConfirmStartNewGame()
 {
-	std::function<void(void)> run(boost::bind(&Game::LoadingScreen, &StartNewGame));
+	std::function<void(void)> run([] { return Game::LoadingScreen(&StartNewGame); });
 
 	if (Game::Inst()->Running())
 	{
 		MessageBox::ShowMessageBox(
 				"A game is already running, are you sure you want  to start a new one?",
-				run, "Yes", NULL, "No"
+				run, "Yes", nullptr, "No"
 		);
 	}
 	else
@@ -338,11 +337,11 @@ int MainMenu() {
 			{ "Keys",     'k', &ActiveAlways,     &KeysMenu},
 			{ "Mods",     'm', &ActiveAlways,     &ModsMenu },
 			{ "Tilesets", 't', &ActiveAlways,     &TilesetsMenu },
-			{ "Exit",     'q', &ActiveAlways, NULL }
+			{ "Exit",     'q', &ActiveAlways, nullptr }
 	};
 
 	const unsigned int entryCount = sizeof(entries) / sizeof(MainMenuEntry);
-	void (* function)() = NULL;
+	void (* function)() = nullptr;
 
 	bool exit = false;
 	int width = 20;
@@ -903,7 +902,7 @@ void TilesetsMenu() {
 	int originalSelection = -1;
 	int selection = 0;
 	std::string tilesetDir = Config::GetStringCVar("tileset");
-	if (tilesetDir.size() == 0) {
+	if (tilesetDir.empty()) {
 		tilesetDir = "default";
 	}
 	for (size_t i = 0; i < tilesetsList.size(); ++i) {
