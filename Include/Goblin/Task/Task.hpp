@@ -20,7 +20,7 @@ private:
 	typedef int ItemCategory;
 
 public:
-	Task(Action = NOACTION, Coordinate = Coordinate(-1, -1),
+	explicit Task(Action = NOACTION, Coordinate = Coordinate(-1, -1),
 			std::weak_ptr<Entity> = std::weak_ptr<Entity>(),
 			ItemCategory = 0, int flags = 0);
 

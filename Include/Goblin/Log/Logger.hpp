@@ -34,7 +34,7 @@ namespace Logger {
 	void OpenLogFile(const std::string&);
 	void CloseLogFile();
 	
-	TeeStream& Prefix(const char* = NULL, int = 0, const char* = NULL);
+	TeeStream& Prefix(const char* = nullptr, int = 0, const char* = nullptr);
 	const char* Suffix();
 }
 
