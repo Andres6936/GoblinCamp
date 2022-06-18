@@ -52,7 +52,7 @@ class NatureObject : public Entity {
 	friend class Game;
 	friend class Ice;
 protected:
-	NatureObject(Coordinate = Coordinate(0,0), NatureObjectType = 0);
+	explicit NatureObject(Coordinate = Coordinate(0,0), NatureObjectType = 0);
 	NatureObjectType type;
 	int graphic;
 	TCODColor color;
@@ -61,11 +61,11 @@ protected:
 	bool tree, harvestable;
 	bool ice;
 public:
-	~NatureObject();
+	~NatureObject() override;
 	static std::vector<NatureObjectPreset> Presets;
-	static void LoadPresets(std::string);
+	static void LoadPresets(const std::string&);
 
-	int Type();
+	int Type() const;
 
 	int GetGraphicsHint() const;
 	void Draw(Coordinate, TCODConsole*);
@@ -73,12 +73,12 @@ public:
 	virtual void CancelJob(int=0);
 	void Mark();
 	void Unmark();
-	bool Marked();
+	bool Marked() const;
 	int Fell();
 	int Harvest();
-	bool Tree();
-	bool Harvestable();
-	bool IsIce();
+	bool Tree() const;
+	bool Harvestable() const;
+	bool IsIce() const;
 };
 
 BOOST_CLASS_VERSION(NatureObject, 1)
@@ -89,9 +89,9 @@ class Ice : public NatureObject
 
 	std::shared_ptr<WaterNode> frozenWater;
 public:
-	Ice(Coordinate = Coordinate(0, 0), NatureObjectType = 0);
+	explicit Ice(Coordinate = Coordinate(0, 0), NatureObjectType = 0);
 
-	~Ice();
+	~Ice() override;
 };
 
 BOOST_CLASS_VERSION(Ice, 0)

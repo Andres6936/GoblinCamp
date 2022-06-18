@@ -88,7 +88,7 @@ void NatureObject::Update() {}
 class NatureObjectListener : public ITCODParserListener {
 	int natureIndex;
 
-	bool parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name) {
+	bool parserNewStruct(TCODParser *parser,const TCODParserStruct *str,const char *name) override {
 		bool foundInPreset = false;
 
 		for (size_t i = 0; i < NatureObject::Presets.size(); ++i) {
@@ -147,15 +147,15 @@ class NatureObjectListener : public ITCODParserListener {
 		return true;
 	}
 
-	bool parserEndStruct(TCODParser *parser,const TCODParserStruct *str,const char *name) {
+	bool parserEndStruct(TCODParser *parser,const TCODParserStruct *str,const char *name) override {
 		return true;
 	}
-	void error(const char *msg) {
+	void error(const char *msg) override {
 		throw std::runtime_error(msg);
 	}
 };
 
-void NatureObject::LoadPresets(std::string filename) {
+void NatureObject::LoadPresets(const std::string& filename) {
 	TCODParser parser = TCODParser();
 	TCODParserStruct* natureObjectTypeStruct = parser.newStructure("plant_type");
 	natureObjectTypeStruct->addProperty("graphic", TCOD_TYPE_INT, true);
@@ -179,7 +179,7 @@ void NatureObject::LoadPresets(std::string filename) {
 
 void NatureObject::Mark() { marked = true; }
 void NatureObject::Unmark() { marked = false; }
-bool NatureObject::Marked() { return marked; }
+bool NatureObject::Marked() const { return marked; }
 
 void NatureObject::CancelJob(int) { 
 	marked = false; 
@@ -188,11 +188,11 @@ void NatureObject::CancelJob(int) {
 int NatureObject::Fell() { return --condition; }
 int NatureObject::Harvest() { return --condition; }
 
-int NatureObject::Type() { return type; }
-bool NatureObject::Tree() { return tree; }
-bool NatureObject::Harvestable() { return harvestable; }
+int NatureObject::Type() const { return type; }
+bool NatureObject::Tree() const { return tree; }
+bool NatureObject::Harvestable() const { return harvestable; }
 
-bool NatureObject::IsIce() { return ice; }
+bool NatureObject::IsIce() const { return ice; }
 
 void NatureObject::save(OutputArchive& ar, const unsigned int version) const {
 	ar & boost::serialization::base_object<Entity>(*this);

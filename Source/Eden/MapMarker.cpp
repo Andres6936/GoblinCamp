@@ -18,7 +18,6 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <boost/math/constants/constants.hpp>
 
 #include "Goblin/Eden/MapMarker.hpp"
-#include "Goblin/Math/Random.hpp"
 #include "Goblin/Geometry/Coordinate.hpp"
 
 MapMarker::MapMarker(MarkerType t, int g, Coordinate pos, int d, TCODColor c) : type(t),
@@ -26,8 +25,8 @@ MapMarker::MapMarker(MarkerType t, int g, Coordinate pos, int d, TCODColor c) : 
 																				color(c),
 																				duration(d),
 																				graphic(g),
-																				x(pos.X()),
-																				y(pos.Y()),
+																				x(pos.getX()),
+																				y(pos.getY()),
 																				counter(0.0f)
 {
 }
@@ -41,27 +40,33 @@ bool MapMarker::Update()
 	return duration != 0;
 }
 
-int MapMarker::X() const {
+int MapMarker::X() const
+{
 	return x;
 }
 
-int MapMarker::Y() const {
+int MapMarker::Y() const
+{
 	return y;
 }
 
-Coordinate MapMarker::Position() const {
-	return Coordinate(x,y);
+Coordinate MapMarker::Position() const
+{
+	return { x, y };
 }
 
-int MapMarker::Graphic() const {
+int MapMarker::Graphic() const
+{
 	return graphic;
 }
 
-TCODColor MapMarker::Color() const {
+TCODColor MapMarker::Color() const
+{
 	return color;
 }
 
-void MapMarker::save(OutputArchive& ar, const unsigned int version) const {
+void MapMarker::save(OutputArchive& ar, const unsigned int version) const
+{
 	ar & type;
 	ar & origColor.r;
 	ar & origColor.g;
@@ -76,7 +81,8 @@ void MapMarker::save(OutputArchive& ar, const unsigned int version) const {
 	ar & counter;
 }
 
-void MapMarker::load(InputArchive& ar, const unsigned int version) {
+void MapMarker::load(InputArchive& ar, const unsigned int version)
+{
 	ar & type;
 	ar & origColor.r;
 	ar & origColor.g;

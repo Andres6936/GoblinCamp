@@ -34,7 +34,7 @@ class MapMarker {
 	int x, y; //TODO switch to Coordinate
 	float counter;
 public:
-	MapMarker(MarkerType=FLASHINGMARKER, int graphic='?', Coordinate position=Coordinate(0,0), 
+	explicit MapMarker(MarkerType=FLASHINGMARKER, int graphic='?', Coordinate position=Coordinate(0,0),
 		int duration=1, TCODColor color=TCODColor::pink);
 	bool Update();
 	int X() const;
