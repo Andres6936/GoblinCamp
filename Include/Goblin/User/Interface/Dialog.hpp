@@ -29,18 +29,18 @@ protected:
 public:
 	Dialog(Drawable* ncontents, std::string ntitle, int nwidth, int nheight);
 
-	~Dialog()
+	~Dialog() override
 	{
 		delete contents;
 	}
 
-	void Draw(int, int, TCODConsole*);
-
-	MenuResult Update(int, int, bool, TCOD_key_t);
-
-	void GetTooltip(int, int, Tooltip*);
+	void SetHeight(int nheight);
 
 	void SetTitle(std::string ntitle);
 
-	void SetHeight(int nheight);
+	void Draw(int, int, TCODConsole*) override;
+
+	void GetTooltip(int, int, Tooltip*) override;
+
+	MenuResult Update(int, int, bool, TCOD_key_t) override;
 };

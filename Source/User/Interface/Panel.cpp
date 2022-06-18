@@ -21,7 +21,7 @@ void Panel::Close()
 
 void Panel::ShowModal()
 {
-	TCODConsole* background = new TCODConsole(WindowConfig::getWidth(),
+	auto* background = new TCODConsole(WindowConfig::getWidth(),
 			WindowConfig::getHeight());
 	TCODConsole::blit(TCODConsole::root, 0, 0, WindowConfig::getWidth(),
 			WindowConfig::getHeight(),
@@ -41,7 +41,7 @@ void Panel::ShowModal()
 				TCODConsole::root, 0, 0, 0.7F, 1.0F);
 
 		Draw(_x, _y, TCODConsole::root);
-		TCODConsole::root->flush();
+		TCODConsole::flush();
 
 		key = TCODConsole::checkForKeypress();
 		mouseStatus = TCODMouse::getStatus();

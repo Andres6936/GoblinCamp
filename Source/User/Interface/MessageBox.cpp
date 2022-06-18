@@ -25,8 +25,8 @@
 void MessageBox::ShowMessageBox(const std::string& text, const std::function<void()>& firstAction, std::string firstButton,
 		const std::function<void()>& secondAction, std::string secondButton)
 {
-	UIContainer* contents = new UIContainer(0, 0, 54, (text.length() / 50) + 8);
-	Dialog* dialog = new Dialog(contents, "", 54, (text.length() / 50) + 8);
+	auto* contents = new UIContainer(0, 0, 54, (text.length() / 50) + 8);
+	auto* dialog = new Dialog(contents, "", 54, (text.length() / 50) + 8);
 	int i = 0;
 	do
 	{
@@ -34,7 +34,7 @@ void MessageBox::ShowMessageBox(const std::string& text, const std::function<voi
 		i += 50;
 	} while (i < static_cast<int>(text.length()));
 
-	if (secondButton == "")
+	if (secondButton.empty())
 	{
 		contents->AddComponent(new Button(firstButton, firstAction, 22, (i / 50) + 3, 15, firstButton.at(0), true));
 	} else {
