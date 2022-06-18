@@ -311,6 +311,7 @@ void ConfirmStartNewGame()
 {
 	std::function<void(void)> run([] { return Game::LoadingScreen(&StartNewGame); });
 
+	// ¿The user already is play?
 	if (Game::Inst()->Running())
 	{
 		MessageBox::ShowMessageBox(

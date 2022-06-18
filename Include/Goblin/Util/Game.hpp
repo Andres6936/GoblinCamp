@@ -129,8 +129,16 @@ public:
 
 	static bool ToMainMenu();
 
-	void Running(bool);
+	/**
+	 * Set if the player is already play or not.
+	 *
+	 * @param running The new state of play.
+	 */
+	void Running(bool running);
 
+	/**
+	 * @return True if already the player is play.
+	 */
 	bool Running();
 
 	static void Reset();
