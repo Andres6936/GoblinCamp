@@ -36,16 +36,16 @@ SquadsDialog* SquadsDialog::squadDialog = 0;
 
 SquadsDialog* SquadsDialog::SquadDialog() {
 	if (!squadDialog){
-		UIContainer* contents = new UIContainer(std::vector<Drawable*>(), 0, 0, 50, 20);
+		UIContainer* contents = new UIContainer( 0, 0, 50, 20);
 		squadDialog = new SquadsDialog(contents, "Squads", 50, 20);
 		squadDialog->squadList = new UIList<std::map<std::string, std::shared_ptr<Squad> > >(
 				&(Game::Inst()->squadList), 0, 0, 46, 16, SquadsDialog::DrawSquad,
 				boost::bind(&SquadsDialog::SelectSquad, squadDialog, _1), true,
 				&SquadsDialog::GetSquadTooltip);
-		Frame* left = new Frame("Existing", std::vector<Drawable*>(), 1, 1, 24, 18);
+		Frame* left = new Frame("Existing", 1, 1, 24, 18);
 		left->AddComponent(new ScrollPanel(1, 0, 23, 18, squadDialog->squadList, false));
 		contents->AddComponent(left);
-		squadDialog->rightFrame = new Frame("New Squad", std::vector<Drawable*>(), 25, 1, 24, 18);
+		squadDialog->rightFrame = new Frame("New Squad",  25, 1, 24, 18);
 		squadDialog->rightFrame->AddComponent(new Label("Name (required)", 12, 2));
 		squadDialog->rightFrame->AddComponent(new TextBox(1, 3, 22, &(squadDialog->squadName)));
 		squadDialog->rightFrame->AddComponent(new Label("Members", 12, 5));
@@ -63,13 +63,13 @@ SquadsDialog* SquadsDialog::SquadDialog() {
 		squadDialog->rightFrame->AddComponent(modify);
 		squadDialog->rightFrame->AddComponent(deleteSquad);
 		contents->AddComponent(squadDialog->rightFrame);
-		squadDialog->orders = new Frame("Orders for ", std::vector<Drawable *>(), 0, 20, 50, 5);
+		squadDialog->orders = new Frame("Orders for ", 0, 20, 50, 5);
 		squadDialog->orders->SetVisible(boost::bind(&SquadsDialog::SquadSelected, squadDialog, true));
 		contents->AddComponent(squadDialog->orders);
 		squadDialog->orders->AddComponent(new ToggleButton("Guard", boost::bind(&SquadsDialog::SelectOrder, squadDialog, GUARD), boost::bind(&SquadsDialog::OrderSelected, squadDialog, GUARD), 2, 1, 9));
 		squadDialog->orders->AddComponent(new ToggleButton("Follow", boost::bind(&SquadsDialog::SelectOrder, squadDialog, FOLLOW), boost::bind(&SquadsDialog::OrderSelected, squadDialog, FOLLOW), 14, 1, 10));
 		squadDialog->orders->AddComponent(new ToggleButton("Patrol", boost::bind(&SquadsDialog::SelectOrder, squadDialog, PATROL), boost::bind(&SquadsDialog::OrderSelected, squadDialog, PATROL), 27, 1, 10));
-		Frame *weapons = new Frame("Weapons", std::vector<Drawable *>(), 0, 25, 23, 5);
+		Frame *weapons = new Frame("Weapons",  0, 25, 23, 5);
 		weapons->SetVisible(boost::bind(&SquadsDialog::SquadSelected, squadDialog, true));
 		contents->AddComponent(weapons);
 		weapons->AddComponent(new LiveButton(boost::bind(&SquadsDialog::SelectedSquadWeapon, squadDialog), boost::bind(&SquadsDialog::SelectWeapon, squadDialog), 1, 1, 21));
@@ -77,7 +77,7 @@ SquadsDialog* SquadsDialog::SquadDialog() {
 		rearm->SetVisible(boost::bind(&SquadsDialog::SquadSelected, squadDialog, true));
 		contents->AddComponent(rearm);
 
-		Frame *armor = new Frame("Armor", std::vector<Drawable *>(), 23, 25, 23, 5);
+		Frame *armor = new Frame("Armor", 23, 25, 23, 5);
 		armor->SetVisible(boost::bind(&SquadsDialog::SquadSelected, squadDialog, true));
 		contents->AddComponent(armor);
 		armor->AddComponent(new LiveButton(boost::bind(&SquadsDialog::SelectedSquadArmor, squadDialog), boost::bind(&SquadsDialog::SelectArmor, squadDialog), 1, 1, 21));

@@ -90,7 +90,7 @@ void ConstructionDialog::Construct(std::weak_ptr<Construction> cons)
 void ConstructionDialog::Rename() {
 	if (construct.lock())
 	{
-		UIContainer* contents = new UIContainer(std::vector<Drawable*>(), 1, 1, 28, 7);
+		UIContainer* contents = new UIContainer( 1, 1, 28, 7);
 		contents->AddComponent(new TextBox(0, 1, 28, boost::bind(&Entity::Name, construct.lock()),
 				boost::bind(&Entity::Name, construct.lock(), _1)));
 		contents->AddComponent(new Button("OK", std::function<void()>(), 11, 3, 6, TCODK_ENTER, true));

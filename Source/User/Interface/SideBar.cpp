@@ -138,9 +138,9 @@ void SideBar::SetEntity(std::weak_ptr<Entity> ent)
 		height = 30;
 		npc = true;
 		contents = std::shared_ptr<Drawable>(
-				new UIContainer(std::vector<Drawable*>(), 0, 0, width - 2, 15));
+				new UIContainer(0, 0, width - 2, 15));
 		std::shared_ptr<UIContainer> container = std::dynamic_pointer_cast<UIContainer>(contents);
-		Frame* frame = new Frame("Effects", std::vector<Drawable*>(), 0, 0, width - 2, 12);
+		Frame* frame = new Frame("Effects", 0, 0, width - 2, 12);
 		frame->AddComponent(new UIList<std::list<StatusEffect> >(
 				std::dynamic_pointer_cast<NPC>(entity.lock())->StatusEffects(), 1, 1, width - 4, 10,
 				SideBar::DrawStatusEffect));
@@ -157,7 +157,7 @@ void SideBar::SetEntity(std::weak_ptr<Entity> ent)
 	{
 		height = 30;
 		construction = true;
-		contents = std::shared_ptr<Drawable>(new UIContainer(std::vector<Drawable*>(), 0, 0, width - 2, 12));
+		contents = std::shared_ptr<Drawable>(new UIContainer(0, 0, width - 2, 12));
 		std::shared_ptr<UIContainer> container = std::dynamic_pointer_cast<UIContainer>(contents);
 		container->AddComponent(new ScrollPanel(0, 0, width - 2, 15,
 				new UIList<std::map<ItemType, bool> >(fp->AllowedSeeds(), 0, 0, width - 2,
@@ -172,10 +172,10 @@ void SideBar::SetEntity(std::weak_ptr<Entity> ent)
 		{
 			height = 30;
 			contents = std::shared_ptr<Drawable>(
-					new UIContainer(std::vector<Drawable*>(), 0, 0, width - 2, 12));
+					new UIContainer(0, 0, width - 2, 12));
 			std::shared_ptr<UIContainer> container = std::dynamic_pointer_cast<UIContainer>(
 					contents);
-			Frame* frame = new Frame("Production", std::vector<Drawable*>(), 0, 0, width - 2, 12);
+			Frame* frame = new Frame("Production", 0, 0, width - 2, 12);
 			frame->AddComponent(
 					new UIList<std::deque<ItemType> >(construct->JobList(), 1, 1, width - 4, 10,
 							ConstructionDialog::DrawJob));

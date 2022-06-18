@@ -38,7 +38,7 @@ Dialog* NPCDialog::NPCListDialog()
 	return npcListDialog;
 }
 
-NPCDialog::NPCDialog() : UIContainer(std::vector<Drawable*>(), 0, 0, WindowConfig::getWidth() - 20,
+NPCDialog::NPCDialog() : UIContainer(0, 0, WindowConfig::getWidth() - 20,
 		WindowConfig::getHeight() - 20)
 {
 	AddComponent(new ScrollPanel(0, 0, width, height,

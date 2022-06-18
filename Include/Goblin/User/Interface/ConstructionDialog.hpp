@@ -53,7 +53,7 @@ private:
 
 public:
 	ConstructionDialog(int nwidth, int nheight) :
-			UIContainer(std::vector<Drawable*>(), 0, 0, nwidth, nheight)
+			UIContainer(0, 0, nwidth, nheight)
 	{
 	}
 

@@ -13,12 +13,12 @@ class UIContainer : public Drawable
 
 protected:
 
-	std::vector<Drawable*> components;
+	std::vector<Drawable*> components {};
 
 public:
 
-	UIContainer(std::vector<Drawable*> ncomponents, int nx, int ny, int nwidth, int nheight) :
-			Drawable(nx, ny, nwidth, nheight), components(ncomponents)
+	UIContainer(int nx, int ny, int nwidth, int nheight) :
+			Drawable(nx, ny, nwidth, nheight)
 	{
 	}
 
@@ -26,11 +26,11 @@ public:
 
 	void AddComponent(Drawable* component);
 
-	virtual void Draw(int, int, TCODConsole*);
+	void Draw(int, int, TCODConsole*) override;
 
-	virtual MenuResult Update(int, int, bool, TCOD_key_t);
+	void GetTooltip(int, int, Tooltip*) override;
 
-	virtual void GetTooltip(int, int, Tooltip*);
+	MenuResult Update(int, int, bool, TCOD_key_t) override;
 };
 
 #endif //GOBLINCAMP_UICONTAINER_HPP

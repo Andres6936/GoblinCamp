@@ -27,9 +27,8 @@ class Frame : public UIContainer
 private:
 	std::string title;
 public:
-	Frame(std::string ntitle, std::vector<Drawable*> ncomponents, int x, int y, int nwidth,
-			int nheight) :
-			UIContainer(ncomponents, x, y, nwidth, nheight), title(ntitle)
+	Frame(std::string ntitle, int x, int y, int nwidth,int nheight) :
+			UIContainer(x, y, nwidth, nheight), title(ntitle)
 	{
 	}
 

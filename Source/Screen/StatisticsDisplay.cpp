@@ -35,13 +35,13 @@ namespace
 
 void StatisticsDisplay::Show(const Statistics& statistics)
 {
-	UIContainer* contents = new UIContainer(std::vector<Drawable*>(), 0, 0, 77, 39);
+	UIContainer* contents = new UIContainer( 0, 0, 77, 39);
 	Dialog* statDialog = new Dialog(contents, "Statistics", 77, 41);
 
 	Label* points = new Label(flossy::format("Points: {}", statistics.GetScore()), 1, 2, TCOD_LEFT);
 	contents->AddComponent(points);
 
-	Frame* filthFrame = new Frame("Filth", std::vector<Drawable*>(), 1, 4, 25, 4);
+	Frame* filthFrame = new Frame("Filth", 1, 4, 25, 4);
 	filthFrame->AddComponent(
 			new Label(flossy::format("created: {}", Stats::Inst()->GetFilthCreated()), 1, 1,
 					TCOD_LEFT));
@@ -56,7 +56,7 @@ void StatisticsDisplay::Show(const Statistics& statistics)
 
 	using namespace std::placeholders;  // for _1, _2, _3...
 
-	Frame* productionFrame = new Frame("Production", std::vector<Drawable*>(), 26, 1, 25, 34);
+	Frame* productionFrame = new Frame("Production",  26, 1, 25, 34);
 	productionFrame->AddComponent(
 			new Label(flossy::format("items: {}", statistics.GetAmountItemsBuilt()), 1, 1,
 					TCOD_LEFT));
@@ -75,7 +75,7 @@ void StatisticsDisplay::Show(const Statistics& statistics)
 					std::bind(DrawText, _1, _2, _3, _4, _5, _6, _7), 0, false, 0)));
 	contents->AddComponent(productionFrame);
 
-	Frame* deathFrame = new Frame("Deaths", std::vector<Drawable*>(), 51, 1, 25, 34);
+	Frame* deathFrame = new Frame("Deaths",  51, 1, 25, 34);
 	deathFrame->AddComponent(new ScrollPanel(1, 1, 23, 32,
 			new UIList<std::unordered_map<std::string, unsigned> >(
 					&Stats::Inst()->deaths, 0, 0, 24, Stats::Inst()->deaths.size(),

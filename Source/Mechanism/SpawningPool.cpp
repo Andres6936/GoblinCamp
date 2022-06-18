@@ -47,7 +47,7 @@ SpawningPool::SpawningPool(ConstructionType type, const Coordinate& target) : Co
 																			  jobCount(0),
 																			  burn(0)
 {
-	container = new UIContainer(std::vector<Drawable*>(), 0, 0, 16, 11);
+	container = new UIContainer( 0, 0, 16, 11);
 	dialog = new Dialog(container, "Spawning Pool", 16, 10);
 	container->AddComponent(new ToggleButton("Dump filth", boost::bind(&SpawningPool::ToggleDumpFilth, this),
 			boost::bind(&SpawningPool::DumpFilth, this), 2, 2, 12));

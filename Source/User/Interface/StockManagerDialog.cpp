@@ -72,7 +72,7 @@ public:
 		}
 	}
 	
-	StockPanel(ItemType nItemType, StockManagerDialog *nowner): UIContainer(std::vector<Drawable *>(), 0, 0, 16, 4), itemType(nItemType), owner(nowner) {
+	StockPanel(ItemType nItemType, StockManagerDialog *nowner): UIContainer(0, 0, 16, 4), itemType(nItemType), owner(nowner) {
 		AddComponent(new Spinner(0, 2, 16, boost::bind(&StockManager::Minimum, StockManager::Inst(), itemType), 
 								 boost::bind(&StockManager::SetMinimum, StockManager::Inst(), itemType, _1)));
 		SetTooltip(boost::bind(&StockPanel::_GetTooltip, this, _1, _2, _3));
@@ -93,7 +93,7 @@ public:
 
 StockManagerDialog::StockManagerDialog(): Dialog(0, "Stock Manager", 68, 75), filter("")
 {
-	contents = new UIContainer(std::vector<Drawable *>(), 0, 0, 68, 75);
+	contents = new UIContainer(0, 0, 68, 75);
 
 	static_cast<UIContainer*>(contents)->AddComponent(new Label("Filter", 34, 1));
 	static_cast<UIContainer*>(contents)->AddComponent(new TextBox(1, 2, 66, &filter));
