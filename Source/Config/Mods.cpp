@@ -20,6 +20,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <libtcod.hpp>
 #include <filesystem>
 #include <boost/algorithm/string.hpp>
+#include <utility>
 
 namespace fs = std::filesystem;
 
@@ -47,11 +48,11 @@ namespace
 	struct ModListener : public ITCODParserListener {
 		Mods::Metadata *ptr;
 		
-		ModListener(Mods::Metadata *ptr) : ptr(ptr) {
-			BOOST_ASSERT(ptr != NULL);
+		explicit ModListener(Mods::Metadata *ptr) : ptr(ptr) {
+			BOOST_ASSERT(ptr != nullptr);
 		}
 		
-		bool parserProperty(TCODParser*, const char *name, TCOD_value_type_t, TCOD_value_t value) {
+		bool parserProperty(TCODParser*, const char *name, TCOD_value_type_t, TCOD_value_t value) override {
 			if (boost::iequals(name, "name")) {
 				ptr->name = value.s;
 			} else if (boost::iequals(name, "author")) {
@@ -65,14 +66,14 @@ namespace
 			return true;
 		}
 		
-		void error(const char *err) {
+		void error(const char *err) override {
 			LOG_FUNC("ModListener: " << err, "ModListener::error");
 		}
 		
 		// unused
-		bool parserNewStruct(TCODParser*, const TCODParserStruct*, const char*) { return true; }
-		bool parserFlag(TCODParser*, const char*) { return true; }
-		bool parserEndStruct(TCODParser*, const TCODParserStruct*, const char*) { return true; }
+		bool parserNewStruct(TCODParser*, const TCODParserStruct*, const char*) override { return true; }
+		bool parserFlag(TCODParser*, const char*) override { return true; }
+		bool parserEndStruct(TCODParser*, const TCODParserStruct*, const char*) override { return true; }
 	};
 	
 	void LoadNames(std::string fn) {
@@ -119,7 +120,7 @@ namespace
 		type->addProperty("version",    TCOD_TYPE_STRING, true);
 		type->addProperty("apiVersion", TCOD_TYPE_INT,    false);
 		
-		ModListener *listener = new ModListener(&metadata);
+		auto *listener = new ModListener(&metadata);
 		parser.run(metadataFile.string().c_str(), listener);
 		delete listener;
 	}
@@ -159,8 +160,8 @@ namespace
 			if (required) Game::Inst()->ErrorScreen();
 		}
 		std::list<TilesetModMetadata> tilesetMods = TileSetLoader::LoadTilesetModMetadata(dir);
-		for (std::list<TilesetModMetadata>::iterator iter = tilesetMods.begin(); iter != tilesetMods.end(); ++iter) {
-			Globals::availableTilesetMods.push_back(*iter);
+		for (TilesetModMetadata& tilesetMod : tilesetMods) {
+			Globals::availableTilesetMods.push_back(tilesetMod);
 		}
 		
 		if (metadata.apiVersion != -1)
@@ -184,8 +185,9 @@ namespace
 	Interface to load and query mods.
 */
 namespace Mods {
-	Metadata::Metadata(const std::string& mod, const std::string& name, const std::string& author, const std::string& version, short apiVersion)
-		: mod(mod), name(name), author(author), version(version), apiVersion(apiVersion) {
+	Metadata::Metadata(std::string  mod, std::string name, std::string author, std::string version, short apiVersion)
+		: mod(std::move(mod)), name(std::move(name)), author(std::move(author)),
+		version(std::move(version)), apiVersion(apiVersion) {
 	}
 	
 	/**

@@ -17,6 +17,8 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 // Data refactoring: mods.
 #include <list>
+#include <string>
+
 #include "Goblin/Graphics/Tile/TileSetLoader.hpp"
 
 namespace Mods {
@@ -24,7 +26,7 @@ namespace Mods {
 		std::string mod, name, author, version;
 		short apiVersion;
 		
-		Metadata(const std::string&, const std::string&, const std::string&, const std::string&, short);
+		Metadata(std::string , std::string, std::string, std::string, short);
 	};
 		
 	const std::list<Metadata>& GetLoaded();

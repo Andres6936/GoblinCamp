@@ -27,7 +27,7 @@ namespace Data
 		std::string filename, size, date;
 		std::filesystem::file_time_type timestamp; // for sorting
 
-		Save(const std::string&, boost::uintmax_t, std::filesystem::file_time_type);
+		Save(std::string , boost::uintmax_t, std::filesystem::file_time_type);
 	};
 	
 	// http://www.sgi.com/tech/stl/LessThanComparable.html

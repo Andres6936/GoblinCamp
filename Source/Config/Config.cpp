@@ -53,13 +53,13 @@ namespace Config {
 		config << "##\n";
 
 		// dump cvars
-		for (const auto[key, value] : Globals::cvars)
+		for (const auto& [key, value] : Globals::cvars)
 		{
 			config << "setCVar('" << key << "', '" << value << "')\n";
 		}
 
 		// dump keys
-		for (const auto[key, value] : Globals::keys)
+		for (const auto& [key, value] : Globals::keys)
 		{
 			config << "bindKey('" << key << "', '" << value << "')\n";
 		}

@@ -64,7 +64,7 @@ namespace Config
 	 * @param name: Name of the key.
 	 * @param value: New keycode for the key.
 	 */
-	void SetKey(const std::string& name, const char value);
+	void SetKey(const std::string& name, char value);
 
 	KeyMap& GetKeyMap();
 }

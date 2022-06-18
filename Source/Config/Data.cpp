@@ -18,12 +18,12 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 #include <fstream>
 #include <cstdlib>
 #include <cstring>
-#include <algorithm>
+#include <utility>
 #include <filesystem>
-#include <boost/format.hpp>
+
 #include <libtcod.hpp>
+#include <boost/format.hpp>
 #include <boost/lexical_cast.hpp>
-#include <boost/bind.hpp>
 #include <boost/algorithm/string.hpp>
 
 namespace fs = std::filesystem;
@@ -47,7 +47,7 @@ namespace
 	{
 		char buffer[21] = { "0000-00-00, 00:00:00" };
 
-		size_t size = 0;
+		size_t size;
 		struct tm* date;
 
 		// The function std::invoke call to function lambda
@@ -83,7 +83,7 @@ namespace
 		static const char* sizes[] = { "%10.0f b", "%10.2f kB", "%10.2f MB", "%10.2f GB" };
 		static unsigned maxSize = sizeof(sizes) / sizeof(sizes[0]);
 
-		long double size = static_cast<long double>(filesize);
+		auto size = static_cast<long double>(filesize);
 
 		unsigned idx = 0;
 		while (size > 1024.L && idx < maxSize)
@@ -200,7 +200,7 @@ namespace
 
 namespace Data
 {
-	Save::Save(const std::string& filename, boost::uintmax_t size, fs::file_time_type timestamp) : filename(filename),
+	Save::Save(std::string  filename, boost::uintmax_t size, fs::file_time_type timestamp) : filename(std::move(filename)),
 																								   timestamp(timestamp)
 	{
 		FormatFileSize(size, this->size);
@@ -280,7 +280,7 @@ namespace Data
 			DoSave(file, result);
 		} else {
 			MessageBox::ShowMessageBox(
-				"Save game exists, overwrite?", boost::bind(DoSave, file, boost::ref(result)), "Yes",
+				"Save game exists, overwrite?", [file, &result] { return DoSave(file, result); }, "Yes",
 				nullptr, "No");
 		}
 		

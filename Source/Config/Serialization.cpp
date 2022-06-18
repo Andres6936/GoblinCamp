@@ -23,8 +23,6 @@ and I couldn't come up with a coherent answer just by googling. */
 
 #pragma warning(push, 2) //Boost::serialization generates a few very long warnings
 
-#include <boost/bind.hpp>
-#include <boost/format.hpp>
 #include <fstream>
 #include <boost/cstdint.hpp>
 
@@ -118,7 +116,7 @@ namespace {
 		typedef typename Type<sizeof(T) / 2>::uint U;
 		const boost::uint32_t bits = sizeof(U) * 8;
 		
-		U a = 0, b = 0;
+		U a, b;
 		a = ReadUInt<U>(stream);
 		b = ReadUInt<U>(stream);
 		
@@ -196,7 +194,7 @@ bool Game::SaveGame(const std::string& filename) {
 		}
 		
 		stream.push(rawStream);
-		Game::SavingScreen(boost::bind(&WritePayload, boost::ref(stream)));
+		Game::SavingScreen([&stream] { return WritePayload(stream); });
 		
 		return true;
 	} catch (const std::exception& e) {
@@ -254,7 +252,7 @@ bool Game::LoadGame(const std::string& filename) {
 		}
 		
 		stream.push(rawStream);
-		Game::LoadingScreen(boost::bind(&ReadPayload, boost::ref(stream)));
+		Game::LoadingScreen([&stream] { return ReadPayload(stream); });
 		Game::Inst()->TranslateContainerListeners();
 		Game::Inst()->ProvideMap();
 		Game::Inst()->Pause();
