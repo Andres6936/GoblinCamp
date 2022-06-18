@@ -134,7 +134,7 @@ public:
 	static std::multimap<StatusEffectType, ItemType> EffectRemovers;
 	static std::multimap<StatusEffectType, ItemType> GoodEffectAdders;
 
-	virtual ~Item();
+	~Item() override;
 
 	virtual void Position(const Coordinate&);
 
@@ -148,7 +148,7 @@ public:
 
 	std::shared_ptr<Item> ContainedIn();
 
-	ItemType Type();
+	ItemType Type() const;
 
 	int GetGraphic();
 

@@ -231,7 +231,7 @@ class NPC : public Entity {
 public:
 	typedef std::list<StatusEffect>::iterator StatusEffectIterator;
 
-	~NPC();
+	~NPC() override;
 
 	virtual Coordinate Position() const;
 	virtual void Position(const Coordinate&);

@@ -77,18 +77,18 @@ Item::Item(const Coordinate& startPos, ItemType typeval, int owner,
 
 		//Calculate flammability based on categorical flammability, and then modify it based on components
 		int flame = 0;
-		for (std::set<ItemCategory>::iterator cati = categories.begin(); cati != categories.end(); ++cati) {
-			if (Item::Categories[*cati].flammable) flame += 2;
+		for (int categorie : categories) {
+			if (Item::Categories[categorie].flammable) flame += 2;
 			else --flame;
 		}
 
 		if (components.size() > 0) {
-			for (int i = 0; i < (signed int)components.size(); ++i)
+			for (auto & component : components)
 			{
-				if (components[i])
+				if (component)
 				{
-					color = TCODColor::lerp(color, components[i]->Color(), 0.35f);
-					if (components[i]->IsFlammable()) flame += 2;
+					color = TCODColor::lerp(color, component->Color(), 0.35f);
+					if (component->IsFlammable()) flame += 2;
 					else --flame;
 				}
 			}
@@ -96,8 +96,8 @@ Item::Item(const Coordinate& startPos, ItemType typeval, int owner,
 																ie. not in a workshop. We still should approximate
 																flammability so that it behaves like on built in a 
 																workshop would*/
-			for (int i = 0; i < (signed int)Item::Presets[type].components.size(); ++i) {
-				if (Item::Categories[Item::Presets[type].components[i]].flammable) flame += 3;
+			for (int component : Item::Presets[type].components) {
+				if (Item::Categories[component].flammable) flame += 3;
 				else --flame;
 			}
 		}
@@ -132,14 +132,14 @@ int Item::GetGraphicsHint() const {
 }
 
 void Item::Draw(Coordinate upleft, TCODConsole* console) {
-	int screenx = (pos - upleft).X();
-	int screeny = (pos - upleft).Y();
+	int screenx = (pos - upleft).getX();
+	int screeny = (pos - upleft).getY();
 	if (screenx >= 0 && screenx < console->getWidth() && screeny >= 0 && screeny < console->getHeight()) {
 		console->putCharEx(screenx, screeny, graphic, color, map->GetBackColor(pos));
 	}
 }
 
-ItemType Item::Type() {return type;}
+ItemType Item::Type() const {return type;}
 bool Item::IsCategory(ItemCategory category) { return (categories.find(category) != categories.end());}
 TCODColor Item::Color() {return color;}
 void Item::Color(TCODColor col) {color = col;}
@@ -221,7 +221,7 @@ ItemCategory Item::StringToItemCategory(std::string str) {
 std::vector<ItemCategory> Item::Components(ItemType type) {
 	if (type > 0) 
 		return Item::Presets[type].components;
-	return std::vector<ItemCategory>();
+	return {};
 }
 
 ItemCategory Item::Components(ItemType type, int index) {
@@ -245,58 +245,53 @@ public:
 
 	void translateNames() {
 		//Translate category parents
-		for (std::map<int, std::string>::iterator pati = presetCategoryParent.begin(); 
-			pati != presetCategoryParent.end(); ++pati) {
-			if (pati->second != "") {
-				Item::Categories[pati->first].parent = Item::StringToItemCategory(pati->second);
+		for (std::pair<const int, std::string>& pati : presetCategoryParent) {
+			if (!pati.second.empty()) {
+				Item::Categories[pati.first].parent = Item::StringToItemCategory(pati.second);
 			}
 		}
 
 		//Growth items
-		for (std::map<int, std::string>::iterator growthi = presetGrowth.begin();
-			growthi != presetGrowth.end(); ++growthi) {
-				if (growthi->second != "") Item::Presets[growthi->first].growth = Item::StringToItemType(growthi->second);
+		for (std::pair<const int, std::string> & growthi : presetGrowth) {
+				if (!growthi.second.empty()) Item::Presets[growthi.first].growth = Item::StringToItemType(growthi.second);
 				//We'll handle the items categories' parent categories while we're at it
-				for (std::set<ItemCategory>::iterator cati = Item::Presets[growthi->first].categories.begin();
-					cati != Item::Presets[growthi->first].categories.end(); ++cati) {
+				for (std::set<ItemCategory>::iterator cati = Item::Presets[growthi.first].categories.begin();
+					cati != Item::Presets[growthi.first].categories.end(); ++cati) {
 						if (Item::Categories[*cati].parent >= 0 && 
-							Item::Presets[growthi->first].categories.find(Item::Categories[*cati].parent) == 
-							Item::Presets[growthi->first].categories.end()) {
-								Item::Presets[growthi->first].categories.insert(Item::StringToItemCategory(Item::Categories[Item::Categories[*cati].parent].name));
-								cati = Item::Presets[growthi->first].categories.begin(); //Start from the beginning, inserting into a set invalidates the iterator
+							Item::Presets[growthi.first].categories.find(Item::Categories[*cati].parent) ==
+							Item::Presets[growthi.first].categories.end()) {
+								Item::Presets[growthi.first].categories.insert(Item::StringToItemCategory(Item::Categories[Item::Categories[*cati].parent].name));
+								cati = Item::Presets[growthi.first].categories.begin(); //Start from the beginning, inserting into a set invalidates the iterator
 						}
 				}
 		}
 
 		//Fruits
-		for (std::map<int, std::vector<std::string> >::iterator itemi = presetFruits.begin();
-			itemi != presetFruits.end(); ++itemi)
+		for (auto & presetFruit : presetFruits)
 		{
-			for (std::vector<std::string>::iterator fruiti = (itemi)->second.begin();
-				 fruiti != itemi->second.end(); ++fruiti)
+			for (std::vector<std::string>::iterator fruiti = presetFruit.second.begin();
+				 fruiti != presetFruit.second.end(); ++fruiti)
 			{
-				Item::Presets[itemi->first].fruits.push_back(Item::StringToItemType(*fruiti));
+				Item::Presets[presetFruit.first].fruits.push_back(Item::StringToItemType(*fruiti));
 			}
 		}
 
 		//Decay
-		for (std::map<int, std::vector<std::string> >::iterator itemi = presetDecay.begin();
-			itemi != presetDecay.end(); ++itemi)
+		for (auto & itemi : presetDecay)
 		{
-			for (std::vector<std::string>::iterator decayi = (itemi)->second.begin();
-				 decayi != (itemi)->second.end(); ++decayi)
+			for (std::vector<std::string>::iterator decayi = itemi.second.begin();
+				 decayi != itemi.second.end(); ++decayi)
 			{
 				if (boost::iequals(*decayi, "Filth"))
-					Item::Presets[(itemi)->first].decayList.push_back(-1);
+					Item::Presets[itemi.first].decayList.push_back(-1);
 				else
-					Item::Presets[(itemi)->first].decayList.push_back(Item::StringToItemType(*decayi));
+					Item::Presets[itemi.first].decayList.push_back(Item::StringToItemType(*decayi));
 			}
 		}
 
 		//Projectiles
-		for (std::map<int, std::string>::iterator proji = presetProjectile.begin(); 
-			proji != presetProjectile.end(); ++proji) {
-				Item::Presets[proji->first].attack.Projectile(Item::StringToItemCategory(proji->second));
+		for (auto & proji : presetProjectile) {
+				Item::Presets[proji.first].attack.Projectile(Item::StringToItemCategory(proji.second));
 		}
 	}
 
@@ -346,14 +341,14 @@ private:
 		return true;
 	}
 
-	bool parserFlag(TCODParser *parser,const char *name) {
+	bool parserFlag(TCODParser *parser,const char *name) override {
 		if (boost::iequals(name, "flammable")) {
 			Item::Categories[categoryIndex].flammable = true;
 		}
 		return true;
 	}
 
-	bool parserProperty(TCODParser *parser,const char *name, TCOD_value_type_t type, TCOD_value_t value) {
+	bool parserProperty(TCODParser *parser,const char *name, TCOD_value_type_t type, TCOD_value_t value) override {
 		if (boost::iequals(name, "category")) {
 			for (int i = 0; i < TCOD_list_size(value.list); ++i) {
 				ItemCategory cat = Item::StringToItemCategory((char*)TCOD_list_get(value.list,i));
@@ -459,7 +454,7 @@ private:
 		return true;
 	}
 
-	bool parserEndStruct(TCODParser *parser,const TCODParserStruct *str,const char *name) {
+	bool parserEndStruct(TCODParser *parser,const TCODParserStruct *str,const char *name) override {
 		if (boost::iequals(str->getName(), "category_type")) {
 			if (presetCategoryParent[categoryIndex] == "")
 				Item::ParentCategories.push_back(Item::Categories[categoryIndex]);
@@ -527,10 +522,8 @@ void Item::LoadPresets(std::string filename) {
 }
 
 void Item::ResolveContainers() {
-	for (std::vector<ItemPreset>::iterator it = Item::Presets.begin(); it != Item::Presets.end(); ++it) {
-		ItemPreset& preset = *it;
-
-		if (!preset.fitsInRaw.empty()) {
+	for (ItemPreset & preset : Item::Presets) {
+			if (!preset.fitsInRaw.empty()) {
 			preset.fitsin = Item::StringToItemCategory(preset.fitsInRaw);
 		}
 
@@ -578,9 +571,9 @@ void Item::SetVelocity(int speed) {
 			for (int radius = 1; radius < 10; ++radius)
 			{
 				//TODO consider using something more believable here; the item would jump over 9 walls?
-				for (int ix = pos.X() - radius; ix <= pos.X() + radius; ++ix)
+				for (int ix = pos.getX() - radius; ix <= pos.getX() + radius; ++ix)
 				{
-					for (int iy = pos.Y() - radius; iy <= pos.Y() + radius; ++iy)
+					for (int iy = pos.getY() - radius; iy <= pos.getY() + radius; ++iy)
 					{
 						Coordinate p(ix, iy);
 						if (map->IsWalkable(p))
@@ -667,21 +660,19 @@ bool Item::IsFlammable() { return flammable; }
 
 void Item::UpdateEffectItems() {
 	int index = -1;
-	for (std::vector<ItemPreset>::iterator itemi = Presets.begin(); itemi != Presets.end(); ++itemi)
+	for (ItemPreset & Preset : Presets)
 	{
 		++index;
-		for (std::vector<std::pair<StatusEffectType, int> >::iterator remEffi = (itemi)->removesEffects.begin();
-			 remEffi != (itemi)->removesEffects.end(); ++remEffi)
+		for (auto & removesEffect : Preset.removesEffects)
 		{
-			EffectRemovers.insert(std::make_pair(remEffi->first, (ItemType)index));
+			EffectRemovers.insert(std::make_pair(removesEffect.first, (ItemType)index));
 		}
-		for (std::vector<std::pair<StatusEffectType, int> >::iterator addEffi = (itemi)->addsEffects.begin();
-			 addEffi != (itemi)->addsEffects.end(); ++addEffi)
+		for (auto & addsEffect : Preset.addsEffects)
 		{
-			StatusEffect effect(addEffi->first);
+			StatusEffect effect(addsEffect.first);
 			if (!effect.negative)
 			{
-				GoodEffectAdders.insert(std::make_pair(addEffi->first, (ItemType)index));
+				GoodEffectAdders.insert(std::make_pair(addsEffect.first, (ItemType)index));
 			}
 		}
 	}
@@ -702,8 +693,8 @@ void Item::save(OutputArchive& ar, const unsigned int version) const {
 	ar & color.b;
 	int categoryCount = (int)categories.size();
 	ar & categoryCount;
-	for (std::set<ItemCategory>::iterator cati = categories.begin(); cati != categories.end(); ++cati) {
-		std::string itemCat(Item::ItemCategoryToString(*cati));
+	for (int categorie : categories) {
+		std::string itemCat(Item::ItemCategoryToString(categorie));
 		ar & itemCat;
 	}
 	ar & flammable;
@@ -784,8 +775,8 @@ ItemPreset::ItemPreset() : graphic('?'),
 	fallbackGraphicsSet(),
 	graphicsHint(-1)
 {
-	for (int i = 0; i < RES_COUNT; ++i) {
-		resistances[i] = 0;
+	for (int & resistance : resistances) {
+		resistance = 0;
 	}
 }
 

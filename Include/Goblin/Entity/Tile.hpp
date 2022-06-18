@@ -71,7 +71,7 @@ class Tile {
 	Direction flow;
 
 public:
-	Tile(TileType = TILEGRASS, int = 1);
+	explicit Tile(TileType = TILEGRASS, int = 1);
 
 	TileType GetType();
 

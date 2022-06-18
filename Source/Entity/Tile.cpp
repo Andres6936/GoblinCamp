@@ -175,14 +175,14 @@ bool Tile::IsWalkable() const {
 void Tile::SetWalkable(bool value) {
 	std::queue<int> bumpQueue;
 	walkable = value;
-	if (value == false) {
+	if (!value) {
 		//We temporarily store the uids elsewhere so that we can safely
 		//call them. Iterating through a set while modifying it destructively isn't safe
-		for (std::set<int>::iterator npcIter = npcList.begin(); npcIter != npcList.end(); ++npcIter) {
-			bumpQueue.push(*npcIter);
+		for (int npcIter : npcList) {
+			bumpQueue.push(npcIter);
 		}
-		for (std::set<int>::iterator itemIter = itemList.begin(); itemIter != itemList.end(); ++itemIter) {
-			bumpQueue.push(*itemIter);
+		for (int itemIter : itemList) {
+			bumpQueue.push(itemIter);
 		}
 		while (!bumpQueue.empty()) { Game::Inst()->BumpEntity(bumpQueue.front()); bumpQueue.pop(); }
 	}
