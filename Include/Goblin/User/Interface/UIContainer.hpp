@@ -8,6 +8,11 @@
 
 #include <Goblin/User/Interface/Abstract/Drawable.hpp>
 
+/**
+ * Used for store pinter to Drawable component, the responsibility for
+ * eliminating these component is transferred to this component, which will
+ * do so once the life cycle of this component is over.
+ */
 class UIContainer : public Drawable
 {
 
