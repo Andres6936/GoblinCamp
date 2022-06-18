@@ -47,7 +47,7 @@ public:
 	// Constructor
 
 	Drawable(int x, int y, int nwidth, int nheight) :
-			_x(x), _y(y), width(nwidth), height(nheight), visible(0), getTooltip(0)
+			_x(x), _y(y), width(nwidth), height(nheight), visible(nullptr), getTooltip(nullptr)
 	{
 	}
 
@@ -67,7 +67,7 @@ public:
 
 	// Getters
 
-	int Height()
+	int Height() const
 	{
 		return height;
 	}

@@ -10,10 +10,9 @@ void UIContainer::AddComponent(Drawable* component)
 
 void UIContainer::Draw(int x, int y, TCODConsole* console)
 {
-	for (std::vector<Drawable*>::iterator it = components.begin(); it != components.end(); it++)
+	for (Drawable* component : components)
 	{
-		Drawable* component = *it;
-		if (component->Visible())
+			if (component->Visible())
 		{
 			component->Draw(x + _x, y + _y, console);
 		}
@@ -22,10 +21,9 @@ void UIContainer::Draw(int x, int y, TCODConsole* console)
 
 MenuResult UIContainer::Update(int x, int y, bool clicked, TCOD_key_t key)
 {
-	for (std::vector<Drawable*>::iterator it = components.begin(); it != components.end(); it++)
+	for (Drawable* component : components)
 	{
-		Drawable* component = *it;
-		if (component->Visible())
+			if (component->Visible())
 		{
 			MenuResult result = component->Update(x - _x, y - _y, clicked, key);
 			if (!(result & NOMENUHIT))
@@ -46,10 +44,9 @@ MenuResult UIContainer::Update(int x, int y, bool clicked, TCOD_key_t key)
 void UIContainer::GetTooltip(int x, int y, Tooltip* tooltip)
 {
 	Drawable::GetTooltip(x, y, tooltip);
-	for (std::vector<Drawable*>::iterator it = components.begin(); it != components.end(); it++)
+	for (Drawable* component : components)
 	{
-		Drawable* component = *it;
-		if (component->Visible())
+			if (component->Visible())
 		{
 			component->GetTooltip(x - _x, y - _y, tooltip);
 		}
@@ -58,9 +55,9 @@ void UIContainer::GetTooltip(int x, int y, Tooltip* tooltip)
 
 UIContainer::~UIContainer()
 {
-	for (std::vector<Drawable*>::iterator it = components.begin(); it != components.end(); it++)
+	for (Drawable* & component : components)
 	{
-		delete *it;
+		delete component;
 	}
 }
 

@@ -22,7 +22,7 @@ public:
 	{
 	}
 
-	~UIContainer();
+	~UIContainer() override;
 
 	void AddComponent(Drawable* component);
 
