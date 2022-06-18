@@ -63,7 +63,7 @@ protected:
 public:
 	~NatureObject() override;
 	static std::vector<NatureObjectPreset> Presets;
-	static void LoadPresets(const std::string&);
+	static void LoadPresets(std::string);
 
 	int Type() const;
 

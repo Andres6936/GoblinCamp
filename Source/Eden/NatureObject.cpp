@@ -155,7 +155,7 @@ class NatureObjectListener : public ITCODParserListener {
 	}
 };
 
-void NatureObject::LoadPresets(const std::string& filename) {
+void NatureObject::LoadPresets(std::string filename) {
 	TCODParser parser = TCODParser();
 	TCODParserStruct* natureObjectTypeStruct = parser.newStructure("plant_type");
 	natureObjectTypeStruct->addProperty("graphic", TCOD_TYPE_INT, true);
