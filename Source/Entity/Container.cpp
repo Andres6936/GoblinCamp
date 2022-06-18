@@ -57,9 +57,9 @@ bool Container::AddItem(std::shared_ptr<Item> witem)
 		item->PutInContainer(std::static_pointer_cast<Item>(shared_from_this()));
 		items.insert(item);
 		capacity -= std::max(item->GetBulk(), 1); //<- so that bulk=0 items take space
-		for (std::vector<ContainerListener*>::iterator it = listeners.begin(); it != listeners.end(); it++)
+		for (ContainerListener* & listener : listeners)
 		{
-			(*it)->ItemAdded(item);
+			listener->ItemAdded(item);
 		}
 		if (item->Type() == Item::StringToItemType("water")) ++water;
 		return true;
@@ -77,9 +77,9 @@ void Container::RemoveItem(std::shared_ptr<Item> item)
 			capacity += std::max(item->GetBulk(), 1);
 			if (item->Type() == Item::StringToItemType("water")) --water;
 		}
-		for (std::vector<ContainerListener*>::iterator it = listeners.begin(); it != listeners.end(); it++)
+		for (ContainerListener* & listener : listeners)
 		{
-			(*it)->ItemRemoved(item);
+			listener->ItemRemoved(item);
 		}
 	}
 }
@@ -104,7 +104,7 @@ int Container::size()
 	return items.size();
 }
 
-int Container::Capacity()
+int Container::Capacity() const
 {
 	return capacity - reservedSpace;
 }
@@ -125,7 +125,7 @@ std::set<std::shared_ptr<Item> >::iterator Container::end()
 	return items.end();
 }
 
-bool Container::Full()
+bool Container::Full() const
 {
 	return (capacity - reservedSpace <= 0);
 }
@@ -158,9 +158,9 @@ void Container::RemoveListener(ContainerListener *listener) {
 void Container::GetTooltip(int x, int y, Tooltip *tooltip)
 {
 	int capacityUsed = 0;
-	for (std::set<std::shared_ptr<Item> >::iterator itemi = items.begin(); itemi != items.end(); ++itemi)
+	for (const std::shared_ptr<Item> & item : items)
 	{
-		if (*itemi) capacityUsed += std::max(1, (*itemi)->GetBulk());
+		if (item) capacityUsed += std::max(1, item->GetBulk());
 	}
 	tooltip->AddEntry(TooltipEntry(
 			(boost::format("%s - %d items (%d/%d)") % name % size() % capacityUsed % (capacity + capacityUsed)).str(),
@@ -169,9 +169,9 @@ void Container::GetTooltip(int x, int y, Tooltip *tooltip)
 
 void Container::TranslateContainerListeners() {
 	listeners.clear();
-	for (unsigned int i = 0; i < listenersAsUids.size(); ++i)
+	for (int listenersAsUid : listenersAsUids)
 	{
-		std::weak_ptr<Construction> cons = Game::Inst()->GetConstruction(listenersAsUids[i]);
+		std::weak_ptr<Construction> cons = Game::Inst()->GetConstruction(listenersAsUid);
 		if (cons.lock() && std::dynamic_pointer_cast<Stockpile>(cons.lock()))
 		{
 			listeners.push_back(std::dynamic_pointer_cast<Stockpile>(cons.lock()).get());
@@ -198,10 +198,9 @@ void Container::AddWater(int amount) {
 void Container::RemoveWater(int amount) {
 	for (int i = 0; i < amount; ++i)
 	{
-		for (std::set<std::shared_ptr<Item> >::iterator itemi = items.begin(); itemi != items.end(); ++itemi)
+		for (const std::shared_ptr<Item>& waterItem : items)
 		{
-			std::shared_ptr<Item> waterItem = *itemi;
-			if (waterItem && waterItem->Type() == Item::StringToItemType("water"))
+				if (waterItem && waterItem->Type() == Item::StringToItemType("water"))
 			{
 				Game::Inst()->RemoveItem(waterItem);
 				break;
@@ -210,7 +209,7 @@ void Container::RemoveWater(int amount) {
 	}
 }
 
-int Container::ContainsWater() { return water; }
+int Container::ContainsWater() const { return water; }
 
 void Container::AddFilth(int amount) {
 	if (empty() && water == 0) filth += amount;
@@ -221,11 +220,11 @@ void Container::RemoveFilth(int amount) {
 	if (filth < 0) filth = 0;
 }
 
-int Container::ContainsFilth() { return filth; }
+int Container::ContainsFilth() const { return filth; }
 
 void Container::Draw(Coordinate upleft, TCODConsole* console) {
-	int screenx = (pos - upleft).X();
-	int screeny = (pos - upleft).Y();
+	int screenx = (pos - upleft).getX();
+	int screeny = (pos - upleft).getY();
 	if (screenx >= 0 && screenx < console->getWidth() && screeny >= 0 && screeny < console->getHeight())
 	{
 		if (!items.empty() && *(items.begin()))
@@ -235,15 +234,14 @@ void Container::Draw(Coordinate upleft, TCODConsole* console) {
 	}
 }
 
-int Container::GetReservedSpace() { return reservedSpace; }
+int Container::GetReservedSpace() const { return reservedSpace; }
 
 void Container::Position(const Coordinate& pos)
 {
 	Item::Position(pos);
-	for (std::set<std::shared_ptr<Item> >::iterator itemi = items.begin(); itemi != items.end(); ++itemi)
+	for (const std::shared_ptr<Item>& item : items)
 	{
-		std::shared_ptr<Item> item = *itemi;
-		if (item) item->Position(pos);
+			if (item) item->Position(pos);
 	}
 }
 
@@ -251,9 +249,9 @@ Coordinate Container::Position() {return Item::Position();}
 
 void Container::SetFaction(int faction)
 {
-	for (std::set<std::shared_ptr<Item> >::const_iterator itemi = items.begin(); itemi != items.end(); ++itemi)
+	for (const std::shared_ptr<Item>& item : items)
 	{
-		if (std::shared_ptr<Item> item = *itemi)
+		if (item)
 		{
 			item->SetFaction(faction);
 		}

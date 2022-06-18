@@ -31,7 +31,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 class Map;
 
 struct FlightPath {
-	FlightPath(Coordinate);
+	explicit FlightPath(Coordinate);
 	Coordinate coord;
 	int height;
 };
@@ -66,7 +66,7 @@ public:
 	void Zone(int);
 	int Zone();
 	virtual void Reserve(bool);
-	bool Reserved();
+	bool Reserved() const;
 	std::string Name();
 	void Name(std::string);
 	virtual void CancelJob(int=0);
@@ -76,7 +76,7 @@ public:
 	virtual Panel* GetContextMenu() {return 0;}
 	virtual void GetTooltip(int x, int y, Tooltip *tooltip);
 
-	int GetVelocity();
+	int GetVelocity() const;
 	virtual void SetVelocity(int);
 	Coordinate GetVelocityTarget();
 	virtual int GetHeight() const;

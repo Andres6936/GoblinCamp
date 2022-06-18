@@ -36,8 +36,7 @@ Entity::Entity() :
 	uid = uids++; //FIXME: Entity should keep track of freed uids
 }
 
-Entity::~Entity() {
-}
+Entity::~Entity() = default;
 
 int Entity::uids = 0;
 
@@ -52,7 +51,7 @@ void Entity::Zone(int value) {zone = value;}
 int Entity::Zone() {return zone;}
 
 void Entity::Reserve(bool value) {reserved = value;}
-bool Entity::Reserved() {return reserved;}
+bool Entity::Reserved() const {return reserved;}
 
 std::string Entity::Name() { return name; }
 void Entity::Name(std::string newName) { name = newName; }
@@ -66,7 +65,7 @@ void Entity::GetTooltip(int x, int y, Tooltip *tooltip) {
 	tooltip->AddEntry(TooltipEntry(name, TCODColor::white));
 }
 
-int Entity::GetVelocity() { return velocity; }
+int Entity::GetVelocity() const { return velocity; }
 void Entity::SetVelocity(int value) { velocity = value; }
 
 Coordinate Entity::GetVelocityTarget() { return velocityTarget; }
@@ -80,7 +79,7 @@ void Entity::CalculateFlightPath(Coordinate target, int speed, int initialHeight
 #endif
 	velocityTarget = target;
 	flightPath.clear();
-	TCODLine::init(target.X(), target.Y(), pos.X(), pos.Y());
+	TCODLine::init(target.getX(), target.getY(), pos.getX(), pos.getY());
 	Coordinate p = target;
 	do {
 		if (Map::Inst()->IsInside(p))
@@ -122,8 +121,8 @@ bool Entity::CanStrobe() { return false; }
 void Entity::SetMap(Map* map) { this->map = map; }
 
 void Entity::save(OutputArchive& ar, const unsigned int version) const {
-	const int x = pos.X();
-	const int y = pos.Y();
+	const int x = pos.getX();
+	const int y = pos.getY();
 	ar & x;
 	ar & y;
 	ar & uid;

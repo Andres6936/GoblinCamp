@@ -105,7 +105,7 @@ protected:
 	TCODColor color;
 	int graphic;
 
-	Item(const Coordinate& = zero, ItemType = -1, int owner = -1,
+	explicit Item(const Coordinate& = zero, ItemType = -1, int owner = -1,
 			std::vector<std::shared_ptr<Item> > = std::vector<std::shared_ptr<Item> >());
 
 	std::shared_ptr<Item> container;
@@ -203,7 +203,7 @@ class WaterItem : public OrganicItem
 	friend class Game;
 
 public:
-	WaterItem(Coordinate= Coordinate(0, 0), ItemType= 0);
+	explicit WaterItem(Coordinate= Coordinate(0, 0), ItemType= 0);
 
 	virtual void PutInContainer(std::shared_ptr<Item> = std::shared_ptr<Item>());
 };

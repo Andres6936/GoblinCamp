@@ -47,7 +47,7 @@ public:
 			std::vector<std::shared_ptr<Item> > = std::vector<std::shared_ptr<Item> >(),
 			std::vector<ContainerListener*> = std::vector<ContainerListener*>());
 
-	virtual ~Container();
+	~Container() override;
 
 	virtual bool AddItem(std::shared_ptr<Item>);
 
@@ -65,9 +65,9 @@ public:
 
 	int size();
 
-	int Capacity();
+	int Capacity() const;
 
-	bool Full();
+	bool Full() const;
 
 	std::set<std::shared_ptr<Item> >::iterator begin();
 
@@ -85,16 +85,16 @@ public:
 
 	void RemoveWater(int);
 
-	int ContainsWater();
+	int ContainsWater() const;
 
 	void AddFilth(int);
 
 	void RemoveFilth(int);
 
-	int ContainsFilth();
+	int ContainsFilth() const;
 	void Draw(Coordinate, TCODConsole*);
-	int GetReservedSpace();
-	virtual void Position(const Coordinate&);
+	int GetReservedSpace() const;
+	void Position(const Coordinate&) override;
 	virtual Coordinate Position();
 	virtual void SetFaction(int);
 };
