@@ -2318,24 +2318,24 @@ void Game::Reset() {
 	StockManager::Reset();
 	Announce::Reset();
 	Camp::Reset();
-	for (size_t i = 0; i < Faction::factions.size(); ++i) {
-		Faction::factions[i]->Reset();
+	for (std::shared_ptr<Faction> & faction : Faction::factions) {
+		faction->Reset();
 	}
 	Stats::Reset();
 
 	delete StockManagerDialog::stocksDialog;
-	StockManagerDialog::stocksDialog = 0;
+	StockManagerDialog::stocksDialog = nullptr;
 
 	delete Menu::mainMenu;
-	Menu::mainMenu = 0;
+	Menu::mainMenu = nullptr;
 
 	delete Menu::territoryMenu;
-	Menu::territoryMenu = 0;
+	Menu::territoryMenu = nullptr;
 
 	UI::Reset();
 
 	delete instance;
-	instance = 0;
+	instance = nullptr;
 }
 
 NPCType Game::GetRandomNPCTypeByTag(std::string tag) {

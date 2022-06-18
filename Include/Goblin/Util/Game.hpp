@@ -141,6 +141,9 @@ public:
 	 */
 	bool Running();
 
+	/**
+	 * Reset the state and deleted all entities of current if a game is in progress.
+	 */
 	static void Reset();
 
 	static void DoNothing();
