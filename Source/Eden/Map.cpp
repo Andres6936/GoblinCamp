@@ -60,7 +60,7 @@ Map::~Map() {
 	delete heightMap;
 }
 
-Map* Map::instance = 0;
+Map* Map::instance = nullptr;
 
 Map* Map::Inst() {
 	if (!instance) instance = new Map();
@@ -68,8 +68,8 @@ Map* Map::Inst() {
 }
 
 Coordinate Map::Extent() { return extent; }
-int Map::Width() { return extent.X(); }
-int Map::Height() { return extent.Y(); }
+int Map::Width() { return extent.getX(); }
+int Map::Height() { return extent.getY(); }
 
 bool Map::IsInside(const Coordinate& p) const
 {
@@ -287,7 +287,7 @@ void Map::SetBlocksLight(const Coordinate& p, bool val) {
 }
 
 bool Map::LineOfSight(const Coordinate& a, const Coordinate& b) {
-	TCODLine::init(a.X(), a.Y(), b.X(), b.Y());
+	TCODLine::init(a.getX(), a.getY(), b.getX(), b.getY());
 	Coordinate p = a;
 	do {
 		if (BlocksLight(p)) return false;
@@ -297,7 +297,7 @@ bool Map::LineOfSight(const Coordinate& a, const Coordinate& b) {
 
 void Map::Reset() {
 	delete instance;
-	instance = 0;
+	instance = nullptr;
 }
 
 void Map::Mark(const Coordinate& p) { tile(p).Mark(); }
@@ -373,8 +373,8 @@ void Map::Naturify(const Coordinate& p) {
 			int natureObjects = 0;
 			Coordinate begin = Map::Shrink(p - 2);
 			Coordinate end  = Map::Shrink(p + 2);
-			for (int ix = begin.X(); ix <= end.X(); ++ix) {
-				for (int iy = begin.Y(); iy <= end.Y(); ++iy) {
+			for (int ix = begin.getX(); ix <= end.getX(); ++ix) {
+				for (int iy = begin.getY(); iy <= end.getY(); ++iy) {
 					if (tileMap[ix][iy].natureObject >= 0) ++natureObjects;
 				}
 			}
@@ -399,14 +399,14 @@ void Map::SetTerritory(const Coordinate& p, bool value) {
 }
 
 void Map::SetTerritoryRectangle(const Coordinate& a, const Coordinate& b, bool value) {
-	for (int x = a.X(); x <= b.X(); ++x) {
-		for (int y = a.Y(); y <= b.Y(); ++y) {
+	for (int x = a.getX(); x <= b.getX(); ++x) {
+		for (int y = a.getY(); y <= b.getY(); ++y) {
 			SetTerritory(Coordinate(x,y), value);
 		}
 	}
 }
 
-int Map::GetOverlayFlags() { return overlayFlags; }
+int Map::GetOverlayFlags() const { return overlayFlags; }
 
 void Map::AddOverlay(int flags) { overlayFlags |= flags; }
 void Map::RemoveOverlay(int flags) { overlayFlags = overlayFlags & ~flags; }
@@ -421,8 +421,8 @@ void Map::FindEquivalentMoveTarget(const Coordinate& current, Coordinate& move, 
 	Coordinate high = Map::Shrink(Coordinate::max(Coordinate::max(current, move), next) + 1);
 
 	//Find a suitable target
-	for (int x = low.X(); x <= high.X(); ++x) {
-		for (int y = low.Y(); y <= high.Y(); ++y) {
+	for (int x = low.getX(); x <= high.getX(); ++x) {
+		for (int y = low.getY(); y <= high.getY(); ++y) {
 			Coordinate p(x, y);
 			if (p != move) {
 				if (IsWalkable(p, npc) && tile(p).npcList.size() == 0 && !IsUnbridgedWater(p) &&
@@ -451,7 +451,7 @@ bool Map::IsUnbridgedWater(const Coordinate& p) {
 }
 
 unsigned int Map::AddMarker(MapMarker marker) {
-	mapMarkers.push_back(std::pair<unsigned int, MapMarker>(markerids, marker));
+	mapMarkers.emplace_back(markerids, marker);
 	++markerids;
 	return markerids - 1;
 }
@@ -593,12 +593,12 @@ void Map::CalculateFlow(int px[4], int py[4]) {
 		int resultB = Random::Generate(favorB ? 3 : 1);
 		if (resultA == resultB) Random::GenerateBool() ? resultA += 1 : resultB += 1;
 		if (resultA > resultB)
-			tileMap[current.X()][current.Y()].flow = flowDirectionA;
+			tileMap[current.getX()][current.getY()].flow = flowDirectionA;
 		else
-			tileMap[current.X()][current.Y()].flow = flowDirectionB;
+			tileMap[current.getX()][current.getY()].flow = flowDirectionB;
 
-		for (int y = current.Y()-1; y <= current.Y()+1; ++y) {
-			for (int x = current.X()-1; x <= current.X()+1; ++x) {
+		for (int y = current.getY()-1; y <= current.getY()+1; ++y) {
+			for (int x = current.getX()-1; x <= current.getX()+1; ++x) {
 				Coordinate pos(x,y);
 				if (IsInside(pos)) {
 					if (touched.find(pos) == touched.end() && tile(pos).water) {
@@ -662,29 +662,29 @@ void Map::CalculateFlow(int px[4], int py[4]) {
 						Coordinate candidate(ix, iy);
 						if (IsInside(candidate))
 						{
-							if (heightMap->getValue(ix, iy) < heightMap->getValue(lowest.X(), lowest.Y())) {
+							if (heightMap->getValue(ix, iy) < heightMap->getValue(lowest.X(), lowest.getY())) {
 								lowest = candidate;
 							}
 						}
 					}
 				}
 
-				if (lowest.X() < x) {
-					if (lowest.Y() < y)
+				if (lowest.getX() < x) {
+					if (lowest.getY() < y)
 						tile(pos).flow = NORTHWEST;
-					else if (lowest.Y() == y)
+					else if (lowest.getY() == y)
 						tile(pos).flow = WEST;
 					else 
 						tile(pos).flow = SOUTHWEST;
-				} else if (lowest.X() == x) {
-					if (lowest.Y() < y)
+				} else if (lowest.getX() == x) {
+					if (lowest.getY() < y)
 						tile(pos).flow = NORTH;
-					else if (lowest.Y() > y)
+					else if (lowest.getY() > y)
 						tile(pos).flow = SOUTH;
 				} else {
-					if (lowest.Y() < y)
+					if (lowest.getY() < y)
 						tile(pos).flow = NORTHEAST;
-					else if (lowest.Y() == y)
+					else if (lowest.getY() == y)
 						tile(pos).flow = EAST;
 					else
 						tile(pos).flow = SOUTHEAST;
@@ -695,25 +695,25 @@ void Map::CalculateFlow(int px[4], int py[4]) {
 					// No slope here, so approximate towards river
 					std::weak_ptr<WaterNode> randomWater = Random::ChooseElement(waterArray);
 					Coordinate coord = randomWater.lock()->Position();
-					if (coord.X() < x)
+					if (coord.getX() < x)
 					{
-						if (coord.Y() < y)
+						if (coord.getY() < y)
 							tile(pos).flow = NORTHWEST;
-						else if (coord.Y() == y)
+						else if (coord.getY() == y)
 							tile(pos).flow = WEST;
 						else
 							tile(pos).flow = SOUTHWEST;
 					}
-					else if (coord.X() == x)
+					else if (coord.getX() == x)
 					{
-						if (coord.Y() < y)
+						if (coord.getY() < y)
 							tile(pos).flow = NORTH;
-						else if (coord.Y() > y)
+						else if (coord.getY() > y)
 							tile(pos).flow = SOUTH;
 					} else {
-						if (coord.Y() < y)
+						if (coord.getY() < y)
 							tile(pos).flow = NORTHEAST;
-						else if (coord.Y() == y)
+						else if (coord.getY() == y)
 							tile(pos).flow = EAST;
 						else
 							tile(pos).flow = SOUTHEAST;
@@ -755,8 +755,8 @@ void Map::Update() {
 //Finds a tile close to 'center' that will give an advantage to a creature with a ranged weapon
 Coordinate Map::FindRangedAdvantage(const Coordinate& center) {
 	std::vector<Coordinate> potentialPositions;
-	for (int x = center.X() - 5; x <= center.X() + 5; ++x) {
-		for (int y = center.Y() - 5; y <= center.Y() + 5; ++y) {
+	for (int x = center.getX() - 5; x <= center.getX() + 5; ++x) {
+		for (int y = center.getY() - 5; y <= center.getY() + 5; ++y) {
 			Coordinate p(x,y);
 			if (Map::IsInside(p)
 				&& tile(p).construction >= 0
@@ -803,8 +803,8 @@ void Map::save(OutputArchive& ar, const unsigned int version) const {
 			ar & tileMap[x][y];
 		}
 	}
-	const int width = extent.X();
-	const int height = extent.Y();
+	const int width = extent.getX();
+	const int height = extent.getY();
 	ar & width;
 	ar & height;
 	ar & mapMarkers;

@@ -68,7 +68,7 @@ public:
 	~Map();
 	static void Reset();
 	float getWalkCost(const Coordinate&, const Coordinate&, void *) const;
-	float getWalkCost(int, int, int, int, void *) const;
+	float getWalkCost(int, int, int, int, void *) const override;
 	//we must keep the int-version of getWalkCost as an override of ITCODPathCallback, otherwise Map is virtual
 
 	bool IsWalkable(const Coordinate&) const;
@@ -164,7 +164,7 @@ public:
 	bool IsTerritory(const Coordinate&);
 	void SetTerritory(const Coordinate&, bool);
 	void SetTerritoryRectangle(const Coordinate &high, const Coordinate &low, bool);
-	int GetOverlayFlags();
+	int GetOverlayFlags() const;
 	void AddOverlay(int flags);
 	void RemoveOverlay(int flags);
 	void ToggleOverlay(int flags);
