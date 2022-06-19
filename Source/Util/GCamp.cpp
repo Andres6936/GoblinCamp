@@ -404,7 +404,7 @@ int MainMenu() {
 			endCredits = TCODConsole::renderCredits(edgex + 5, edgey + 25, true);
 		}
 
-		TCODConsole::root->flush();
+		TCODConsole::flush();
 
 		mouseStatus = TCODMouse::getStatus();
 		if (mouseStatus.lbutton) {
@@ -413,7 +413,7 @@ int MainMenu() {
 
 		if (TCODConsole::isWindowClosed()) break;
 
-		if (function != NULL) {
+		if (function != nullptr) {
 			function();
 		} else {
 			if (mouseStatus.cx > edgex && mouseStatus.cx < edgex+width) {
@@ -425,7 +425,7 @@ int MainMenu() {
 				int entry = static_cast<int>(floor(selected / 2.));
 
 				if (entry >= 0 && entry < static_cast<int>(entryCount) && entries[entry].isActive()) {
-					if (entries[entry].function == NULL) {
+					if (entries[entry].function == nullptr) {
 						exit = true;
 					} else {
 						entries[entry].function();
@@ -501,7 +501,7 @@ void LoadMenu()
 		TCODConsole::root->setDefaultForeground(TCODColor::white);
 		TCODConsole::root->setDefaultBackground(TCODColor::black);
 
-		TCODConsole::root->flush();
+		TCODConsole::flush();
 
 		mouseStatus = TCODMouse::getStatus();
 		if (mouseStatus.lbutton) {
@@ -532,7 +532,7 @@ void LoadMenu()
 							"Press any key to return to the main menu."
 					);
 					
-					TCODConsole::root->flush();
+					TCODConsole::flush();
 					TCODConsole::waitForKeypress(true);
 					return;
 				}
@@ -553,7 +553,7 @@ void SaveMenu() {
 		TCOD_key_t key = TCODConsole::checkForKeypress(TCOD_KEY_RELEASED);
 		if (key.c >= ' ' && key.c <= '}' && saveName.size() < 28) {
 			saveName.push_back(key.c);
-		} else if (key.vk == TCODK_BACKSPACE && saveName.size() > 0) {
+		} else if (key.vk == TCODK_BACKSPACE && !saveName.empty()) {
 			saveName.erase(saveName.end() - 1);
 		}
 
@@ -576,7 +576,7 @@ void SaveMenu() {
 						"Press any key to return to the main menu."
 				);
 
-				TCODConsole::root->flush();
+				TCODConsole::flush();
 				TCODConsole::waitForKeypress(true);
 				return;
 			}
@@ -592,10 +592,9 @@ void SaveMenu() {
 		TCODConsole::root->setDefaultBackground(TCODColor::black);
 		TCODConsole::root->print(WindowConfig::getWidth() / 2,
 				WindowConfig::getHeight() / 2 - 2, "%s", saveName.c_str());
-		TCODConsole::root->flush();
+		TCODConsole::flush();
 
 	}
-	return;
 }
 
 // XXX: No, really.
@@ -659,12 +658,12 @@ void SettingsMenu() {
 		else if (key.vk == TCODK_ENTER || key.vk == TCODK_KPENTER) break;
 
 		// if field had 'mask' property it would be bit more generic..
-		if (focus != NULL) {
+		if (focus != nullptr) {
 			std::string& str = *focus->value;
 
 			if (key.c >= '0' && key.c <= '9' && str.size() < (w - 7)) {
 				str.push_back(key.c);
-			} else if (key.vk == TCODK_BACKSPACE && str.size() > 0) {
+			} else if (key.vk == TCODK_BACKSPACE && !str.empty()) {
 				str.erase(str.end() - 1);
 			}
 		}
@@ -679,16 +678,16 @@ void SettingsMenu() {
 
 		int currentY = y + 3;
 
-		for (unsigned int idx = 0; idx < fieldCount; ++idx) {
-			if (focus == &fields[idx]) {
+		for (SettingField & field : fields) {
+			if (focus == &field) {
 				TCODConsole::root->setDefaultForeground(TCODColor::green);
 			}
-			TCODConsole::root->print(x + 1, currentY, fields[idx].label);
+			TCODConsole::root->print(x + 1, currentY, field.label);
 
 			TCODConsole::root->setDefaultForeground(TCODColor::white);
 			TCODConsole::root->setDefaultBackground(TCODColor::darkGrey);
 			TCODConsole::root->rect(x + 3, currentY + 1, w - 7, 1, true);
-			TCODConsole::root->print(x + 3, currentY + 1, "%s", fields[idx].value->c_str());
+			TCODConsole::root->print(x + 3, currentY + 1, "%s", field.value->c_str());
 			TCODConsole::root->setDefaultBackground(TCODColor::black);
 
 			currentY += 3;
@@ -732,7 +731,7 @@ void SettingsMenu() {
 			TCODConsole::root->print(x + 3, currentY + idx + 1, renderers[idx].label);
 		}
 
-		TCODConsole::root->flush();
+		TCODConsole::flush();
 
 		mouse = TCODMouse::getStatus();
 		if (mouse.lbutton) {
@@ -868,7 +867,7 @@ void ModsMenu()
 			clicked = false;
 		}
 
-		TCODConsole::root->flush();
+		TCODConsole::flush();
 	}
 }
 
@@ -888,7 +887,7 @@ void TilesetsMenu() {
 
 	int currentY = 0;
 	
-	for(TileSetMetadata tileset : tilesetsList) {
+	for(const TileSetMetadata& tileset : tilesetsList) {
 		sub.setDefaultBackground(TCODColor::black);
 		
 		sub.setAlignment(TCOD_LEFT);
@@ -992,7 +991,7 @@ void TilesetsMenu() {
 			clicked = false;
 		}
 
-		TCODConsole::root->flush();
+		TCODConsole::flush();
 	}
 }
 
@@ -1056,7 +1055,7 @@ void KeysMenu() {
 			focus = mouse.cy - y - 3;
 		}
 		
-		TCODConsole::root->flush();
+		TCODConsole::flush();
 	}
 	
 	try {
