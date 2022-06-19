@@ -48,16 +48,16 @@ class Map : public ITCODPathCallback {
 	boost::unordered_set<Coordinate> changedTiles;
 
 	inline const Tile& tile(const Coordinate& p) const {
-		return tileMap[p.X()][p.Y()];
+		return tileMap[p.getX()][p.getY()];
 	}
 	inline const CacheTile& cachedTile(const Coordinate& p) const {
-		return cachedTileMap[p.X()][p.Y()];
+		return cachedTileMap[p.getX()][p.getY()];
 	}
 	inline Tile& tile(const Coordinate& p) {
-		return tileMap[p.X()][p.Y()];
+		return tileMap[p.getX()][p.getY()];
 	}
 	inline CacheTile& cachedTile(const Coordinate& p) {
-		return cachedTileMap[p.X()][p.Y()];
+		return cachedTileMap[p.getX()][p.getY()];
 	}
 	
 public:
@@ -65,7 +65,7 @@ public:
 
 	TCODHeightMap *heightMap;
 	static Map* Inst();
-	~Map();
+	~Map() override;
 	static void Reset();
 	float getWalkCost(const Coordinate&, const Coordinate&, void *) const;
 	float getWalkCost(int, int, int, int, void *) const override;

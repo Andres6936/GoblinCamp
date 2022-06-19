@@ -15,6 +15,7 @@ You should have received a copy of the GNU General Public License
 along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 
+#include <memory>
 #include <boost/unordered_set.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/serialization/list.hpp>
@@ -53,7 +54,7 @@ Map::Map() :
 		}
 	}
 	waterlevel = -0.8f;
-	weather = std::shared_ptr<Weather>(new Weather(this));
+	weather = std::make_shared<Weather>(this);
 }
 
 Map::~Map() {

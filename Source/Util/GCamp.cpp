@@ -183,7 +183,7 @@ void StartNewGame() {
 	Game::Reset();
 	Game* game = Game::Inst();
 
-	game->GenerateMap(time(0));
+	game->GenerateMap(time(nullptr));
 	game->SetSeason(EarlySpring);
 
 	std::priority_queue<std::pair<int, Coordinate> > spawnCenterCandidates;

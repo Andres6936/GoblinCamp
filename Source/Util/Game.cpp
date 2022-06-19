@@ -1603,11 +1603,11 @@ void Game::GenerateMap(std::uint32_t seed)
 
 		//We draw four lines from our potential hill site and measure the least distance to a river
 		Direction dirs[4] = { WEST, EAST, NORTH, SOUTH };
-		for (int i = 0; i < 4; ++i) {
+		for (Direction & dir : dirs) {
 			int distance = 70;
-			Coordinate line = candidate + Coordinate::DirectionToCoordinate(dirs[i]) * distance;
-			for (TCODLine::init(line.X(), line.Y(), candidate.X(), candidate.Y()); !TCODLine::step(line.Xptr(), line.Yptr()); --distance) {
-				if (map->IsInside(line) && map->heightMap->getValue(line.X(), line.Y()) < map->GetWaterlevel())
+			Coordinate line = candidate + Coordinate::DirectionToCoordinate(dir) * distance;
+			for (TCODLine::init(line.getX(), line.getY(), candidate.getX(), candidate.getY()); !TCODLine::step(line.Xptr(), line.Yptr()); --distance) {
+				if (map->IsInside(line) && map->heightMap->getValue(line.getX(), line.getY()) < map->GetWaterlevel())
 					if (distance < riverDistance)
 						riverDistance = distance;
 			}
@@ -1619,7 +1619,7 @@ void Game::GenerateMap(std::uint32_t seed)
 			for (int i = 0; i < 3; ++i) {
 				int height = random.Generate(15, heights[i]);
 				int radius = random.Generate(1,3);
-				map->heightMap->addHill(static_cast<float>(centers[i].X()), static_cast<float>(centers[i].Y()), static_cast<float>(height), static_cast<float>(radius));
+				map->heightMap->addHill(static_cast<float>(centers[i].getX()), static_cast<float>(centers[i].getY()), static_cast<float>(height), static_cast<float>(radius));
 			}
 			++hills;
 		}
@@ -1628,7 +1628,7 @@ void Game::GenerateMap(std::uint32_t seed)
 	}
 	
 	{
-		std::auto_ptr<TCODRandom> tcodRandom = std::auto_ptr<TCODRandom>(new TCODRandom(random.GetSeed()));
+		std::unique_ptr<TCODRandom> tcodRandom = std::make_unique<TCODRandom>(random.GetSeed());
 		map->heightMap->rainErosion(map->Width()*map->Height()*5, 0.005f, 0.30f, tcodRandom.get());
 	}
 
@@ -1680,9 +1680,9 @@ void Game::GenerateMap(std::uint32_t seed)
 		Coordinate candidate = random.ChooseInRectangle(zero+30, map->Extent()-30);
 		int riverDistance = 70;
 		Direction dirs[4] = { WEST, EAST, NORTH, SOUTH };
-		for (int i = 0; i < 4; ++i) {
+		for (Direction & dir : dirs) {
 			int distance = 70;
-			Coordinate line = candidate + Coordinate::DirectionToCoordinate(dirs[i]) * distance;
+			Coordinate line = candidate + Coordinate::DirectionToCoordinate(dir) * distance;
 			for (TCODLine::init(line.X(), line.Y(), candidate.X(), candidate.Y()); !TCODLine::step(line.Xptr(), line.Yptr()); --distance) {
 				if (map->IsInside(line) && map->heightMap->getValue(line.X(), line.Y()) < map->GetWaterlevel())
 					if (distance < riverDistance)
