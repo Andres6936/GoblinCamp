@@ -546,8 +546,6 @@ void Game::BumpEntity(int uid)
 #endif
 }
 
-void Game::DoNothing() {}
-
 void Game::Exit(bool confirm)
 {
 	//std::function<void()> exitFunc = boost::bind(&Game::Running, Game::Inst(), false);

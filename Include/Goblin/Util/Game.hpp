@@ -115,8 +115,50 @@ class Game {
 
 public:
 
+	float camX, camY;
+
+	static int ItemTypeCount;
+
+	static int ItemCatCount;
+
+	static boost::mutex loadingScreenMutex;
+
+	std::map<int, std::shared_ptr<Item> > itemList;
+
+	std::set<std::shared_ptr<Item> > freeItems; //Free as in not contained
+
+	std::set<std::shared_ptr<Item> > flyingItems; //These need to be updated
+
+	std::list<std::shared_ptr<Item> > stoppedItems; //These need to be removed from flyingItems
+
+	std::map<int, std::shared_ptr<NatureObject> > natureList;
+
+	std::list<std::weak_ptr<WaterNode> > waterList;
+
+	std::list<std::weak_ptr<FireNode> > fireList;
+
+	std::list<std::shared_ptr<Spell> > spellList;
+
+	/**
+	 * Key: Name of Squad, Value: The object with information of Squad.
+	 */
+	std::map<std::string, std::shared_ptr<Squad> > squadList;
+
+	std::list<std::shared_ptr<Squad> > hostileSquadList;
+
+	std::list<std::weak_ptr<FilthNode> > filthList;
+
+	std::list<std::weak_ptr<BloodNode> > bloodList;
+
+	TCODConsole* buffer;
+
 	Goblin::Statistics statistics{};
 
+	/**
+	 * Initialize a new instance of game.
+	 *
+	 * @return A pointer to current instance of game.
+	 */
 	static Game* Inst();
 
 	~Game();
@@ -146,8 +188,6 @@ public:
 	 */
 	static void Reset();
 
-	static void DoNothing();
-
 	static void Exit(bool confirm = true);
 
 	Coordinate TileAt(int pixelX, int pixelY) const;
@@ -157,13 +197,9 @@ public:
 		return renderer;
 	};
 
-	void LoadConfig(std::string);
-
 	void Init(bool firstTime);
 
 	void ResetRenderer();
-
-	static boost::mutex loadingScreenMutex;
 
 	static void ProgressScreen(std::function<void(void)>, bool isLoading);
 
@@ -183,8 +219,6 @@ public:
 
 	void Update();
 
-	float camX, camY;
-
 	void CenterOn(Coordinate target);
 
 	void MoveCam(float x, float y);
@@ -201,7 +235,6 @@ public:
 	int CharHeight() const;
 	int CharWidth() const;
 
-	TCODConsole* buffer;
 	void FlipBuffer();
 	void Draw(
 		TCODConsole * console = Game::Inst()->buffer, float focusX = Game::Inst()->camX, float focusY = Game::Inst()->camY,
@@ -216,7 +249,6 @@ public:
 
 	void EnableDevMode();
 
-	/*      NPCS        NPCS        NPCS        */
 	int CreateNPC(Coordinate, NPCType);
 
 	void BumpEntity(int);
@@ -234,13 +266,6 @@ public:
 	void RemoveNPC(std::weak_ptr<NPC>);
 
 	int FindMilitaryRecruit();
-
-	/**
-	 * Key: Name of Squad, Value: The object with information of Squad.
-	 */
-	std::map<std::string, std::shared_ptr<Squad> > squadList;
-
-	std::list<std::shared_ptr<Squad> > hostileSquadList;
 
 	void CreateSquad(std::string);
 
@@ -312,7 +337,6 @@ public:
 
 	void UpdateFarmPlotSeedAllowances(ItemType);
 
-	/*      ITEMS       ITEMS       ITEMS       */
 	int CreateItem(Coordinate, ItemType, bool stockpile = false,
 			int ownerFaction = 0,
 			std::vector<std::shared_ptr<Item> > = std::vector<std::shared_ptr<Item> >(),
@@ -322,15 +346,7 @@ public:
 
 	std::shared_ptr<Item> GetItem(int);
 
-	std::map<int, std::shared_ptr<Item> > itemList;
-
 	void ItemContained(std::shared_ptr<Item>, bool contained);
-
-	std::set<std::shared_ptr<Item> > freeItems; //Free as in not contained
-	std::set<std::shared_ptr<Item> > flyingItems; //These need to be updated
-	std::list<std::shared_ptr<Item> > stoppedItems; //These need to be removed from flyingItems
-	static int ItemTypeCount;
-	static int ItemCatCount;
 
 	std::shared_ptr<Job> StockpileItem(std::shared_ptr<Item>, bool returnJob = false, bool disregardTerritory = false,
 			bool reserveItem = true);
@@ -344,10 +360,6 @@ public:
 	void TranslateContainerListeners();
 
 	void GatherItems(Coordinate a, Coordinate b);
-
-	/*      NATURE      NATURE      NATURE      */
-	std::map<int, std::shared_ptr<NatureObject> > natureList;
-	std::list<std::weak_ptr<WaterNode> > waterList;
 
 	void CreateWater(Coordinate);
 
@@ -403,15 +415,11 @@ public:
 
 	void DecayItems();
 
-	std::list<std::weak_ptr<FilthNode> > filthList;
-
 	void CreateFilth(Coordinate);
 
 	void CreateFilth(Coordinate, int);
 
 	void RemoveFilth(Coordinate);
-
-	std::list<std::weak_ptr<BloodNode> > bloodList;
 
 	void CreateBlood(Coordinate);
 
@@ -423,8 +431,6 @@ public:
 
 	void AddDelay(int delay, std::function<void()>);
 
-	std::list<std::weak_ptr<FireNode> > fireList;
-
 	void CreateFire(Coordinate);
 
 	void CreateFire(Coordinate, int);
@@ -432,8 +438,6 @@ public:
 	void StartFire(Coordinate);
 
 	std::shared_ptr<Spell> CreateSpell(Coordinate, int type);
-
-	std::list<std::shared_ptr<Spell> > spellList;
 
 	int GetAge();
 
