@@ -21,6 +21,7 @@ along with Goblin Camp. If not, see <http://www.gnu.org/licenses/>.*/
 
 #include <boost/serialization/map.hpp>
 #include <boost/serialization/list.hpp>
+#include <memory>
 #include <boost/serialization/set.hpp>
 #include <boost/serialization/shared_ptr.hpp>
 #include <boost/serialization/weak_ptr.hpp>
@@ -90,10 +91,13 @@ Game::Game() :
 		gameOver(false),
 		camX(180),
 		camY(180),
+		charWidth(0),
+		charHeight(0),
+		refreshStockpiles(false),
 		buffer(nullptr)
 {
-	for(int i = 0; i < 12; i++) {
-		marks[i] = undefined;
+	for(Coordinate& mark : marks) {
+		mark = undefined;
 	}
 }
 
@@ -702,7 +706,7 @@ void Game::Init(bool firstTime) {
 	buffer = new TCODConsole(WindowConfig::getWidth(), WindowConfig::getHeight());
 	ResetRenderer();
 
-	events = std::shared_ptr<Events>(new Events(Map::Inst()));
+	events = std::make_shared<Events>(Map::Inst());
 
 	season = LateWinter;
 	camX = 180;

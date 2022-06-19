@@ -100,6 +100,7 @@ class Game {
 	int safeMonths;
 	bool refreshStockpiles;
 	static bool devMode;
+
 	Coordinate marks[12];
 
 	std::shared_ptr<Events> events;
@@ -206,6 +207,11 @@ public:
 		return renderer;
 	};
 
+	/**
+	 * Initialize the instance of renderer and set several general parameters.
+	 *
+	 * @param firstTime If is the first time that the player initialize the app.
+	 */
 	void Init(bool firstTime);
 
 	void ResetRenderer();
