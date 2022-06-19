@@ -75,6 +75,15 @@ class Game {
 
 	friend void StartNewGame();
 
+	/**
+	 * Initialize the entities and the parameters generals of game to follow values.
+	 *
+	 * - The game begin in Early Spring.
+	 * - The time is set to 0.
+	 * - The age of game is set to 0.
+	 * - The peaceful fauna is set to 0.
+	 * - The safe months is set to 3.
+	 */
 	Game();
 
 	static Game* instance;

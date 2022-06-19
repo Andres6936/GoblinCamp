@@ -90,7 +90,7 @@ Game::Game() :
 		gameOver(false),
 		camX(180),
 		camY(180),
-		buffer(0)
+		buffer(nullptr)
 {
 	for(int i = 0; i < 12; i++) {
 		marks[i] = undefined;
