@@ -271,7 +271,7 @@ public:
 	Coordinate shrinkRectangle(const Coordinate& low, const Coordinate& high) const
 	{
 		Coordinate res(x, y);
-		for (int d = 0; d < 2; ++d)
+		for (int d : {0, 1})
 			res[d] = std::max(low[d], std::min(high[d], res[d]));
 		return res;
 	}
@@ -312,7 +312,7 @@ inline int Distance(const Coordinate& p, const Coordinate& q)
 	int distance = 0;
 	//dim-genericity may here seem a bit overkill, but will be nice if
 	//we were to change to Euclidian distance for example
-	for (int d = 0; d < 2; ++d)
+	for (int d : {0, 1})
 		distance += abs(q[d] - p[d]);
 	return distance;
 }
